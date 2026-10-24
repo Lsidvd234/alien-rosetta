@@ -1,0 +1,17 @@
+[
+ {
+  "name": "ff-real-5shot",
+  "args": [
+   "@ff",
+   "--models",
+   "Qwen/Qwen2.5-1.5B-Instruct",
+   "Qwen/Qwen2.5-3B-Instruct",
+   "--n",
+   "50",
+   "--batch",
+   "12",
+   "--shots",
+   "5"
+  ]
+ }
+]

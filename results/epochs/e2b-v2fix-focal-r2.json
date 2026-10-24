@@ -1,0 +1,43 @@
+{
+ "run": "e2b-v2fix-focal-r2",
+ "n": 100,
+ "cot": true,
+ "epochs": [
+  {
+   "epoch": 1,
+   "glyph_exact": 0.17,
+   "word_acc": 0.7230212938490826,
+   "meaning_exact": 0.64,
+   "train_loss": 0.20782335102558136,
+   "zero_grad_fp32": 0.0,
+   "gap_median": 4.78125
+  },
+  {
+   "epoch": 2,
+   "glyph_exact": 0.29,
+   "word_acc": 0.8307850660349881,
+   "meaning_exact": 0.69,
+   "train_loss": 0.08505957573652267,
+   "zero_grad_fp32": 0.0,
+   "gap_median": 5.390625
+  },
+  {
+   "epoch": 3,
+   "glyph_exact": 0.5,
+   "word_acc": 0.9032009152173766,
+   "meaning_exact": 0.73,
+   "train_loss": 0.04010403901338577,
+   "zero_grad_fp32": 0.0,
+   "gap_median": 5.875
+  },
+  {
+   "epoch": 4,
+   "glyph_exact": 0.54,
+   "word_acc": 0.9109314877047244,
+   "meaning_exact": 0.74,
+   "train_loss": 0.029996972531080246,
+   "zero_grad_fp32": 0.0,
+   "gap_median": 6.296875
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+[
+ {
+  "name": "p-hard-puatok-50k",
+  "args": [
+   "--preset",
+   "tamil_like",
+   "--script",
+   "abugida_pua",
+   "--add-tokens",
+   "--new-tok-init",
+   "copy",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off",
+   "--eval-batch",
+   "16",
+   "--n-train",
+   "50000"
+  ]
+ },
+ {
+  "name": "p-easy-puatok-50k",
+  "args": [
+   "--preset",
+   "english_like",
+   "--script",
+   "abugida_pua",
+   "--add-tokens",
+   "--new-tok-init",
+   "copy",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off",
+   "--eval-batch",
+   "16",
+   "--n-train",
+   "50000"
+  ]
+ }
+]

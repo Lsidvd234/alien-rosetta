@@ -1,0 +1,16 @@
+[
+ {
+  "name": "paragen-v2-s0b",
+  "args": [
+   "@paragen:0:0.15",
+   "--cands",
+   "6",
+   "--chunk",
+   "240",
+   "--workers",
+   "1",
+   "--max-minutes",
+   "240"
+  ]
+ }
+]

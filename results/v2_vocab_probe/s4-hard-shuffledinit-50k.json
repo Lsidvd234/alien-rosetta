@@ -1,0 +1,143 @@
+{
+ "run": "s4-hard-shuffledinit-50k",
+ "cot": false,
+ "seed": "0",
+ "rows": [
+  [
+   "1. v1 words (control)",
+   50,
+   [
+    1401,
+    1069,
+    968
+   ],
+   1.0,
+   NaN,
+   1.0,
+   85.11316418647766
+  ],
+  [
+   "2. new root words",
+   50,
+   [
+    5164,
+    1141,
+    554
+   ],
+   0.0,
+   NaN,
+   0.0,
+   80.80976414680481
+  ],
+  [
+   "3. built words",
+   50,
+   [
+    1140,
+    321,
+    19
+   ],
+   0.0,
+   NaN,
+   0.0,
+   76.14152264595032
+  ],
+  [
+   "4. everyday additions",
+   50,
+   [
+    124,
+    14,
+    3
+   ],
+   0.0,
+   NaN,
+   0.0,
+   80.14064025878906
+  ]
+ ],
+ "examples": {
+  "1. v1 words (control)": [],
+  "2. new root words": [
+   {
+    "english": "the mems resell the lookup",
+    "want": "S=mem.PL V=resell.PRES O=lookup",
+    "got": ""
+   },
+   {
+    "english": "the reform settled the alphabets",
+    "want": "S=reform V=settle.PAST O=alphabet.PL",
+    "got": ""
+   },
+   {
+    "english": "the tyrosine underestimates the eighteenth amounts",
+    "want": "S=tyrosine V=underestimate.PRES O=eighteenth+amount.PL",
+    "got": ""
+   },
+   {
+    "english": "the cranky acquaintances hoarded the chassis",
+    "want": "S=cranky+acquaintance.PL V=hoard.PAST O=chassis",
+    "got": ""
+   },
+   {
+    "english": "the edges will cull the cases",
+    "want": "S=edge.PL V=cull.FUT O=case.PL",
+    "got": ""
+   }
+  ],
+  "3. built words": [
+   {
+    "english": "the cutters symbolize the informant",
+    "want": "S=cut>AGENT.PL V=symbol>VERB.PRES O=inform>AGENT",
+    "got": ""
+   },
+   {
+    "english": "the rigidity solidified the elasticities",
+    "want": "S=rigid>QUAL V=solid>VERB.PAST O=elastic>QUAL.PL",
+    "got": ""
+   },
+   {
+    "english": "the stimulation revolutionizes the ceremonial selectors",
+    "want": "S=stimulate>ACT V=revolution>VERB.PRES O=ceremony>ADJ+select>AGENT.PL",
+    "got": ""
+   },
+   {
+    "english": "the spinal councilmen undressed the opposition",
+    "want": "S=spine>ADJ+council_man.PL V=dress>NOT.PAST O=oppose>ACT",
+    "got": ""
+   },
+   {
+    "english": "the rarities will fortify the lenders",
+    "want": "S=rare>QUAL.PL V=fort>VERB.FUT O=lend>AGENT.PL",
+    "got": ""
+   }
+  ],
+  "4. everyday additions": [
+   {
+    "english": "the emperors tell the member",
+    "want": "S=emperor.PL V=tell.PRES O=member",
+    "got": ""
+   },
+   {
+    "english": "the criminal told the neighbours",
+    "want": "S=criminal V=tell.PAST O=neighbour.PL",
+    "got": ""
+   },
+   {
+    "english": "the anybody gets the boring cops",
+    "want": "S=anybody V=get.PRES O=boring+cop.PL",
+    "got": ""
+   },
+   {
+    "english": "the tired sayings said the pupil",
+    "want": "S=tired+saying.PL V=say.PAST O=pupil",
+    "got": ""
+   },
+   {
+    "english": "the grooms will say the emperors",
+    "want": "S=groom.PL V=say.FUT O=emperor.PL",
+    "got": ""
+   }
+  ]
+ }
+}

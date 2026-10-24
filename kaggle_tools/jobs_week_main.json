@@ -1,0 +1,122 @@
+[
+ {
+  "name": "e2b-v2fix-floor25",
+  "args": [
+   "--preset",
+   "tamil_like",
+   "--script",
+   "abugida_pua",
+   "--add-tokens",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "4",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off",
+   "--eval-batch",
+   "16",
+   "--n-train",
+   "50000",
+   "--new-tok-init",
+   "latin",
+   "--rep",
+   "--rep-v2",
+   "--cot",
+   "--rep-n",
+   "80000",
+   "--rep-refuse",
+   "2500",
+   "--rep-replay",
+   "6000",
+   "--rep-eval-per",
+   "100",
+   "--rep-held-frac",
+   "0",
+   "--max-batch-tokens",
+   "1600",
+   "--seed",
+   "0",
+   "--save-adapter",
+   "/kaggle/working/model",
+   "--save-every-epoch",
+   "--rep-min-count",
+   "25"
+  ]
+ },
+ {
+  "name": "maths-meaning-s1",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--seed",
+   "1"
+  ]
+ },
+ {
+  "name": "maths-shuffled-s1",
+  "args": [
+   "@maths",
+   "--init",
+   "shuffled",
+   "--eval-every",
+   "500",
+   "--seed",
+   "1"
+  ]
+ },
+ {
+  "name": "maths-mean-s1",
+  "args": [
+   "@maths",
+   "--init",
+   "mean",
+   "--eval-every",
+   "500",
+   "--seed",
+   "1"
+  ]
+ },
+ {
+  "name": "maths-meaning-drop56",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "5,6"
+  ]
+ },
+ {
+  "name": "maths-meaning-drop34",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "3,4"
+  ]
+ },
+ {
+  "name": "maths-meaning-drop22",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "2,2"
+  ]
+ }
+]

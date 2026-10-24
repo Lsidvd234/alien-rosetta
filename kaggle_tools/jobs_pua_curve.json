@@ -1,0 +1,94 @@
+[
+ {
+  "name": "p-easy-pua-50k",
+  "args": [
+   "--preset",
+   "english_like",
+   "--script",
+   "abugida_pua",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "8",
+   "--grad-accum",
+   "4",
+   "--grad-ckpt",
+   "off",
+   "--eval-batch",
+   "8",
+   "--n-train",
+   "50000"
+  ]
+ },
+ {
+  "name": "p-hard-pua-35k",
+  "args": [
+   "--preset",
+   "tamil_like",
+   "--script",
+   "abugida_pua",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "8",
+   "--grad-accum",
+   "4",
+   "--grad-ckpt",
+   "off",
+   "--eval-batch",
+   "8",
+   "--n-train",
+   "35000"
+  ]
+ },
+ {
+  "name": "p-hard-pua-80k",
+  "args": [
+   "--preset",
+   "tamil_like",
+   "--script",
+   "abugida_pua",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "8",
+   "--grad-accum",
+   "4",
+   "--grad-ckpt",
+   "off",
+   "--eval-batch",
+   "8",
+   "--n-train",
+   "80000"
+  ]
+ },
+ {
+  "name": "p-easy-pua-80k",
+  "args": [
+   "--preset",
+   "english_like",
+   "--script",
+   "abugida_pua",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "8",
+   "--grad-accum",
+   "4",
+   "--grad-ckpt",
+   "off",
+   "--eval-batch",
+   "8",
+   "--n-train",
+   "80000"
+  ]
+ }
+]

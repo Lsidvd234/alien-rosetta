@@ -1,0 +1,39 @@
+{
+ "run": "e2a-v2-80k",
+ "n": 100,
+ "cot": false,
+ "epochs": [
+  {
+   "epoch": 1,
+   "glyph_exact": 0.1,
+   "word_acc": 0.6550629312080742,
+   "train_loss": 0.30899083614349365,
+   "zero_grad_fp32": 0.0017800262430682778,
+   "gap_median": 7.984375
+  },
+  {
+   "epoch": 2,
+   "glyph_exact": 0.17,
+   "word_acc": 0.7876331902206356,
+   "train_loss": 0.1112532690167427,
+   "zero_grad_fp32": 0.010211729444563389,
+   "gap_median": 9.875
+  },
+  {
+   "epoch": 3,
+   "glyph_exact": 0.3,
+   "word_acc": 0.8496682581765035,
+   "train_loss": 0.05498789623379707,
+   "zero_grad_fp32": 0.031665731221437454,
+   "gap_median": 10.859375
+  },
+  {
+   "epoch": 4,
+   "glyph_exact": 0.36,
+   "word_acc": 0.8584034992707709,
+   "train_loss": 0.03099246509373188,
+   "zero_grad_fp32": 0.06557991355657578,
+   "gap_median": 11.546875
+  }
+ ]
+}

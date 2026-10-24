@@ -1,0 +1,8 @@
+{
+ "run": "e2a-v2-80k",
+ "n": 600,
+ "cot": false,
+ "glyph_exact": 0.43833333333333335,
+ "word_acc": 0.7736197089947098,
+ "meaning_exact": null
+}

@@ -1,0 +1,14 @@
+{
+ "method": "trained-meaning__e2b-v2fix-cot-80k-noheld",
+ "word": 0.9867132867132867,
+ "sentence": 0.9433333333333334,
+ "per_fact": {
+  "doer": 0.9541284403669725,
+  "number": 0.9950248756218906,
+  "action": 0.9866666666666667,
+  "tense": 1.0,
+  "negated": 1.0,
+  "thing done to": 0.9565217391304348,
+  "place": 1.0
+ }
+}

@@ -1,0 +1,3002 @@
+[
+{
+"english": "Tom and I went to a movie together last week.",
+"analysis": "S=NAME.Tom&PRON.1sg T=last+week V=go.PAST M=together TO=movie",
+"target": "       "
+},
+{
+"english": "Tom was left speechless.",
+"analysis": "S=NAME.Tom V=be.PAST A=left+speechless",
+"target": "   "
+},
+{
+"english": "I don't have enough practice.",
+"analysis": "S=PRON.1sg V=have.PRES.NEG O=enough+practice",
+"target": "   "
+},
+{
+"english": "She adjusted her dress.",
+"analysis": "S=PRON.3sgf V=adjust.PAST O=PRON.3sgf^dress>ACT",
+"target": "   "
+},
+{
+"english": "That tie is too expensive.",
+"analysis": "S=that+tie>ACT V=be.PRES A=too+expensive",
+"target": "    "
+},
+{
+"english": "He ran outside.",
+"analysis": "S=PRON.3sgm V=run.PAST M=outside",
+"target": "  "
+},
+{
+"english": "They're too tired.",
+"analysis": "S=PRON.3pl V=be.PRES A=too+tired",
+"target": "   "
+},
+{
+"english": "I can now die a happy man.",
+"analysis": "S=PRON.1sg V=die.PRES.CAN M=now O=happy+man",
+"target": "    "
+},
+{
+"english": "I can make a call.",
+"analysis": "S=PRON.1sg V=make.PRES.CAN O=call>ACT",
+"target": "  "
+},
+{
+"english": "You can't know everything.",
+"analysis": "S=PRON.2sg V=know.PRES.CAN.NEG O=everything",
+"target": "  "
+},
+{
+"english": "Tom and Mary's wedding is today.",
+"analysis": "S=NAME.Tom&NAME.Mary^wedding V=be.PRES M=today",
+"target": "     "
+},
+{
+"english": "I couldn't stop staring at Tom.",
+"analysis": "S=PRON.1sg V=stop.PAST.CAN.NEG O=stare>ACT L=NAME.Tom",
+"target": "   "
+},
+{
+"english": "She rarely uses her phone.",
+"analysis": "S=PRON.3sgf V=use.PRES M=rare>ADV O=PRON.3sgf^phone",
+"target": "    "
+},
+{
+"english": "Acid rain isn't a natural phenomenon.",
+"analysis": "S=acid_rain V=be.PRES.NEG P=natural+phenomenon",
+"target": "   "
+},
+{
+"english": "I won't throw rocks at anyone.",
+"analysis": "S=PRON.1sg V=throw.FUT.NEG O=rock.PL L=anyone",
+"target": "   "
+},
+{
+"english": "Tom has a cleft lip.",
+"analysis": "S=NAME.Tom V=have.PRES O=cleft_lip",
+"target": "  "
+},
+{
+"english": "I always jogged.",
+"analysis": "S=PRON.1sg V=jog.PAST M=always",
+"target": "  "
+},
+{
+"english": "He carries pepper spray with him.",
+"analysis": "S=PRON.3sgm V=carry.PRES O=pepper_spray WITH=PRON.3sgm",
+"target": "   "
+},
+{
+"english": "I've been living here for a long time.",
+"analysis": "S=PRON.1sg V=live.PRES.PROG.PERF M=here FOR=long+time",
+"target": "    "
+},
+{
+"english": "A blizzard is coming in from the east.",
+"analysis": "S=blizzard V=come.PRES.PROG M=inside FROM=east",
+"target": "   "
+},
+{
+"english": "Black and white movies evoke nostalgia for classic cinema.",
+"analysis": "S=black+white+movie.PL V=evoke.PRES O=nostalgia FOR=classic+cinema",
+"target": "      "
+},
+{
+"english": "Are you having personal problems?",
+"analysis": "S=PRON.2sg V=have.PRES.PROG.Q O=person>ADJ+problem.PL",
+"target": "   "
+},
+{
+"english": "You're an exceptionally generous man.",
+"analysis": "S=PRON.2sg V=be.PRES M=exceptional>ADV P=generous+man",
+"target": "    "
+},
+{
+"english": "They are promising authors.",
+"analysis": "S=PRON.3pl V=promise.PRES.PROG O=write>AGENT.PL",
+"target": "  "
+},
+{
+"english": "I'm eating dinner now. Can I call you later?",
+"analysis": "S=PRON.1sg V=eat.PRES.PROG M=now O=dinner ; S=PRON.1sg V=call.PRES.CAN.Q M=later O=PRON.2sg",
+"target": "       "
+},
+{
+"english": "Please do not unplug.",
+"analysis": "I=please V=unplug.NEG",
+"target": " "
+},
+{
+"english": "Are Tom and Mary still staying with you?",
+"analysis": "S=NAME.Tom&NAME.Mary V=stay.PRES.PROG.Q M=still WITH=PRON.2sg",
+"target": "     "
+},
+{
+"english": "May I take a rest?",
+"analysis": "S=PRON.1sg V=take.PRES.MAY.Q O=rest",
+"target": "  "
+},
+{
+"english": "Only club members have access to this lounge.",
+"analysis": "S=club_member.PL V=have.PRES M=only O=access TO=this+lounge>ACT",
+"target": "     "
+},
+{
+"english": "Tom was the only man at the meeting.",
+"analysis": "S=NAME.Tom V=be.PAST M=only L=meeting P=man",
+"target": "    "
+},
+{
+"english": "When are you available?",
+"analysis": "S=PRON.2sg V=be.PRES M=when A=avail>ABLE",
+"target": "   "
+},
+{
+"english": "Man can be subdued through fear.",
+"analysis": "V=subdue.PRES.CAN O=man THROUGH=fear",
+"target": "  "
+},
+{
+"english": "Take your time in choosing.",
+"analysis": "V=take O=PRON.2sg^time L=choose>ACT",
+"target": "   "
+},
+{
+"english": "Your brother is asking for help.",
+"analysis": "S=PRON.2sg^brother V=ask.PRES.PROG FOR=help>ACT",
+"target": "   "
+},
+{
+"english": "Knock me down with a feather!",
+"analysis": "V=knock M=down O=PRON.1sg WITH=feather",
+"target": "   "
+},
+{
+"english": "Tom has applied for political asylum.",
+"analysis": "S=NAME.Tom V=apply.PRES.PERF FOR=political+asylum",
+"target": "   "
+},
+{
+"english": "Tom is an excellent writer.",
+"analysis": "S=NAME.Tom V=be.PRES P=excellent+write>AGENT",
+"target": "   "
+},
+{
+"english": "I'm slowly reducing my dose.",
+"analysis": "S=PRON.1sg V=reduce.PRES.PROG M=slow>ADV O=PRON.1sg^dose",
+"target": "    "
+},
+{
+"english": "Tom will be greatly missed.",
+"analysis": "V=miss.FUT M=great>ADV O=NAME.Tom",
+"target": "  "
+},
+{
+"english": "Mary swims very fast.",
+"analysis": "S=NAME.Mary V=swim.PRES M=very+fast",
+"target": "   "
+},
+{
+"english": "Nobody could've planned this.",
+"analysis": "S=nobody V=plan.PAST.PERF.CAN O=this",
+"target": "  "
+},
+{
+"english": "A little bit more?",
+"analysis": "S=little V=bite.PAST.Q O=more",
+"target": "  "
+},
+{
+"english": "Mindless entertainment is very popular.",
+"analysis": "S=mindless+entertain>ACT V=be.PRES A=very+popular",
+"target": "    "
+},
+{
+"english": "I got home after midnight.",
+"analysis": "S=PRON.1sg V=get.PAST M=home AFTER=midnight",
+"target": "   "
+},
+{
+"english": "Electricity comes from the wall socket, and water from the tap.",
+"analysis": "S=electric>QUAL V=come.PRES O=socket&water FROM=wall FROM=tap>ACT",
+"target": "      "
+},
+{
+"english": "I've been working all night.",
+"analysis": "S=PRON.1sg T=all+night V=work.PRES.PROG.PERF",
+"target": "   "
+},
+{
+"english": "It is a quarter to eight.",
+"analysis": "S=PRON.3sgn V=be.PRES TO=eight P=quarter",
+"target": "   "
+},
+{
+"english": "She is poisoned.",
+"analysis": "V=poison.PRES O=PRON.3sgf",
+"target": " "
+},
+{
+"english": "We always worked together.",
+"analysis": "S=PRON.1pl V=work.PAST M=always+together",
+"target": "   "
+},
+{
+"english": "He doesn't even know your name.",
+"analysis": "S=PRON.3sgm V=know.PRES.NEG M=even O=PRON.2sg^name",
+"target": "    "
+},
+{
+"english": "We don't have a plan.",
+"analysis": "S=PRON.1pl V=have.PRES.NEG O=plan>ACT",
+"target": "  "
+},
+{
+"english": "My dog still bites people.",
+"analysis": "S=PRON.1sg^dog V=bite.PRES M=still O=people.PL",
+"target": "    "
+},
+{
+"english": "Paul kept quiet about the sea monsters.",
+"analysis": "S=NAME.Paul V=keep.PAST O=quiet+monster.PL ABOUT=sea",
+"target": "    "
+},
+{
+"english": "She had time for her favorite hobby.",
+"analysis": "S=PRON.3sgf V=have.PAST O=time FOR=PRON.3sgf^favorite+hobby",
+"target": "     "
+},
+{
+"english": "Tom certainly talks a lot.",
+"analysis": "S=NAME.Tom V=talk.PRES M=certainly+much",
+"target": "   "
+},
+{
+"english": "Drive me to the store.",
+"analysis": "V=drive O=PRON.1sg TO=store",
+"target": "  "
+},
+{
+"english": "There is an avenue near my house.",
+"analysis": "S=avenue V=be.PRES NEAR=PRON.1sg^house",
+"target": "   "
+},
+{
+"english": "It's almost over.",
+"analysis": "S=PRON.3sgn V=be.PRES M=almost+over",
+"target": "   "
+},
+{
+"english": "Tom was quite frank about it.",
+"analysis": "S=NAME.Tom V=be.PAST ABOUT=PRON.3sgn A=quite+frank",
+"target": "    "
+},
+{
+"english": "He adopted the new method.",
+"analysis": "S=PRON.3sgm V=adopt.PAST O=new+method",
+"target": "   "
+},
+{
+"english": "My bedroom only has one window.",
+"analysis": "S=PRON.1sg^bedroom V=have.PRES M=only O=one+window",
+"target": "     "
+},
+{
+"english": "I quite agree.",
+"analysis": "S=PRON.1sg V=agree.PRES M=quite",
+"target": "  "
+},
+{
+"english": "Tom is always the victim.",
+"analysis": "S=NAME.Tom V=be.PRES M=always P=victim",
+"target": "   "
+},
+{
+"english": "Good bosses are rare.",
+"analysis": "S=good+boss.PL V=be.PRES A=rare",
+"target": "   "
+},
+{
+"english": "Water is needed urgently.",
+"analysis": "V=need.PRES M=urgent>ADV O=water",
+"target": "  "
+},
+{
+"english": "Only thirteen people complied.",
+"analysis": "S=thirteen+people.PL V=comply.PAST M=only",
+"target": "   "
+},
+{
+"english": "We have announced our affair.",
+"analysis": "S=PRON.1pl V=announce.PRES.PERF O=PRON.1pl^affair",
+"target": "   "
+},
+{
+"english": "What's your band's name?",
+"analysis": "S=PRON.2sg^band^name V=be.PRES P=what",
+"target": "    "
+},
+{
+"english": "Don't even worry about it.",
+"analysis": "V=worry.NEG M=even ABOUT=PRON.3sgn",
+"target": "  "
+},
+{
+"english": "I'll show you around.",
+"analysis": "S=PRON.1sg V=show.FUT M=around O=PRON.2sg",
+"target": "   "
+},
+{
+"english": "I'll take the chance.",
+"analysis": "S=PRON.1sg V=take.FUT O=chance",
+"target": "  "
+},
+{
+"english": "I broke Tom's mug.",
+"analysis": "S=PRON.1sg V=break.PAST O=NAME.Tom^mug",
+"target": "   "
+},
+{
+"english": "There's a doctor on campus.",
+"analysis": "S=doctor V=be.PRES ON=campus",
+"target": "  "
+},
+{
+"english": "She didn't finish her sandwich.",
+"analysis": "S=PRON.3sgf V=finish.PAST.NEG O=PRON.3sgf^sandwich",
+"target": "   "
+},
+{
+"english": "Tom is at home with Mary now.",
+"analysis": "S=NAME.Tom V=be.PRES M=now L=home WITH=NAME.Mary",
+"target": "    "
+},
+{
+"english": "She's liked by her friends.",
+"analysis": "S=PRON.3sgf^friend.PL V=like.PRES O=PRON.3sgf",
+"target": "   "
+},
+{
+"english": "The main entrance is covered.",
+"analysis": "V=cover.PRES O=main+entrance",
+"target": "  "
+},
+{
+"english": "I'm almost done.",
+"analysis": "S=PRON.1sg V=be.PRES A=almost+done",
+"target": "   "
+},
+{
+"english": "We can't deal with such a difficult problem.",
+"analysis": "S=PRON.1pl V=deal.PRES.CAN.NEG O=difficult+problem WITH=such",
+"target": "    "
+},
+{
+"english": "He had cake and tea.",
+"analysis": "S=PRON.3sgm V=have.PAST O=cake&tea",
+"target": "    "
+},
+{
+"english": "Why is space black?",
+"analysis": "S=space V=be.PRES M=why A=black",
+"target": "   "
+},
+{
+"english": "I'll be very busy next month.",
+"analysis": "S=PRON.1sg T=next+month V=be.FUT A=very+busy",
+"target": "     "
+},
+{
+"english": "What is she wishing for?",
+"analysis": "S=PRON.3sgf V=wish.PRES.PROG FOR=what",
+"target": "  "
+},
+{
+"english": "He wore only original stuff.",
+"analysis": "S=PRON.3sgm V=wear.PAST M=only O=original+stuff",
+"target": "    "
+},
+{
+"english": "Rima has just finished secondary school.",
+"analysis": "S=NAME.Rima V=have.PRES O=just+finished+secondary+school",
+"target": "     "
+},
+{
+"english": "This is a serious song!",
+"analysis": "S=this V=be.PRES P=serious+song",
+"target": "   "
+},
+{
+"english": "Tom will remember.",
+"analysis": "S=NAME.Tom V=remember.FUT",
+"target": " "
+},
+{
+"english": "I offer my apologies.",
+"analysis": "S=PRON.1sg V=offer.PRES O=PRON.1sg^apology.PL",
+"target": "   "
+},
+{
+"english": "I'm running to the store for some milk.",
+"analysis": "S=PRON.1sg V=run.PRES.PROG TO=store FOR=some+milk",
+"target": "    "
+},
+{
+"english": "You were incompetent.",
+"analysis": "S=PRON.2sg V=be.PAST A=competent>NOT",
+"target": "  "
+},
+{
+"english": "The air is thin at the summit.",
+"analysis": "S=air V=be.PRES L=summit A=thin",
+"target": "   "
+},
+{
+"english": "Mary is an eye doctor.",
+"analysis": "S=NAME.Mary V=be.PRES P=eye_doctor",
+"target": "  "
+},
+{
+"english": "I have rejected you.",
+"analysis": "S=PRON.1sg V=reject.PRES.PERF O=PRON.2sg",
+"target": "  "
+},
+{
+"english": "Earth's weather will change.",
+"analysis": "S=earth^weather V=change.FUT",
+"target": "  "
+},
+{
+"english": "What is this? This is a church.",
+"analysis": "S=this V=be.PRES P=what ; S=this V=be.PRES P=church",
+"target": "     "
+},
+{
+"english": "Please do not add annotations in sentences.",
+"analysis": "I=please V=add.NEG O=annotation.PL L=sentence.PL",
+"target": "   "
+},
+{
+"english": "I'm going to the concert.",
+"analysis": "S=PRON.1sg V=go.PRES.PROG TO=concert",
+"target": "  "
+},
+{
+"english": "I'll buy three pillows.",
+"analysis": "S=PRON.1sg V=buy.FUT O=three+pillow.PL",
+"target": "   "
+},
+{
+"english": "Is anything the matter with him?",
+"analysis": "S=anything V=be.PRES.Q WITH=PRON.3sgm P=matter",
+"target": "   "
+},
+{
+"english": "Yes, I'm insane.",
+"analysis": "I=yes S=PRON.1sg V=be.PRES A=sane>NOT",
+"target": "   "
+},
+{
+"english": "You can't get away with this.",
+"analysis": "S=PRON.2sg V=get.PRES.CAN.NEG M=away WITH=this",
+"target": "   "
+},
+{
+"english": "Tom hasn't yet returned home.",
+"analysis": "S=NAME.Tom V=return.PRES.PERF.NEG M=yet+home",
+"target": "   "
+},
+{
+"english": "Did you change clothes?",
+"analysis": "S=PRON.2sg V=change.PAST.Q O=clothes.PL",
+"target": "  "
+},
+{
+"english": "Tom didn't flinch.",
+"analysis": "S=NAME.Tom V=flinch.PAST.NEG",
+"target": " "
+},
+{
+"english": "She threatened him.",
+"analysis": "S=PRON.3sgf V=threaten.PAST O=PRON.3sgm",
+"target": "  "
+},
+{
+"english": "We'll go home.",
+"analysis": "S=PRON.1pl V=go.FUT M=home",
+"target": "  "
+},
+{
+"english": "Tom probably shouldn't do that.",
+"analysis": "S=NAME.Tom V=do.PRES.SHOULD.NEG M=probably O=that",
+"target": "   "
+},
+{
+"english": "Mary hasn't paid her taxes.",
+"analysis": "S=NAME.Mary V=pay.PRES.PERF.NEG O=PRON.3sgf^tax.PL",
+"target": "   "
+},
+{
+"english": "Choose between the two.",
+"analysis": "V=choose BETWEEN=two",
+"target": " "
+},
+{
+"english": "Everything is expensive.",
+"analysis": "S=everything V=be.PRES A=expensive",
+"target": "  "
+},
+{
+"english": "I don't drink champagne.",
+"analysis": "S=PRON.1sg V=drink.PRES.NEG O=champagne",
+"target": "  "
+},
+{
+"english": "Is time the key to understanding life?",
+"analysis": "S=time V=be.PRES.Q TO=understand>ACT P=key_life",
+"target": "   "
+},
+{
+"english": "Tom won't be leaving anything to his grandchildren.",
+"analysis": "S=NAME.Tom V=leave.FUT.PROG.NEG O=anything TO=PRON.3sgm^grandchild.PL",
+"target": "    "
+},
+{
+"english": "Tom followed us.",
+"analysis": "S=NAME.Tom V=follow.PAST O=PRON.1pl",
+"target": "  "
+},
+{
+"english": "He explored alternative solutions.",
+"analysis": "S=PRON.3sgm V=explore.PAST O=alternative_solution.PL",
+"target": "  "
+},
+{
+"english": "Yanni carries a knife.",
+"analysis": "S=NAME.Yanni V=carry.PRES O=knife",
+"target": "  "
+},
+{
+"english": "I really need your help here.",
+"analysis": "S=PRON.1sg V=need.PRES M=really+here O=PRON.2sg^help>ACT",
+"target": "     "
+},
+{
+"english": "Would that be wise?",
+"analysis": "S=that V=be.PRES.WOULD.Q A=wise",
+"target": "  "
+},
+{
+"english": "Tom was subpoenaed.",
+"analysis": "V=subpoena.PAST O=NAME.Tom",
+"target": " "
+},
+{
+"english": "She didn't bat an eye.",
+"analysis": "S=PRON.3sgf V=bat.PAST.NEG O=eye",
+"target": "  "
+},
+{
+"english": "Did you stay at Tom's for a long time?",
+"analysis": "S=PRON.2sg V=stay.PAST.Q L=NAME.Tom^ FOR=long+time",
+"target": "    "
+},
+{
+"english": "Tom made several recordings.",
+"analysis": "S=NAME.Tom V=make.PAST O=several+recording.PL",
+"target": "   "
+},
+{
+"english": "Does Tom have a snowboard?",
+"analysis": "S=NAME.Tom V=have.PRES.Q O=snowboard",
+"target": "  "
+},
+{
+"english": "Her body ached all over.",
+"analysis": "S=PRON.3sgf^body V=ache.PAST M=over O=all",
+"target": "    "
+},
+{
+"english": "Tom is quite a mischievous child.",
+"analysis": "S=NAME.Tom V=be.PRES M=quite P=mischievous+child",
+"target": "    "
+},
+{
+"english": "Is this insect dangerous?",
+"analysis": "S=this+insect V=be.PRES.Q A=danger>ADJ",
+"target": "   "
+},
+{
+"english": "Along with Tom, their last hope was gone.",
+"analysis": "S=PRON.3pl^last+hope>ACT V=be.PAST M=along WITH=NAME.Tom A=gone",
+"target": "      "
+},
+{
+"english": "There is always a way out.",
+"analysis": "S=way V=be.PRES M=always+out",
+"target": "   "
+},
+{
+"english": "You can't hurt them.",
+"analysis": "S=PRON.2sg V=hurt.PRES.CAN.NEG O=PRON.3pl",
+"target": "  "
+},
+{
+"english": "You're worrying too much.",
+"analysis": "S=PRON.2sg V=worry.PRES.PROG M=too+much",
+"target": "   "
+},
+{
+"english": "Is there an end to the stars?",
+"analysis": "S=end V=be.PRES.Q TO=star.PL",
+"target": "  "
+},
+{
+"english": "I've been really lonely since Tom left.",
+"analysis": "S=PRON.1sg V=be.PRES.PERF SINCE=NAME.Tom A=really+lonely+left",
+"target": "     "
+},
+{
+"english": "Maybe you should talk to her.",
+"analysis": "S=PRON.2sg V=talk.PRES.SHOULD M=maybe TO=PRON.3sgf",
+"target": "   "
+},
+{
+"english": "Is there a car park?",
+"analysis": "S=car_park V=be.PRES.Q",
+"target": " "
+},
+{
+"english": "How fast does this train run?",
+"analysis": "S=this+train>ACT V=run.PRES M=how+fast",
+"target": "    "
+},
+{
+"english": "He disappeared without a trace.",
+"analysis": "S=PRON.3sgm V=disappear.PAST WITHOUT=trace>ACT",
+"target": "  "
+},
+{
+"english": "They're done with stealing computers. They're stealing boats now.",
+"analysis": "S=PRON.3pl V=be.PRES WITH=steal>ACT P=done+compute>AGENT.PL ; S=PRON.3pl V=steal.PRES.PROG M=now O=boat.PL",
+"target": "        "
+},
+{
+"english": "Do I know her?",
+"analysis": "S=PRON.1sg V=know.PRES.Q O=PRON.3sgf",
+"target": "  "
+},
+{
+"english": "You're wrong about this.",
+"analysis": "S=PRON.2sg V=be.PRES ABOUT=this A=wrong",
+"target": "   "
+},
+{
+"english": "The monkey is climbing a tall tree.",
+"analysis": "S=monkey V=climb.PRES.PROG O=tall+tree",
+"target": "   "
+},
+{
+"english": "Where is the black bear?",
+"analysis": "S=black+bear>ACT V=be.PRES M=where",
+"target": "   "
+},
+{
+"english": "Link them carefully.",
+"analysis": "V=link M=careful>ADV O=PRON.3pl",
+"target": "  "
+},
+{
+"english": "There are huge interests at stake.",
+"analysis": "S=huge+interest.PL V=be.PRES L=stake>ACT",
+"target": "   "
+},
+{
+"english": "Can I talk to you for a second?",
+"analysis": "S=PRON.1sg V=talk.PRES.CAN.Q TO=PRON.2sg FOR=second",
+"target": "   "
+},
+{
+"english": "Tom doesn't mince his words.",
+"analysis": "S=NAME.Tom V=mince.PRES.NEG O=PRON.3sgm^word.PL",
+"target": "   "
+},
+{
+"english": "Which way is the right way?",
+"analysis": "S=which+way V=be.PRES P=right+way",
+"target": "    "
+},
+{
+"english": "I can't find my gloves.",
+"analysis": "S=PRON.1sg V=find.PRES.CAN.NEG O=PRON.1sg^glove.PL",
+"target": "   "
+},
+{
+"english": "We left the final decision to her.",
+"analysis": "S=PRON.1pl V=leave.PAST O=final+decision TO=PRON.3sgf",
+"target": "    "
+},
+{
+"english": "Please don't listen to my crazy daughter.",
+"analysis": "I=please V=listen.NEG TO=PRON.1sg^craze>ADJ+daughter",
+"target": "    "
+},
+{
+"english": "I almost kissed her.",
+"analysis": "S=PRON.1sg V=kiss.PAST M=almost O=PRON.3sgf",
+"target": "   "
+},
+{
+"english": "I didn't tell you to fire her.",
+"analysis": "S=PRON.1sg V=tell.PAST.NEG O=PRON.3sgf TO=fire TO=PRON.2sg",
+"target": "    "
+},
+{
+"english": "Tom vowed revenge.",
+"analysis": "S=NAME.Tom V=vow.PAST O=revenge",
+"target": "  "
+},
+{
+"english": "Moths are attracted by light.",
+"analysis": "S=light V=attract.PRES O=moth.PL",
+"target": "  "
+},
+{
+"english": "My parents were furious.",
+"analysis": "S=PRON.1sg^parent.PL V=be.PAST A=fury>ADJ",
+"target": "   "
+},
+{
+"english": "Tom is behind with his work.",
+"analysis": "S=NAME.Tom V=be.PRES WITH=PRON.3sgm^work>ACT P=arse",
+"target": "    "
+},
+{
+"english": "Have you solved the mystery?",
+"analysis": "S=PRON.2sg V=solve.PRES.PERF.Q O=mystery",
+"target": "  "
+},
+{
+"english": "Tom isn't the new boss.",
+"analysis": "S=NAME.Tom V=be.PRES.NEG P=new+boss",
+"target": "   "
+},
+{
+"english": "These figs are still very hard.",
+"analysis": "S=this+fig.PL V=be.PRES M=still A=very+hard",
+"target": "     "
+},
+{
+"english": "They have been on good terms with their neighbours.",
+"analysis": "S=PRON.3pl V=be.PRES.PERF ON=good+term.PL WITH=PRON.3pl^neighbour.PL",
+"target": "     "
+},
+{
+"english": "He misses his husband.",
+"analysis": "S=PRON.3sgm V=miss.PRES O=PRON.3sgm^husband",
+"target": "   "
+},
+{
+"english": "Yanni is known for his stupidity.",
+"analysis": "S=NAME.Yanni V=be.PRES FOR=PRON.3sgm^stupid>QUAL A=known",
+"target": "    "
+},
+{
+"english": "Their daughter plays with the baby.",
+"analysis": "S=PRON.3pl^daughter V=play.PRES WITH=baby",
+"target": "   "
+},
+{
+"english": "Will it be dry tomorrow?",
+"analysis": "S=PRON.3sgn V=be.FUT.Q M=tomorrow A=dry",
+"target": "   "
+},
+{
+"english": "She has caught cholera.",
+"analysis": "S=PRON.3sgf V=catch.PRES.PERF O=cholera",
+"target": "  "
+},
+{
+"english": "Tom bought all this stuff for me.",
+"analysis": "S=NAME.Tom V=buy.PAST O=all+this+stuff FOR=PRON.1sg",
+"target": "     "
+},
+{
+"english": "Is modern society suffering from sleep deprivation?",
+"analysis": "S=modern+society V=suffer.PRES.PROG.Q O=deprive>ACT FROM=sleep>ACT",
+"target": "    "
+},
+{
+"english": "We must consider all options.",
+"analysis": "S=PRON.1pl V=consider.PRES.MUST O=all+opt>ACT.PL",
+"target": "   "
+},
+{
+"english": "He drives very fast.",
+"analysis": "S=PRON.3sgm V=drive.PRES M=very+fast",
+"target": "   "
+},
+{
+"english": "I care about Tom.",
+"analysis": "S=PRON.1sg V=care.PRES ABOUT=NAME.Tom",
+"target": "  "
+},
+{
+"english": "Tom is awfully skinny.",
+"analysis": "S=NAME.Tom V=be.PRES M=awful>ADV A=skin>ADJ",
+"target": "   "
+},
+{
+"english": "He comes home from his trip to Europe tomorrow.",
+"analysis": "S=PRON.3sgm V=come.PRES M=home+tomorrow FROM=PRON.3sgm^trip TO=NAME.Europe",
+"target": "      "
+},
+{
+"english": "I was sitting against the tree.",
+"analysis": "S=PRON.1sg V=sit.PAST.PROG AGAINST=tree",
+"target": "  "
+},
+{
+"english": "It's an eagle, wow!",
+"analysis": "I=wow S=PRON.3sgn V=be.PRES P=eagle",
+"target": "   "
+},
+{
+"english": "Are you a high school student?",
+"analysis": "S=PRON.2sg V=be.PRES.Q P=high+school_student",
+"target": "   "
+},
+{
+"english": "Tom plays marbles with his friends.",
+"analysis": "S=NAME.Tom V=play.PRES O=marble.PL WITH=PRON.3sgm^friend.PL",
+"target": "    "
+},
+{
+"english": "She made coffee.",
+"analysis": "S=PRON.3sgf V=make.PAST O=coffee",
+"target": "  "
+},
+{
+"english": "You're annoying me.",
+"analysis": "S=PRON.2sg V=annoy.PRES.PROG O=PRON.1sg",
+"target": "  "
+},
+{
+"english": "Tom fell apart.",
+"analysis": "S=NAME.Tom V=fall.PAST M=apart",
+"target": "  "
+},
+{
+"english": "You should look that word up.",
+"analysis": "S=PRON.2sg V=look.PRES.SHOULD M=up O=that+word",
+"target": "    "
+},
+{
+"english": "I've kept my promise.",
+"analysis": "S=PRON.1sg V=keep.PRES.PERF O=PRON.1sg^promise>ACT",
+"target": "   "
+},
+{
+"english": "Did you really hear everything?",
+"analysis": "S=PRON.2sg V=hear.PAST.Q M=really O=everything",
+"target": "   "
+},
+{
+"english": "Are you still in touch with Tom?",
+"analysis": "S=PRON.2sg V=be.PRES.Q M=still L=touch>ACT WITH=NAME.Tom",
+"target": "    "
+},
+{
+"english": "What are you going to get?",
+"analysis": "S=PRON.2sg V=get.FUT O=what",
+"target": "  "
+},
+{
+"english": "Tom has never been sick.",
+"analysis": "S=NAME.Tom V=be.PRES.PERF M=never A=sick",
+"target": "   "
+},
+{
+"english": "Who has a question?",
+"analysis": "S=who V=have.PRES O=question",
+"target": "  "
+},
+{
+"english": "Tom was standing right behind Mary.",
+"analysis": "S=NAME.Tom V=stand.PAST.PROG O=right BEHIND=NAME.Mary",
+"target": "   "
+},
+{
+"english": "We took him straight to hospital.",
+"analysis": "S=PRON.1pl V=take.PAST M=straight O=PRON.3sgm TO=hospital",
+"target": "    "
+},
+{
+"english": "Tom and Mary are worried about you.",
+"analysis": "V=worry.PRES O=NAME.Tom&NAME.Mary ABOUT=PRON.2sg",
+"target": "    "
+},
+{
+"english": "Yanni never shaves.",
+"analysis": "S=NAME.Yanni V=shave.PRES M=never",
+"target": "  "
+},
+{
+"english": "Aomori is famous for its good apples.",
+"analysis": "S=NAME.Aomori V=be.PRES FOR=PRON.3sgn^good+apple.PL A=fame>ADJ",
+"target": "     "
+},
+{
+"english": "They went home.",
+"analysis": "S=PRON.3pl V=go.PAST M=home",
+"target": "  "
+},
+{
+"english": "This is going to change your life.",
+"analysis": "S=this V=change.FUT O=PRON.2sg^life",
+"target": "   "
+},
+{
+"english": "Tom is working on it now.",
+"analysis": "S=NAME.Tom V=work.PRES.PROG M=now ON=PRON.3sgn",
+"target": "   "
+},
+{
+"english": "His father died after his return home.",
+"analysis": "S=PRON.3sgm^father V=die.PAST M=home AFTER=PRON.3sgm^return>ACT",
+"target": "     "
+},
+{
+"english": "He is not less clever than his father.",
+"analysis": "S=PRON.3sgm V=be.PRES.NEG THAN=PRON.3sgm^father A=less+clever",
+"target": "     "
+},
+{
+"english": "We are looking to you for help.",
+"analysis": "S=PRON.1pl V=look.PRES.PROG TO=PRON.2sg FOR=help>ACT",
+"target": "   "
+},
+{
+"english": "He mounted his bike.",
+"analysis": "S=PRON.3sgm V=mount.PAST O=PRON.3sgm^bike",
+"target": "   "
+},
+{
+"english": "It's dead quiet.",
+"analysis": "S=PRON.3sgn V=be.PRES A=dead+quiet",
+"target": "   "
+},
+{
+"english": "None can get away from death.",
+"analysis": "S=none V=get.PRES.CAN FROM=death",
+"target": "  "
+},
+{
+"english": "Religion is opium for the people.",
+"analysis": "S=religion V=be.PRES FOR=people.PL P=opium",
+"target": "   "
+},
+{
+"english": "All baggage is subject to inspection.",
+"analysis": "S=all+baggage V=be.PRES TO=inspect>ACT P=subject",
+"target": "    "
+},
+{
+"english": "I just needed company.",
+"analysis": "S=PRON.1sg V=need.PAST M=just O=company",
+"target": "   "
+},
+{
+"english": "Why don't you invite Tom over?",
+"analysis": "S=PRON.2sg V=invite.PRES.NEG M=why+over O=NAME.Tom",
+"target": "    "
+},
+{
+"english": "Tom couldn't help.",
+"analysis": "S=NAME.Tom V=help.PAST.CAN.NEG",
+"target": " "
+},
+{
+"english": "We'll discuss it.",
+"analysis": "S=PRON.1pl V=discuss.FUT O=PRON.3sgn",
+"target": "  "
+},
+{
+"english": "Tom will do that tonight.",
+"analysis": "S=NAME.Tom V=do.FUT M=tonight O=that",
+"target": "   "
+},
+{
+"english": "Tom and Mary never criticized each other.",
+"analysis": "S=NAME.Tom&NAME.Mary V=criticize.PAST M=never O=each+other",
+"target": "      "
+},
+{
+"english": "Think seriously about it.",
+"analysis": "V=think M=serious>ADV ABOUT=PRON.3sgn",
+"target": "  "
+},
+{
+"english": "I'm a work in progress.",
+"analysis": "S=PRON.1sg V=be.PRES L=progress P=work>ACT",
+"target": "   "
+},
+{
+"english": "Why don't we eat something?",
+"analysis": "S=PRON.1pl V=eat.PRES.NEG M=why O=something",
+"target": "   "
+},
+{
+"english": "Everything is piling up on me.",
+"analysis": "S=everything V=be.PRES M=up ON=PRON.1sg P=piling",
+"target": "    "
+},
+{
+"english": "Did you stay here all afternoon?",
+"analysis": "S=PRON.2sg T=all+afternoon V=stay.PAST.Q M=here",
+"target": "    "
+},
+{
+"english": "You should stop worrying about the minor stuff.",
+"analysis": "S=PRON.2sg V=stop.PRES.SHOULD O=worry>ACT ABOUT=minor+stuff",
+"target": "    "
+},
+{
+"english": "Did Yanni see the accident?",
+"analysis": "S=NAME.Yanni V=see.PAST.Q O=accident",
+"target": "  "
+},
+{
+"english": "I must report this to him.",
+"analysis": "S=PRON.1sg V=report.PRES.MUST O=this TO=PRON.3sgm",
+"target": "   "
+},
+{
+"english": "Kalman had some beer on him.",
+"analysis": "S=NAME.Kalman V=have.PAST O=some+beer ON=PRON.3sgm",
+"target": "    "
+},
+{
+"english": "Who did you look at?",
+"analysis": "S=PRON.2sg V=look.PAST L=who",
+"target": "  "
+},
+{
+"english": "His wife was nowhere in evidence.",
+"analysis": "S=PRON.3sgm^wife V=be.PAST M=nowhere L=evidence",
+"target": "    "
+},
+{
+"english": "I asked him for help.",
+"analysis": "S=PRON.1sg V=ask.PAST O=PRON.3sgm FOR=help>ACT",
+"target": "   "
+},
+{
+"english": "Tom was horrible with children.",
+"analysis": "S=NAME.Tom V=be.PAST WITH=child.PL A=horrible",
+"target": "   "
+},
+{
+"english": "I prefer coffee to wine.",
+"analysis": "S=PRON.1sg V=prefer.PRES O=coffee TO=wine",
+"target": "   "
+},
+{
+"english": "The sun has gone down.",
+"analysis": "S=sun V=go.PRES.PERF M=down",
+"target": "  "
+},
+{
+"english": "I'm curious, too.",
+"analysis": "S=PRON.1sg V=be.PRES M=also A=curious",
+"target": "   "
+},
+{
+"english": "The city revived with greater vigor.",
+"analysis": "S=city V=revive.PAST WITH=greater+vigor",
+"target": "   "
+},
+{
+"english": "He fixed her car.",
+"analysis": "S=PRON.3sgm V=fix.PAST O=PRON.3sgf^car",
+"target": "   "
+},
+{
+"english": "Why won't you make it?",
+"analysis": "S=PRON.2sg V=make.FUT.NEG M=why O=PRON.3sgn",
+"target": "   "
+},
+{
+"english": "Did you have a knife?",
+"analysis": "S=PRON.2sg V=have.PAST.Q O=knife",
+"target": "  "
+},
+{
+"english": "I have to dress up.",
+"analysis": "S=PRON.1sg V=dress.PRES.MUST M=up",
+"target": "  "
+},
+{
+"english": "I did that just yesterday.",
+"analysis": "S=PRON.1sg V=do.PAST M=just+yesterday O=that",
+"target": "    "
+},
+{
+"english": "Is this your stuff?",
+"analysis": "S=this V=be.PRES.Q P=PRON.2sg^stuff",
+"target": "   "
+},
+{
+"english": "Paul eventually opened the window.",
+"analysis": "S=NAME.Paul V=open.PAST M=eventual>ADV O=window",
+"target": "   "
+},
+{
+"english": "I'm not registered.",
+"analysis": "V=register.PRES.NEG O=PRON.1sg",
+"target": " "
+},
+{
+"english": "Tom and Mary have been playing tennis all day.",
+"analysis": "S=NAME.Tom&NAME.Mary T=all+day V=play.PRES.PROG.PERF O=tennis",
+"target": "      "
+},
+{
+"english": "The victory was dearly won.",
+"analysis": "S=victory V=be.PAST M=dear>ADV P=won",
+"target": "   "
+},
+{
+"english": "Do you have any scars?",
+"analysis": "S=PRON.2sg V=have.PRES.Q O=any+scar.PL",
+"target": "   "
+},
+{
+"english": "We asked for Tom.",
+"analysis": "S=PRON.1pl V=ask.PAST FOR=NAME.Tom",
+"target": "  "
+},
+{
+"english": "You'll win a cat with horns!",
+"analysis": "S=PRON.2sg V=win.FUT O=cat WITH=horn.PL",
+"target": "   "
+},
+{
+"english": "Why did you ditch me?",
+"analysis": "S=PRON.2sg V=ditch.PAST M=why O=PRON.1sg",
+"target": "   "
+},
+{
+"english": "Bicycles are for summertime.",
+"analysis": "S=bicycle.PL V=be.PRES FOR=summertime",
+"target": "  "
+},
+{
+"english": "What music do you like?",
+"analysis": "S=PRON.2sg V=like.PRES O=what+music",
+"target": "   "
+},
+{
+"english": "Did that work?",
+"analysis": "S=that V=work.PAST.Q",
+"target": " "
+},
+{
+"english": "I can't do that without a hammer.",
+"analysis": "S=PRON.1sg V=do.PRES.CAN.NEG O=that WITHOUT=hammer",
+"target": "   "
+},
+{
+"english": "I can't tolerate Tom's rudeness.",
+"analysis": "S=PRON.1sg V=tolerate.PRES.CAN.NEG O=NAME.Tom^rude>QUAL",
+"target": "   "
+},
+{
+"english": "Your argument is shaky.",
+"analysis": "S=PRON.2sg^argue>ACT V=be.PRES A=shaky",
+"target": "   "
+},
+{
+"english": "I actually don't work here.",
+"analysis": "S=PRON.1sg V=work.PRES.NEG M=actual>ADV+here",
+"target": "   "
+},
+{
+"english": "We're ready for a session.",
+"analysis": "S=PRON.1pl V=be.PRES FOR=session A=ready",
+"target": "   "
+},
+{
+"english": "Who is this?",
+"analysis": "S=this V=be.PRES P=who",
+"target": "  "
+},
+{
+"english": "How beautiful it is!",
+"analysis": "S=PRON.3sgn V=be.PRES A=how+beautiful",
+"target": "   "
+},
+{
+"english": "Leon was around forty at the time.",
+"analysis": "S=NAME.Leon V=be.PAST AROUND=forty L=time",
+"target": "   "
+},
+{
+"english": "Why is Tom outside?",
+"analysis": "S=NAME.Tom V=be.PRES M=why A=outside",
+"target": "   "
+},
+{
+"english": "How much did you pay for your cutlery?",
+"analysis": "S=PRON.2sg V=pay.PAST O=how+much FOR=PRON.2sg^cutlery",
+"target": "     "
+},
+{
+"english": "Tom is really, really busy.",
+"analysis": "S=NAME.Tom V=be.PRES A=really+really+busy",
+"target": "    "
+},
+{
+"english": "He traveled about the world.",
+"analysis": "S=PRON.3sgm V=travel.PAST ABOUT=world",
+"target": "  "
+},
+{
+"english": "He's sceptical about astrology's usefulness.",
+"analysis": "S=PRON.3sgm V=be.PRES ABOUT=astrology^useful>QUAL A=sceptical",
+"target": "    "
+},
+{
+"english": "Someone please stop this nightmare.",
+"analysis": "I=please S=someone V=stop.PRES O=this+nightmare",
+"target": "    "
+},
+{
+"english": "They were nice.",
+"analysis": "S=PRON.3pl V=be.PAST A=nice",
+"target": "  "
+},
+{
+"english": "Can you recommend a good play?",
+"analysis": "S=PRON.2sg V=recommend.PRES.CAN.Q O=good+play>ACT",
+"target": "   "
+},
+{
+"english": "He was mashing potatoes.",
+"analysis": "S=PRON.3sgm V=mash.PAST.PROG O=potato.PL",
+"target": "  "
+},
+{
+"english": "Alas, they just keep looking for pretexts!",
+"analysis": "I=alas S=PRON.3pl V=keep.PRES M=just O=look>ACT FOR=pretext.PL",
+"target": "     "
+},
+{
+"english": "Tom mopped all the rooms.",
+"analysis": "S=NAME.Tom V=mop.PAST O=all+room.PL",
+"target": "   "
+},
+{
+"english": "How often do you eat brown rice?",
+"analysis": "S=PRON.2sg V=eat.PRES M=how+often O=brown+rice",
+"target": "     "
+},
+{
+"english": "I should probably lose a little weight.",
+"analysis": "S=PRON.1sg V=lose.PRES.SHOULD M=probably O=little+weight",
+"target": "    "
+},
+{
+"english": "Tom is significantly younger than Mary.",
+"analysis": "S=NAME.Tom V=be.PRES M=significant>ADV THAN=NAME.Mary A=younger",
+"target": "    "
+},
+{
+"english": "Are you managing your time effectively?",
+"analysis": "S=PRON.2sg V=manage.PRES.PROG.Q M=effective>ADV O=PRON.2sg^time",
+"target": "    "
+},
+{
+"english": "Tom got these tickets for nothing.",
+"analysis": "S=NAME.Tom V=get.PAST O=this+ticket.PL FOR=nothing",
+"target": "    "
+},
+{
+"english": "Tom disappeared into his room.",
+"analysis": "S=NAME.Tom V=disappear.PAST TO=PRON.3sgm^room",
+"target": "   "
+},
+{
+"english": "We have to follow Tom.",
+"analysis": "S=PRON.1pl V=follow.PRES.MUST O=NAME.Tom",
+"target": "  "
+},
+{
+"english": "Tom's shirt was soaked with sweat.",
+"analysis": "V=soak.PAST O=NAME.Tom^shirt WITH=sweat",
+"target": "   "
+},
+{
+"english": "I could change that.",
+"analysis": "S=PRON.1sg V=change.PAST.CAN O=that",
+"target": "  "
+},
+{
+"english": "He pulled the necklace from his pocket.",
+"analysis": "S=PRON.3sgm V=pull.PAST O=necklace FROM=PRON.3sgm^pocket",
+"target": "    "
+},
+{
+"english": "Tom missed the opportunity for a promotion.",
+"analysis": "S=NAME.Tom V=miss.PAST O=opportunity FOR=promote>ACT",
+"target": "   "
+},
+{
+"english": "The sun is sinking below the horizon.",
+"analysis": "S=sun V=sink.PRES.PROG UNDER=horizon",
+"target": "  "
+},
+{
+"english": "He translated the book into different languages.",
+"analysis": "S=PRON.3sgm V=translate.PAST O=book TO=different+language.PL",
+"target": "    "
+},
+{
+"english": "Hopefully the weather will be good.",
+"analysis": "S=weather V=be.FUT M=hopeful>ADV A=good",
+"target": "   "
+},
+{
+"english": "Were you out last night?",
+"analysis": "S=PRON.2sg T=last+night V=be.PAST.Q A=out",
+"target": "    "
+},
+{
+"english": "Please don't use my name.",
+"analysis": "I=please V=use.NEG O=PRON.1sg^name",
+"target": "   "
+},
+{
+"english": "I haven't sold that one.",
+"analysis": "S=PRON.1sg V=sell.PRES.PERF.NEG O=that+one",
+"target": "   "
+},
+{
+"english": "Yanni gave his opinion.",
+"analysis": "S=NAME.Yanni V=give.PAST O=PRON.3sgm^opinion",
+"target": "   "
+},
+{
+"english": "The documents were submitted on time.",
+"analysis": "V=submit.PAST O=document.PL ON=time",
+"target": "  "
+},
+{
+"english": "We can talk about that later.",
+"analysis": "S=PRON.1pl V=talk.PRES.CAN M=later ABOUT=that",
+"target": "   "
+},
+{
+"english": "It is magnificent indeed.",
+"analysis": "S=PRON.3sgn V=be.PRES M=indeed A=magnificent",
+"target": "   "
+},
+{
+"english": "Tom got home.",
+"analysis": "S=NAME.Tom V=get.PAST M=home",
+"target": "  "
+},
+{
+"english": "Must I take this lesson?",
+"analysis": "S=PRON.1sg V=take.PRES.MUST.Q O=this+lesson",
+"target": "   "
+},
+{
+"english": "I'm poor at customer service.",
+"analysis": "S=PRON.1sg V=be.PRES L=customer P=poor+service",
+"target": "    "
+},
+{
+"english": "She now works for him.",
+"analysis": "S=PRON.3sgf V=work.PRES M=now FOR=PRON.3sgm",
+"target": "   "
+},
+{
+"english": "Can I touch your beard?",
+"analysis": "S=PRON.1sg V=touch.PRES.CAN.Q O=PRON.2sg^beard",
+"target": "   "
+},
+{
+"english": "It's just a hunch.",
+"analysis": "S=PRON.3sgn V=be.PRES M=just P=hunch",
+"target": "   "
+},
+{
+"english": "I will go to the meeting.",
+"analysis": "S=PRON.1sg V=go.FUT TO=meeting",
+"target": "  "
+},
+{
+"english": "Tom might've committed suicide.",
+"analysis": "S=NAME.Tom V=commit.PRES.PERF.MAY O=suicide",
+"target": "  "
+},
+{
+"english": "We've been very cooperative.",
+"analysis": "S=PRON.1pl V=be.PRES.PERF A=very+cooperative",
+"target": "   "
+},
+{
+"english": "I want honey.",
+"analysis": "S=PRON.1sg V=want.PRES O=honey",
+"target": "  "
+},
+{
+"english": "Let's put it to a vote.",
+"analysis": "S=PRON.1pl V=put.LET O=PRON.3sgn TO=vote>ACT",
+"target": "   "
+},
+{
+"english": "Our only hope now is escape.",
+"analysis": "S=PRON.1pl^hope>ACT V=be.PRES M=only+now P=escape>ACT",
+"target": "     "
+},
+{
+"english": "Tom will never admit that.",
+"analysis": "S=NAME.Tom V=admit.FUT M=never O=that",
+"target": "   "
+},
+{
+"english": "Did you have a bad dream?",
+"analysis": "S=PRON.2sg V=have.PAST.Q O=bad+dream",
+"target": "   "
+},
+{
+"english": "Did you know Tom's father?",
+"analysis": "S=PRON.2sg V=know.PAST.Q O=NAME.Tom^father",
+"target": "   "
+},
+{
+"english": "My father doesn't drink liquor.",
+"analysis": "S=PRON.1sg^father V=drink.PRES.NEG O=liquor",
+"target": "   "
+},
+{
+"english": "Tom is a lot older than Mary.",
+"analysis": "S=NAME.Tom V=be.PRES M=much THAN=NAME.Mary A=older",
+"target": "    "
+},
+{
+"english": "I talk a lot.",
+"analysis": "S=PRON.1sg V=talk.PRES M=much",
+"target": "  "
+},
+{
+"english": "I'm not paying you.",
+"analysis": "S=PRON.1sg V=pay.PRES.PROG.NEG O=PRON.2sg",
+"target": "  "
+},
+{
+"english": "Where do sewers go?",
+"analysis": "S=sewer.PL V=go.PRES M=where",
+"target": "  "
+},
+{
+"english": "Show no mercy.",
+"analysis": "V=show O=no+mercy",
+"target": "  "
+},
+{
+"english": "She knows ten languages.",
+"analysis": "S=PRON.3sgf V=know.PRES O=ten+language.PL",
+"target": "   "
+},
+{
+"english": "Without your advice, I would have been at a loss.",
+"analysis": "S=PRON.1sg V=be.PRES.PERF.WOULD WITHOUT=PRON.2sg^advice L=loss",
+"target": "    "
+},
+{
+"english": "Keep your shirt on!",
+"analysis": "V=keep M=on O=PRON.2sg^shirt",
+"target": "   "
+},
+{
+"english": "Everyone should have one.",
+"analysis": "S=everyone V=have.PRES.SHOULD O=one",
+"target": "  "
+},
+{
+"english": "The storm began dying down.",
+"analysis": "S=storm V=begin.PAST M=down O=die>ACT",
+"target": "   "
+},
+{
+"english": "Will he like it?",
+"analysis": "S=PRON.3sgm V=like.FUT.Q O=PRON.3sgn",
+"target": "  "
+},
+{
+"english": "He wrapped chicken in bacon.",
+"analysis": "S=PRON.3sgm V=wrap.PAST O=chicken L=bacon",
+"target": "   "
+},
+{
+"english": "I'm taking over.",
+"analysis": "S=PRON.1sg V=take.PRES.PROG M=over",
+"target": "  "
+},
+{
+"english": "Do you really walk to work every morning?",
+"analysis": "S=PRON.2sg T=every+morning V=walk.PRES.Q M=really TO=work>ACT",
+"target": "     "
+},
+{
+"english": "I need a little space.",
+"analysis": "S=PRON.1sg V=need.PRES O=little+space",
+"target": "   "
+},
+{
+"english": "Tom has taken to the bottle.",
+"analysis": "S=NAME.Tom V=take.PRES.PERF TO=bottle",
+"target": "  "
+},
+{
+"english": "Your friendship is worth everything.",
+"analysis": "S=PRON.2sg^friendship V=be.PRES P=worth+everything",
+"target": "    "
+},
+{
+"english": "Tom is traveling through Europe.",
+"analysis": "S=NAME.Tom V=travel.PRES.PROG THROUGH=NAME.Europe",
+"target": "  "
+},
+{
+"english": "Why is Tom always so grumpy?",
+"analysis": "S=NAME.Tom V=be.PRES M=why+always A=so+grumpy",
+"target": "     "
+},
+{
+"english": "I have to speak with someone.",
+"analysis": "S=PRON.1sg V=speak.PRES.MUST WITH=someone",
+"target": "  "
+},
+{
+"english": "Well, I think Tom's right.",
+"analysis": "S=PRON.1sg V=think.PRES M=well O=NAME.Tom^right",
+"target": "    "
+},
+{
+"english": "The concert begins now.",
+"analysis": "S=concert V=begin.PRES M=now",
+"target": "  "
+},
+{
+"english": "The stores are open.",
+"analysis": "S=store.PL V=be.PRES A=open",
+"target": "  "
+},
+{
+"english": "This coffee really is good.",
+"analysis": "S=this+coffee V=be.PRES M=really A=good",
+"target": "    "
+},
+{
+"english": "Maria usually goes to school on bike.",
+"analysis": "S=maria V=go.PRES M=usually+on O=bike TO=school",
+"target": "     "
+},
+{
+"english": "Have you used it yet?",
+"analysis": "S=PRON.2sg V=use.PRES.PERF.Q M=yet O=PRON.3sgn",
+"target": "   "
+},
+{
+"english": "They stopped the car.",
+"analysis": "S=PRON.3pl V=stop.PAST O=car",
+"target": "  "
+},
+{
+"english": "Tom is obviously very excited about this.",
+"analysis": "S=NAME.Tom V=be.PRES M=obvious>ADV ABOUT=this A=very+excited",
+"target": "     "
+},
+{
+"english": "Yanni's dog exposed his stomach to him.",
+"analysis": "S=NAME.Yanni^dog V=expose.PAST O=PRON.3sgm^stomach TO=PRON.3sgm",
+"target": "     "
+},
+{
+"english": "Mary looked up from her book.",
+"analysis": "S=NAME.Mary V=look.PAST M=up FROM=PRON.3sgf^book",
+"target": "    "
+},
+{
+"english": "It always happens the same way.",
+"analysis": "S=PRON.3sgn V=happen.PRES M=always O=same+way",
+"target": "    "
+},
+{
+"english": "There can be only one explanation for it.",
+"analysis": "S=one+explanation V=be.PRES.CAN M=only FOR=PRON.3sgn",
+"target": "    "
+},
+{
+"english": "Don't you ever say that to me. I'm your father.",
+"analysis": "S=PRON.2sg V=say.PRES.NEG.Q M=ever O=that TO=PRON.1sg ; S=PRON.1sg V=be.PRES P=PRON.2sg^father",
+"target": "        "
+},
+{
+"english": "There's no need to panic.",
+"analysis": "S=no+need>ACT V=be.PRES TO=panic",
+"target": "   "
+},
+{
+"english": "Tom has found the problem.",
+"analysis": "S=NAME.Tom V=find.PRES.PERF O=problem",
+"target": "  "
+},
+{
+"english": "Where can I put my luggage?",
+"analysis": "S=PRON.1sg V=put.PRES.CAN M=where O=PRON.1sg^luggage",
+"target": "    "
+},
+{
+"english": "On a sudden impulse, I returned to my home town.",
+"analysis": "S=PRON.1sg V=return.PAST O=town ON=sudden+impulse TO=PRON.1sg^home",
+"target": "      "
+},
+{
+"english": "We've already had lunch.",
+"analysis": "S=PRON.1pl V=have.PRES.PERF M=already O=lunch",
+"target": "   "
+},
+{
+"english": "Tom was having a fight with Mary.",
+"analysis": "S=NAME.Tom V=have.PAST.PROG O=fight>ACT WITH=NAME.Mary",
+"target": "   "
+},
+{
+"english": "Tom brought his kids with him.",
+"analysis": "S=NAME.Tom V=bring.PAST O=PRON.3sgm^kid.PL WITH=PRON.3sgm",
+"target": "    "
+},
+{
+"english": "You need a short break.",
+"analysis": "S=PRON.2sg V=need.PRES O=short+break>ACT",
+"target": "   "
+},
+{
+"english": "They will be coming every morning.",
+"analysis": "S=PRON.3pl T=every+morning V=come.FUT.PROG",
+"target": "   "
+},
+{
+"english": "Tom made a film about his childhood.",
+"analysis": "S=NAME.Tom V=make.PAST O=film ABOUT=PRON.3sgm^childhood",
+"target": "    "
+},
+{
+"english": "The spruce returns.",
+"analysis": "S=spruce V=return.PRES",
+"target": " "
+},
+{
+"english": "He borrowed an umbrella from her.",
+"analysis": "S=PRON.3sgm V=borrow.PAST O=umbrella FROM=PRON.3sgf",
+"target": "   "
+},
+{
+"english": "Were you a good student?",
+"analysis": "S=PRON.2sg V=be.PAST.Q P=good+student",
+"target": "   "
+},
+{
+"english": "Can you give me directions to the subway station?",
+"analysis": "S=PRON.2sg V=give.PRES.CAN.Q O=direction.PL TO=subway_station TO=PRON.1sg",
+"target": "    "
+},
+{
+"english": "Where can I find the key to your heart?",
+"analysis": "S=PRON.1sg V=find.PRES.CAN M=where O=key TO=PRON.2sg^heart",
+"target": "     "
+},
+{
+"english": "We're not against it.",
+"analysis": "S=PRON.1pl V=be.PRES.NEG AGAINST=PRON.3sgn",
+"target": "  "
+},
+{
+"english": "How was that movie?",
+"analysis": "S=that+movie V=be.PAST M=how",
+"target": "   "
+},
+{
+"english": "She produces music videos for indie artists.",
+"analysis": "S=PRON.3sgf V=produce.PRES O=music_video.PL FOR=indie_artist.PL",
+"target": "   "
+},
+{
+"english": "How are Tom and Mary different?",
+"analysis": "S=NAME.Tom&NAME.Mary V=be.PRES M=how A=different",
+"target": "     "
+},
+{
+"english": "My biological mother is a circus artist.",
+"analysis": "S=PRON.1sg^biological+mother V=be.PRES P=circus_artist",
+"target": "    "
+},
+{
+"english": "You said it, Tom.",
+"analysis": "Y=NAME.Tom S=PRON.2sg V=say.PAST O=PRON.3sgn",
+"target": "   "
+},
+{
+"english": "He filled his glass with water.",
+"analysis": "S=PRON.3sgm V=fill.PAST O=PRON.3sgm^glass WITH=water",
+"target": "    "
+},
+{
+"english": "Tom gave a doll to me.",
+"analysis": "S=NAME.Tom V=give.PAST O=doll TO=PRON.1sg",
+"target": "   "
+},
+{
+"english": "It isn't a threat.",
+"analysis": "S=PRON.3sgn V=be.PRES.NEG P=threat",
+"target": "  "
+},
+{
+"english": "I like this part.",
+"analysis": "S=PRON.1sg V=like.PRES O=this+part",
+"target": "   "
+},
+{
+"english": "I've been worrying about that.",
+"analysis": "S=PRON.1sg V=worry.PRES.PROG.PERF ABOUT=that",
+"target": "  "
+},
+{
+"english": "Nothing could compete with that.",
+"analysis": "S=nothing V=compete.PAST.CAN WITH=that",
+"target": "  "
+},
+{
+"english": "His patience is worn out.",
+"analysis": "S=PRON.3sgm^patience V=be.PRES A=worn+out",
+"target": "    "
+},
+{
+"english": "He didn't tell the cops.",
+"analysis": "S=PRON.3sgm V=tell.PAST.NEG O=cop.PL",
+"target": "  "
+},
+{
+"english": "That could have hit me.",
+"analysis": "S=that V=hit.PAST.PERF.CAN O=PRON.1sg",
+"target": "  "
+},
+{
+"english": "Ivan was abandoned at birth.",
+"analysis": "V=abandon.PAST O=NAME.Ivan L=birth",
+"target": "  "
+},
+{
+"english": "Has Tom made any progress?",
+"analysis": "S=NAME.Tom V=make.PRES.PERF.Q O=any+progress",
+"target": "   "
+},
+{
+"english": "Upon our meeting today, he asked about my wife's health.",
+"analysis": "S=PRON.3sgm V=ask.PAST M=today ON=PRON.1pl^meeting ABOUT=PRON.1sg^wife^health",
+"target": "       "
+},
+{
+"english": "They're sponsoring the wedding.",
+"analysis": "S=PRON.3pl V=sponsor.PRES.PROG O=wedding",
+"target": "  "
+},
+{
+"english": "He rarely went there.",
+"analysis": "S=PRON.3sgm V=go.PAST M=rare>ADV+there",
+"target": "   "
+},
+{
+"english": "Never stop learning.",
+"analysis": "V=stop M=never O=learn>ACT",
+"target": "  "
+},
+{
+"english": "He doesn't hate her.",
+"analysis": "S=PRON.3sgm V=hate.PRES.NEG O=PRON.3sgf",
+"target": "  "
+},
+{
+"english": "The door to the closet slowly started opening.",
+"analysis": "S=door V=start.PAST M=slow>ADV O=opening TO=closet",
+"target": "    "
+},
+{
+"english": "Tom fractured his wrist.",
+"analysis": "S=NAME.Tom V=fracture.PAST O=PRON.3sgm^wrist",
+"target": "   "
+},
+{
+"english": "We can't help it.",
+"analysis": "S=PRON.1pl V=help.PRES.CAN.NEG O=PRON.3sgn",
+"target": "  "
+},
+{
+"english": "I have one brother.",
+"analysis": "S=PRON.1sg V=have.PRES O=one+brother",
+"target": "   "
+},
+{
+"english": "You can't blame a girl for trying.",
+"analysis": "S=PRON.2sg V=blame.PRES.CAN.NEG O=girl FOR=try>ACT",
+"target": "   "
+},
+{
+"english": "The jack supports the vehicle.",
+"analysis": "S=jack V=support.PRES O=vehicle",
+"target": "  "
+},
+{
+"english": "Tom could barely stand.",
+"analysis": "S=NAME.Tom V=stand.PAST.CAN M=bare>ADV",
+"target": "  "
+},
+{
+"english": "Tom made some good points.",
+"analysis": "S=NAME.Tom V=make.PAST O=some+good+point.PL",
+"target": "    "
+},
+{
+"english": "We are eating bread.",
+"analysis": "S=PRON.1pl V=eat.PRES.PROG O=bread",
+"target": "  "
+},
+{
+"english": "Tom and Mary have been through some tough times together.",
+"analysis": "S=NAME.Tom&NAME.Mary V=be.PRES.PERF M=together THROUGH=some+tough+time.PL",
+"target": "       "
+},
+{
+"english": "Aren't you happy together?",
+"analysis": "S=PRON.2sg V=be.PRES.NEG.Q M=together A=happy",
+"target": "   "
+},
+{
+"english": "I'm not normal.",
+"analysis": "S=PRON.1sg V=be.PRES.NEG A=normal",
+"target": "  "
+},
+{
+"english": "I was just thinking about you yesterday.",
+"analysis": "S=PRON.1sg V=think.PAST.PROG M=just+yesterday ABOUT=PRON.2sg",
+"target": "    "
+},
+{
+"english": "It's my dream, too.",
+"analysis": "S=PRON.3sgn V=be.PRES M=also P=PRON.1sg^dream",
+"target": "    "
+},
+{
+"english": "Tom and Mary don't often do that.",
+"analysis": "S=NAME.Tom&NAME.Mary V=do.PRES.NEG M=often O=that",
+"target": "     "
+},
+{
+"english": "Is this ticket good for this bus?",
+"analysis": "S=this+ticket V=be.PRES.Q FOR=this+bus A=good",
+"target": "     "
+},
+{
+"english": "I get into the car.",
+"analysis": "S=PRON.1sg V=get.PRES TO=car",
+"target": "  "
+},
+{
+"english": "Tom meets his girlfriend at this coffee shop every afternoon.",
+"analysis": "S=NAME.Tom T=every+afternoon V=meet.PRES O=PRON.3sgm^girl_friend_shop L=this+coffee",
+"target": "       "
+},
+{
+"english": "You really shouldn't be smiling now.",
+"analysis": "S=PRON.2sg V=smile.PRES.PROG.SHOULD.NEG M=really+now",
+"target": "   "
+},
+{
+"english": "I have to examine you.",
+"analysis": "S=PRON.1sg V=examine.PRES.MUST O=PRON.2sg",
+"target": "  "
+},
+{
+"english": "He's a lazy kid.",
+"analysis": "S=PRON.3sgm V=be.PRES P=lazy+kid",
+"target": "   "
+},
+{
+"english": "Tom and Mary had to sell their house.",
+"analysis": "S=NAME.Tom&NAME.Mary V=sell.PAST.MUST O=PRON.3pl^house",
+"target": "     "
+},
+{
+"english": "He saw the accident.",
+"analysis": "S=PRON.3sgm V=see.PAST O=accident",
+"target": "  "
+},
+{
+"english": "Are you standing?",
+"analysis": "S=PRON.2sg V=stand.PRES.PROG.Q",
+"target": " "
+},
+{
+"english": "He denied it.",
+"analysis": "S=PRON.3sgm V=deny.PAST O=PRON.3sgn",
+"target": "  "
+},
+{
+"english": "Antonio could lose his daughter permanently.",
+"analysis": "S=NAME.Antonio V=lose.PAST.CAN M=permanent>ADV O=PRON.3sgm^daughter",
+"target": "    "
+},
+{
+"english": "Your behaviour is not acceptable.",
+"analysis": "S=PRON.2sg^behaviour V=be.PRES.NEG A=accept>ABLE",
+"target": "   "
+},
+{
+"english": "This is not very polite.",
+"analysis": "S=this V=be.PRES.NEG A=very+polite",
+"target": "   "
+},
+{
+"english": "This is unfortunate.",
+"analysis": "S=this V=be.PRES A=fortunate>NOT",
+"target": "  "
+},
+{
+"english": "I was a professional musician.",
+"analysis": "S=PRON.1sg V=be.PAST P=professional+musician",
+"target": "   "
+},
+{
+"english": "This is not a pipe.",
+"analysis": "S=this V=be.PRES.NEG P=pipe",
+"target": "  "
+},
+{
+"english": "Everything is over.",
+"analysis": "S=everything V=be.PRES M=over",
+"target": "  "
+},
+{
+"english": "I have complete faith in you.",
+"analysis": "S=PRON.1sg V=have.PRES O=complete+faith L=PRON.2sg",
+"target": "    "
+},
+{
+"english": "You should get to school.",
+"analysis": "S=PRON.2sg V=get.PRES.SHOULD TO=school",
+"target": "  "
+},
+{
+"english": "He'll show up soon.",
+"analysis": "S=PRON.3sgm V=show.FUT M=up+soon",
+"target": "   "
+},
+{
+"english": "Tom is with them.",
+"analysis": "S=NAME.Tom V=be.PRES WITH=PRON.3pl",
+"target": "  "
+},
+{
+"english": "They amended the document.",
+"analysis": "S=PRON.3pl V=amend.PAST O=document",
+"target": "  "
+},
+{
+"english": "Tom shouldn't have joined us.",
+"analysis": "S=NAME.Tom V=join.PRES.PERF.SHOULD.NEG O=PRON.1pl",
+"target": "  "
+},
+{
+"english": "She dropped her phone.",
+"analysis": "S=PRON.3sgf V=drop.PAST O=PRON.3sgf^phone",
+"target": "   "
+},
+{
+"english": "I want my own room.",
+"analysis": "S=PRON.1sg V=want.PRES O=PRON.1sg^own+room",
+"target": "    "
+},
+{
+"english": "Look at this high mountain.",
+"analysis": "V=look L=this+high+mountain",
+"target": "   "
+},
+{
+"english": "Young people are not immune from the disease.",
+"analysis": "S=young+people.PL V=be.PRES.NEG FROM=disease A=immune",
+"target": "    "
+},
+{
+"english": "It'll be cool.",
+"analysis": "S=PRON.3sgn V=be.FUT A=cool",
+"target": "  "
+},
+{
+"english": "Tom was angry with his wife.",
+"analysis": "S=NAME.Tom V=be.PAST WITH=PRON.3sgm^wife A=angry",
+"target": "    "
+},
+{
+"english": "Tomorrow, it will rain.",
+"analysis": "S=PRON.3sgn V=rain.FUT M=tomorrow",
+"target": "  "
+},
+{
+"english": "Tom is a bit under the weather.",
+"analysis": "S=NAME.Tom V=be.PRES UNDER=weather P=bit",
+"target": "   "
+},
+{
+"english": "Will you do this today?",
+"analysis": "S=PRON.2sg V=do.FUT.Q M=today O=this",
+"target": "   "
+},
+{
+"english": "We have to look at it.",
+"analysis": "S=PRON.1pl V=look.PRES.MUST L=PRON.3sgn",
+"target": "  "
+},
+{
+"english": "Tom likes romantic comedies.",
+"analysis": "S=NAME.Tom V=like.PRES O=romantic+comedy.PL",
+"target": "   "
+},
+{
+"english": "Tom finally sat down.",
+"analysis": "S=NAME.Tom V=sit.PAST M=finally+down",
+"target": "   "
+},
+{
+"english": "Ken met Tom here.",
+"analysis": "S=ken V=meet.PAST M=here O=NAME.Tom",
+"target": "   "
+},
+{
+"english": "A comma's needed here too.",
+"analysis": "S=comma^ V=need.PAST M=here+also",
+"target": "   "
+},
+{
+"english": "It's noisy here.",
+"analysis": "S=PRON.3sgn V=be.PRES M=here A=noise>ADJ",
+"target": "   "
+},
+{
+"english": "They were responsible for the accident.",
+"analysis": "S=PRON.3pl V=be.PAST FOR=accident A=responsible",
+"target": "   "
+},
+{
+"english": "The party was postponed for a week.",
+"analysis": "V=postpone.PAST O=party FOR=week",
+"target": "  "
+},
+{
+"english": "Leave more space between the lines.",
+"analysis": "V=leave O=more+space BETWEEN=line.PL",
+"target": "   "
+},
+{
+"english": "My boyfriend still hasn't met my parents.",
+"analysis": "S=PRON.1sg^boy_friend V=meet.PRES.PERF.NEG M=still O=PRON.1sg^parent.PL",
+"target": "     "
+},
+{
+"english": "I have always treated you with respect.",
+"analysis": "S=PRON.1sg V=treat.PRES.PERF M=always O=PRON.2sg WITH=respect",
+"target": "    "
+},
+{
+"english": "I like this more than that.",
+"analysis": "S=PRON.1sg V=like.PRES O=this+more THAN=that",
+"target": "    "
+},
+{
+"english": "Tom drinks a lot.",
+"analysis": "S=NAME.Tom V=drink.PRES M=much",
+"target": "  "
+},
+{
+"english": "I saw Tom's reaction.",
+"analysis": "S=PRON.1sg V=see.PAST O=NAME.Tom^react>ACT",
+"target": "   "
+},
+{
+"english": "I need some mental stimulation.",
+"analysis": "S=PRON.1sg V=need.PRES O=some+mental+stimulate>ACT",
+"target": "    "
+},
+{
+"english": "He has it now.",
+"analysis": "S=PRON.3sgm V=have.PRES M=now O=PRON.3sgn",
+"target": "   "
+},
+{
+"english": "I don't like that very much.",
+"analysis": "S=PRON.1sg V=like.PRES.NEG M=very+much O=that",
+"target": "    "
+},
+{
+"english": "You'd probably really enjoy this book.",
+"analysis": "S=PRON.2sg V=enjoy.PRES.WOULD M=probably+really O=this+book",
+"target": "     "
+},
+{
+"english": "I wasn't through doing that.",
+"analysis": "S=PRON.1sg V=be.PAST.NEG THROUGH=do>ACT P=that",
+"target": "   "
+},
+{
+"english": "People are working on it.",
+"analysis": "S=people.PL V=work.PRES.PROG ON=PRON.3sgn",
+"target": "  "
+},
+{
+"english": "Onions are delicious.",
+"analysis": "S=onion.PL V=be.PRES A=delicious",
+"target": "  "
+},
+{
+"english": "Let's go to the theater together.",
+"analysis": "S=PRON.1pl V=go.LET M=together TO=theater",
+"target": "   "
+},
+{
+"english": "I needed some alone time.",
+"analysis": "S=PRON.1sg V=need.PAST M=alone O=some+time",
+"target": "    "
+},
+{
+"english": "Apples are necessary.",
+"analysis": "S=apple.PL V=be.PRES A=necessary",
+"target": "  "
+},
+{
+"english": "Do you often travel?",
+"analysis": "S=PRON.2sg V=travel.PRES.Q M=often",
+"target": "  "
+},
+{
+"english": "Mum plays tennis.",
+"analysis": "S=mum V=play.PRES O=tennis",
+"target": "  "
+},
+{
+"english": "Can you fly a plane?",
+"analysis": "S=PRON.2sg V=fly.PRES.CAN.Q O=plane",
+"target": "  "
+},
+{
+"english": "We can't come to the party.",
+"analysis": "S=PRON.1pl V=come.PRES.CAN.NEG TO=party",
+"target": "  "
+},
+{
+"english": "Tom knows about this problem.",
+"analysis": "S=NAME.Tom V=know.PRES ABOUT=this+problem",
+"target": "   "
+},
+{
+"english": "That's a really nice car.",
+"analysis": "S=that V=be.PRES P=really+nice+car",
+"target": "    "
+},
+{
+"english": "His skin was warm.",
+"analysis": "S=PRON.3sgm^skin V=be.PAST A=warm",
+"target": "   "
+},
+{
+"english": "You were able to resist the temptation.",
+"analysis": "S=PRON.2sg V=resist.PAST.CAN O=tempt>ACT",
+"target": "  "
+},
+{
+"english": "I didn't want pity.",
+"analysis": "S=PRON.1sg V=want.PAST.NEG O=pity",
+"target": "  "
+},
+{
+"english": "Are you and Tom enemies?",
+"analysis": "S=PRON.2sg&NAME.Tom V=be.PRES.Q P=enemy.PL",
+"target": "    "
+},
+{
+"english": "Why are you always happy?",
+"analysis": "S=PRON.2sg V=be.PRES M=why+always A=happy",
+"target": "    "
+},
+{
+"english": "Tom chuckled nervously.",
+"analysis": "S=NAME.Tom V=chuckle.PAST M=nerve>ADJ>ADV",
+"target": "  "
+},
+{
+"english": "I prefer comedy to tragedy.",
+"analysis": "S=PRON.1sg V=prefer.PRES O=comedy TO=tragedy",
+"target": "   "
+},
+{
+"english": "Did Tom work with you?",
+"analysis": "S=NAME.Tom V=work.PAST.Q WITH=PRON.2sg",
+"target": "  "
+},
+{
+"english": "The garden is behind the house.",
+"analysis": "S=garden V=be.PRES BEHIND=house",
+"target": "  "
+},
+{
+"english": "She was able to get her job back.",
+"analysis": "S=PRON.3sgf V=get.PAST.CAN M=back O=PRON.3sgf^job",
+"target": "    "
+},
+{
+"english": "Ivan is wearing civilian clothes.",
+"analysis": "S=NAME.Ivan V=wear.PRES.PROG O=civilian+clothes.PL",
+"target": "   "
+},
+{
+"english": "Tom is in protective custody.",
+"analysis": "S=NAME.Tom V=be.PRES L=protective+custody",
+"target": "   "
+},
+{
+"english": "I did that for fun.",
+"analysis": "S=PRON.1sg V=do.PAST O=that FOR=fun",
+"target": "   "
+},
+{
+"english": "Kalman isn't Olivia's first hedgehog.",
+"analysis": "S=NAME.Kalman V=be.PRES.NEG P=NAME.Olivia^first+hedgehog",
+"target": "    "
+},
+{
+"english": "I added sake to it.",
+"analysis": "S=PRON.1sg V=add.PAST O=sake TO=PRON.3sgn",
+"target": "   "
+},
+{
+"english": "It'll be fine.",
+"analysis": "S=PRON.3sgn V=be.FUT A=fine",
+"target": "  "
+},
+{
+"english": "Is Tom still planning on staying with us next summer?",
+"analysis": "S=NAME.Tom T=next+summer V=plan.PRES.PROG.Q M=still ON=stay>ACT WITH=PRON.1pl",
+"target": "      "
+},
+{
+"english": "A promise is not enough.",
+"analysis": "S=promise>ACT V=be.PRES.NEG P=enough",
+"target": "  "
+},
+{
+"english": "They are cousins.",
+"analysis": "S=PRON.3pl V=be.PRES P=cousin.PL",
+"target": "  "
+},
+{
+"english": "I like coffee.",
+"analysis": "S=PRON.1sg V=like.PRES O=coffee",
+"target": "  "
+},
+{
+"english": "Your mother is worried about you.",
+"analysis": "V=worry.PRES O=PRON.2sg^mother ABOUT=PRON.2sg",
+"target": "   "
+},
+{
+"english": "The dust gets into all the gaps.",
+"analysis": "S=dust V=get.PRES TO=all+gap.PL",
+"target": "   "
+},
+{
+"english": "You should invite Tom, too.",
+"analysis": "S=PRON.2sg V=invite.PRES.SHOULD M=also O=NAME.Tom",
+"target": "   "
+},
+{
+"english": "Enjoy every moment.",
+"analysis": "T=every+moment V=enjoy",
+"target": "  "
+},
+{
+"english": "Karl was being followed.",
+"analysis": "V=follow.PAST.PROG O=NAME.Karl",
+"target": " "
+},
+{
+"english": "I haven't had one complaint about Tom.",
+"analysis": "S=PRON.1sg V=have.PRES.PERF.NEG O=one+complaint ABOUT=NAME.Tom",
+"target": "    "
+},
+{
+"english": "I think about that all the time.",
+"analysis": "S=PRON.1sg V=think.PRES O=time ABOUT=that+all",
+"target": "    "
+},
+{
+"english": "I hated it.",
+"analysis": "S=PRON.1sg V=hate.PAST O=PRON.3sgn",
+"target": "  "
+},
+{
+"english": "I concede defeat.",
+"analysis": "S=PRON.1sg V=concede.PRES O=defeat>ACT",
+"target": "  "
+},
+{
+"english": "I can't reveal my source.",
+"analysis": "S=PRON.1sg V=reveal.PRES.CAN.NEG O=PRON.1sg^source",
+"target": "   "
+},
+{
+"english": "Why don't you ever cook?",
+"analysis": "S=PRON.2sg V=cook.PRES.NEG M=why+ever",
+"target": "   "
+},
+{
+"english": "Tom is watching.",
+"analysis": "S=NAME.Tom V=watch.PRES.PROG",
+"target": " "
+},
+{
+"english": "Are Tom and Mary planning on doing that?",
+"analysis": "S=NAME.Tom&NAME.Mary V=plan.PRES.PROG.Q O=that ON=do>ACT",
+"target": "     "
+},
+{
+"english": "He has got a weak heart.",
+"analysis": "S=PRON.3sgm V=get.PRES.PERF O=weak+heart",
+"target": "   "
+},
+{
+"english": "Tom was convinced.",
+"analysis": "V=convince.PAST O=NAME.Tom",
+"target": " "
+},
+{
+"english": "Tom didn't let Mary into his house.",
+"analysis": "S=NAME.Tom V=let.PAST.NEG O=NAME.Mary TO=PRON.3sgm^house",
+"target": "    "
+},
+{
+"english": "Do you blame us?",
+"analysis": "S=PRON.2sg V=blame.PRES.Q O=PRON.1pl",
+"target": "  "
+},
+{
+"english": "He has been waiting here some time.",
+"analysis": "S=PRON.3sgm T=some+time V=wait.PRES.PROG.PERF M=here",
+"target": "    "
+},
+{
+"english": "It isn't a true apartment.",
+"analysis": "S=PRON.3sgn V=be.PRES.NEG P=true+apartment",
+"target": "   "
+},
+{
+"english": "Tom is a clever kid.",
+"analysis": "S=NAME.Tom V=be.PRES P=clever+kid",
+"target": "   "
+},
+{
+"english": "We'll pay you well.",
+"analysis": "S=PRON.1pl V=pay.FUT M=well O=PRON.2sg",
+"target": "   "
+},
+{
+"english": "I didn't invite Tom to my wedding.",
+"analysis": "S=PRON.1sg V=invite.PAST.NEG O=NAME.Tom TO=PRON.1sg^wedding",
+"target": "    "
+},
+{
+"english": "Tom was Mary's assistant.",
+"analysis": "S=NAME.Tom V=be.PAST P=NAME.Mary^assist>AGENT",
+"target": "   "
+},
+{
+"english": "What are they preparing for?",
+"analysis": "S=PRON.3pl V=prepare.PRES.PROG FOR=what",
+"target": "  "
+},
+{
+"english": "There are no survivors.",
+"analysis": "S=no+survive>AGENT.PL V=be.PRES",
+"target": "  "
+},
+{
+"english": "I'll bring you up to date with the latest news from the village.",
+"analysis": "S=PRON.1sg V=bring.FUT M=up O=PRON.2sg TO=date WITH=latest+news FROM=village",
+"target": "       "
+},
+{
+"english": "Tom has been lying about that.",
+"analysis": "S=NAME.Tom V=lie.PRES.PROG.PERF ABOUT=that",
+"target": "  "
+},
+{
+"english": "We'll try again next weekend.",
+"analysis": "S=PRON.1pl T=next+weekend V=try.FUT M=again",
+"target": "    "
+},
+{
+"english": "The earthquake shook the city.",
+"analysis": "S=earthquake V=shake.PAST O=city",
+"target": "  "
+},
+{
+"english": "They hate asparagus.",
+"analysis": "S=PRON.3pl V=hate.PRES O=asparagus",
+"target": "  "
+},
+{
+"english": "Play with him.",
+"analysis": "V=play WITH=PRON.3sgm",
+"target": " "
+},
+{
+"english": "The movie was a real disappointment.",
+"analysis": "S=movie V=be.PAST P=real+disappoint>ACT",
+"target": "   "
+},
+{
+"english": "This man is deaf.",
+"analysis": "S=this+man V=be.PRES A=deaf",
+"target": "   "
+},
+{
+"english": "Tom hasn't called the fire department yet.",
+"analysis": "S=NAME.Tom V=call.PRES.PERF.NEG M=yet O=fire_department",
+"target": "   "
+},
+{
+"english": "What is this one?",
+"analysis": "S=what V=be.PRES P=this+one",
+"target": "   "
+},
+{
+"english": "Hey, could I talk to you for a sec?",
+"analysis": "I=hey S=PRON.1sg V=talk.PAST.CAN.Q TO=PRON.2sg FOR=sec",
+"target": "    "
+},
+{
+"english": "Tom has been coughing all afternoon.",
+"analysis": "S=NAME.Tom T=all+afternoon V=cough.PRES.PROG.PERF",
+"target": "   "
+},
+{
+"english": "Tom came to my office today.",
+"analysis": "S=NAME.Tom V=come.PAST M=today TO=PRON.1sg^office",
+"target": "    "
+},
+{
+"english": "Sorry, I so completely neglected your question.",
+"analysis": "I=sorry S=PRON.1sg V=neglect.PAST M=so+complete>ADV O=PRON.2sg^question",
+"target": "      "
+},
+{
+"english": "Tom was rehearsing alone on stage.",
+"analysis": "S=NAME.Tom V=rehearse.PAST.PROG M=alone ON=stage",
+"target": "   "
+},
+{
+"english": "The woman is reading the recipe.",
+"analysis": "S=woman V=read.PRES.PROG O=recipe",
+"target": "  "
+},
+{
+"english": "He died far from his homeland.",
+"analysis": "S=PRON.3sgm V=die.PAST M=far FROM=PRON.3sgm^homeland",
+"target": "    "
+},
+{
+"english": "The river meets another below this bridge.",
+"analysis": "S=river V=meet.PRES O=another UNDER=this+bridge",
+"target": "    "
+},
+{
+"english": "Tom is reading the manual now.",
+"analysis": "S=NAME.Tom V=read.PRES.PROG M=now O=manual",
+"target": "   "
+},
+{
+"english": "I can't write with this blunt pencil.",
+"analysis": "S=PRON.1sg V=write.PRES.CAN.NEG WITH=this+blunt+pencil",
+"target": "    "
+},
+{
+"english": "We're meeting strange people.",
+"analysis": "S=PRON.1pl V=meet.PRES.PROG O=strange+people.PL",
+"target": "   "
+},
+{
+"english": "He's brewing beer.",
+"analysis": "S=PRON.3sgm V=brew.PRES.PROG O=beer",
+"target": "  "
+},
+{
+"english": "I live in Tampa at the moment.",
+"analysis": "S=PRON.1sg V=live.PRES L=NAME.Tampa L=moment",
+"target": "   "
+},
+{
+"english": "We had no contact with the outside world.",
+"analysis": "S=PRON.1pl V=have.PAST O=no+contact WITH=outside+world",
+"target": "     "
+},
+{
+"english": "Tom may have a point.",
+"analysis": "S=NAME.Tom V=have.PRES.MAY O=point",
+"target": "  "
+},
+{
+"english": "Will you stay here a moment?",
+"analysis": "S=PRON.2sg V=stay.FUT.Q M=here O=moment",
+"target": "   "
+},
+{
+"english": "You'll have to ask him that.",
+"analysis": "S=PRON.2sg V=ask.FUT.MUST O=that TO=PRON.3sgm",
+"target": "   "
+},
+{
+"english": "This is a satirical story.",
+"analysis": "S=this V=be.PRES P=satirical+story",
+"target": "   "
+},
+{
+"english": "That's our position.",
+"analysis": "S=that V=be.PRES P=PRON.1pl^position",
+"target": "   "
+},
+{
+"english": "I don't even know your name yet.",
+"analysis": "S=PRON.1sg V=know.PRES.NEG M=even+yet O=PRON.2sg^name",
+"target": "     "
+},
+{
+"english": "Tom moved around a lot.",
+"analysis": "S=NAME.Tom V=move.PAST AROUND=lot",
+"target": "  "
+},
+{
+"english": "I have money for you.",
+"analysis": "S=PRON.1sg V=have.PRES O=money FOR=PRON.2sg",
+"target": "   "
+},
+{
+"english": "I got quite a few positive responses.",
+"analysis": "S=PRON.1sg V=get.PAST M=quite O=few+positive+response.PL",
+"target": "     "
+},
+{
+"english": "You and I shouldn't be doing this.",
+"analysis": "S=PRON.2sg&PRON.1sg V=do.PRES.PROG.SHOULD.NEG O=this",
+"target": "    "
+},
+{
+"english": "I really don't understand you.",
+"analysis": "S=PRON.1sg V=understand.PRES.NEG M=really O=PRON.2sg",
+"target": "   "
+},
+{
+"english": "We had fun at the amusement park.",
+"analysis": "S=PRON.1pl V=have.PAST O=fun_park L=amuse>ACT",
+"target": "   "
+},
+{
+"english": "I finally got a job!",
+"analysis": "S=PRON.1sg V=get.PAST M=finally O=job",
+"target": "   "
+},
+{
+"english": "How does memory work?",
+"analysis": "S=memory V=work.PRES M=how",
+"target": "  "
+},
+{
+"english": "We haven't heard from them.",
+"analysis": "S=PRON.1pl V=hear.PRES.PERF.NEG FROM=PRON.3pl",
+"target": "  "
+},
+{
+"english": "He is satisfied.",
+"analysis": "V=satisfy.PRES O=PRON.3sgm",
+"target": " "
+},
+{
+"english": "Nobody blames you for that.",
+"analysis": "S=nobody V=blame.PRES O=PRON.2sg FOR=that",
+"target": "   "
+},
+{
+"english": "I'll take those.",
+"analysis": "S=PRON.1sg V=take.FUT O=that.PL",
+"target": "  "
+},
+{
+"english": "Tom has dirty hands.",
+"analysis": "S=NAME.Tom V=have.PRES O=dirt>ADJ+hand.PL",
+"target": "   "
+},
+{
+"english": "What are you complaining about?",
+"analysis": "S=PRON.2sg V=complain.PRES.PROG ABOUT=what",
+"target": "  "
+},
+{
+"english": "We met each other at a party.",
+"analysis": "S=PRON.1pl V=meet.PAST O=each+other L=party",
+"target": "    "
+},
+{
+"english": "You are a genius!",
+"analysis": "S=PRON.2sg V=be.PRES P=genius",
+"target": "  "
+},
+{
+"english": "Each bird sings with its own voice.",
+"analysis": "S=each+bird V=sing.PRES WITH=PRON.3sgn^own+voice",
+"target": "     "
+},
+{
+"english": "Somebody had to do that.",
+"analysis": "S=somebody V=do.PAST.MUST O=that",
+"target": "  "
+},
+{
+"english": "This is our bag.",
+"analysis": "S=this V=be.PRES P=PRON.1pl^bag",
+"target": "   "
+},
+{
+"english": "Tom thought it over.",
+"analysis": "S=NAME.Tom V=think.PAST M=over O=PRON.3sgn",
+"target": "   "
+},
+{
+"english": "Anton is talking to me.",
+"analysis": "S=NAME.Anton V=talk.PRES.PROG TO=PRON.1sg",
+"target": "  "
+},
+{
+"english": "Come in, the door's open.",
+"analysis": "S=door^ V=open.PRES M=inside O=come>ACT",
+"target": "   "
+},
+{
+"english": "Tom works hard.",
+"analysis": "S=NAME.Tom V=work.PRES M=hard",
+"target": "  "
+},
+{
+"english": "Languages have hard words.",
+"analysis": "S=language.PL V=have.PRES O=hard+word.PL",
+"target": "   "
+},
+{
+"english": "Tom has declined our offer.",
+"analysis": "S=NAME.Tom V=decline.PRES.PERF O=PRON.1pl^offer>ACT",
+"target": "   "
+},
+{
+"english": "He lost his ticket for the movie.",
+"analysis": "S=PRON.3sgm V=lose.PAST O=PRON.3sgm^ticket FOR=movie",
+"target": "    "
+},
+{
+"english": "But that's no argument!",
+"analysis": "C=but S=that V=be.PRES P=no+argue>ACT",
+"target": "    "
+},
+{
+"english": "Do you use this?",
+"analysis": "S=PRON.2sg V=use.PRES.Q O=this",
+"target": "  "
+},
+{
+"english": "You're the expert. You tell me.",
+"analysis": "S=PRON.2sg V=be.PRES P=expert ; S=PRON.2sg V=tell.PRES O=PRON.1sg",
+"target": "     "
+},
+{
+"english": "I just don't remember.",
+"analysis": "S=PRON.1sg V=remember.PRES.NEG M=just",
+"target": "  "
+},
+{
+"english": "We like seafood.",
+"analysis": "S=PRON.1pl V=like.PRES O=seafood",
+"target": "  "
+},
+{
+"english": "You may open the window.",
+"analysis": "S=PRON.2sg V=open.PRES.MAY O=window",
+"target": "  "
+},
+{
+"english": "Giraffes are big animals.",
+"analysis": "S=giraffe.PL V=be.PRES P=big+animal.PL",
+"target": "   "
+},
+{
+"english": "The governor's speech was aimed at the press.",
+"analysis": "V=aim.PAST O=govern>AGENT^speech L=press>ACT",
+"target": "   "
+},
+{
+"english": "I'll inform Tom about our decision.",
+"analysis": "S=PRON.1sg V=inform.FUT O=NAME.Tom ABOUT=PRON.1pl^decision",
+"target": "    "
+},
+{
+"english": "Don't open the door for anybody.",
+"analysis": "V=open.NEG O=door FOR=anybody",
+"target": "  "
+},
+{
+"english": "I haven't yet read this book.",
+"analysis": "S=PRON.1sg V=read.PRES.PERF.NEG M=yet O=this+book",
+"target": "    "
+},
+{
+"english": "You saw the whole thing, right?",
+"analysis": "S=PRON.2sg V=see.PAST.Q M=right O=whole+thing",
+"target": "    "
+},
+{
+"english": "I can't collect my thoughts.",
+"analysis": "S=PRON.1sg V=collect.PRES.CAN.NEG O=PRON.1sg^thought.PL",
+"target": "   "
+},
+{
+"english": "Defend the Church.",
+"analysis": "V=defend O=church",
+"target": " "
+},
+{
+"english": "I didn't pay any attention to the warning.",
+"analysis": "S=PRON.1sg V=pay.PAST.NEG O=any+attention TO=warning",
+"target": "    "
+},
+{
+"english": "Use the other toilet.",
+"analysis": "V=use O=other+toilet",
+"target": "  "
+},
+{
+"english": "This island is isolated.",
+"analysis": "V=isolate.PRES O=this+island",
+"target": "  "
+},
+{
+"english": "Your guys' house is new.",
+"analysis": "S=PRON.2sg^guy.PL^house V=be.PRES A=new",
+"target": "    "
+},
+{
+"english": "Why is that bell ringing?",
+"analysis": "S=that+bell V=ring.PRES.PROG M=why",
+"target": "   "
+},
+{
+"english": "We're going to have a storm.",
+"analysis": "S=PRON.1pl V=have.FUT O=storm",
+"target": "  "
+},
+{
+"english": "Perhaps we'll find it.",
+"analysis": "S=PRON.1pl V=find.FUT M=perhaps O=PRON.3sgn",
+"target": "   "
+},
+{
+"english": "Tom is a little kid.",
+"analysis": "S=NAME.Tom V=be.PRES P=little+kid",
+"target": "   "
+},
+{
+"english": "Tom twisted my arm.",
+"analysis": "S=NAME.Tom V=twist.PAST O=PRON.1sg^arm",
+"target": "   "
+},
+{
+"english": "You have to wait a moment.",
+"analysis": "S=PRON.2sg V=wait.PRES.MUST O=moment",
+"target": "  "
+},
+{
+"english": "War seemed a long way off.",
+"analysis": "S=war V=seem.PAST M=off O=long+way",
+"target": "    "
+},
+{
+"english": "I can imagine.",
+"analysis": "S=PRON.1sg V=imagine.PRES.CAN",
+"target": " "
+},
+{
+"english": "Through me kings reign.",
+"analysis": "S=king.PL V=reign.PRES THROUGH=PRON.1sg",
+"target": "  "
+},
+{
+"english": "They talked to me about their plan.",
+"analysis": "S=PRON.3pl V=talk.PAST TO=PRON.1sg ABOUT=PRON.3pl^plan>ACT",
+"target": "    "
+},
+{
+"english": "Nature and I are hand in hand.",
+"analysis": "S=nature&PRON.1sg V=be.PRES L=hand P=hand",
+"target": "     "
+},
+{
+"english": "Elephants are very intelligent animals.",
+"analysis": "S=elephant.PL V=be.PRES P=very+intelligent+animal.PL",
+"target": "    "
+},
+{
+"english": "I never really knew Tom.",
+"analysis": "S=PRON.1sg V=know.PAST M=never+really O=NAME.Tom",
+"target": "    "
+},
+{
+"english": "Layla just loves drama.",
+"analysis": "S=NAME.Layla V=love.PRES M=just O=drama",
+"target": "   "
+},
+{
+"english": "There's life in hope.",
+"analysis": "S=life V=be.PRES L=hope>ACT",
+"target": "  "
+},
+{
+"english": "Do you have any water?",
+"analysis": "S=PRON.2sg V=have.PRES.Q O=any+water",
+"target": "   "
+},
+{
+"english": "He came to school very late.",
+"analysis": "S=PRON.3sgm V=come.PAST M=very+late TO=school",
+"target": "    "
+},
+{
+"english": "He asked for help.",
+"analysis": "S=PRON.3sgm V=ask.PAST FOR=help>ACT",
+"target": "  "
+},
+{
+"english": "Tom isn't wet.",
+"analysis": "S=NAME.Tom V=be.PRES.NEG A=wet",
+"target": "  "
+},
+{
+"english": "He's using the hair clipper right now.",
+"analysis": "S=PRON.3sgm V=use.PRES.PROG M=right+now O=hair_clipper",
+"target": "    "
+},
+{
+"english": "Even you couldn't answer.",
+"analysis": "S=PRON.2sg V=answer.PAST.CAN.NEG M=even",
+"target": "  "
+},
+{
+"english": "I have some doubts about it.",
+"analysis": "S=PRON.1sg V=have.PRES O=some+doubt.PL ABOUT=PRON.3sgn",
+"target": "    "
+},
+{
+"english": "Mary isn't my daughter.",
+"analysis": "S=NAME.Mary V=be.PRES.NEG P=PRON.1sg^daughter",
+"target": "   "
+},
+{
+"english": "Tom and Mary will do that.",
+"analysis": "S=NAME.Tom&NAME.Mary V=do.FUT O=that",
+"target": "    "
+},
+{
+"english": "I want a new house.",
+"analysis": "S=PRON.1sg V=want.PRES O=new+house",
+"target": "   "
+},
+{
+"english": "My dog is very smart.",
+"analysis": "S=PRON.1sg^dog V=be.PRES A=very+smart",
+"target": "    "
+},
+{
+"english": "Everybody has to adjust.",
+"analysis": "S=everybody V=adjust.PRES.MUST",
+"target": " "
+},
+{
+"english": "Tom helped Mary with her homework.",
+"analysis": "S=NAME.Tom V=help.PAST O=NAME.Mary WITH=PRON.3sgf^homework",
+"target": "    "
+},
+{
+"english": "Have you discussed this with a lawyer?",
+"analysis": "S=PRON.2sg V=discuss.PRES.PERF.Q O=this WITH=lawyer",
+"target": "   "
+},
+{
+"english": "It's just not a good time right now.",
+"analysis": "S=PRON.3sgn V=be.PRES.NEG M=just+right+now P=good+time",
+"target": "      "
+},
+{
+"english": "Who'll pay for this?",
+"analysis": "S=who V=pay.FUT FOR=this",
+"target": "  "
+},
+{
+"english": "Why don't we bake a birthday cake?",
+"analysis": "S=PRON.1pl V=bake.PRES.NEG M=why O=birthday_cake",
+"target": "   "
+},
+{
+"english": "We could adapt that to so many different things.",
+"analysis": "S=PRON.1pl V=adapt.PAST.CAN O=that TO=so+many+different+thing.PL",
+"target": "      "
+},
+{
+"english": "It isn't voluntary. It's mandatory.",
+"analysis": "S=PRON.3sgn V=be.PRES.NEG A=voluntary ; S=PRON.3sgn V=be.PRES A=mandatory",
+"target": "     "
+},
+{
+"english": "We're meeting outside the cinema at quarter to seven.",
+"analysis": "S=PRON.1pl V=meet.PRES.PROG M=outside O=cinema L=quarter TO=seven",
+"target": "     "
+},
+{
+"english": "He gets upset easily.",
+"analysis": "S=PRON.3sgm V=get.PRES M=easy>ADV O=upset>ACT",
+"target": "   "
+},
+{
+"english": "Tom knew about that already.",
+"analysis": "S=NAME.Tom V=know.PAST M=already ABOUT=that",
+"target": "   "
+}
+]

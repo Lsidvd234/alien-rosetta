@@ -1,0 +1,1513 @@
+{
+ "rewriter": "Qwen/Qwen3-0.6B",
+ "translator": "e2b-v2fix-cot-80k-noheld",
+ "sets": {
+  "unknown-word": {
+   "n": 100,
+   "actions": {
+    "rewritten": 73,
+    "kept": 21,
+    "fallback": 4,
+    "substituted": 2
+   },
+   "alone": {
+    "glyph": 0.07,
+    "meaning": 0.07
+   },
+   "two_stage": {
+    "glyph": 0.27,
+    "meaning": 0.35
+   },
+   "examples": [
+    {
+     "english": "He might be living the so childlike policy intensely.",
+     "rewrite": "He might be living the simple policy intensely.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "He might be living the simple policy intensely.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=PRON.3sgm V=live.PRES.PROG.MAY M=intense>ADV O=so+simple+policy",
+     "alone": "S=PRON.3sgm V=live.PRES.PROG.MAY M=intense>ADV O=so+childlike+policy",
+     "two_stage": "S=PRON.3sgm V=live.PRES.PROG.MAY M=intense>ADV O=simple+policy"
+    },
+    {
+     "english": "The familial woodworking may be known by them on a future there.",
+     "rewrite": "The familial woodwork may be known by them on a future there.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "The familial woodwork may be known by them on a future there.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=PRON.3pl V=know.PRES.MAY M=there O=family>ADJ+carpentry ON=future",
+     "alone": "S=PRON.3pl V=know.PRES.MAY M=there O=family>ADJ+woodworking ON=future",
+     "two_stage": "S=PRON.3pl V=know.PRES.MAY M=there O=family>ADJ+woodwork ON=future"
+    },
+    {
+     "english": "Again Nataal could fete Yaayo.",
+     "rewrite": "Again Nataal could celebrate Yaayo.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Again Nataal celebrated Yaayo.",
+       "helper verbs changed (keep: could)"
+      ],
+      [
+       "Again Nataal could celebrate Yaayo.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=NAME.Nataal V=celebrate.PAST.CAN M=again O=NAME.Yaayo",
+     "alone": "S=NAME.Nataal V=fate.PAST.CAN M=again O=NAME.Yaayo",
+     "two_stage": "S=NAME.Nataal V=celebrate.PAST.CAN M=again O=NAME.Yaayo"
+    },
+    {
+     "english": "We have been the unplanned wasteful nocturnal sunken commotion around it next winter.",
+     "rewrite": "We have been the unintentional chance casual commotion around it next winter.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "We have been the unintentional chance casual commotion around it next winter.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=PRON.1pl T=next+winter V=be.PRES.PERF AROUND=PRON.3sgn P=unintentional+wasteful+nocturnal+sunken+commotion",
+     "alone": "S=PRON.1pl T=next+winter V=be.PRES.PERF AROUND=PRON.3sgn P=planned>NOT+wasteful+nocturnal+sunken+commotion",
+     "two_stage": "S=PRON.1pl T=next+winter V=be.PRES.PERF AROUND=PRON.3sgn P=unintentional+chance+casual+commotion"
+    },
+    {
+     "english": "Every fourth trigon wouldn't be spitting it.",
+     "rewrite": "Every fourth triangle wouldn't be spitting it.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Every fourth triangle wouldn't be spitting it.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=every+fourth+triangle V=spit.PRES.PROG.WOULD.NEG O=PRON.3sgn",
+     "alone": "S=every+fourth+trigon V=spit.PRES.PROG.WOULD.NEG O=PRON.3sgn",
+     "two_stage": "S=every+fourth+triangle V=spit.PRES.PROG.WOULD.NEG O=PRON.3sgn"
+    },
+    {
+     "english": "Lara and these expeditions may coming Yuvil.",
+     "rewrite": "Lara and these expeditions may come to Yuvil.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Lara and these expeditions may come to Yuvil.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=NAME.Lara&this+expedition.PL V=get.PRES.MAY O=NAME.Yuvil",
+     "alone": "S=NAME.Lara&this+expedition.PL V=come.PRES.MAY O=NAME.Yuvil",
+     "two_stage": "S=NAME.Lara&this+expedition.PL V=come.PRES.MAY TO=NAME.Yuvil"
+    },
+    {
+     "english": "She could be a too dreary litre every nox.",
+     "rewrite": "She could be a too dreary night every.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "She could be a too dreary night every nox.",
+       "not words of the language: nox"
+      ],
+      [
+       "She could be a too dreary night every.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=PRON.3sgf T=every+night V=be.PAST.CAN P=too+dreary+litre",
+     "alone": "S=PRON.3sgf T=every+nox V=be.PAST.CAN P=too+dreary+litre",
+     "two_stage": "S=PRON.3sgf V=be.PAST.CAN M=every P=too+dreary+night"
+    },
+    {
+     "english": "There was not Putamaa till the acumen with the bandwidth next twelvemonth.",
+     "rewrite": "There was not Putamaa till the acumen with the bandwidth yearly.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "There was not Putamaa till the acumen with the bandwidth yearly.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=NAME.Putamaa T=next+year V=be.PAST.NEG UNTIL=acumen WITH=bandwidth",
+     "alone": "S=NAME.Putamaa T=next+twelve+month V=be.PAST.NEG UNTIL=acumen WITH=bandwidth",
+     "two_stage": "S=NAME.Putamaa V=be.PAST.NEG M=year>ADJ>ADV UNTIL=acumen WITH=bandwidth"
+    },
+    {
+     "english": "Vaacukuul and Muunupi's really small witchcraft should not be seeking Ciilaki's really any doubt before the coach's credit.",
+     "rewrite": "Vaacukuul and Muunupi's really small witchcraft should not be seeking Ciilaki's really any doubt before the coach's credit.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Vaacukuul&NAME.Muunupi^really+small+witchcraft V=seek.PRES.PROG.SHOULD.NEG O=NAME.Ciilaki^really+whatever+doubt BEFORE=coach^credit",
+     "alone": "S=NAME.Vaacukuul&NAME.Muunupi^really+small+witchcraft V=seek.PRES.PROG.SHOULD.NEG O=NAME.Ciilaki^really+whatever+doubt BEFORE=coach^credit",
+     "two_stage": "S=NAME.Vaacukuul&NAME.Muunupi^really+small+witchcraft V=seek.PRES.PROG.SHOULD.NEG O=NAME.Ciilaki^really+whatever+doubt BEFORE=coach^credit"
+    },
+    {
+     "english": "You all must not be tucked by one remembering between the greed away.",
+     "rewrite": "You all must not be tucked by one remembering between the greed away.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=one+memory V=tuck.PRES.MUST.NEG M=away O=PRON.2pl BETWEEN=greed",
+     "alone": "S=one+remembering V=tuck.PRES.MUST.NEG M=away O=PRON.2pl BETWEEN=greed",
+     "two_stage": "S=one+remembering V=tuck.PRES.MUST.NEG M=away O=PRON.2pl BETWEEN=greed"
+    },
+    {
+     "english": "That chaos does agree in front of that rugger.",
+     "rewrite": "That chaos does agree in front of that rugger.",
+     "action": "fallback",
+     "tries": [
+      [
+       "That chaos agrees in front of rugby.",
+       "helper verbs changed (keep: does)"
+      ],
+      [
+       "That chaos agrees in front of the rugby.",
+       "helper verbs changed (keep: does)"
+      ],
+      [
+       "That chaos agrees in front of the rugby.",
+       "helper verbs changed (keep: does)"
+      ]
+     ],
+     "subs": [],
+     "gold": "S=that+chaos V=agree.PRES FRONT=that+rugby",
+     "alone": "S=that+chaos V=agree.PRES FRONT=that+rugger",
+     "two_stage": "S=that+chaos V=agree.PRES FRONT=that+rugger"
+    },
+    {
+     "english": "He will be Makaam's pancreatic paediatrics.",
+     "rewrite": "He will be Makaam's pediatric medicine.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "He will be Makaam's pediatric medicine.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=PRON.3sgm V=be.FUT P=NAME.Makaam^pancreatic+pediatrics",
+     "alone": "S=PRON.3sgm V=be.FUT P=NAME.Makaam^pancreatic+paediatrics",
+     "two_stage": "S=PRON.3sgm V=be.FUT P=NAME.Makaam^pediatric+medicine"
+    },
+    {
+     "english": "Liiyumaa's metaphoric football was needed by it before the heat of the changer abroad.",
+     "rewrite": "Liiyumaa's metaphoric football was needed by it before the heat of the changer abroad.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.3sgn V=need.PAST M=abroad O=NAME.Liiyumaa^metaphorical+football BEFORE=change>AGENT^heat",
+     "alone": "S=PRON.3sgn V=need.PAST M=abroad O=NAME.Liiyumaa^metaphoric+football BEFORE=change>AGENT^heat",
+     "two_stage": "S=PRON.3sgn V=need.PAST M=abroad O=NAME.Liiyumaa^metaphoric+football BEFORE=change>AGENT^heat"
+    },
+    {
+     "english": "Lapo will be very touchable.",
+     "rewrite": "Lapo will be very touchable.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Lapo V=be.FUT A=very+tangible",
+     "alone": "S=NAME.Lapo V=be.FUT A=very+touchable",
+     "two_stage": "S=NAME.Lapo V=be.FUT A=very+touchable"
+    },
+    {
+     "english": "Our admittance may not lie through her hookers really concisely.",
+     "rewrite": "Our admittance may not lie through her hookers really concisely.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.1pl^admit>ACT V=lie.PRES.MAY.NEG M=really+brief>ADV THROUGH=PRON.3sgf^hook>AGENT.PL",
+     "alone": "S=PRON.1pl^admit>ACT V=lie.PRES.MAY.NEG M=really+concise>ADV THROUGH=PRON.3sgf^hook>AGENT.PL",
+     "two_stage": "S=PRON.1pl^admit>ACT V=lie.PRES.MAY.NEG M=really+concise>ADV THROUGH=PRON.3sgf^hook>AGENT.PL"
+    },
+    {
+     "english": "Nemuru may sealskin them.",
+     "rewrite": "Nemuru may seal them.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Nemuru may seal them.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=NAME.Nemuru V=seal.PRES.MAY O=PRON.3pl",
+     "alone": "S=NAME.Nemuru V=seal.PRES.MAY O=PRON.3pl",
+     "two_stage": "S=NAME.Nemuru V=seal.PRES.MAY O=PRON.3pl"
+    },
+    {
+     "english": "Nako could be national on the usa around him.",
+     "rewrite": "Nako could be a national on the army around him.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Nako could be a national on the army around him.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=NAME.Nako V=be.PAST.CAN ON=army AROUND=PRON.3sgm A=nation>ADJ",
+     "alone": "S=NAME.Nako V=be.PAST.CAN ON=usa AROUND=PRON.3sgm A=nation>ADJ",
+     "two_stage": "S=NAME.Nako V=be.PAST.CAN ON=army AROUND=PRON.3sgm P=nation>ADJ"
+    },
+    {
+     "english": "There is not Mivaakuul toward them next days.",
+     "rewrite": "There is not Mivaakuul toward them next days.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Mivaakuul T=next+day V=be.PRES.NEG TO=PRON.3pl",
+     "alone": "S=NAME.Mivaakuul T=next+day.PL V=be.PRES.NEG TO=PRON.3pl",
+     "two_stage": "S=NAME.Mivaakuul T=next+day.PL V=be.PRES.NEG TO=PRON.3pl"
+    },
+    {
+     "english": "This weekend there can be a lot of most nomadic, slimed plutonium in the roads.",
+     "rewrite": "This weekend there can be a lot of most nomadic, slimed plutonium in the roads.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=much+most+nomadic+slim+plutonium T=this+weekend V=be.PRES.CAN L=road.PL",
+     "alone": "S=much+most+nomadic+slimmed+plutonium T=this+weekend V=be.PRES.CAN L=road.PL",
+     "two_stage": "S=much+most+nomadic+slimmed+plutonium T=this+weekend V=be.PRES.CAN L=road.PL"
+    },
+    {
+     "english": "We should contrived him.",
+     "rewrite": "We should plan him.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "We should plan him.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=PRON.1pl V=plan.PRES.SHOULD O=PRON.3sgm",
+     "alone": "S=PRON.1pl V=contrive.PRES.SHOULD O=PRON.3sgm",
+     "two_stage": "S=PRON.1pl V=plan.PRES.SHOULD O=PRON.3sgm"
+    },
+    {
+     "english": "We and Tipaakim shall not dining.",
+     "rewrite": "We and Tipaakim shall not dine.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "We and Tipaakim shall not dine.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=PRON.1pl&NAME.Tipaakim V=dine.FUT.NEG",
+     "alone": "S=PRON.1pl&NAME.Tipaakim V=dine.FUT.PROG.NEG",
+     "two_stage": "S=PRON.1pl&NAME.Tipaakim V=dine.FUT.NEG"
+    },
+    {
+     "english": "Tomim did not needed you all after us.",
+     "rewrite": "Tomim did not needed you all after us.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Tomim V=want.PAST.NEG O=PRON.2pl AFTER=PRON.1pl",
+     "alone": "S=NAME.Tomim V=need.PAST.NEG O=PRON.2pl AFTER=PRON.1pl",
+     "two_stage": "S=NAME.Tomim V=need.PAST.NEG O=PRON.2pl AFTER=PRON.1pl"
+    },
+    {
+     "english": "Rocel isn't really modernistic.",
+     "rewrite": "Rocel isn't really modern.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Rocel isn't really modern.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=NAME.Rocel V=be.PRES.NEG A=really+modern",
+     "alone": "S=NAME.Rocel V=be.PRES.NEG A=really+modernistic",
+     "two_stage": "S=NAME.Rocel V=be.PRES.NEG A=really+modern"
+    },
+    {
+     "english": "Timiri is not most uncertain across the disavowal.",
+     "rewrite": "Timiri is not most uncertain across the disclaimer.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Timiri is not most uncertain across the disclaimer.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=NAME.Timiri V=be.PRES.NEG THROUGH=disclaimer A=most+certain>NOT",
+     "alone": "S=NAME.Timiri V=be.PRES.NEG THROUGH=disavowel A=most+certain>NOT",
+     "two_stage": "S=NAME.Timiri V=be.PRES.NEG THROUGH=disclaimer A=most+certain>NOT"
+    },
+    {
+     "english": "The sleeveless latitude is challenging the talismans.",
+     "rewrite": "The sleeveless latitude is challenging the talismans.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=fruitless+latitude V=challenge.PRES.PROG O=talisman.PL",
+     "alone": "S=sleeveless+latitude V=challenge.PRES.PROG O=talisman.PL",
+     "two_stage": "S=sleeveless+latitude V=challenge.PRES.PROG O=talisman.PL"
+    },
+    {
+     "english": "This crisis will be acting since these bleary economies with you.",
+     "rewrite": "This crisis will be acting since these fuzzy economies with you.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "This crisis will be acting since these fuzzy economies with you.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=this+crisis V=act.FUT.PROG SINCE=this+fuzz>ADJ+economy.PL WITH=PRON.2sg",
+     "alone": "S=this+crisis V=act.FUT.PROG SINCE=this+blear>ADJ+economy.PL WITH=PRON.2sg",
+     "two_stage": "S=this+crisis V=act.FUT.PROG SINCE=this+fuzz>ADJ+economy.PL WITH=PRON.2sg"
+    },
+    {
+     "english": "This area and these activations are curly out of this indigene resonator.",
+     "rewrite": "This area and these activations are curly out of this native resonator.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "This area and these activations are curly out of this native resonator.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=this+area&this+activate>ACT.PL V=be.PRES FROM=this+native+resonate>AGENT A=curly",
+     "alone": "S=this+area&this+activate>ACT.PL V=be.PRES FROM=this+indigenous+resonate>AGENT A=curly",
+     "two_stage": "S=this+area&this+activate>ACT.PL V=be.PRES FROM=this+native+resonate>AGENT A=curly"
+    },
+    {
+     "english": "Territories will be lifelike.",
+     "rewrite": "Territories will be natural.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Territories will be natural.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=territory.PL V=be.FUT A=natural",
+     "alone": "S=territory.PL V=be.FUT A=lifelike",
+     "two_stage": "S=territory.PL V=be.FUT A=natural"
+    },
+    {
+     "english": "The cycles didn't whistle before the punctuate again.",
+     "rewrite": "The cycles didn't whistle before the mark again.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "The cycles didn't whistle before the mark again.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=cycle.PL V=whistle.PAST.NEG M=again BEFORE=accent",
+     "alone": "S=cycle.PL V=whistle.PAST.NEG M=again BEFORE=punctuate",
+     "two_stage": "S=cycle.PL V=whistle.PAST.NEG M=again BEFORE=mark"
+    },
+    {
+     "english": "Each years Yurulu will be civilian.",
+     "rewrite": "Each years Yurulu will be civilian.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Yurulu T=each+year V=be.FUT A=civilian",
+     "alone": "S=NAME.Yurulu T=each+year.PL V=be.FUT A=civilian",
+     "two_stage": "S=NAME.Yurulu T=each+year.PL V=be.FUT A=civilian"
+    },
+    {
+     "english": "Every cold logos had offered Rerii among no wild fork.",
+     "rewrite": "Every cold logos had offered Rerii among no wild fork.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=every+cold+son V=offer.PAST.PERF O=NAME.Rerii BETWEEN=no+wild+fork",
+     "alone": "S=every+cold+logo.PL V=offer.PAST.PERF O=NAME.Rerii BETWEEN=no+wild+fork",
+     "two_stage": "S=every+cold+logo.PL V=offer.PAST.PERF O=NAME.Rerii BETWEEN=no+wild+fork"
+    },
+    {
+     "english": "Our potbelly has mooed until her serums away.",
+     "rewrite": "Our corporation has mooed until her serums away.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Our corporation has mooed until her serums away.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=PRON.1pl^pot V=moo.PRES.PERF M=away UNTIL=PRON.3sgf^serum.PL",
+     "alone": "S=PRON.1pl^possible>QUAL V=moo.PRES.PERF M=away UNTIL=PRON.3sgf^serum.PL",
+     "two_stage": "S=PRON.1pl^corporation V=moo.PRES.PERF M=away UNTIL=PRON.3sgf^serum.PL"
+    },
+    {
+     "english": "Necoma would fleeting.",
+     "rewrite": "Necoma would run.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Necoma would run.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=NAME.Necoma V=fade.PRES.WOULD",
+     "alone": "S=NAME.Necoma V=flee>NOT.PRES.WOULD",
+     "two_stage": "S=NAME.Necoma V=run.PRES.WOULD"
+    },
+    {
+     "english": "Tukuupel is this unfamiliar vast pelage.",
+     "rewrite": "Tukuupel is this unfamiliar vast coat.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Tukuupel is this unfamiliar vast coat.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=NAME.Tukuupel V=be.PRES P=this+familiar>NOT+vast+coat",
+     "alone": "S=NAME.Tukuupel V=be.PRES P=this+familiar>NOT+vast+pelage",
+     "two_stage": "S=NAME.Tukuupel V=be.PRES P=this+familiar>NOT+vast+coat"
+    },
+    {
+     "english": "That bombard or Luuyocu did not outsource next summer.",
+     "rewrite": "That bomb or Luuyocu did not outsource next summer.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "That bomb or Luuyocu did not outsource next summer.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=that+barrage|NAME.Luuyocu T=next+summer V=outsource.PAST.NEG",
+     "alone": "S=that+bombard|NAME.Luuyocu T=next+summer V=outsource.PAST.NEG",
+     "two_stage": "S=that+bomb|NAME.Luuyocu T=next+summer V=outsource.PAST.NEG"
+    },
+    {
+     "english": "You all might transmigrate.",
+     "rewrite": "You all might migrate.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "You all might migrate.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=PRON.2pl V=migrate.PRES.MAY",
+     "alone": "S=PRON.2pl V=transmigrate.PRES.MAY",
+     "two_stage": "S=PRON.2pl V=migrate.PRES.MAY"
+    },
+    {
+     "english": "The okay and disconsolate nothing may be diverse.",
+     "rewrite": "The okay and sorry nothing may be diverse.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "The okay and sorry may be diverse.",
+       "negation changed"
+      ],
+      [
+       "The okay and sorry nothing may be diverse.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=okay+blue+nothing V=be.PRES.MAY A=diverse",
+     "alone": "S=okay+disolate+nothing V=be.PRES.MAY A=diverse",
+     "two_stage": "S=okay+sorry+nothing V=be.PRES.MAY A=diverse"
+    },
+    {
+     "english": "Their betterment and Ralim won't be spirit me.",
+     "rewrite": "Their betterment and Ralim won't be look me.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "Their betterment and Ralim won't be look me.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=PRON.3pl^betterment&NAME.Ralim V=feel.FUT.PROG.NEG O=PRON.1sg",
+     "alone": "S=PRON.3pl^betterment&NAME.Ralim V=be.FUT.NEG NEAR=PRON.1sg A=spirit>ADJ",
+     "two_stage": "S=PRON.3pl^betterment&NAME.Ralim V=look.FUT.NEG O=PRON.1sg"
+    },
+    {
+     "english": "The diverse, expectant copper mustn't have come after the saws.",
+     "rewrite": "The diverse, great copper mustn't have come after the saws.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "The diverse, great copper mustn't have come after the saws.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=diverse+great+copper V=come.PRES.PERF.MUST.NEG AFTER=saw.PL",
+     "alone": "S=diverse+expectant+copper V=come.PRES.PERF.MUST.NEG AFTER=saw.PL",
+     "two_stage": "S=diverse+great+copper V=come.PRES.PERF.MUST.NEG AFTER=saw.PL"
+    },
+    {
+     "english": "This finished drivel may be the member's indicator without these airfields.",
+     "rewrite": "This finished garbage may be the member's indicator without these airfields.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "This finished garbage may be the member's indicator without these airfields.",
+       null
+      ]
+     ],
+     "subs": [],
+     "gold": "S=this+finished+garbage V=be.PRES.MAY WITHOUT=this+airfield.PL P=member^indicate>AGENT",
+     "alone": "S=this+finished+drivel V=be.PRES.MAY WITHOUT=this+airfield.PL P=member^indicate>AGENT",
+     "two_stage": "S=this+finished+garbage V=be.PRES.MAY WITHOUT=this+airfield.PL P=member^indicate>AGENT"
+    }
+   ]
+  },
+  "held-out synonyms": {
+   "n": 100,
+   "actions": {
+    "substituted": 97,
+    "kept": 2,
+    "rewritten": 1
+   },
+   "alone": {
+    "glyph": 0.0,
+    "meaning": 0.01
+   },
+   "two_stage": {
+    "glyph": 0.67,
+    "meaning": 0.86
+   },
+   "examples": [
+    {
+     "english": "every week Nuni had been essayed till this alcohol",
+     "rewrite": "every week Nuni had been attempted till this alcohol",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "essayed->attempted"
+     ],
+     "gold": "T=every+week V=attempt.PAST.PERF O=NAME.Nuni UNTIL=this+alcohol",
+     "alone": "T=every+week V=essay.PAST.PERF O=NAME.Nuni UNTIL=this+alcohol",
+     "two_stage": "T=every+week V=attempt.PAST.PERF O=NAME.Nuni UNTIL=this+alcohol"
+    },
+    {
+     "english": "two nesses may be concerned by it and Riinipom very constantly",
+     "rewrite": "two capes may be concerned by it and Riinipom very constantly",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "nesses->capes"
+     ],
+     "gold": "S=PRON.3sgn&NAME.Riinipom V=concern.PRES.MAY M=very+constant>ADV O=two+cape.PL",
+     "alone": "S=PRON.3sgn&NAME.Riinipom V=concern.PRES.MAY M=very+constant>ADV O=two+ness.PL",
+     "two_stage": "S=PRON.3sgn&NAME.Riinipom V=concern.PRES.MAY M=very+constant>ADV O=two+cape.PL"
+    },
+    {
+     "english": "Ciraan must have desired us.",
+     "rewrite": "Ciraan must have wanted us.",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "desired->wanted"
+     ],
+     "gold": "S=NAME.Ciraan V=want.PRES.PERF.MUST O=PRON.1pl",
+     "alone": "S=NAME.Ciraan V=desire.PRES.PERF.MUST O=PRON.1pl",
+     "two_stage": "S=NAME.Ciraan V=want.PRES.PERF.MUST O=PRON.1pl"
+    },
+    {
+     "english": "you all could be the aged delinquent nuclei",
+     "rewrite": "you all could be the old delinquent nuclei",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "aged->old"
+     ],
+     "gold": "S=PRON.2pl V=be.PAST.CAN P=old+delinquent+nucleus.PL",
+     "alone": "S=PRON.2pl V=be.PAST.CAN P=elderly+delinquent+nucleus.PL",
+     "two_stage": "S=PRON.2pl V=be.PAST.CAN P=old+delinquent+nucleus.PL"
+    },
+    {
+     "english": "she was not treble, aged and aggressive",
+     "rewrite": "she was not treble, old and aggressive",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "aged->old"
+     ],
+     "gold": "S=PRON.3sgf V=be.PAST.NEG A=treble+old+aggressive",
+     "alone": "S=PRON.3sgf V=be.PAST.NEG A=treble+elderly+aggressive",
+     "two_stage": "S=PRON.3sgf V=be.PAST.NEG A=treble+old+aggressive"
+    },
+    {
+     "english": "this day few supreme warm chilling rockets were replicating it after some broccoli",
+     "rewrite": "this day few supreme warm scary rockets were replicating it after some broccoli",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "chilling->scary"
+     ],
+     "gold": "S=few+supreme+warm+scary+rocket.PL T=this+day V=replicate.PAST.PROG O=PRON.3sgn AFTER=some+broccoli",
+     "alone": "S=few+supreme+warm+chilling+rocket.PL T=this+day V=replicate.PAST.PROG O=PRON.3sgn AFTER=some+broccoli",
+     "two_stage": "S=few+supreme+warm+scary+rocket.PL T=this+day V=replicate.PAST.PROG O=PRON.3sgn AFTER=some+broccoli"
+    },
+    {
+     "english": "the aged circus has been a human.",
+     "rewrite": "the old circus has been a human.",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "aged->old"
+     ],
+     "gold": "S=old+circus V=be.PRES.PERF P=human",
+     "alone": "S=elderly+circus V=be.PRES.PERF P=human",
+     "two_stage": "S=old+circus V=be.PRES.PERF P=human"
+    },
+    {
+     "english": "it might not be very aged away!",
+     "rewrite": "it might not be very old away!",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "aged->old"
+     ],
+     "gold": "S=PRON.3sgn V=be.PRES.MAY.NEG M=away A=very+old",
+     "alone": "S=PRON.3sgn V=be.PRES.MAY.NEG M=away A=very+elderly",
+     "two_stage": "S=PRON.3sgn V=be.PRES.MAY.NEG M=away A=very+old"
+    },
+    {
+     "english": "the more extensive fruition can be Lulaker's more master able notorious walker above the kilometres!",
+     "rewrite": "the more extensive fruition can be Lulaker's more main able notorious walker above the kilometres!",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "master->main"
+     ],
+     "gold": "S=more+extensive+fruition V=be.PRES.CAN ON=kilometre.PL P=NAME.Lulaker^more+chief+able+notorious+walk>AGENT",
+     "alone": "S=more+extensive+fruition V=be.PRES.CAN ON=kilometre.PL P=NAME.Lulaker^more+main+able+notorious+walk>AGENT",
+     "two_stage": "S=more+extensive+fruition V=be.PRES.CAN ON=kilometre.PL P=NAME.Lulaker^more+main+able+notorious+walk>AGENT"
+    },
+    {
+     "english": "Tucuvi had dinned without you all.",
+     "rewrite": "Tucuvi had boomed without you all.",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "dinned->boomed"
+     ],
+     "gold": "S=NAME.Tucuvi V=boom.PAST.PERF WITHOUT=PRON.2pl",
+     "alone": "S=NAME.Tucuvi V=dine.PAST.PERF WITHOUT=PRON.2pl",
+     "two_stage": "S=NAME.Tucuvi V=boom.PAST.PERF WITHOUT=PRON.2pl"
+    },
+    {
+     "english": "Paaraa  must  have  dinned  between  the  subject  between  the  pasts!",
+     "rewrite": "Paaraa  must  have  boomed  between  the  subject  between  the  pasts!",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "dinned->boomed"
+     ],
+     "gold": "S=NAME.Paaraa V=boom.PRES.PERF.MUST BETWEEN=subject BETWEEN=past.PL",
+     "alone": "S=NAME.Paaraa V=dine.PRES.PERF.MUST BETWEEN=subject BETWEEN=past.PL",
+     "two_stage": "S=NAME.Paaraa V=boom.PRES.PERF.MUST BETWEEN=subject BETWEEN=past.PL"
+    },
+    {
+     "english": "the very master normal sleepers couldn't be bypassed by the tragedy and the mathematics during the question",
+     "rewrite": "the very main normal sleepers couldn't be bypassed by the tragedy and the mathematics during the question",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "master->main"
+     ],
+     "gold": "S=tragedy&mathematics V=bypass.PAST.CAN.NEG O=very+chief+normal+sleep>AGENT.PL DURING=question",
+     "alone": "S=tragedy&mathematics V=bypass.PAST.CAN.NEG O=very+main+normal+sleep>AGENT.PL DURING=question",
+     "two_stage": "S=tragedy&mathematics V=bypass.PAST.CAN.NEG O=very+main+normal+sleep>AGENT.PL DURING=question"
+    },
+    {
+     "english": "the master emotions must not be realised by the lunches.",
+     "rewrite": "the main emotions must not be realised by the lunches.",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "master->main"
+     ],
+     "gold": "S=lunch.PL V=realise.PRES.MUST.NEG O=chief+emotion.PL",
+     "alone": "S=lunch.PL V=realise.PRES.MUST.NEG O=main+emotion.PL",
+     "two_stage": "S=lunch.PL V=realise.PRES.MUST.NEG O=main+emotion.PL"
+    },
+    {
+     "english": "there  had  been  a  nice  vocalist  and  Naala  within  these  greenhouses  out  of  the  disorders",
+     "rewrite": "there  had  been  a  nice  singer  and  Naala  within  these  greenhouses  out  of  the  disorders",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "vocalist->singer"
+     ],
+     "gold": "S=nice+sing>AGENT&NAME.Naala V=be.PAST.PERF L=this+greenhouse.PL FROM=order>NOT.PL",
+     "alone": "S=nice+vocal>AGENT&NAME.Naala V=be.PAST.PERF L=this+greenhouse.PL FROM=order>NOT.PL",
+     "two_stage": "S=nice+sing>AGENT&NAME.Naala V=be.PAST.PERF L=this+greenhouse.PL FROM=order>NOT.PL"
+    },
+    {
+     "english": "seven  more  next  bunnies  and  the  spectroscopy  can  be  declining.",
+     "rewrite": "seven  more  next  rabbits  and  the  spectroscopy  can  be  declining.",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "bunnies->rabbits"
+     ],
+     "gold": "S=seven+more+next+rabbit.PL&spectroscopy V=decline.PRES.PROG.CAN",
+     "alone": "S=seven+more+next+bunny.PL&spectroscopy V=decline.PRES.PROG.CAN",
+     "two_stage": "S=seven+more+next+rabbit.PL&spectroscopy V=decline.PRES.PROG.CAN"
+    },
+    {
+     "english": "Kuurii dins in front of that revenge during that assistance each night",
+     "rewrite": "Kuurii booms in front of that revenge during that assistance each night",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "dins->booms"
+     ],
+     "gold": "S=NAME.Kuurii T=each+night V=boom.PRES FRONT=that+revenge DURING=that+assist>ACT",
+     "alone": "S=NAME.Kuurii T=each+night V=drink.PRES FRONT=that+revenge DURING=that+assist>ACT",
+     "two_stage": "S=NAME.Kuurii T=each+night V=boom.PRES FRONT=that+revenge DURING=that+assist>ACT"
+    },
+    {
+     "english": "it wouldn't have desolated the dozens and the short healthcare across the retirement each weekend",
+     "rewrite": "it wouldn't have deserted the dozens and the short healthcare across the retirement each weekend",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "desolated->deserted"
+     ],
+     "gold": "S=PRON.3sgn T=each+weekend V=desert.PRES.PERF.WOULD.NEG O=dozen.PL&short+healthcare THROUGH=retire>ACT",
+     "alone": "S=PRON.3sgn T=each+weekend V=desolate.PRES.PERF.WOULD.NEG O=dozen.PL&short+healthcare THROUGH=retire>ACT",
+     "two_stage": "S=PRON.3sgn T=each+weekend V=desert.PRES.PERF.WOULD.NEG O=dozen.PL&short+healthcare THROUGH=retire>ACT"
+    },
+    {
+     "english": "I would be this dusty vocalist since one distributor",
+     "rewrite": "I would be this dusty singer since one distributor",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "vocalist->singer"
+     ],
+     "gold": "S=PRON.1sg V=be.PRES.WOULD SINCE=one+distribute>AGENT P=this+dust>ADJ+sing>AGENT",
+     "alone": "S=PRON.1sg V=be.PRES.WOULD SINCE=one+distribute>AGENT P=this+dust>ADJ+vocal>AGENT",
+     "two_stage": "S=PRON.1sg V=be.PRES.WOULD SINCE=one+distribute>AGENT P=this+dust>ADJ+sing>AGENT"
+    },
+    {
+     "english": "about Niimuu, Vakumi will be the really stout and aged haze",
+     "rewrite": "about Niimuu, Vakumi will be the really stout and old haze",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "aged->old"
+     ],
+     "gold": "S=NAME.Vakumi V=be.FUT ABOUT=NAME.Niimuu P=really+stout+old+haze",
+     "alone": "S=NAME.Vakumi V=be.FUT ABOUT=NAME.Niimuu P=really+stout+elderly+haze",
+     "two_stage": "S=NAME.Vakumi V=be.FUT ABOUT=NAME.Niimuu P=really+stout+old+haze"
+    },
+    {
+     "english": "there are some concerted, unique, full teas about several members.",
+     "rewrite": "there are some cooperative, unique, full teas about several members.",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "concerted->cooperative"
+     ],
+     "gold": "S=some+cooperative+unique+full+tea.PL V=be.PRES ABOUT=several+member.PL",
+     "alone": "S=some+concerted+unique+full+tea.PL V=be.PRES ABOUT=several+member.PL",
+     "two_stage": "S=some+cooperative+unique+full+tea.PL V=be.PRES ABOUT=several+member.PL"
+    },
+    {
+     "english": "the discretionary dryness and the nude would be cortical, western and aged from the runway in the weekend.",
+     "rewrite": "the discretionary dryness and the nude would be cortical, western and old from the runway in the weekend.",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "aged->old"
+     ],
+     "gold": "S=discretionary+dry>QUAL&nude V=be.PRES.WOULD FROM=runway L=weekend A=cortical+western+old",
+     "alone": "S=discretionary+dry>QUAL&nude V=be.PRES.WOULD FROM=runway L=weekend A=cortical+western+elderly",
+     "two_stage": "S=discretionary+dry>QUAL&nude V=be.PRES.WOULD FROM=runway L=weekend A=cortical+western+old"
+    },
+    {
+     "english": "Rakuvur has desired another postcard and Vuunina against her",
+     "rewrite": "Rakuvur has wanted another postcard and Vuunina against her",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "desired->wanted"
+     ],
+     "gold": "S=NAME.Rakuvur V=want.PRES.PERF O=another+postcard&NAME.Vuunina AGAINST=PRON.3sgf",
+     "alone": "S=NAME.Rakuvur V=desire.PRES.PERF O=another+postcard&NAME.Vuunina AGAINST=PRON.3sgf",
+     "two_stage": "S=NAME.Rakuvur V=want.PRES.PERF O=another+postcard&NAME.Vuunina AGAINST=PRON.3sgf"
+    },
+    {
+     "english": "next to one customer, one agreement is a vocalist!",
+     "rewrite": "next to one customer, one agreement is a singer!",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "vocalist->singer"
+     ],
+     "gold": "S=one+agree>ACT V=be.PRES NEAR=one+customer P=sing>AGENT",
+     "alone": "S=one+agree>ACT V=be.PRES NEAR=one+customer P=vocal>ADJ>QUAL",
+     "two_stage": "S=one+agree>ACT V=be.PRES NEAR=one+customer P=sing>AGENT"
+    },
+    {
+     "english": "Move jollied until the so fab litters a lot",
+     "rewrite": "Move joshed until the so fab litters a lot",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "jollied->joshed"
+     ],
+     "gold": "S=NAME.Move V=josh.PAST M=much UNTIL=so+fab+litter.PL",
+     "alone": "V=move M=much O=jolly+done UNTIL=so+fab+litter.PL",
+     "two_stage": "V=move M=much O=josh TO=so+fab+litter.PL"
+    },
+    {
+     "english": "Paka was not really aged into Kikayo's really monthly security!",
+     "rewrite": "Paka was not really old into Kikayo's really monthly security!",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "aged->old"
+     ],
+     "gold": "S=NAME.Paka V=be.PAST.NEG TO=NAME.Kikayo^really+month>ADJ+security A=really+old",
+     "alone": "S=NAME.Paka V=be.PAST.NEG TO=NAME.Kikayo^really+month>ADJ+security A=really+elderly",
+     "two_stage": "S=NAME.Paka V=be.PAST.NEG TO=NAME.Kikayo^really+month>ADJ+security A=really+old"
+    },
+    {
+     "english": "without one respect, there was one high and piercing opinion across Yimon",
+     "rewrite": "without one respect, there was one high and keen opinion across Yimon",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "piercing->keen"
+     ],
+     "gold": "S=one+high+keen+opinion V=be.PAST WITHOUT=one+respect THROUGH=NAME.Yimon",
+     "alone": "S=one+high+piercing+opinion V=be.PAST WITHOUT=one+respect THROUGH=NAME.Yimon",
+     "two_stage": "S=one+high+keen+opinion V=be.PAST WITHOUT=one+respect THROUGH=NAME.Yimon"
+    },
+    {
+     "english": "a  really  horrible  and  prevailing  hardship  must  usually  be  erupting  now!",
+     "rewrite": "a  really  horrible  and  prevalent  hardship  must  usually  be  erupting  now!",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "prevailing->prevalent"
+     ],
+     "gold": "S=really+horrible+prevalent+hardship V=erupt.PRES.PROG.MUST M=usually+now",
+     "alone": "S=really+horrible+prevailing+hardship V=erupt.PRES.PROG.MUST M=usually+now",
+     "two_stage": "S=really+horrible+prevalent+hardship V=erupt.PRES.PROG.MUST M=usually+now"
+    },
+    {
+     "english": "I and our dioxide could be really piercing",
+     "rewrite": "I and our dioxide could be really keen",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "piercing->keen"
+     ],
+     "gold": "S=PRON.1sg&PRON.1pl^dioxide V=be.PAST.CAN A=really+keen",
+     "alone": "S=PRON.1sg&PRON.1pl^dioxide V=be.PAST.CAN A=really+piercing",
+     "two_stage": "S=PRON.1sg&PRON.1pl^dioxide V=be.PAST.CAN A=really+keen"
+    },
+    {
+     "english": "this comparative joint might be desolated until this open crossover",
+     "rewrite": "this comparative joint might be deserted until this open crossover",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "desolated->deserted"
+     ],
+     "gold": "V=desert.PRES.MAY O=this+comparative+joint UNTIL=this+open+crossover",
+     "alone": "V=desolate.PRES.MAY O=this+comparative+joint UNTIL=this+open+crossover",
+     "two_stage": "V=desert.PRES.MAY O=this+comparative+joint UNTIL=this+open+crossover"
+    },
+    {
+     "english": "in front of one grass, one intoxicated and archaeological publication was",
+     "rewrite": "in front of one grass, one drunk and archaeological publication was",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "intoxicated->drunk"
+     ],
+     "gold": "S=one+drunk+archaeological+publication V=be.PAST FRONT=one+grass",
+     "alone": "S=one+intoxicated+archaeological+publication V=be.PAST FRONT=one+grass",
+     "two_stage": "S=one+drunk+archaeological+publication V=be.PAST FRONT=one+grass"
+    },
+    {
+     "english": "the aged dry intersection was during the noticeable chill",
+     "rewrite": "the old dry intersection was during the noticeable chill",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "aged->old"
+     ],
+     "gold": "S=old+dry+intersect>ACT V=be.PAST DURING=notice>ABLE+chill",
+     "alone": "S=elderly+dry+intersect>ACT V=be.PAST DURING=notice>ABLE+chill",
+     "two_stage": "S=old+dry+intersect>ACT V=be.PAST DURING=notice>ABLE+chill"
+    },
+    {
+     "english": "she might be a micro and endearing driver behind that murphy!",
+     "rewrite": "she might be a micro and adorable driver behind that murphy!",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "endearing->adorable"
+     ],
+     "gold": "S=PRON.3sgf V=be.PRES.MAY BEHIND=that+murphy P=micro+adore>ABLE+drive>AGENT",
+     "alone": "S=PRON.3sgf V=be.PRES.MAY BEHIND=that+murphy P=micro+endearing+drive>AGENT",
+     "two_stage": "S=PRON.3sgf V=be.PRES.MAY BEHIND=that+murphy P=micro+adore>ABLE+drive>AGENT"
+    },
+    {
+     "english": "he would have desired the readership till the higher vertebrate across the world",
+     "rewrite": "he would have wanted the readership till the higher vertebrate across the world",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "desired->wanted"
+     ],
+     "gold": "S=PRON.3sgm V=want.PRES.PERF.WOULD O=readership UNTIL=higher+vertebrate THROUGH=world",
+     "alone": "S=PRON.3sgm V=desire.PRES.PERF.WOULD O=readership UNTIL=higher+vertebrate THROUGH=world",
+     "two_stage": "S=PRON.3sgm V=want.PRES.PERF.WOULD O=readership UNTIL=higher+vertebrate THROUGH=world"
+    },
+    {
+     "english": "last night simultaneously that therapeutic aged and spiritual amount had to deviate",
+     "rewrite": "last night simultaneously that therapeutic old and spiritual amount had to deviate",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "aged->old"
+     ],
+     "gold": "S=that+therapeutic+old+spiritual+amount T=last+night V=deviate.PAST.MUST M=simultaneous>ADV",
+     "alone": "T=last+night ; C=that S=that+therapeutic+elderly+spiritual+amount V=deviate.PAST.MUST M=simultaneous>ADV",
+     "two_stage": "T=last+night V=deviate.PAST.MUST M=simultaneous>ADV ; C=that S=therapeutic+old+spiritual+amount V=deviate.PAST.MUST"
+    },
+    {
+     "english": "I wasn't the diverse chilling geneva.",
+     "rewrite": "I wasn't the diverse scary geneva.",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "chilling->scary"
+     ],
+     "gold": "S=PRON.1sg V=be.PAST.NEG P=diverse+scary+geneva",
+     "alone": "S=PRON.1sg V=be.PAST.NEG P=diverse+cool+geneva",
+     "two_stage": "S=PRON.1sg V=be.PAST.NEG P=diverse+scary+geneva"
+    },
+    {
+     "english": "economic and born tickets are these final chilling and blatant entertainers at this river.",
+     "rewrite": "economic and born tickets are these final scary and blatant entertainers at this river.",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "chilling->scary"
+     ],
+     "gold": "S=economic+born+ticket.PL V=be.PRES L=this+river P=this+final+scary+blatant+entertain>AGENT.PL",
+     "alone": "S=economic+born+ticket.PL V=be.PRES L=this+river P=this+final+chilling+blatant+entertain>AGENT.PL",
+     "two_stage": "S=economic+born+ticket.PL V=be.PRES L=this+river P=this+final+scary+blatant+entertain>AGENT.PL"
+    },
+    {
+     "english": "last year the panoramic conservation or the workday would bear him into the endearing phase",
+     "rewrite": "last year the panoramic conservation or the workday would bear him into the adorable phase",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "endearing->adorable"
+     ],
+     "gold": "S=panoramic+conserve>ACT|workday T=last+year V=bear.PRES.WOULD O=PRON.3sgm TO=adore>ABLE+phase",
+     "alone": "S=panoramic+conserve>ACT|workday T=last+year V=bear.PRES.WOULD O=PRON.3sgm TO=endearing+phase",
+     "two_stage": "S=panoramic+conserve>ACT|workday T=last+year V=bear.PRES.WOULD O=PRON.3sgm TO=adore>ABLE+phase"
+    },
+    {
+     "english": "Tiimuun demoed Periruu the texts in front of the grand hectare there!",
+     "rewrite": "Tiimuun showed Periruu the texts in front of the grand hectare there!",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "demoed->showed"
+     ],
+     "gold": "S=NAME.Tiimuun V=show.PAST M=there O=text.PL FRONT=grand+hectare TO=NAME.Periruu",
+     "alone": "S=NAME.Tiimuun V=demote.PAST M=there O=text.PL FRONT=grand+hectare TO=NAME.Periruu",
+     "two_stage": "S=NAME.Tiimuun V=show.PAST M=there O=text.PL FRONT=grand+hectare TO=NAME.Periruu"
+    },
+    {
+     "english": "the participatory behind must be broken by the circle near the bronchitis.",
+     "rewrite": "the participatory behind must be broken by the circle near the bronchitis.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=circle V=break.PRES.MUST O=participatory+arse NEAR=bronchitis",
+     "alone": "S=circle V=break.PRES.MUST O=participatory+behind NEAR=bronchitis",
+     "two_stage": "S=circle V=break.PRES.MUST O=participatory+behind NEAR=bronchitis"
+    },
+    {
+     "english": "one  vocalist  could  get  you  all  or  one  chip  during  one  best  setup!",
+     "rewrite": "one  singer  could  get  you  all  or  one  chip  during  one  best  setup!",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "vocalist->singer"
+     ],
+     "gold": "S=one+sing>AGENT V=get.PAST.CAN O=PRON.2pl|one+chip DURING=one+best+setup",
+     "alone": "S=one+vocal>AGENT V=get.PAST.CAN O=PRON.2pl|one+chip DURING=one+best+setup",
+     "two_stage": "S=one+sing>AGENT V=get.PAST.CAN O=PRON.2pl|one+chip DURING=one+best+setup"
+    }
+   ]
+  },
+  "control": {
+   "n": 100,
+   "actions": {
+    "kept": 97,
+    "rewritten": 2,
+    "substituted": 1
+   },
+   "alone": {
+    "glyph": 0.88,
+    "meaning": 1.0
+   },
+   "two_stage": {
+    "glyph": 0.85,
+    "meaning": 0.97
+   },
+   "examples": [
+    {
+     "english": "It was its blue, easy, tricky, worst part that Maavii did think below Lacum.",
+     "rewrite": "It was its blue, easy, tricky, worst part that Maavii did think below Lacum.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Maavii V=think.PAST O=PRON.3sgn^blue+easy+trick>ADJ+worst+part UNDER=NAME.Lacum",
+     "alone": "S=NAME.Maavii V=think.PAST O=PRON.3sgn^blue+easy+trick>ADJ+worst+part UNDER=NAME.Lacum",
+     "two_stage": "S=NAME.Maavii V=think.PAST O=PRON.3sgn^blue+easy+trick>ADJ+worst+part UNDER=NAME.Lacum"
+    },
+    {
+     "english": "The fierce heartfelt identifiable protector was yellowish to her.",
+     "rewrite": "The fierce heartfelt identifiable protector was yellowish to her.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=fierce+heartfelt+identify>ABLE+protect>AGENT V=be.PAST TO=PRON.3sgf A=yellowish",
+     "alone": "S=fierce+heartfelt+identify>ABLE+protect>AGENT V=be.PAST TO=PRON.3sgf A=yellowish",
+     "two_stage": "S=fierce+heartfelt+identify>ABLE+protect>AGENT V=be.PAST TO=PRON.3sgf A=yellowish"
+    },
+    {
+     "english": "Has Vaaruu sent Vikaa or Vayaar to Koniil's daughter instead of it till the patient's most nuts obscenity?",
+     "rewrite": "Has Vaaruu sent Vikaa or Vayaar to Koniil's daughter instead of it till the patient's most nuts obscenity?",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Vaaruu V=send.PRES.PERF.Q O=NAME.Vikaa|NAME.Vayaar TO=NAME.Koniil^daughter FOR=PRON.3sgn UNTIL=patient^most+nuts+obscene>QUAL",
+     "alone": "S=NAME.Vaaruu V=send.PRES.PERF.Q O=NAME.Vikaa|NAME.Vayaar TO=NAME.Koniil^daughter FOR=PRON.3sgn UNTIL=patient^most+nuts+obscene>QUAL",
+     "two_stage": "S=NAME.Vaaruu V=send.PRES.PERF.Q O=NAME.Vikaa|NAME.Vayaar TO=NAME.Koniil^daughter FOR=PRON.3sgn UNTIL=patient^most+nuts+obscene>QUAL"
+    },
+    {
+     "english": "It might not be very tough with this crew every afternoon.",
+     "rewrite": "It might not be very tough with this crew every afternoon.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.3sgn T=every+afternoon V=be.PRES.MAY.NEG WITH=this+crew A=very+tough",
+     "alone": "S=PRON.3sgn T=every+afternoon V=be.PRES.MAY.NEG WITH=this+crew A=very+tough",
+     "two_stage": "S=PRON.3sgn T=every+afternoon V=be.PRES.MAY.NEG WITH=this+crew A=very+tough"
+    },
+    {
+     "english": "Nuruuyuu didn't feed him.",
+     "rewrite": "Nuruuyuu didn't feed him.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Nuruuyuu V=feed.PAST.NEG O=PRON.3sgm",
+     "alone": "S=NAME.Nuruuyuu V=feed.PAST.NEG O=PRON.3sgm",
+     "two_stage": "S=NAME.Nuruuyuu V=feed.PAST.NEG O=PRON.3sgm"
+    },
+    {
+     "english": "Ah.",
+     "rewrite": "Ah.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "I=ah",
+     "alone": "I=ah",
+     "two_stage": "I=ah"
+    },
+    {
+     "english": "How was this more mistaken and deficient everyone meaning this more imaginable and fierce situation.",
+     "rewrite": "How was this more mistaken and deficient everyone meaning this more imaginable and fierce situation.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=this+more+mistaken+deficient+everyone V=mean.PAST.PROG M=how O=this+more+imaginable+fierce+situation",
+     "alone": "S=this+more+mistaken+deficient+everyone V=mean.PAST.PROG M=how O=this+more+imaginable+fierce+situation",
+     "two_stage": "S=this+more+mistaken+deficient+everyone V=mean.PAST.PROG M=how O=this+more+imaginable+fierce+situation"
+    },
+    {
+     "english": "I and your so conceptual war may download her.",
+     "rewrite": "I and your so conceptual war may download her.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.1sg&PRON.2sg^so+conceptual+war V=download.PRES.MAY O=PRON.3sgf",
+     "alone": "S=PRON.1sg&PRON.2sg^so+conceptual+war V=download.PRES.MAY O=PRON.3sgf",
+     "two_stage": "S=PRON.1sg&PRON.2sg^so+conceptual+war V=download.PRES.MAY O=PRON.3sgf"
+    },
+    {
+     "english": "The so awesome meantime will be the so easy and important adult.",
+     "rewrite": "The so awesome meantime will be the so easy and important grown.",
+     "action": "rewritten",
+     "tries": [
+      [
+       "The so awesome meantime will be the so easy and important grown.",
+       null
+      ]
+     ],
+     "subs": [
+      "adult->grown"
+     ],
+     "gold": "S=so+awesome+meantime V=be.FUT P=so+easy+important+adult",
+     "alone": "S=so+awesome+meantime V=be.FUT P=so+easy+important+adult",
+     "two_stage": "S=so+awesome+meantime V=be.FUT P=so+easy+important+grown"
+    },
+    {
+     "english": "Tiraruu will not have protested.",
+     "rewrite": "Tiraruu will not have protested.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Tiraruu V=protest.FUT.PERF.NEG",
+     "alone": "S=NAME.Tiraruu V=protest.FUT.PERF.NEG",
+     "two_stage": "S=NAME.Tiraruu V=protest.FUT.PERF.NEG"
+    },
+    {
+     "english": "Let's legislate the stupidest handbooks between you.",
+     "rewrite": "Let's legislate the stupidest handbooks between you.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.1pl V=legislate.LET O=stupid>MOST+handbook.PL BETWEEN=PRON.2sg",
+     "alone": "S=PRON.1pl V=legislate.LET O=stupid>MOST+handbook.PL BETWEEN=PRON.2sg",
+     "two_stage": "S=PRON.1pl V=legislate.LET O=stupid>MOST+handbook.PL BETWEEN=PRON.2sg"
+    },
+    {
+     "english": "Which round should Naayin be fighting.",
+     "rewrite": "Which round should Naayin be fighting.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Naayin V=fight.PRES.PROG.SHOULD O=which+round",
+     "alone": "S=NAME.Naayin V=fight.PRES.PROG.SHOULD O=which+round",
+     "two_stage": "S=NAME.Naayin V=fight.PRES.PROG.SHOULD O=which+round"
+    },
+    {
+     "english": "Let's recognize the widow's power now.",
+     "rewrite": "Let's recognize the widow's power now.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.1pl V=recognize.LET M=now O=widow^power",
+     "alone": "S=PRON.1pl V=recognize.LET M=now O=widow^power",
+     "two_stage": "S=PRON.1pl V=recognize.LET M=now O=widow^power"
+    },
+    {
+     "english": "Thank you.",
+     "rewrite": "Thank you.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "V=thank O=PRON.2sg",
+     "alone": "V=thank O=PRON.2sg",
+     "two_stage": "V=thank O=PRON.2sg"
+    },
+    {
+     "english": "To disgust.",
+     "rewrite": "To disgust.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "C=to V=disgust",
+     "alone": "C=to V=disgust",
+     "two_stage": "C=to V=disgust"
+    },
+    {
+     "english": "They must usually twist.",
+     "rewrite": "They must usually twist.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.3pl V=twist.PRES.MUST M=usually",
+     "alone": "S=PRON.3pl V=twist.PRES.MUST M=usually",
+     "two_stage": "S=PRON.3pl V=twist.PRES.MUST M=usually"
+    },
+    {
+     "english": "Let us agree away from the central consideration.",
+     "rewrite": "Let us agree away from the central consideration.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.1pl V=agree.LET FROM=central+consider>ACT",
+     "alone": "S=PRON.1pl V=agree.LET FROM=central+consider>ACT",
+     "two_stage": "S=PRON.1pl V=agree.LET FROM=central+consider>ACT"
+    },
+    {
+     "english": "No branch and Ruupir were great here.",
+     "rewrite": "No branch and Ruupir were great here.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=no+branch&NAME.Ruupir V=be.PAST M=here A=great",
+     "alone": "S=no+branch&NAME.Ruupir V=be.PAST M=here A=great",
+     "two_stage": "S=no+branch&NAME.Ruupir V=be.PAST M=here A=great"
+    },
+    {
+     "english": "Can Riita turn?",
+     "rewrite": "Can Riita turn?",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Riita V=turn.PRES.CAN.Q",
+     "alone": "S=NAME.Riita V=turn.PRES.CAN.Q",
+     "two_stage": "S=NAME.Riita V=turn.PRES.CAN.Q"
+    },
+    {
+     "english": "He and the crystalline anything should be these seductive, goddamn, cautious nephews instead of Yuukinam.",
+     "rewrite": "He and the crystalline anything should be these seductive, goddamn, cautious nephews instead of Yuukinam.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.3sgm&crystalline+anything V=be.PRES.SHOULD FOR=NAME.Yuukinam P=this+seductive+goddamn+cautious+nephew.PL",
+     "alone": "S=PRON.3sgm&crystalline+anything V=be.PRES.SHOULD FOR=NAME.Yuukinam P=this+seductive+goddamn+cautious+nephew.PL",
+     "two_stage": "S=PRON.3sgm&crystalline+anything V=be.PRES.SHOULD FOR=NAME.Yuukinam P=this+seductive+goddamn+cautious+nephew.PL"
+    },
+    {
+     "english": "The scorecard isn't often affording the healthcare about the cream.",
+     "rewrite": "The scorecard isn't often affording the healthcare about the cream.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=scorecard V=afford.PRES.PROG.NEG M=often O=healthcare ABOUT=cream",
+     "alone": "S=scorecard V=afford.PRES.PROG.NEG M=often O=healthcare ABOUT=cream",
+     "two_stage": "S=scorecard V=afford.PRES.PROG.NEG M=often O=healthcare ABOUT=cream"
+    },
+    {
+     "english": "You are not jumping.",
+     "rewrite": "You are not jumping.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.2sg V=jump.PRES.PROG.NEG",
+     "alone": "S=PRON.2sg V=jump.PRES.PROG.NEG",
+     "two_stage": "S=PRON.2sg V=jump.PRES.PROG.NEG"
+    },
+    {
+     "english": "It will be the card that will reveal the interiors and the young intrusion around them grossly.",
+     "rewrite": "It will be the card that will reveal the interiors and the young intrusion around them grossly.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=card V=reveal.FUT M=gross>ADV O=interior.PL&young+intrusion AROUND=PRON.3pl",
+     "alone": "S=card V=reveal.FUT M=gross>ADV O=interior.PL&young+intrusion AROUND=PRON.3pl",
+     "two_stage": "S=card V=reveal.FUT M=gross>ADV O=interior.PL&young+intrusion AROUND=PRON.3pl"
+    },
+    {
+     "english": "You all would be these things with Muken.",
+     "rewrite": "You all would be these things with Muken.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.2pl V=be.PRES.WOULD WITH=NAME.Muken P=this+thing.PL",
+     "alone": "S=PRON.2pl V=be.PRES.WOULD WITH=NAME.Muken P=this+thing.PL",
+     "two_stage": "S=PRON.2pl V=be.PRES.WOULD WITH=NAME.Muken P=this+thing.PL"
+    },
+    {
+     "english": "Lalum and Niti can tumble.",
+     "rewrite": "Lalum and Niti can tumble.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Lalum&NAME.Niti V=tumble.PRES.CAN",
+     "alone": "S=NAME.Lalum&NAME.Niti V=tumble.PRES.CAN",
+     "two_stage": "S=NAME.Lalum&NAME.Niti V=tumble.PRES.CAN"
+    },
+    {
+     "english": "To gauge this more latter animation.",
+     "rewrite": "To gauge this more latter animation.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "C=to V=gauge O=this+more+latter+animation",
+     "alone": "C=to V=gauge O=this+more+latter+animation",
+     "two_stage": "C=to V=gauge O=this+more+latter+animation"
+    },
+    {
+     "english": "You were valid tomorrow.",
+     "rewrite": "You were valid tomorrow.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.2sg V=be.PAST M=tomorrow A=valid",
+     "alone": "S=PRON.2sg V=be.PAST M=tomorrow A=valid",
+     "two_stage": "S=PRON.2sg V=be.PAST M=tomorrow A=valid"
+    },
+    {
+     "english": "Pass you all another fear.",
+     "rewrite": "Pass you all another fear.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "V=pass O=another+fear TO=PRON.2pl",
+     "alone": "V=pass O=another+fear TO=PRON.2pl",
+     "two_stage": "V=pass O=another+fear TO=PRON.2pl"
+    },
+    {
+     "english": "Assure.",
+     "rewrite": "Assure.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "V=assure",
+     "alone": "V=assure",
+     "two_stage": "V=assure"
+    },
+    {
+     "english": "Maronuu hasn't very historically swum Mimocii and their most ready cigarette.",
+     "rewrite": "Maronuu hasn't very historically swum Mimocii and their most ready cigarette.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=NAME.Maronuu V=swim.PRES.PERF.NEG M=very+historical>ADV O=NAME.Mimocii&PRON.3pl^most+ready+cigarette",
+     "alone": "S=NAME.Maronuu V=swim.PRES.PERF.NEG M=very+historical>ADV O=NAME.Mimocii&PRON.3pl^most+ready+cigarette",
+     "two_stage": "S=NAME.Maronuu V=swim.PRES.PERF.NEG M=very+historical>ADV O=NAME.Mimocii&PRON.3pl^most+ready+cigarette"
+    },
+    {
+     "english": "I and Tipalo were your really cerebral cavemen to the chi abroad.",
+     "rewrite": "I and Tipalo were your really cerebral cavemen to the chi abroad.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.1sg&NAME.Tipalo V=be.PAST M=abroad TO=chi P=PRON.2sg^really+cerebral+cave_man.PL",
+     "alone": "S=PRON.1sg&NAME.Tipalo V=be.PAST M=abroad TO=chi P=PRON.2sg^really+cerebral+cave_man.PL",
+     "two_stage": "S=PRON.1sg&NAME.Tipalo V=be.PAST M=abroad TO=chi P=PRON.2sg^really+cerebral+cave_man.PL"
+    },
+    {
+     "english": "They or Capuukun must be seeing Kaciikiim.",
+     "rewrite": "They or Capuukun must be seeing Kaciikiim.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.3pl|NAME.Capuukun V=see.PRES.PROG.MUST O=NAME.Kaciikiim",
+     "alone": "S=PRON.3pl|NAME.Capuukun V=see.PRES.PROG.MUST O=NAME.Kaciikiim",
+     "two_stage": "S=PRON.3pl|NAME.Capuukun V=see.PRES.PROG.MUST O=NAME.Kaciikiim"
+    },
+    {
+     "english": "Why will we not have projected one main, classic deer.",
+     "rewrite": "Why will we not have projected one main, classic deer.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.1pl V=project.FUT.PERF.NEG M=why O=one+main+classic+deer",
+     "alone": "S=PRON.1pl V=project.FUT.PERF.NEG M=why O=one+main+classic+deer",
+     "two_stage": "S=PRON.1pl V=project.FUT.PERF.NEG M=why O=one+main+classic+deer"
+    },
+    {
+     "english": "Prove Putur behind this man.",
+     "rewrite": "Prove Putur behind this man.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "V=prove O=NAME.Putur BEHIND=this+man",
+     "alone": "V=prove O=NAME.Putur BEHIND=this+man",
+     "two_stage": "V=prove O=NAME.Putur BEHIND=this+man"
+    },
+    {
+     "english": "At the tubes, I won't be.",
+     "rewrite": "At the tubes, I won't be.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.1sg V=be.FUT.NEG L=tube.PL",
+     "alone": "S=PRON.1sg V=be.FUT.NEG L=tube.PL",
+     "two_stage": "S=PRON.1sg V=be.FUT.NEG L=tube.PL"
+    },
+    {
+     "english": "Okay girlfriends.",
+     "rewrite": "Okay girlfriends.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "I=okay Y=girl_friend.PL",
+     "alone": "I=okay Y=girl_friend.PL",
+     "two_stage": "I=okay Y=girl_friend.PL"
+    },
+    {
+     "english": "The everyday triumphant white native rue has also to send it to Canu in front of him.",
+     "rewrite": "The everyday triumphant white native regret has also to send it to Canu in front of him.",
+     "action": "substituted",
+     "tries": [],
+     "subs": [
+      "rue->regret"
+     ],
+     "gold": "S=everyday+triumphant+white+native+rue V=send.PRES.MUST M=also O=PRON.3sgn TO=NAME.Canu FRONT=PRON.3sgm",
+     "alone": "S=everyday+triumphant+white+native+rue V=send.PRES.MUST M=also O=PRON.3sgn TO=NAME.Canu FRONT=PRON.3sgm",
+     "two_stage": "S=everyday+triumphant+white+native+regret V=send.PRES.MUST M=also O=PRON.3sgn TO=NAME.Canu FRONT=PRON.3sgm"
+    },
+    {
+     "english": "To register the easy country.",
+     "rewrite": "To register the easy country.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "C=to V=register O=easy+country",
+     "alone": "C=to V=register O=easy+country",
+     "two_stage": "C=to V=register O=easy+country"
+    },
+    {
+     "english": "The milk would be abusing you all through the tennis in front of the swords?",
+     "rewrite": "The milk would be abusing you all through the tennis in front of the swords?",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=milk V=abuse.PRES.PROG.WOULD.Q O=PRON.2pl THROUGH=tennis FRONT=sword.PL",
+     "alone": "S=milk V=abuse.PRES.PROG.WOULD.Q O=PRON.2pl THROUGH=tennis FRONT=sword.PL",
+     "two_stage": "S=milk V=abuse.PRES.PROG.WOULD.Q O=PRON.2pl THROUGH=tennis FRONT=sword.PL"
+    },
+    {
+     "english": "Let's adjust the junction.",
+     "rewrite": "Let's adjust the junction.",
+     "action": "kept",
+     "tries": [],
+     "subs": [],
+     "gold": "S=PRON.1pl V=adjust.LET O=junction",
+     "alone": "S=PRON.1pl V=adjust.LET O=junction",
+     "two_stage": "S=PRON.1pl V=adjust.LET O=junction"
+    }
+   ]
+  }
+ }
+}

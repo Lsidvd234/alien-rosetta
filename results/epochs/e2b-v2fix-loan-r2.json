@@ -1,0 +1,43 @@
+{
+ "run": "e2b-v2fix-loan-r2",
+ "n": 100,
+ "cot": true,
+ "epochs": [
+  {
+   "epoch": 1,
+   "glyph_exact": 0.16,
+   "word_acc": 0.7471979383675119,
+   "meaning_exact": 0.64,
+   "train_loss": 0.15946826338768005,
+   "zero_grad_fp32": 0.0077856238931417465,
+   "gap_median": 9.140625
+  },
+  {
+   "epoch": 2,
+   "glyph_exact": 0.31,
+   "word_acc": 0.8288605186724719,
+   "meaning_exact": 0.73,
+   "train_loss": 0.05215928331017494,
+   "zero_grad_fp32": 0.014183113351464272,
+   "gap_median": 10.5
+  },
+  {
+   "epoch": 3,
+   "glyph_exact": 0.43,
+   "word_acc": 0.880780954115398,
+   "meaning_exact": 0.74,
+   "train_loss": 0.01809387095272541,
+   "zero_grad_fp32": 0.04906753450632095,
+   "gap_median": 11.34375
+  },
+  {
+   "epoch": 4,
+   "glyph_exact": 0.51,
+   "word_acc": 0.9078450276409009,
+   "meaning_exact": 0.75,
+   "train_loss": 0.01050963718444109,
+   "zero_grad_fp32": 0.0751403197646141,
+   "gap_median": 11.875
+  }
+ ]
+}

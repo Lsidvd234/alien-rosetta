@@ -1,0 +1,8 @@
+{
+ "run": "e2b-v2fix-focal-r2",
+ "n": 600,
+ "cot": true,
+ "glyph_exact": 0.455,
+ "word_acc": 0.7951031746031756,
+ "meaning_exact": 0.5883333333333334
+}

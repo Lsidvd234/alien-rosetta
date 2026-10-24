@@ -1,0 +1,38 @@
+[
+ {
+  "name": "maths-meaning-s1",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--seed",
+   "1"
+  ]
+ },
+ {
+  "name": "maths-shuffled-s1",
+  "args": [
+   "@maths",
+   "--init",
+   "shuffled",
+   "--eval-every",
+   "500",
+   "--seed",
+   "1"
+  ]
+ },
+ {
+  "name": "maths-mean-s1",
+  "args": [
+   "@maths",
+   "--init",
+   "mean",
+   "--eval-every",
+   "500",
+   "--seed",
+   "1"
+  ]
+ }
+]

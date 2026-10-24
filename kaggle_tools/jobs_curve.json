@@ -1,0 +1,275 @@
+[
+ {
+  "name": "c-easy-latin-5k",
+  "args": [
+   "--preset",
+   "english_like",
+   "--script",
+   "latin",
+   "--n-train",
+   "5000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-easy-tamil-5k",
+  "args": [
+   "--preset",
+   "english_like",
+   "--script",
+   "abugida_tamil",
+   "--n-train",
+   "5000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-hard-latin-5k",
+  "args": [
+   "--preset",
+   "tamil_like",
+   "--script",
+   "latin",
+   "--n-train",
+   "5000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-hard-tamil-5k",
+  "args": [
+   "--preset",
+   "tamil_like",
+   "--script",
+   "abugida_tamil",
+   "--n-train",
+   "5000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-easy-latin-10k",
+  "args": [
+   "--preset",
+   "english_like",
+   "--script",
+   "latin",
+   "--n-train",
+   "10000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-easy-tamil-10k",
+  "args": [
+   "--preset",
+   "english_like",
+   "--script",
+   "abugida_tamil",
+   "--n-train",
+   "10000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-hard-latin-10k",
+  "args": [
+   "--preset",
+   "tamil_like",
+   "--script",
+   "latin",
+   "--n-train",
+   "10000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-hard-tamil-10k",
+  "args": [
+   "--preset",
+   "tamil_like",
+   "--script",
+   "abugida_tamil",
+   "--n-train",
+   "10000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-easy-latin-20k",
+  "args": [
+   "--preset",
+   "english_like",
+   "--script",
+   "latin",
+   "--n-train",
+   "20000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-easy-tamil-20k",
+  "args": [
+   "--preset",
+   "english_like",
+   "--script",
+   "abugida_tamil",
+   "--n-train",
+   "20000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-hard-latin-20k",
+  "args": [
+   "--preset",
+   "tamil_like",
+   "--script",
+   "latin",
+   "--n-train",
+   "20000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-hard-tamil-20k",
+  "args": [
+   "--preset",
+   "tamil_like",
+   "--script",
+   "abugida_tamil",
+   "--n-train",
+   "20000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ },
+ {
+  "name": "c-hard-latin-50k",
+  "args": [
+   "--preset",
+   "tamil_like",
+   "--script",
+   "latin",
+   "--n-train",
+   "50000",
+   "--model",
+   "Qwen/Qwen3-0.6B-Base",
+   "--epochs",
+   "3",
+   "--batch",
+   "16",
+   "--grad-accum",
+   "2",
+   "--grad-ckpt",
+   "off"
+  ]
+ }
+]

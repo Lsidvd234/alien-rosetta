@@ -1,0 +1,41 @@
+{
+ "method": "method3-probe__Qwen/Qwen3-0.6B-Base",
+ "layers": {
+  "7": {
+   "word role (doer/action/object/place/other)": 0.8855606758832565,
+   "tense": 0.9933333333333333,
+   "negated": 1.0,
+   "number": 0.9601990049751243
+  },
+  "14": {
+   "word role (doer/action/object/place/other)": 0.8940092165898618,
+   "tense": 0.9666666666666667,
+   "negated": 1.0,
+   "number": 0.9303482587064676
+  },
+  "21": {
+   "word role (doer/action/object/place/other)": 0.8840245775729647,
+   "tense": 0.9866666666666667,
+   "negated": 1.0,
+   "number": 0.9402985074626866
+  },
+  "28": {
+   "word role (doer/action/object/place/other)": 0.8717357910906298,
+   "tense": 0.9366666666666666,
+   "negated": 0.9933333333333333,
+   "number": 0.945273631840796
+  }
+ },
+ "chance": {
+  "word role (majority class)": 0.760752688172043,
+  "tense": 0.3333333333333333,
+  "negated": 0.5,
+  "number": 0.5
+ },
+ "best_layer": {
+  "word role (doer/action/object/place/other)": 0.8940092165898618,
+  "tense": 0.9666666666666667,
+  "negated": 1.0,
+  "number": 0.9303482587064676
+ }
+}

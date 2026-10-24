@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alien Rosetta Viewer</title>
+<style>
+:root{
+  --bg:#f6f5f1; --panel:#ffffff; --fg:#1c1c1a; --muted:#66655f; --line:#e2e0d8; --soft:#f0eee7;
+  --accent:#3457c9; --accent-soft:#e8edfb;
+  --ok:#2c7a4b; --okbg:#e1f2e7; --bad:#b83a2c; --badbg:#fae3df; --miss:#8f8e88; --missbg:#ecebe6;
+  --radius:12px; --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141416; --panel:#1d1d20; --fg:#ececea; --muted:#a2a19b; --line:#33333a; --soft:#25252a;
+  --accent:#8ea8ff; --accent-soft:#232b45;
+  --ok:#6ccf94; --okbg:#1c3527; --bad:#f08273; --badbg:#3d2420; --miss:#8e8d88; --missbg:#2a2a2e;
+  --shadow:none}}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{margin:0;background:var(--bg);color:var(--fg);font:1rem/1.6 "Segoe UI",system-ui,-apple-system,sans-serif}
+.wrap{max-width:1320px;margin:0 auto;padding:0 28px}
+header{padding:34px 0 18px}
+h1{font-size:2rem;line-height:1.2;margin:0 0 8px;letter-spacing:-.01em}
+h2{font-size:1.35rem;margin:0 0 10px}
+h3{font-size:1.05rem;margin:0 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+p{margin:0 0 10px}
+.lead{font-size:1.1rem;color:var(--muted);max-width:900px}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:22px}
+nav .wrap{display:flex;gap:8px;flex-wrap:wrap}
+nav button{font:inherit;font-size:.95rem;border:1px solid var(--line);background:var(--panel);color:var(--fg);
+  padding:8px 16px;border-radius:999px;cursor:pointer}
+nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+section{display:none}section.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;
+  margin-bottom:18px;box-shadow:var(--shadow);overflow-x:auto}
+.explain{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.explain>div{background:var(--soft);border-radius:10px;padding:16px 18px}
+.explain .found{background:var(--accent-soft)}
+.explain ul{margin:4px 0 0;padding-left:20px}.explain li{margin-bottom:6px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+label.ctl{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--muted)}
+select,button.s{font:inherit;font-size:.95rem;background:var(--panel);color:var(--fg);border:1px solid var(--line);
+  border-radius:8px;padding:7px 10px}
+button.s{cursor:pointer;min-width:42px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem;color:var(--muted);margin:6px 0 14px}
+.sw{display:inline-block;width:16px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px;border:2px solid}
+.panes{display:grid;grid-template-columns:repeat(auto-fit,minmax(640px,1fr));gap:18px}
+.mono{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;font-size:.9rem;word-break:break-word}
+.note{color:var(--muted);font-size:.92rem}
+table.h{border-collapse:collapse;font-size:.95rem}
+table.h td,table.h th{border-bottom:1px solid var(--line);padding:9px 12px;text-align:center}
+table.h th{font-weight:600;color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:.04em}
+table.h td.l,table.h th.l{text-align:left}
+.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.85rem;border:1.5px solid}
+.bar{display:flex;height:22px;border-radius:6px;overflow:hidden;cursor:pointer;min-width:240px}
+.bar div{height:100%}
+.ex{border-top:1px solid var(--line);padding:12px 0}
+ins{background:var(--okbg);text-decoration:none;padding:1px 4px;border-radius:4px}
+details{margin-bottom:18px}
+summary{cursor:pointer;font-weight:600;font-size:1.05rem;padding:4px 0}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:6px 28px;margin-top:12px}
+.gloss div{display:flex;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.gloss b{min-width:92px;font-family:ui-monospace,Consolas,monospace;color:var(--accent)}
+svg text{fill:var(--fg)}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+@media (max-width:700px){.wrap{padding:0 16px}.panes{grid-template-columns:1fr}html{font-size:16px}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1>Alien Rosetta: what each model learned</h1>
+  <p class="lead">Every model translates English into an invented language in three steps: read the English, write its
+  <b>meaning</b> (the analysis), then write the <b>glyph words</b>. These five views show where each model succeeds
+  and where it breaks. Test sentences are generated (never the sealed set); glyph words are spelled in Latin letters.</p>
+</header>
+<nav><div class="wrap" id="tabs"></div></nav>
+<main class="wrap">
+  <details class="card" id="glossary"></details>
+  <section id="t-graph"></section>
+  <section id="t-map"></section>
+  <section id="t-pairs"></section>
+  <section id="t-cov"></section>
+  <section id="t-emb"></section>
+</main>
+<script src="../results/viz/viewer_data.js"></script>
+<script>
+const V = window.VIZ;
+const $ = (s, e=document) => e.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const lab = m => V.labels[m] || m;
+const fmt = (x, d=2) => x == null || isNaN(x) ? "–" : x.toFixed(d);
+function heat(p){ if(p==null||isNaN(p)) return css("--missbg");
+  const h = Math.max(0, Math.min(1, (p-0.4)/0.6))*125; return `hsla(${h},62%,48%,.30)`; }
+function translit(w){ const S=V.script, cons=new Set(S.cons), signs=new Set(S.signs); let o="",i=0; const ch=[...w];
+  while(i<ch.length){const c=ch[i], n=ch[i+1]; if(cons.has(c)){ if(signs.has(n)){o+=S.lat[c]+S.lat[n];i+=2}
+    else if(n===S.virama){o+=S.lat[c];i+=2} else {o+=S.lat[c]+"a";i++} } else {o+=(S.lat[c]??"?");i++}} return o;}
+function explain(what, read, found){
+  const li = xs => "<ul>" + xs.map(x=>`<li>${x}</li>`).join("") + "</ul>";
+  return `<div class="card explain"><div><h3>What this test is</h3>${what}</div>
+    <div><h3>How to read it</h3>${li(read)}</div><div class="found"><h3>What we found</h3>${li(found)}</div></div>`;
+}
+const opts = (list, cur) => list.map(m=>`<option value="${m}" ${m===cur?"selected":""}>${esc(lab(m))}</option>`).join("");
+
+// ---------- glossary
+const FIELDS = [["S","the doer (subject): who or what does it"],["V","the verb, with its endings (see below)"],
+ ["O","the object: what the action is done to"],["P","what X is (with V=be): 'Mira is <i>a teacher</i>'"],
+ ["L","place: in / at"],["M","how / when / where words (quickly, today, very)"],
+ ["A","describing words of X (with V=be): 'the dog is <i>old</i>'"],["T","time words without a relation word (every day)"],
+ ["I","greeting or exclamation (hello, sorry, wow)"],["Y","the person spoken to: 'Mira, come here'"],
+ ["C","the joining word that starts this event (and, because, if ...)"],
+ ["ON, TO, WITH …","relation fields: on, to, with, under, from, for, near, behind, about, than, without, before, after, through, around, between, during, until, since, against"]];
+const MARKS = [["PRES PAST FUT","tense ending of the verb"],["NEG","not"],["PROG","is …-ing"],["PERF","has …-ed"],
+ ["CAN MUST SHOULD MAY WOULD LET","helper (modal) endings"],["Q","question"],
+ ["a+b","describing word + noun (old+dog)"],["X^Y","owner: X's Y (PRON.1sg^book = my book)"],
+ ["&  |","and / or between nouns"],[".PL","plural"],["word>ADJ …","word-building ending (fun>ADJ, home>LESS, teach>AGENT)"],
+ ["NAME.x PRON.x LOAN.x","a name / a pronoun / a borrowed English noun"],[";","separates two events in one sentence"]];
+$("#glossary").innerHTML = `<summary>Glossary: the meaning fields and symbols (click to open)</summary>
+ <p class="note" style="margin-top:8px">The meaning (analysis) is a list of fields, one event per clause, e.g.
+ <span class="mono">S=PRON.3sgm V=see.PAST.NEG O=old+dog.PL</span> = "he did not see the old dogs".</p>
+ <div class="gloss">${FIELDS.map(([k,v])=>`<div><b>${k}</b><span>${v}</span></div>`).join("")}</div>
+ <h3 style="margin-top:18px">Inside a field</h3>
+ <div class="gloss">${MARKS.map(([k,v])=>`<div><b>${esc(k)}</b><span>${v}</span></div>`).join("")}</div>`;
+
+// ---------- tabs
+const TABS=[["t-graph","1 · Step graph"],["t-map","2 · Model map"],["t-pairs","3 · Minimal pairs"],
+            ["t-cov","4 · Coverage"],["t-emb","5 · Glyph embeddings"]];
+TABS.forEach(([id,name])=>{const b=document.createElement("button");b.textContent=name;b.dataset.id=id;
+  b.onclick=()=>show(id);$("#tabs").appendChild(b);});
+function show(id){document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===id));
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.id===id));
+  try{localStorage.setItem("viz-tab",id)}catch(e){} }
+
+// ---------- 1. step graph
+const ERR = {"correct":"meaning and glyphs both right",
+ "local":"meaning right, glyphs wrong: the meaning → glyph step failed",
+ "propagation":"meaning wrong, and the glyphs faithfully follow that wrong meaning",
+ "restoration":"meaning wrong, glyphs right anyway (a shortcut)",
+ "both wrong":"meaning wrong and the glyphs match neither",
+ "unreadable meaning":"the model's meaning is malformed and cannot be checked",
+ "glyphs wrong":"direct model (no meaning step): glyphs wrong"};
+const G={a:V.models[0], b:"", filter:"all", i:0};
+function errCounts(m){const c={};V.sentences.forEach(s=>{const a=s.models[m];if(a)c[a.error]=(c[a.error]||0)+1});return c;}
+function sentList(){ return V.sentences.map((s,i)=>[s,i]).filter(([s])=>{
+  const A=s.models[G.a], B=G.b?s.models[G.b]:null; if(!A) return false;
+  switch(true){case G.filter==="all":return true; case G.filter==="wrong":return !A.glyph_exact;
+   case G.filter==="right":return A.glyph_exact; case G.filter==="diff":return B && A.glyph_exact!==B.glyph_exact;
+   case G.filter==="unseen":return s.clauses.some(c=>!c.template_seen||c.fields.some(f=>!f.seen))||s.words.some(w=>w.kind==="word"&&!w.form_seen);
+   case G.filter.startsWith("err:"):return A.error===G.filter.slice(4);} return true;});}
+function renderGraph(){
+  const sec=$("#t-graph"), list=sentList(); if(G.i>=list.length) G.i=0;
+  const errs=[...new Set(V.sentences.flatMap(s=>Object.values(s.models).map(a=>a.error)))];
+  const ec=errCounts(G.a), tot=Object.values(ec).reduce((a,b)=>a+b,0);
+  sec.innerHTML = explain(
+   `<p>One test sentence drawn as the three steps the model performs: <b>English words → meaning fields → glyph
+    words</b>. Each meaning field and each glyph word is coloured by whether the selected model got it right. Pick a
+    second model to compare side by side.</p>`,
+   ["<b>Green</b> right, <b>red</b> wrong, <b>grey</b> missing.",
+    "<b>Dashed border</b> = this exact piece (field shape or glyph word form) never appeared in that model's training data.",
+    "Hover a box for the model's actual answer and how often the word was trained.",
+    "English → meaning lines are matched by word (approximate); meaning → glyph lines are exact.",
+    "The tag at the top names the error type: " + Object.entries(ERR).map(([k,v])=>`<i>${k}</i> = ${v}`).join("; ")+"."],
+   ["Most failures are <b>local</b>: the model understands the sentence but writes a glyph word wrong (baseline: 58 of 300 sentences).",
+    "<b>Restoration is almost absent</b> (≤ 1%): the glyphs follow the model's own meaning, so the meaning step is real, not decoration.",
+    "The data fix (every word ≥ 12 times) cut local errors from 94 to 58: rare words were the glyph-step problem.",
+    "The held-out model most often writes a <b>malformed meaning</b> (50 vs 22): English forms it never saw break the first step."]) +
+  `<div class="card"><div class="row">
+   <label class="ctl">Model<select id="ga">${opts(V.models,G.a)}</select></label>
+   <label class="ctl">Compare with<select id="gb"><option value="">(none)</option>${opts(V.models,G.b)}</select></label>
+   <label class="ctl">Show<select id="gf">${[["all","all sentences"],["wrong","model wrong"],["right","model right"],
+    ["diff","the two models disagree"],["unseen","has a never-seen piece"],...errs.map(e=>["err:"+e,"error: "+e])]
+    .map(([v,t])=>`<option value="${v}" ${v===G.filter?"selected":""}>${esc(t)}</option>`).join("")}</select></label>
+   <label class="ctl" style="flex:1;min-width:280px">Sentence (${list.length})<span class="row" style="margin:0;gap:6px">
+   <button class="s" id="gp">◀</button><select id="gs" style="flex:1;min-width:0">${list.map(([s],k)=>
+    `<option value="${k}" ${k===G.i?"selected":""}>${s.models[G.a].glyph_exact?"✓":"✗"} ${esc(s.english.slice(0,100))}</option>`).join("")}
+   </select><button class="s" id="gn">▶</button></span></label></div>
+   <div class="legend"><span><span class="sw" style="background:${css("--okbg")};border-color:${css("--ok")}"></span>right</span>
+   <span><span class="sw" style="background:${css("--badbg")};border-color:${css("--bad")}"></span>wrong</span>
+   <span><span class="sw" style="background:${css("--missbg")};border-color:${css("--miss")}"></span>missing</span>
+   <span><span class="sw" style="border-style:dashed;border-color:${css("--fg")}"></span>never seen in training</span>
+   <span>${esc(lab(G.a))}: ${Object.entries(ec).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k} ${v}`).join(" · ")} (of ${tot})</span></div>
+   </div><div class="panes" id="gpanes"></div>`;
+  $("#ga").onchange=e=>{G.a=e.target.value;G.i=0;renderGraph()}; $("#gb").onchange=e=>{G.b=e.target.value;renderGraph()};
+  $("#gf").onchange=e=>{G.filter=e.target.value;G.i=0;renderGraph()}; $("#gs").onchange=e=>{G.i=+e.target.value;renderGraph()};
+  $("#gp").onclick=()=>{G.i=Math.max(0,G.i-1);renderGraph()}; $("#gn").onclick=()=>{G.i=Math.min(list.length-1,G.i+1);renderGraph()};
+  if(!list.length){$("#gpanes").innerHTML=`<div class="card empty">No sentence matches this filter.</div>`;return;}
+  const s=list[G.i][0]; for(const m of [G.a,G.b].filter(Boolean)) $("#gpanes").appendChild(graphPane(s,m));
+}
+function graphPane(s,m){
+  const A=s.models[m], div=document.createElement("div"); div.className="card";
+  if(!A){div.innerHTML=`<h2>${esc(lab(m))}</h2><p class="note">This sentence was in this model's training data, so it is not a test for it.</p>`;return div;}
+  const fl=[]; s.clauses.forEach((c,ci)=>c.fields.forEach((f,fi)=>fl.push({ci,fi,f})));
+  const rowH=36, top=44, W=900, xE=8, xF=250, xG=600, wE=200, wF=300, wG=290, nh=28;
+  const eY=s.tokens.map((t,i)=>top+i*rowH*0.82), fY=fl.map((x,i)=>top+i*(rowH+10)+x.ci*22), gY=s.words.map((w,i)=>top+i*rowH);
+  const H=Math.max(eY.at(-1)||0,fY.at(-1)||0,gY.at(-1)||0)+54;
+  const col=st=>st==="right"?[css("--okbg"),css("--ok")]:st==="missing"?[css("--missbg"),css("--miss")]:[css("--badbg"),css("--bad")];
+  let svg=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="max-width:100%;font-family:inherit">
+   <text x="${xE}" y="22" font-size="15" font-weight="600">English</text><text x="${xF}" y="22" font-size="15" font-weight="600">Meaning</text>
+   <text x="${xG}" y="22" font-size="15" font-weight="600">Glyph words</text>`;
+  const fIndex={}; fl.forEach((x,k)=>fIndex[x.ci+":"+x.fi]=k);
+  for(const [ti,ci,fi] of s.links){const k=fIndex[ci+":"+fi]; if(k==null) continue;
+    svg+=`<path d="M${xE+wE} ${eY[ti]+10} C ${xE+wE+30} ${eY[ti]+10}, ${xF-30} ${fY[k]+nh/2}, ${xF} ${fY[k]+nh/2}" fill="none" stroke="${css("--line")}" stroke-width="1.6"/>`;}
+  s.words.forEach((w,i)=>{const k=fIndex[w.clause+":"+w.field]; if(k==null) return;
+    svg+=`<path d="M${xF+wF} ${fY[k]+nh/2} C ${xF+wF+30} ${fY[k]+nh/2}, ${xG-30} ${gY[i]+nh/2}, ${xG} ${gY[i]+nh/2}" fill="none" stroke="${css("--line")}" stroke-width="1.6"/>`;});
+  s.tokens.forEach((t,i)=>{svg+=`<text x="${xE}" y="${eY[i]+15}" font-size="14.5">${esc(t)}</text>`;});
+  let lastC=-1;
+  fl.forEach((x,k)=>{ const st=A.fields?A.fields[x.ci].fields[x.fi]:"n/a"; const stt=st.startsWith("wrong")?"wrong":st;
+    const [bg,bd]=A.fields?col(stt):[css("--missbg"),css("--line")]; const c=s.clauses[x.ci];
+    if(x.ci!==lastC){lastC=x.ci; svg+=`<text x="${xF}" y="${fY[k]-6}" font-size="12" fill="${css("--muted")}">clause ${x.ci+1}: ${esc(c.template)}${c.template_seen?"":" · structure never seen"}</text>`;}
+    const tip=`${x.f.f}=${x.f.v}\n${A.fields?("model: "+(st==="right"?"same":st==="missing"?"(missing)":st.slice(6))):"direct model: writes no meaning"}\n${x.f.seen?"this shape was seen in training":"this shape NEVER appeared in training"}`;
+    svg+=`<g><title>${esc(tip)}</title><rect x="${xF}" y="${fY[k]}" width="${wF}" height="${nh}" rx="7" fill="${bg}" stroke="${bd}" stroke-width="1.8" ${x.f.seen?"":'stroke-dasharray="5 4"'}/>
+     <text x="${xF+10}" y="${fY[k]+19}" font-size="13.5" style="font-family:ui-monospace,Consolas,monospace">${esc((x.f.f+"="+x.f.v).slice(0,34))}</text></g>`;});
+  s.words.forEach((w,i)=>{const st=A.words[i]||{s:"missing"}; const [bg,bd]=col(st.s==="right"?"right":st.s);
+    const tip=`${w.latin}  (${w.gloss})\n${w.kind==="word"?"root seen "+w.count+" times in training\n":""}${w.form_seen?"this exact form was seen in training":"this exact form NEVER appeared in training"}${st.pred?"\nmodel wrote: "+st.pred:""}`;
+    svg+=`<g><title>${esc(tip)}</title><rect x="${xG}" y="${gY[i]}" width="${wG}" height="${nh}" rx="7" fill="${bg}" stroke="${bd}" stroke-width="1.8" ${w.form_seen?"":'stroke-dasharray="5 4"'}/>
+     <text x="${xG+10}" y="${gY[i]+19}" font-size="14">${esc(w.latin.slice(0,17))}</text>
+     <text x="${xG+wG-9}" y="${gY[i]+19}" font-size="11.5" text-anchor="end" fill="${css("--muted")}">${esc(w.gloss.slice(0,20))}</text></g>`;});
+  svg+="</svg>";
+  const good=A.error==="correct", c=good?css("--ok"):css("--bad");
+  div.innerHTML=`<div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(lab(m))}</h2>
+   <span class="tag" style="border-color:${c};color:${c}" title="${esc(ERR[A.error]||"")}">${esc(A.error)}</span></div>
+   <p class="note">${esc(ERR[A.error]||"")}</p>${svg}
+   <p class="note" style="margin-top:12px">Correct meaning: <span class="mono">${esc(s.analysis)}</span></p>
+   ${A.analysis!=null?`<p class="note">Model's meaning: <span class="mono">${esc(A.analysis)}</span></p>`:""}
+   ${A.extra_words&&A.extra_words.length?`<p class="note">Extra words the model wrote: ${esc(A.extra_words.join(" "))}</p>`:""}`;
+  return div;
+}
+
+// ---------- 2. model map
+const STEPDEF = {"S":"the doer field right","V: verb":"the right verb","V: tense":"the right tense (PRES / PAST / FUT)",
+ "V: helpers":"the right helper endings (NEG, CAN, PERF, PROG, Q …)","O":"the object field right","P":"what X is (with be)",
+ "L":"the place field","M":"how / when / where words","A":"describing words of X (with be)","T":"time words",
+ "case fields":"relation fields (ON, TO, WITH …)","other fields":"greeting, person spoken to, joining word",
+ "word: noun/verb/adj":"glyph words for plain nouns, verbs, describing words","word: built (endings)":"glyph words built with an ending (fun>ADJ …)",
+ "word: compound":"glyph words joining two roots","word: pronoun":"pronoun glyph words","word: name":"names (spelled by sound)",
+ "word: grammar":"small grammar words (the, in, will, case words)","word form: seen":"glyph words whose exact form appeared in training",
+ "word form: new":"glyph words whose exact form never appeared (known root + known endings, new combination)"};
+function renderMap(){
+  const sec=$("#t-map"), steps=V.step_order.filter(k=>V.models.some(m=>V.steps[m][k])), tc=V.train_counts, maxc=Math.max(...Object.values(tc));
+  sec.innerHTML = explain(
+   `<p>The translation broken into its <b>steps</b>: each meaning field, each part of the verb, and each kind of glyph
+    word. For every model, the share of test cases where that step was right. Meaning rows exist only for models that
+    write the meaning first.</p>`,
+   ["Rows are steps (definitions in the first column); columns are models.",
+    "Cells: share right, coloured red → yellow → green; the number tested is in brackets.",
+    "The blue bar shows how often the step occurs in training (log scale).",
+    "Below the table: one model drawn as a map, meaning steps → kinds of glyph word."],
+   ["The baseline gets almost every meaning step right (≥ 0.92) except describing words (A, 0.88).",
+    "The weakest glyph step everywhere is <b>new word forms</b> (baseline 0.85 vs 0.93 for seen forms).",
+    "The held-out model loses most on <b>objects and relation fields</b> (O 0.76, case fields 0.74): the English forms it never saw are mostly about how objects and relations are expressed.",
+    "Focal loss and paraphrasing move these numbers only within noise."]) +
+  `<div class="card"><table class="h"><tr><th class="l">step</th><th class="l">what it measures</th><th>in training</th>
+   ${V.models.map(m=>`<th>${esc(lab(m))}</th>`).join("")}</tr>${steps.map(k=>{const c=tc[k];
+    return `<tr><td class="l"><b>${esc(k)}</b></td><td class="l note">${esc(STEPDEF[k]||"")}</td>
+     <td>${c?`<div title="${c}" style="height:10px;width:${Math.max(4,90*Math.log1p(c)/Math.log1p(maxc))}px;background:${css("--accent")};opacity:.55;border-radius:3px"></div>`:"<span class=note>–</span>"}</td>
+     ${V.models.map(m=>{const x=V.steps[m][k]; if(!x) return "<td class=note>–</td>"; const p=x.right/x.n;
+      return `<td style="background:${heat(p)}" title="${x.right}/${x.n}">${p.toFixed(2)} <span class="note">(${x.n})</span></td>`}).join("")}</tr>`}).join("")}
+   </table></div>
+   <div class="card"><div class="row"><h2 style="margin:0">Map of one model</h2><select id="mmsel">${opts(V.models,MM.one||V.models[0])}</select></div><div id="mmsvg"></div></div>`;
+  $("#mmsel").onchange=e=>{MM.one=e.target.value;drawMap()}; drawMap();
+}
+const MM={};
+function drawMap(){
+  const m=MM.one||V.models[0], S=V.steps[m], tc=V.train_counts, maxc=Math.max(...Object.values(tc));
+  const L1=["S","V: verb","V: tense","V: helpers","O","P","L","M","A","T","case fields","other fields"].filter(k=>S[k]);
+  const L2=["word: noun/verb/adj","word: built (endings)","word: compound","word: pronoun","word: name","word: grammar"].filter(k=>S[k]);
+  const L3=["word form: seen","word form: new"].filter(k=>S[k]);
+  const W=1080, H=Math.max(L1.length,L2.length,2)*52+70, cols=[[L1,10,"meaning steps"],[L2,400,"glyph words by kind"],[L3,790,"glyph words: form seen?"]];
+  const pos={}; let boxes="", lines="";
+  for(const [L,x,title] of cols){boxes+=`<text x="${x}" y="22" font-size="15" font-weight="600">${title}</text>`;
+    L.forEach((k,i)=>{const y=40+i*52; pos[k]=[x,y]; const v=S[k], p=v.right/v.n, w=190+(tc[k]?70*Math.log1p(tc[k])/Math.log1p(maxc):0);
+      boxes+=`<g><title>${k}: ${v.right}/${v.n} right${tc[k]?", "+tc[k]+" in training":""}</title><rect x="${x}" y="${y}" width="${w}" height="40" rx="9" fill="${heat(p)}" stroke="${css("--line")}"/>
+       <text x="${x+12}" y="${y+17}" font-size="14">${esc(k)}</text><text x="${x+12}" y="${y+33}" font-size="12.5" fill="${css("--muted")}">${p.toFixed(2)} right · n=${v.n}</text></g>`;});}
+  if(!L1.length) boxes+=`<text x="10" y="70" font-size="14" fill="${css("--muted")}">(no meaning step: direct model)</text>`;
+  const links=[["S","word: noun/verb/adj"],["S","word: pronoun"],["S","word: name"],["O","word: noun/verb/adj"],["O","word: pronoun"],
+    ["V: verb","word: noun/verb/adj"],["V: tense","word: noun/verb/adj"],["V: helpers","word: grammar"],["A","word: built (endings)"],
+    ["M","word: built (endings)"],["case fields","word: grammar"],["L","word: noun/verb/adj"],
+    ["word: noun/verb/adj","word form: seen"],["word: noun/verb/adj","word form: new"],["word: built (endings)","word form: new"],
+    ["word: built (endings)","word form: seen"],["word: compound","word form: new"]];
+  for(const [a,b] of links) if(pos[a]&&pos[b]) lines+=`<path d="M${pos[a][0]+190} ${pos[a][1]+20} C ${pos[a][0]+260} ${pos[a][1]+20}, ${pos[b][0]-60} ${pos[b][1]+20}, ${pos[b][0]} ${pos[b][1]+20}" fill="none" stroke="${css("--line")}" stroke-width="1.6"/>`;
+  $("#mmsvg").innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="max-width:100%">${lines}${boxes}</svg>
+   <p class="note">Box colour = share right; box width grows with how often the step occurs in training.</p>`;
+}
+
+// ---------- 3. minimal pairs
+const OUTC=["composed (both right)","base wrong, change in the right place","changed, but wrong","changed other words too","ignored the change","base wrong, change elsewhere"];
+const ODEF={"composed (both right)":"right before and after the edit",
+ "base wrong, change in the right place":"already wrong somewhere, but the edit changed exactly the right word(s)",
+ "changed, but wrong":"changed the right place but wrote it wrong","changed other words too":"the edit also changed unrelated words",
+ "ignored the change":"output did not change at all","base wrong, change elsewhere":"already wrong, and the change landed in the wrong place"};
+const OCOL=()=>[css("--ok"),"#86c79e","#e2a64b",css("--bad"),"#9b59b6",css("--miss")];
+function renderPairs(){
+  const sec=$("#t-pairs");
+  if(!V.pairs||!Object.keys(V.pairs.models||{}).length){sec.innerHTML=`<div class="card empty">Minimal-pair results not computed yet.</div>`;return;}
+  const items=V.pairs.items, kinds=[...new Set(items.map(x=>x.kind))], ms=Object.keys(V.pairs.models), cols=OCOL();
+  sec.innerHTML = explain(
+   `<p>We change <b>one thing</b> in an English sentence (swap a noun, change the tense, add or remove "not", make a
+    noun plural, add a describing word) and check whether the model changes <b>exactly the matching glyph word(s)</b>.
+    Our reader checks every edit, so the correct change is known. A model that composes changes one word; a model that
+    matches remembered chunks changes several words, or none.</p>`,
+   ["Each bar is one model on one kind of edit; colours are outcomes: " + OUTC.map((o,i)=>`<span style="color:${cols[i]}">■</span> <i>${o}</i> (${ODEF[o]})`).join("; ")+".",
+    "The number under a bar is the share fully right before and after.",
+    "Click a bar to list its examples, with the changed glyph words highlighted."],
+   ["The models mostly <b>compose</b>: about 9 in 10 edits change exactly the right word(s); changing unrelated words is rare (≤ 3 of 216).",
+    "Writing the meaning first helps: the direct model (no meaning step) is far weaker on <b>noun swaps</b> (0.41 vs 0.72 fully right).",
+    "Negation and tense are the most robust edits; noun swaps and added describing words are the weakest."]) +
+  `<div class="card"><table class="h"><tr><th class="l">edit</th>${ms.map(m=>`<th>${esc(lab(m))}</th>`).join("")}</tr>
+   ${["all",...kinds].map(k=>`<tr><td class="l"><b>${k}</b> <span class="note">(${items.filter(x=>k==="all"||x.kind===k).length})</span></td>
+    ${ms.map(m=>{const rs=V.pairs.models[m].map((r,i)=>[r,items[i]]).filter(([r,x])=>k==="all"||x.kind===k);
+      return `<td><div class="bar" data-m="${m}" data-k="${k}">${OUTC.map((o,i)=>{const n=rs.filter(([r])=>r.outcome===o).length;
+        return n?`<div title="${o}: ${n}" style="width:${100*n/rs.length}%;background:${cols[i]}"></div>`:""}).join("")}</div>
+        <div class="note">${(rs.filter(([r])=>r.outcome===OUTC[0]).length/rs.length).toFixed(2)} fully right</div></td>`;}).join("")}</tr>`).join("")}
+   </table></div><div class="card" id="pex"><p class="note">Click a bar above to see its examples.</p></div>`;
+  sec.querySelectorAll(".bar").forEach(b=>b.onclick=()=>pairEx(b.dataset.m,b.dataset.k));
+}
+function diffWords(a,b){const A=a.split(" "),B=b.split(" "),n=A.length,m=B.length,dp=Array.from({length:n+1},()=>Array(m+1).fill(0));
+  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)dp[i][j]=A[i]===B[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  let i=0,j=0,o=[];while(j<m){if(i<n&&A[i]===B[j]){o.push(esc(translit(B[j])));i++;j++}else if(i<n&&dp[i+1][j]>=dp[i][j+1])i++;else{o.push(`<ins>${esc(translit(B[j]))}</ins>`);j++}}return o.join(" ");}
+function pairEx(m,k){
+  const items=V.pairs.items, rs=V.pairs.models[m].map((r,i)=>[r,items[i]]).filter(([r,x])=>k==="all"||x.kind===k);
+  $("#pex").innerHTML=`<h2>${esc(lab(m))} · ${esc(k)}</h2>`+rs.slice(0,60).map(([r,x])=>`<div class="ex">
+   <div><span class="tag" style="border-color:${css("--line")}">${esc(r.outcome)}</span> ${esc(x.base)} → <b>${esc(x.edit)}</b></div>
+   <div class="note">correct change: ${diffWords(x.base_glyphs,x.edit_glyphs)}</div>
+   <div class="note">model's change: ${diffWords(r.pred_base,r.pred_edit)}</div>
+   ${r.pred_base!==x.base_glyphs?`<div class="note">(the model's base answer was already wrong: ${esc(r.pred_base.split(" ").map(translit).join(" "))})</div>`:""}</div>`).join("");
+  $("#pex").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+// ---------- 4. coverage
+function renderCov(){
+  const sec=$("#t-cov"), bins=["never","1-9","10-29","30-99","100+"];
+  const pct=a=>a[1]?(a[0]/a[1]).toFixed(2):"–";
+  sec.innerHTML = explain(
+   `<p>Where does each model's knowledge stop? Glyph-word accuracy split by <b>how often the word's root was
+    trained</b> and whether <b>this exact word form</b> appeared in training; and sentence accuracy when every piece of
+    a kind was seen in training vs when at least one was new. This is the test of Faith and Fate's idea that models
+    succeed mainly on pieces they have seen.</p>`,
+   ["Left table: rows = how often the root was trained; columns = exact form seen / new (known root + known endings, never together).",
+    "Right table: sentence accuracy with all pieces of a kind seen vs at least one new piece of that kind.",
+    "<i>clause template</i> = the list of fields in a clause; <i>English variant</i> = an English form deliberately held out of training (held-out model only)."],
+   ["<b>Word level: the models compose, with a penalty.</b> New forms built from known pieces are right 0.84–0.86 of the time vs 0.91–0.94 for seen forms.",
+    "<b>Sentence structure: the models match.</b> For the held-out model, sentences with a never-seen clause structure are right only 0.08 of the time (vs 0.51), and with a held-out English form 0.19.",
+    "So Faith and Fate's pattern holds for structure but not for word building: generalisation stops where training stopped covering structure."]) +
+  `<div class="panes">${V.models.map(m=>{const c=V.coverage[m]; if(!c) return "";
+    return `<div class="card"><h2>${esc(lab(m))}</h2><div class="row" style="align-items:flex-start;gap:24px">
+     <table class="h"><tr><th>root trained</th><th>form seen</th><th>new form</th></tr>${bins.map(b=>`<tr><td>${b}</td>${["seen form","new form"].map(f=>{const x=c.grid[b+"|"+f];
+      return x&&x[1]?`<td style="background:${heat(x[0]/x[1])}">${(x[0]/x[1]).toFixed(2)} <span class="note">(${x[1]})</span></td>`:"<td class=note>–</td>"}).join("")}</tr>`).join("")}</table>
+     <table class="h"><tr><th class="l">piece</th><th>all seen</th><th>≥ 1 new</th></tr>${Object.entries(c.struct).map(([k,[a,b]])=>
+      `<tr><td class="l">${esc(k)}</td>${[a,b].map(x=>x[1]?`<td style="background:${heat(x[0]/x[1])}">${pct(x)} <span class="note">(${x[1]})</span></td>`:"<td class=note>–</td>").join("")}</tr>`).join("")}</table>
+     </div></div>`}).join("")}</div>`;
+}
+
+// ---------- 5. glyph embeddings
+function renderEmb(){
+  const sec=$("#t-emb"), E=V.emb||{};
+  if(!Object.keys(E).length){sec.innerHTML=`<div class="card empty">No embedding data.</div>`;return;}
+  sec.innerHTML = explain(
+   `<p>Each glyph is a new token with its own vector. We started those vectors in different ways: at the
+    <b>sound</b> the glyph writes, at a <b>wrong sound</b>, or as a random word piece (<b>no meaning</b>). Here every
+    glyph's vector is shown before training (hollow) and after (filled), projected to 2D.</p>`,
+   ["Each dot is one glyph, labelled with the sound it writes; blue = vowels, red = consonants; the line joins before and after.",
+    "<i>Sound kept</i>: share of glyphs whose vector is closest to the original token of their OWN sound.",
+    "<i>Stays at start</i>: share whose closest sound after training is the same as before (right or wrong)."],
+   ["Training moves the glyph vectors about 30% of their length, but <b>never to their real sound</b>.",
+    "Glyphs started at their sound keep it (1.00); glyphs started at a wrong sound stay nearest that wrong sound; random starts never find their sound.",
+    "So the starting point is not a hint the model later replaces: it stays the glyph's meaning. This is why starting from meaning matters so much (claim 1)."]) +
+  `<div class="panes">${Object.entries(E).map(([run,d])=>{
+    const pts=d.start.concat(d.end), xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]);
+    const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys), W=600,H=400,pad=28;
+    const X=v=>pad+(v-x0)/(x1-x0||1)*(W-2*pad), Y=v=>H-pad-(v-y0)/(y1-y0||1)*(H-2*pad), vowel=s=>/^[aeiou]+$/.test(s||"");
+    let svg=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="max-width:100%">`;
+    d.sounds.forEach((s,i)=>{const c=vowel(s)?css("--accent"):css("--bad");
+      svg+=`<line x1="${X(d.start[i][0])}" y1="${Y(d.start[i][1])}" x2="${X(d.end[i][0])}" y2="${Y(d.end[i][1])}" stroke="${css("--line")}" stroke-width="1.4"/>
+       <circle cx="${X(d.start[i][0])}" cy="${Y(d.start[i][1])}" r="4.5" fill="none" stroke="${c}" stroke-width="1.6"/>
+       <circle cx="${X(d.end[i][0])}" cy="${Y(d.end[i][1])}" r="5" fill="${c}"/>
+       <text x="${X(d.end[i][0])+7}" y="${Y(d.end[i][1])-5}" font-size="13">${esc(s||"·")}</text>`;});
+    svg+="</svg>";
+    return `<div class="card"><h2>${esc(d.label)}</h2><p class="note mono">${esc(run)}</p>${svg}
+     <table class="h" style="margin-top:10px"><tr><th class="l">measure</th><th>before</th><th>after</th></tr>
+     <tr><td class="l">sound kept (own sound is nearest)</td><td>${fmt(d.top1_start)}</td><td><b>${fmt(d.top1_end)}</b></td></tr>
+     <tr><td class="l">stays at its starting sound</td><td>–</td><td><b>${d.stay==null?"–":fmt(d.stay)}</b></td></tr>
+     <tr><td class="l">mean rank of own sound (of ${d.n_sounds})</td><td>${fmt(d.rank_start.reduce((a,b)=>a+b,0)/d.rank_start.length,1)}</td><td>${fmt(d.rank_end.reduce((a,b)=>a+b,0)/d.rank_end.length,1)}</td></tr>
+     <tr><td class="l">how far vectors moved</td><td colspan="2">${(100*d.moved).toFixed(0)}% of their length</td></tr></table></div>`}).join("")}</div>`;
+}
+
+renderGraph(); renderMap(); renderPairs(); renderCov(); renderEmb();
+let t0="t-graph"; try{t0=localStorage.getItem("viz-tab")||t0}catch(e){} show(t0);
+</script>
+</body>
+</html>

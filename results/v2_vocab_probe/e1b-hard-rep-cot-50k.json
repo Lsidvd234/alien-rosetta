@@ -1,0 +1,143 @@
+{
+ "run": "e1b-hard-rep-cot-50k",
+ "cot": true,
+ "seed": "0",
+ "rows": [
+  [
+   "1. v1 words (control)",
+   50,
+   [
+    1401,
+    1069,
+    968
+   ],
+   1.0,
+   1.0,
+   1.0,
+   107.11813688278198
+  ],
+  [
+   "2. new root words",
+   50,
+   [
+    5164,
+    1141,
+    554
+   ],
+   0.0,
+   0.46,
+   0.0,
+   103.94523882865906
+  ],
+  [
+   "3. built words",
+   50,
+   [
+    1140,
+    321,
+    19
+   ],
+   0.0,
+   0.0,
+   0.0,
+   103.27439880371094
+  ],
+  [
+   "4. everyday additions",
+   50,
+   [
+    124,
+    14,
+    3
+   ],
+   0.0,
+   0.34,
+   0.0,
+   97.33897948265076
+  ]
+ ],
+ "examples": {
+  "1. v1 words (control)": [],
+  "2. new root words": [
+   {
+    "english": "the mems resell the lookup",
+    "want": "S=mem.PL V=resell.PRES O=lookup",
+    "got": "S=membrane.PL V=resell.PRES O=lookup"
+   },
+   {
+    "english": "the reform settled the alphabets",
+    "want": "S=reform V=settle.PAST O=alphabet.PL",
+    "got": "S=reform V=resolve.PAST O=alphabet.PL"
+   },
+   {
+    "english": "the tyrosine underestimates the eighteenth amounts",
+    "want": "S=tyrosine V=underestimate.PRES O=eighteenth+amount.PL",
+    "got": "S=tyrosine V=underestimate.PRES O=eighth+amount.PL"
+   },
+   {
+    "english": "the cranky acquaintances hoarded the chassis",
+    "want": "S=cranky+acquaintance.PL V=hoard.PAST O=chassis",
+    "got": "S=cranky+acquaintances V=hoard.PAST O=chassis"
+   },
+   {
+    "english": "the edges will cull the cases",
+    "want": "S=edge.PL V=cull.FUT O=case.PL",
+    "got": "S=edge.PL V=cull.FUT O=case.PL"
+   }
+  ],
+  "3. built words": [
+   {
+    "english": "the cutters symbolize the informant",
+    "want": "S=cut>AGENT.PL V=symbol>VERB.PRES O=inform>AGENT",
+    "got": "S=cutter.PL V=symbolize.PRES O=informant"
+   },
+   {
+    "english": "the rigidity solidified the elasticities",
+    "want": "S=rigid>QUAL V=solid>VERB.PAST O=elastic>QUAL.PL",
+    "got": "S=rigidity V=solidify.PAST O=elasticity.PL"
+   },
+   {
+    "english": "the stimulation revolutionizes the ceremonial selectors",
+    "want": "S=stimulate>ACT V=revolution>VERB.PRES O=ceremony>ADJ+select>AGENT.PL",
+    "got": "S=stimulation V=revolutionize.PRES O=ceremonial+selector.PL"
+   },
+   {
+    "english": "the spinal councilmen undressed the opposition",
+    "want": "S=spine>ADJ+council_man.PL V=dress>NOT.PAST O=oppose>ACT",
+    "got": "S=spinal+councilman.PL V=undress.PAST O=opposition"
+   },
+   {
+    "english": "the rarities will fortify the lenders",
+    "want": "S=rare>QUAL.PL V=fort>VERB.FUT O=lend>AGENT.PL",
+    "got": "S=rarity.PL V=fortify.FUT O=lender.PL"
+   }
+  ],
+  "4. everyday additions": [
+   {
+    "english": "the emperors tell the member",
+    "want": "S=emperor.PL V=tell.PRES O=member",
+    "got": "S=emperor.PL V=inform.PRES O=member"
+   },
+   {
+    "english": "the criminal told the neighbours",
+    "want": "S=criminal V=tell.PAST O=neighbour.PL",
+    "got": "S=criminal V=inform.PAST O=neighbor.PL"
+   },
+   {
+    "english": "the anybody gets the boring cops",
+    "want": "S=anybody V=get.PRES O=boring+cop.PL",
+    "got": "S=anybody V=obtain.PRES O=boring+cop.PL"
+   },
+   {
+    "english": "the tired sayings said the pupil",
+    "want": "S=tired+saying.PL V=say.PAST O=pupil",
+    "got": "S=tired+meaning.PL V=say.PAST O=pupil"
+   },
+   {
+    "english": "the grooms will say the emperors",
+    "want": "S=groom.PL V=say.FUT O=emperor.PL",
+    "got": "S=groom.PL V=say.FUT O=emperor.PL"
+   }
+  ]
+ }
+}

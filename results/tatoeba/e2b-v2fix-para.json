@@ -1,0 +1,8 @@
+{
+ "run": "e2b-v2fix-para",
+ "n": 600,
+ "cot": true,
+ "glyph_exact": 0.4766666666666667,
+ "word_acc": 0.8103895502645513,
+ "meaning_exact": 0.615
+}

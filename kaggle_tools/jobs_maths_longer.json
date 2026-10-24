@@ -1,0 +1,30 @@
+[
+ {
+  "name": "maths-meaning-longer",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--add-max",
+   "4",
+   "--mul-max",
+   "3x2"
+  ]
+ },
+ {
+  "name": "maths-mean-longer",
+  "args": [
+   "@maths",
+   "--init",
+   "mean",
+   "--eval-every",
+   "500",
+   "--add-max",
+   "4",
+   "--mul-max",
+   "3x2"
+  ]
+ }
+]

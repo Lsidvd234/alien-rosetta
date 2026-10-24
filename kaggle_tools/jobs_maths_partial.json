@@ -1,0 +1,22 @@
+[
+ {
+  "name": "maths-digitsonly",
+  "args": [
+   "@maths",
+   "--init",
+   "digits_only",
+   "--eval-every",
+   "500"
+  ]
+ },
+ {
+  "name": "maths-opsonly",
+  "args": [
+   "@maths",
+   "--init",
+   "ops_only",
+   "--eval-every",
+   "500"
+  ]
+ }
+]

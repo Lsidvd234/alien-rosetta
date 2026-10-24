@@ -1,0 +1,796 @@
+{
+ "nouns": [
+  {
+   "lemma": "dad",
+   "plural": "dads",
+   "gender": "m"
+  },
+  {
+   "lemma": "daddy",
+   "plural": "daddies",
+   "gender": "m"
+  },
+  {
+   "lemma": "dude",
+   "plural": "dudes",
+   "gender": "m"
+  },
+  {
+   "lemma": "guy",
+   "plural": "guys",
+   "gender": "m"
+  },
+  {
+   "lemma": "knight",
+   "plural": "knights",
+   "gender": "m"
+  },
+  {
+   "lemma": "lord",
+   "plural": "lords",
+   "gender": "m"
+  },
+  {
+   "lemma": "emperor",
+   "plural": "emperors",
+   "gender": "m"
+  },
+  {
+   "lemma": "duke",
+   "plural": "dukes",
+   "gender": "m"
+  },
+  {
+   "lemma": "groom",
+   "plural": "grooms",
+   "gender": "m"
+  },
+  {
+   "lemma": "grandpa",
+   "plural": "grandpas",
+   "gender": "m"
+  },
+  {
+   "lemma": "grandson",
+   "plural": "grandsons",
+   "gender": "m"
+  },
+  {
+   "lemma": "sir",
+   "plural": "sirs",
+   "gender": "m"
+  },
+  {
+   "lemma": "wizard",
+   "plural": "wizards",
+   "gender": "m"
+  },
+  {
+   "lemma": "god",
+   "plural": "gods",
+   "gender": "m"
+  },
+  {
+   "lemma": "monk",
+   "plural": "monks",
+   "gender": "m"
+  },
+  {
+   "lemma": "bachelor",
+   "plural": "bachelors",
+   "gender": "m"
+  },
+  {
+   "lemma": "mom",
+   "plural": "moms",
+   "gender": "f"
+  },
+  {
+   "lemma": "mama",
+   "plural": "mamas",
+   "gender": "f"
+  },
+  {
+   "lemma": "bride",
+   "plural": "brides",
+   "gender": "f"
+  },
+  {
+   "lemma": "widow",
+   "plural": "widows",
+   "gender": "f"
+  },
+  {
+   "lemma": "grandma",
+   "plural": "grandmas",
+   "gender": "f"
+  },
+  {
+   "lemma": "granddaughter",
+   "plural": "granddaughters",
+   "gender": "f"
+  },
+  {
+   "lemma": "madam",
+   "plural": "madams",
+   "gender": "f"
+  },
+  {
+   "lemma": "goddess",
+   "plural": "goddesses",
+   "gender": "f"
+  },
+  {
+   "lemma": "witch",
+   "plural": "witches",
+   "gender": "f"
+  },
+  {
+   "lemma": "maid",
+   "plural": "maids",
+   "gender": "f"
+  },
+  {
+   "lemma": "actress",
+   "plural": "actresses",
+   "gender": "f"
+  },
+  {
+   "lemma": "adult",
+   "plural": "adults",
+   "gender": "h"
+  },
+  {
+   "lemma": "boss",
+   "plural": "bosses",
+   "gender": "h"
+  },
+  {
+   "lemma": "captain",
+   "plural": "captains",
+   "gender": "h"
+  },
+  {
+   "lemma": "champion",
+   "plural": "champions",
+   "gender": "h"
+  },
+  {
+   "lemma": "chef",
+   "plural": "chefs",
+   "gender": "h"
+  },
+  {
+   "lemma": "citizen",
+   "plural": "citizens",
+   "gender": "h"
+  },
+  {
+   "lemma": "client",
+   "plural": "clients",
+   "gender": "h"
+  },
+  {
+   "lemma": "coach",
+   "plural": "coaches",
+   "gender": "h"
+  },
+  {
+   "lemma": "cop",
+   "plural": "cops",
+   "gender": "h"
+  },
+  {
+   "lemma": "cousin",
+   "plural": "cousins",
+   "gender": "h"
+  },
+  {
+   "lemma": "criminal",
+   "plural": "criminals",
+   "gender": "h"
+  },
+  {
+   "lemma": "customer",
+   "plural": "customers",
+   "gender": "h"
+  },
+  {
+   "lemma": "employee",
+   "plural": "employees",
+   "gender": "h"
+  },
+  {
+   "lemma": "expert",
+   "plural": "experts",
+   "gender": "h"
+  },
+  {
+   "lemma": "fellow",
+   "plural": "fellows",
+   "gender": "h"
+  },
+  {
+   "lemma": "fool",
+   "plural": "fools",
+   "gender": "h"
+  },
+  {
+   "lemma": "genius",
+   "plural": "geniuses",
+   "gender": "h"
+  },
+  {
+   "lemma": "guard",
+   "plural": "guards",
+   "gender": "h"
+  },
+  {
+   "lemma": "hero",
+   "plural": "heroes",
+   "gender": "h"
+  },
+  {
+   "lemma": "host",
+   "plural": "hosts",
+   "gender": "h"
+  },
+  {
+   "lemma": "idiot",
+   "plural": "idiots",
+   "gender": "h"
+  },
+  {
+   "lemma": "kid",
+   "plural": "kids",
+   "gender": "h"
+  },
+  {
+   "lemma": "mate",
+   "plural": "mates",
+   "gender": "h"
+  },
+  {
+   "lemma": "mayor",
+   "plural": "mayors",
+   "gender": "h"
+  },
+  {
+   "lemma": "member",
+   "plural": "members",
+   "gender": "h"
+  },
+  {
+   "lemma": "minister",
+   "plural": "ministers",
+   "gender": "h"
+  },
+  {
+   "lemma": "owner",
+   "plural": "owners",
+   "gender": "h"
+  },
+  {
+   "lemma": "parent",
+   "plural": "parents",
+   "gender": "h"
+  },
+  {
+   "lemma": "partner",
+   "plural": "partners",
+   "gender": "h"
+  },
+  {
+   "lemma": "passenger",
+   "plural": "passengers",
+   "gender": "h"
+  },
+  {
+   "lemma": "patient",
+   "plural": "patients",
+   "gender": "h"
+  },
+  {
+   "lemma": "president",
+   "plural": "presidents",
+   "gender": "h"
+  },
+  {
+   "lemma": "prisoner",
+   "plural": "prisoners",
+   "gender": "h"
+  },
+  {
+   "lemma": "pupil",
+   "plural": "pupils",
+   "gender": "h"
+  },
+  {
+   "lemma": "resident",
+   "plural": "residents",
+   "gender": "h"
+  },
+  {
+   "lemma": "saint",
+   "plural": "saints",
+   "gender": "h"
+  },
+  {
+   "lemma": "secretary",
+   "plural": "secretaries",
+   "gender": "h"
+  },
+  {
+   "lemma": "senator",
+   "plural": "senators",
+   "gender": "h"
+  },
+  {
+   "lemma": "specialist",
+   "plural": "specialists",
+   "gender": "h"
+  },
+  {
+   "lemma": "spouse",
+   "plural": "spouses",
+   "gender": "h"
+  },
+  {
+   "lemma": "teenager",
+   "plural": "teenagers",
+   "gender": "h"
+  },
+  {
+   "lemma": "thief",
+   "plural": "thieves",
+   "gender": "h"
+  },
+  {
+   "lemma": "tourist",
+   "plural": "tourists",
+   "gender": "h"
+  },
+  {
+   "lemma": "twin",
+   "plural": "twins",
+   "gender": "h"
+  },
+  {
+   "lemma": "victim",
+   "plural": "victims",
+   "gender": "h"
+  },
+  {
+   "lemma": "youth",
+   "plural": "youths",
+   "gender": "h"
+  },
+  {
+   "lemma": "angel",
+   "plural": "angels",
+   "gender": "h"
+  },
+  {
+   "lemma": "pirate",
+   "plural": "pirates",
+   "gender": "h"
+  },
+  {
+   "lemma": "neighbour",
+   "plural": "neighbours",
+   "gender": "h"
+  },
+  {
+   "lemma": "classmate",
+   "plural": "classmates",
+   "gender": "h"
+  },
+  {
+   "lemma": "roommate",
+   "plural": "roommates",
+   "gender": "h"
+  },
+  {
+   "lemma": "teammate",
+   "plural": "teammates",
+   "gender": "h"
+  },
+  {
+   "lemma": "toddler",
+   "plural": "toddlers",
+   "gender": "h"
+  },
+  {
+   "lemma": "infant",
+   "plural": "infants",
+   "gender": "h"
+  },
+  {
+   "lemma": "celebrity",
+   "plural": "celebrities",
+   "gender": "h"
+  },
+  {
+   "lemma": "athlete",
+   "plural": "athletes",
+   "gender": "h"
+  },
+  {
+   "lemma": "everyone",
+   "plural": null,
+   "gender": "h"
+  },
+  {
+   "lemma": "everybody",
+   "plural": null,
+   "gender": "h"
+  },
+  {
+   "lemma": "anyone",
+   "plural": null,
+   "gender": "h"
+  },
+  {
+   "lemma": "anybody",
+   "plural": null,
+   "gender": "h"
+  },
+  {
+   "lemma": "nobody",
+   "plural": null,
+   "gender": "h"
+  },
+  {
+   "lemma": "musician",
+   "plural": "musicians",
+   "gender": "h"
+  },
+  {
+   "lemma": "professor",
+   "plural": "professors",
+   "gender": "h"
+  },
+  {
+   "lemma": "grandparent",
+   "plural": "grandparents",
+   "gender": "h"
+  },
+  {
+   "lemma": "grandchild",
+   "plural": "grandchildren",
+   "gender": "h"
+  },
+  {
+   "lemma": "human",
+   "plural": "humans",
+   "gender": "h"
+  },
+  {
+   "lemma": "dragon",
+   "plural": "dragons",
+   "gender": "n"
+  },
+  {
+   "lemma": "monster",
+   "plural": "monsters",
+   "gender": "n"
+  },
+  {
+   "lemma": "fairy",
+   "plural": "fairies",
+   "gender": "n"
+  },
+  {
+   "lemma": "alien",
+   "plural": "aliens",
+   "gender": "n"
+  },
+  {
+   "lemma": "morning",
+   "plural": "mornings",
+   "gender": "n"
+  },
+  {
+   "lemma": "evening",
+   "plural": "evenings",
+   "gender": "n"
+  },
+  {
+   "lemma": "thing",
+   "plural": "things",
+   "gender": "n"
+  },
+  {
+   "lemma": "wedding",
+   "plural": "weddings",
+   "gender": "n"
+  },
+  {
+   "lemma": "meeting",
+   "plural": "meetings",
+   "gender": "n"
+  },
+  {
+   "lemma": "feeling",
+   "plural": "feelings",
+   "gender": "n"
+  },
+  {
+   "lemma": "beginning",
+   "plural": "beginnings",
+   "gender": "n"
+  },
+  {
+   "lemma": "ending",
+   "plural": "endings",
+   "gender": "n"
+  },
+  {
+   "lemma": "drawing",
+   "plural": "drawings",
+   "gender": "n"
+  },
+  {
+   "lemma": "greeting",
+   "plural": "greetings",
+   "gender": "n"
+  },
+  {
+   "lemma": "clothing",
+   "plural": null,
+   "gender": "n"
+  },
+  {
+   "lemma": "spring",
+   "plural": "springs",
+   "gender": "n"
+  },
+  {
+   "lemma": "offspring",
+   "plural": null,
+   "gender": "n"
+  },
+  {
+   "lemma": "sibling",
+   "plural": "siblings",
+   "gender": "n"
+  },
+  {
+   "lemma": "darling",
+   "plural": "darlings",
+   "gender": "n"
+  },
+  {
+   "lemma": "lightning",
+   "plural": null,
+   "gender": "n"
+  },
+  {
+   "lemma": "meaning",
+   "plural": "meanings",
+   "gender": "n"
+  },
+  {
+   "lemma": "setting",
+   "plural": "settings",
+   "gender": "n"
+  },
+  {
+   "lemma": "gathering",
+   "plural": "gatherings",
+   "gender": "n"
+  },
+  {
+   "lemma": "blessing",
+   "plural": "blessings",
+   "gender": "n"
+  },
+  {
+   "lemma": "warning",
+   "plural": "warnings",
+   "gender": "n"
+  },
+  {
+   "lemma": "saying",
+   "plural": "sayings",
+   "gender": "n"
+  },
+  {
+   "lemma": "ring",
+   "plural": "rings",
+   "gender": "n"
+  },
+  {
+   "lemma": "something",
+   "plural": null,
+   "gender": "n"
+  },
+  {
+   "lemma": "nothing",
+   "plural": null,
+   "gender": "n"
+  },
+  {
+   "lemma": "everything",
+   "plural": null,
+   "gender": "n"
+  },
+  {
+   "lemma": "anything",
+   "plural": null,
+   "gender": "n"
+  }
+ ],
+ "verbs": [
+  {
+   "base": "have",
+   "third": "has",
+   "past": "had",
+   "participle": "had"
+  },
+  {
+   "base": "say",
+   "third": "says",
+   "past": "said",
+   "participle": "said"
+  },
+  {
+   "base": "tell",
+   "third": "tells",
+   "past": "told",
+   "participle": "told"
+  },
+  {
+   "base": "get",
+   "third": "gets",
+   "past": "got",
+   "participle": "gotten"
+  },
+  {
+   "base": "do",
+   "third": "does",
+   "past": "did",
+   "participle": "done"
+  },
+  {
+   "base": "let",
+   "third": "lets",
+   "past": "let",
+   "participle": "let"
+  },
+  {
+   "base": "become",
+   "third": "becomes",
+   "past": "became",
+   "participle": "become"
+  },
+  {
+   "base": "seem",
+   "third": "seems",
+   "past": "seemed",
+   "participle": "seemed"
+  },
+  {
+   "base": "appear",
+   "third": "appears",
+   "past": "appeared",
+   "participle": "appeared"
+  },
+  {
+   "base": "rain",
+   "third": "rains",
+   "past": "rained",
+   "participle": "rained"
+  },
+  {
+   "base": "snow",
+   "third": "snows",
+   "past": "snowed",
+   "participle": "snowed"
+  }
+ ],
+ "adjectives": [
+  "welcome",
+  "alright",
+  "tired",
+  "favourite",
+  "favorite",
+  "open",
+  "closed",
+  "right",
+  "interesting",
+  "amazing",
+  "boring",
+  "excited",
+  "bored",
+  "married",
+  "finished"
+ ],
+ "adverbs": [
+  "here",
+  "there",
+  "now",
+  "then",
+  "today",
+  "tomorrow",
+  "yesterday",
+  "tonight",
+  "later",
+  "soon",
+  "again",
+  "always",
+  "never",
+  "often",
+  "sometimes",
+  "usually",
+  "already",
+  "still",
+  "yet",
+  "just",
+  "only",
+  "also",
+  "even",
+  "ever",
+  "ago",
+  "away",
+  "back",
+  "down",
+  "up",
+  "out",
+  "off",
+  "maybe",
+  "perhaps",
+  "probably",
+  "almost",
+  "quite",
+  "rather",
+  "very",
+  "too",
+  "so",
+  "much",
+  "else",
+  "instead",
+  "anyway",
+  "once",
+  "twice",
+  "forever",
+  "everywhere",
+  "somewhere",
+  "anywhere",
+  "nowhere",
+  "abroad",
+  "ahead",
+  "apart",
+  "aside",
+  "inside",
+  "outside",
+  "upstairs",
+  "downstairs",
+  "indeed",
+  "really",
+  "extremely",
+  "less",
+  "least",
+  "finally",
+  "suddenly",
+  "right",
+  "exactly",
+  "certainly",
+  "especially",
+  "home",
+  "on",
+  "over",
+  "around",
+  "along"
+ ],
+ "source": {
+  "lists": "hand-made (scripts/build_vocab_v2_extra.py)",
+  "plurals": "lemminflect",
+  "counts": {
+   "nouns": 124,
+   "verbs": 11,
+   "adjectives": 15,
+   "adverbs": 75
+  }
+ }
+}

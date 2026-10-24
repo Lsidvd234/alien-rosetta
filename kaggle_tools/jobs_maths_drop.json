@@ -1,0 +1,38 @@
+[
+ {
+  "name": "maths-meaning-drop56",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "5,6"
+  ]
+ },
+ {
+  "name": "maths-meaning-drop34",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "3,4"
+  ]
+ },
+ {
+  "name": "maths-meaning-drop22",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "2,2"
+  ]
+ }
+]

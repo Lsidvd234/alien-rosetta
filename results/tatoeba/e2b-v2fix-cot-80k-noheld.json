@@ -1,0 +1,8 @@
+{
+ "run": "e2b-v2fix-cot-80k-noheld",
+ "n": 600,
+ "cot": true,
+ "glyph_exact": 0.4666666666666667,
+ "word_acc": 0.7978875661375672,
+ "meaning_exact": 0.6166666666666667
+}

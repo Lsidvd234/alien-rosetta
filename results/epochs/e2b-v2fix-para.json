@@ -1,0 +1,43 @@
+{
+ "run": "e2b-v2fix-para",
+ "n": 100,
+ "cot": true,
+ "epochs": [
+  {
+   "epoch": 1,
+   "glyph_exact": 0.19,
+   "word_acc": 0.7600387103969249,
+   "meaning_exact": 0.67,
+   "train_loss": 0.18174761533737183,
+   "zero_grad_fp32": 0.016823386773467064,
+   "gap_median": 9.328125
+  },
+  {
+   "epoch": 2,
+   "glyph_exact": 0.3,
+   "word_acc": 0.8396564098036707,
+   "meaning_exact": 0.72,
+   "train_loss": 0.06373070925474167,
+   "zero_grad_fp32": 0.025331031531095505,
+   "gap_median": 10.328125
+  },
+  {
+   "epoch": 3,
+   "glyph_exact": 0.44,
+   "word_acc": 0.8963941557012072,
+   "meaning_exact": 0.74,
+   "train_loss": 0.021015049889683723,
+   "zero_grad_fp32": 0.04733576625585556,
+   "gap_median": 11.375
+  },
+  {
+   "epoch": 4,
+   "glyph_exact": 0.58,
+   "word_acc": 0.9148187904753897,
+   "meaning_exact": 0.75,
+   "train_loss": 0.012516947463154793,
+   "zero_grad_fp32": 0.07624896615743637,
+   "gap_median": 11.921875
+  }
+ ]
+}
