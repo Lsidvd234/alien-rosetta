@@ -22,7 +22,7 @@ the variety of English it sees), and the remaining gaps are closed by data desig
 
 | Claim | Evidence |
 |---|---|
-| New symbols are learnable when they start from meaning | maths in glyph notation: digits started at real digit embeddings solve 4+4 addition **89%** vs **8%** (shuffled start) and **2%** (no meaning); glyphs split into byte pieces collapse to ~0% word accuracy |
+| New symbols are learnable when they start from meaning | maths in glyph notation: digits started at real digit embeddings solve 4+4 addition **87%** vs **34%** (shuffled start) and **9%** (no meaning), means over 2 seeds; glyphs split into byte pieces collapse to ~0% word accuracy |
 | Generalisation stops at training coverage of sentence structure | ~97% exact on trained structures, **0-9%** on held-out ones (passives, clefts, fronted objects) |
 | ... of vocabulary | rare words fail below roughly 10 sightings in training; a minimum-count data fix (every word seen at least 12 times) targets this |
 | ... of English variety | adding 12k real Tatoeba sentences lifts meaning accuracy on 600 held-out real Tatoeba sentences from **62%** to **92%** |
