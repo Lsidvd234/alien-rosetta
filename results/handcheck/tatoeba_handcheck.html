@@ -1,0 +1,457 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Tatoeba hand-check</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><style>
+body{font:15px/1.45 system-ui,sans-serif;max-width:860px;margin:24px auto;padding:0 16px;background:#fafafa;color:#222}
+.guide{white-space:pre-wrap;font:12.5px/1.5 Consolas,monospace;background:#eef2f7;padding:12px;border-radius:6px}
+.item{background:#fff;border:1px solid #ddd;border-radius:6px;padding:10px 12px;margin:10px 0}
+.item.done{border-color:#7bb07b} .num{color:#888;font-size:12px} .en{font-size:17px;margin:2px 0 6px}
+.ana{font:14px Consolas,monospace;background:#f4f4f4;padding:6px;border-radius:4px;word-break:break-word}
+.opts{margin-top:8px;display:flex;gap:14px;flex-wrap:wrap;align-items:center} .note{flex:1;min-width:180px}
+button{font-size:16px;padding:8px 18px;margin:16px 0} #count{margin-left:12px;color:#555}</style></head><body>
+<h2>Tatoeba hand-check (70 sentences)</h2>
+<p>For each English sentence, is the meaning line underneath <b>right</b> (it says what the sentence means, in this
+notation)? Judge only the meaning line. Small style choices the notation forces are fine; mark <b>wrong</b> if a
+word, tense, negation, question, who-does-what or a missing part is wrong. Use <b>not sure</b> freely.
+Your answers are kept in this browser while you work; press <b>Save answers</b> at the end (or any time) and tell
+Claude where the file went.</p>
+<div class="guide">S= subject, V= verb (with PRES/PAST/FUT, NEG, Q question, PROG -ing, PERF have+done, CAN/MUST/SHOULD/MAY/WOULD),
+O= object, P= &#x27;is a ...&#x27; noun, A= &#x27;is ...&#x27; adjective, M= how/when word (adverb), L= place, T= time,
+TO=/FROM=/WITH=/FOR=/ON=/ABOUT=... = phrase with that preposition, C= joining word, I= interjection, Y= person addressed.
+PRON.1sg I, 2sg you, 3sgm he, 3sgf she, 1pl we, 3pl they; NAME.Tom a name; word.PL plural; a+b adjective + noun;
+x^y x&#x27;s y (PRON.3sgf^hobby = her hobby); A&amp;B A and B; word&gt;ACT the act of (do&gt;ACT = doing), &gt;ADV -ly, &gt;QUAL -ness,
+&gt;AGENT -er; &#x27;;&#x27; separates clauses.</div>
+<div class="item" data-n="1"><div class="num">1 / 70</div>
+<div class="en">They are cousins.</div><div class="ana">S=PRON.3pl V=be.PRES P=cousin.PL</div>
+<div class="opts"><label><input type="radio" name="q1" value="right"> right</label>
+<label><input type="radio" name="q1" value="wrong"> wrong</label>
+<label><input type="radio" name="q1" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="2"><div class="num">2 / 70</div>
+<div class="en">Yanni gave his opinion.</div><div class="ana">S=NAME.Yanni V=give.PAST O=PRON.3sgm^opinion</div>
+<div class="opts"><label><input type="radio" name="q2" value="right"> right</label>
+<label><input type="radio" name="q2" value="wrong"> wrong</label>
+<label><input type="radio" name="q2" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="3"><div class="num">3 / 70</div>
+<div class="en">Tom doesn&#x27;t mince his words.</div><div class="ana">S=NAME.Tom V=mince.PRES.NEG O=PRON.3sgm^word.PL</div>
+<div class="opts"><label><input type="radio" name="q3" value="right"> right</label>
+<label><input type="radio" name="q3" value="wrong"> wrong</label>
+<label><input type="radio" name="q3" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="4"><div class="num">4 / 70</div>
+<div class="en">She&#x27;s liked by her friends.</div><div class="ana">S=PRON.3sgf^friend.PL V=like.PRES O=PRON.3sgf</div>
+<div class="opts"><label><input type="radio" name="q4" value="right"> right</label>
+<label><input type="radio" name="q4" value="wrong"> wrong</label>
+<label><input type="radio" name="q4" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="5"><div class="num">5 / 70</div>
+<div class="en">I offer my apologies.</div><div class="ana">S=PRON.1sg V=offer.PRES O=PRON.1sg^apology.PL</div>
+<div class="opts"><label><input type="radio" name="q5" value="right"> right</label>
+<label><input type="radio" name="q5" value="wrong"> wrong</label>
+<label><input type="radio" name="q5" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="6"><div class="num">6 / 70</div>
+<div class="en">Who did you look at?</div><div class="ana">S=PRON.2sg V=look.PAST L=who</div>
+<div class="opts"><label><input type="radio" name="q6" value="right"> right</label>
+<label><input type="radio" name="q6" value="wrong"> wrong</label>
+<label><input type="radio" name="q6" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="7"><div class="num">7 / 70</div>
+<div class="en">You&#x27;re annoying me.</div><div class="ana">S=PRON.2sg V=annoy.PRES.PROG O=PRON.1sg</div>
+<div class="opts"><label><input type="radio" name="q7" value="right"> right</label>
+<label><input type="radio" name="q7" value="wrong"> wrong</label>
+<label><input type="radio" name="q7" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="8"><div class="num">8 / 70</div>
+<div class="en">There&#x27;s life in hope.</div><div class="ana">S=life V=be.PRES L=hope&gt;ACT</div>
+<div class="opts"><label><input type="radio" name="q8" value="right"> right</label>
+<label><input type="radio" name="q8" value="wrong"> wrong</label>
+<label><input type="radio" name="q8" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="9"><div class="num">9 / 70</div>
+<div class="en">Don&#x27;t even worry about it.</div><div class="ana">V=worry.NEG M=even ABOUT=PRON.3sgn</div>
+<div class="opts"><label><input type="radio" name="q9" value="right"> right</label>
+<label><input type="radio" name="q9" value="wrong"> wrong</label>
+<label><input type="radio" name="q9" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="10"><div class="num">10 / 70</div>
+<div class="en">Tom is a lot older than Mary.</div><div class="ana">S=NAME.Tom V=be.PRES M=much THAN=NAME.Mary A=older</div>
+<div class="opts"><label><input type="radio" name="q10" value="right"> right</label>
+<label><input type="radio" name="q10" value="wrong"> wrong</label>
+<label><input type="radio" name="q10" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="11"><div class="num">11 / 70</div>
+<div class="en">Tom is a bit under the weather.</div><div class="ana">S=NAME.Tom V=be.PRES UNDER=weather P=bit</div>
+<div class="opts"><label><input type="radio" name="q11" value="right"> right</label>
+<label><input type="radio" name="q11" value="wrong"> wrong</label>
+<label><input type="radio" name="q11" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="12"><div class="num">12 / 70</div>
+<div class="en">How was that movie?</div><div class="ana">S=that+movie V=be.PAST M=how</div>
+<div class="opts"><label><input type="radio" name="q12" value="right"> right</label>
+<label><input type="radio" name="q12" value="wrong"> wrong</label>
+<label><input type="radio" name="q12" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="13"><div class="num">13 / 70</div>
+<div class="en">Is time the key to understanding life?</div><div class="ana">S=time V=be.PRES.Q TO=understand&gt;ACT P=key_life</div>
+<div class="opts"><label><input type="radio" name="q13" value="right"> right</label>
+<label><input type="radio" name="q13" value="wrong"> wrong</label>
+<label><input type="radio" name="q13" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="14"><div class="num">14 / 70</div>
+<div class="en">I don&#x27;t like that very much.</div><div class="ana">S=PRON.1sg V=like.PRES.NEG M=very+much O=that</div>
+<div class="opts"><label><input type="radio" name="q14" value="right"> right</label>
+<label><input type="radio" name="q14" value="wrong"> wrong</label>
+<label><input type="radio" name="q14" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="15"><div class="num">15 / 70</div>
+<div class="en">My bedroom only has one window.</div><div class="ana">S=PRON.1sg^bedroom V=have.PRES M=only O=one+window</div>
+<div class="opts"><label><input type="radio" name="q15" value="right"> right</label>
+<label><input type="radio" name="q15" value="wrong"> wrong</label>
+<label><input type="radio" name="q15" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="16"><div class="num">16 / 70</div>
+<div class="en">Knock me down with a feather!</div><div class="ana">V=knock M=down O=PRON.1sg WITH=feather</div>
+<div class="opts"><label><input type="radio" name="q16" value="right"> right</label>
+<label><input type="radio" name="q16" value="wrong"> wrong</label>
+<label><input type="radio" name="q16" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="17"><div class="num">17 / 70</div>
+<div class="en">Everything is expensive.</div><div class="ana">S=everything V=be.PRES A=expensive</div>
+<div class="opts"><label><input type="radio" name="q17" value="right"> right</label>
+<label><input type="radio" name="q17" value="wrong"> wrong</label>
+<label><input type="radio" name="q17" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="18"><div class="num">18 / 70</div>
+<div class="en">We haven&#x27;t heard from them.</div><div class="ana">S=PRON.1pl V=hear.PRES.PERF.NEG FROM=PRON.3pl</div>
+<div class="opts"><label><input type="radio" name="q18" value="right"> right</label>
+<label><input type="radio" name="q18" value="wrong"> wrong</label>
+<label><input type="radio" name="q18" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="19"><div class="num">19 / 70</div>
+<div class="en">He died far from his homeland.</div><div class="ana">S=PRON.3sgm V=die.PAST M=far FROM=PRON.3sgm^homeland</div>
+<div class="opts"><label><input type="radio" name="q19" value="right"> right</label>
+<label><input type="radio" name="q19" value="wrong"> wrong</label>
+<label><input type="radio" name="q19" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="20"><div class="num">20 / 70</div>
+<div class="en">Alas, they just keep looking for pretexts!</div><div class="ana">I=alas S=PRON.3pl V=keep.PRES M=just O=look&gt;ACT FOR=pretext.PL</div>
+<div class="opts"><label><input type="radio" name="q20" value="right"> right</label>
+<label><input type="radio" name="q20" value="wrong"> wrong</label>
+<label><input type="radio" name="q20" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="21"><div class="num">21 / 70</div>
+<div class="en">We are looking to you for help.</div><div class="ana">S=PRON.1pl V=look.PRES.PROG TO=PRON.2sg FOR=help&gt;ACT</div>
+<div class="opts"><label><input type="radio" name="q21" value="right"> right</label>
+<label><input type="radio" name="q21" value="wrong"> wrong</label>
+<label><input type="radio" name="q21" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="22"><div class="num">22 / 70</div>
+<div class="en">This coffee really is good.</div><div class="ana">S=this+coffee V=be.PRES M=really A=good</div>
+<div class="opts"><label><input type="radio" name="q22" value="right"> right</label>
+<label><input type="radio" name="q22" value="wrong"> wrong</label>
+<label><input type="radio" name="q22" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="23"><div class="num">23 / 70</div>
+<div class="en">I did that just yesterday.</div><div class="ana">S=PRON.1sg V=do.PAST M=just+yesterday O=that</div>
+<div class="opts"><label><input type="radio" name="q23" value="right"> right</label>
+<label><input type="radio" name="q23" value="wrong"> wrong</label>
+<label><input type="radio" name="q23" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="24"><div class="num">24 / 70</div>
+<div class="en">On a sudden impulse, I returned to my home town.</div><div class="ana">S=PRON.1sg V=return.PAST O=town ON=sudden+impulse TO=PRON.1sg^home</div>
+<div class="opts"><label><input type="radio" name="q24" value="right"> right</label>
+<label><input type="radio" name="q24" value="wrong"> wrong</label>
+<label><input type="radio" name="q24" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="25"><div class="num">25 / 70</div>
+<div class="en">Leave more space between the lines.</div><div class="ana">V=leave O=more+space BETWEEN=line.PL</div>
+<div class="opts"><label><input type="radio" name="q25" value="right"> right</label>
+<label><input type="radio" name="q25" value="wrong"> wrong</label>
+<label><input type="radio" name="q25" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="26"><div class="num">26 / 70</div>
+<div class="en">Tom has been coughing all afternoon.</div><div class="ana">S=NAME.Tom T=all+afternoon V=cough.PRES.PROG.PERF</div>
+<div class="opts"><label><input type="radio" name="q26" value="right"> right</label>
+<label><input type="radio" name="q26" value="wrong"> wrong</label>
+<label><input type="radio" name="q26" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="27"><div class="num">27 / 70</div>
+<div class="en">I&#x27;m not normal.</div><div class="ana">S=PRON.1sg V=be.PRES.NEG A=normal</div>
+<div class="opts"><label><input type="radio" name="q27" value="right"> right</label>
+<label><input type="radio" name="q27" value="wrong"> wrong</label>
+<label><input type="radio" name="q27" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="28"><div class="num">28 / 70</div>
+<div class="en">I have some doubts about it.</div><div class="ana">S=PRON.1sg V=have.PRES O=some+doubt.PL ABOUT=PRON.3sgn</div>
+<div class="opts"><label><input type="radio" name="q28" value="right"> right</label>
+<label><input type="radio" name="q28" value="wrong"> wrong</label>
+<label><input type="radio" name="q28" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="29"><div class="num">29 / 70</div>
+<div class="en">Tom will do that tonight.</div><div class="ana">S=NAME.Tom V=do.FUT M=tonight O=that</div>
+<div class="opts"><label><input type="radio" name="q29" value="right"> right</label>
+<label><input type="radio" name="q29" value="wrong"> wrong</label>
+<label><input type="radio" name="q29" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="30"><div class="num">30 / 70</div>
+<div class="en">Mum plays tennis.</div><div class="ana">S=mum V=play.PRES O=tennis</div>
+<div class="opts"><label><input type="radio" name="q30" value="right"> right</label>
+<label><input type="radio" name="q30" value="wrong"> wrong</label>
+<label><input type="radio" name="q30" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="31"><div class="num">31 / 70</div>
+<div class="en">What are they preparing for?</div><div class="ana">S=PRON.3pl V=prepare.PRES.PROG FOR=what</div>
+<div class="opts"><label><input type="radio" name="q31" value="right"> right</label>
+<label><input type="radio" name="q31" value="wrong"> wrong</label>
+<label><input type="radio" name="q31" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="32"><div class="num">32 / 70</div>
+<div class="en">Tom and I went to a movie together last week.</div><div class="ana">S=NAME.Tom&amp;PRON.1sg T=last+week V=go.PAST M=together TO=movie</div>
+<div class="opts"><label><input type="radio" name="q32" value="right"> right</label>
+<label><input type="radio" name="q32" value="wrong"> wrong</label>
+<label><input type="radio" name="q32" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="33"><div class="num">33 / 70</div>
+<div class="en">I can&#x27;t do that without a hammer.</div><div class="ana">S=PRON.1sg V=do.PRES.CAN.NEG O=that WITHOUT=hammer</div>
+<div class="opts"><label><input type="radio" name="q33" value="right"> right</label>
+<label><input type="radio" name="q33" value="wrong"> wrong</label>
+<label><input type="radio" name="q33" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="34"><div class="num">34 / 70</div>
+<div class="en">I can&#x27;t tolerate Tom&#x27;s rudeness.</div><div class="ana">S=PRON.1sg V=tolerate.PRES.CAN.NEG O=NAME.Tom^rude&gt;QUAL</div>
+<div class="opts"><label><input type="radio" name="q34" value="right"> right</label>
+<label><input type="radio" name="q34" value="wrong"> wrong</label>
+<label><input type="radio" name="q34" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="35"><div class="num">35 / 70</div>
+<div class="en">I finally got a job!</div><div class="ana">S=PRON.1sg V=get.PAST M=finally O=job</div>
+<div class="opts"><label><input type="radio" name="q35" value="right"> right</label>
+<label><input type="radio" name="q35" value="wrong"> wrong</label>
+<label><input type="radio" name="q35" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="36"><div class="num">36 / 70</div>
+<div class="en">Tom and Mary have been playing tennis all day.</div><div class="ana">S=NAME.Tom&amp;NAME.Mary T=all+day V=play.PRES.PROG.PERF O=tennis</div>
+<div class="opts"><label><input type="radio" name="q36" value="right"> right</label>
+<label><input type="radio" name="q36" value="wrong"> wrong</label>
+<label><input type="radio" name="q36" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="37"><div class="num">37 / 70</div>
+<div class="en">She dropped her phone.</div><div class="ana">S=PRON.3sgf V=drop.PAST O=PRON.3sgf^phone</div>
+<div class="opts"><label><input type="radio" name="q37" value="right"> right</label>
+<label><input type="radio" name="q37" value="wrong"> wrong</label>
+<label><input type="radio" name="q37" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="38"><div class="num">38 / 70</div>
+<div class="en">You can&#x27;t get away with this.</div><div class="ana">S=PRON.2sg V=get.PRES.CAN.NEG M=away WITH=this</div>
+<div class="opts"><label><input type="radio" name="q38" value="right"> right</label>
+<label><input type="radio" name="q38" value="wrong"> wrong</label>
+<label><input type="radio" name="q38" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="39"><div class="num">39 / 70</div>
+<div class="en">He doesn&#x27;t hate her.</div><div class="ana">S=PRON.3sgm V=hate.PRES.NEG O=PRON.3sgf</div>
+<div class="opts"><label><input type="radio" name="q39" value="right"> right</label>
+<label><input type="radio" name="q39" value="wrong"> wrong</label>
+<label><input type="radio" name="q39" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="40"><div class="num">40 / 70</div>
+<div class="en">She adjusted her dress.</div><div class="ana">S=PRON.3sgf V=adjust.PAST O=PRON.3sgf^dress&gt;ACT</div>
+<div class="opts"><label><input type="radio" name="q40" value="right"> right</label>
+<label><input type="radio" name="q40" value="wrong"> wrong</label>
+<label><input type="radio" name="q40" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="41"><div class="num">41 / 70</div>
+<div class="en">We&#x27;re meeting strange people.</div><div class="ana">S=PRON.1pl V=meet.PRES.PROG O=strange+people.PL</div>
+<div class="opts"><label><input type="radio" name="q41" value="right"> right</label>
+<label><input type="radio" name="q41" value="wrong"> wrong</label>
+<label><input type="radio" name="q41" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="42"><div class="num">42 / 70</div>
+<div class="en">He comes home from his trip to Europe tomorrow.</div><div class="ana">S=PRON.3sgm V=come.PRES M=home+tomorrow FROM=PRON.3sgm^trip TO=NAME.Europe</div>
+<div class="opts"><label><input type="radio" name="q42" value="right"> right</label>
+<label><input type="radio" name="q42" value="wrong"> wrong</label>
+<label><input type="radio" name="q42" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="43"><div class="num">43 / 70</div>
+<div class="en">Tom is significantly younger than Mary.</div><div class="ana">S=NAME.Tom V=be.PRES M=significant&gt;ADV THAN=NAME.Mary A=younger</div>
+<div class="opts"><label><input type="radio" name="q43" value="right"> right</label>
+<label><input type="radio" name="q43" value="wrong"> wrong</label>
+<label><input type="radio" name="q43" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="44"><div class="num">44 / 70</div>
+<div class="en">Is Tom still planning on staying with us next summer?</div><div class="ana">S=NAME.Tom T=next+summer V=plan.PRES.PROG.Q M=still ON=stay&gt;ACT WITH=PRON.1pl</div>
+<div class="opts"><label><input type="radio" name="q44" value="right"> right</label>
+<label><input type="radio" name="q44" value="wrong"> wrong</label>
+<label><input type="radio" name="q44" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="45"><div class="num">45 / 70</div>
+<div class="en">Look at this high mountain.</div><div class="ana">V=look L=this+high+mountain</div>
+<div class="opts"><label><input type="radio" name="q45" value="right"> right</label>
+<label><input type="radio" name="q45" value="wrong"> wrong</label>
+<label><input type="radio" name="q45" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="46"><div class="num">46 / 70</div>
+<div class="en">They amended the document.</div><div class="ana">S=PRON.3pl V=amend.PAST O=document</div>
+<div class="opts"><label><input type="radio" name="q46" value="right"> right</label>
+<label><input type="radio" name="q46" value="wrong"> wrong</label>
+<label><input type="radio" name="q46" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="47"><div class="num">47 / 70</div>
+<div class="en">Keep your shirt on!</div><div class="ana">V=keep M=on O=PRON.2sg^shirt</div>
+<div class="opts"><label><input type="radio" name="q47" value="right"> right</label>
+<label><input type="radio" name="q47" value="wrong"> wrong</label>
+<label><input type="radio" name="q47" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="48"><div class="num">48 / 70</div>
+<div class="en">Everything is over.</div><div class="ana">S=everything V=be.PRES M=over</div>
+<div class="opts"><label><input type="radio" name="q48" value="right"> right</label>
+<label><input type="radio" name="q48" value="wrong"> wrong</label>
+<label><input type="radio" name="q48" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="49"><div class="num">49 / 70</div>
+<div class="en">There&#x27;s no need to panic.</div><div class="ana">S=no+need&gt;ACT V=be.PRES TO=panic</div>
+<div class="opts"><label><input type="radio" name="q49" value="right"> right</label>
+<label><input type="radio" name="q49" value="wrong"> wrong</label>
+<label><input type="radio" name="q49" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="50"><div class="num">50 / 70</div>
+<div class="en">He&#x27;ll show up soon.</div><div class="ana">S=PRON.3sgm V=show.FUT M=up+soon</div>
+<div class="opts"><label><input type="radio" name="q50" value="right"> right</label>
+<label><input type="radio" name="q50" value="wrong"> wrong</label>
+<label><input type="radio" name="q50" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="51"><div class="num">51 / 70</div>
+<div class="en">Ken met Tom here.</div><div class="ana">S=ken V=meet.PAST M=here O=NAME.Tom</div>
+<div class="opts"><label><input type="radio" name="q51" value="right"> right</label>
+<label><input type="radio" name="q51" value="wrong"> wrong</label>
+<label><input type="radio" name="q51" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="52"><div class="num">52 / 70</div>
+<div class="en">You said it, Tom.</div><div class="ana">Y=NAME.Tom S=PRON.2sg V=say.PAST O=PRON.3sgn</div>
+<div class="opts"><label><input type="radio" name="q52" value="right"> right</label>
+<label><input type="radio" name="q52" value="wrong"> wrong</label>
+<label><input type="radio" name="q52" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="53"><div class="num">53 / 70</div>
+<div class="en">Tom certainly talks a lot.</div><div class="ana">S=NAME.Tom V=talk.PRES M=certainly+much</div>
+<div class="opts"><label><input type="radio" name="q53" value="right"> right</label>
+<label><input type="radio" name="q53" value="wrong"> wrong</label>
+<label><input type="radio" name="q53" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="54"><div class="num">54 / 70</div>
+<div class="en">She had time for her favorite hobby.</div><div class="ana">S=PRON.3sgf V=have.PAST O=time FOR=PRON.3sgf^favorite+hobby</div>
+<div class="opts"><label><input type="radio" name="q54" value="right"> right</label>
+<label><input type="radio" name="q54" value="wrong"> wrong</label>
+<label><input type="radio" name="q54" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="55"><div class="num">55 / 70</div>
+<div class="en">Man can be subdued through fear.</div><div class="ana">V=subdue.PRES.CAN O=man THROUGH=fear</div>
+<div class="opts"><label><input type="radio" name="q55" value="right"> right</label>
+<label><input type="radio" name="q55" value="wrong"> wrong</label>
+<label><input type="radio" name="q55" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="56"><div class="num">56 / 70</div>
+<div class="en">Tom has a cleft lip.</div><div class="ana">S=NAME.Tom V=have.PRES O=cleft_lip</div>
+<div class="opts"><label><input type="radio" name="q56" value="right"> right</label>
+<label><input type="radio" name="q56" value="wrong"> wrong</label>
+<label><input type="radio" name="q56" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="57"><div class="num">57 / 70</div>
+<div class="en">I actually don&#x27;t work here.</div><div class="ana">S=PRON.1sg V=work.PRES.NEG M=actual&gt;ADV+here</div>
+<div class="opts"><label><input type="radio" name="q57" value="right"> right</label>
+<label><input type="radio" name="q57" value="wrong"> wrong</label>
+<label><input type="radio" name="q57" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="58"><div class="num">58 / 70</div>
+<div class="en">She has caught cholera.</div><div class="ana">S=PRON.3sgf V=catch.PRES.PERF O=cholera</div>
+<div class="opts"><label><input type="radio" name="q58" value="right"> right</label>
+<label><input type="radio" name="q58" value="wrong"> wrong</label>
+<label><input type="radio" name="q58" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="59"><div class="num">59 / 70</div>
+<div class="en">Tom finally sat down.</div><div class="ana">S=NAME.Tom V=sit.PAST M=finally+down</div>
+<div class="opts"><label><input type="radio" name="q59" value="right"> right</label>
+<label><input type="radio" name="q59" value="wrong"> wrong</label>
+<label><input type="radio" name="q59" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="60"><div class="num">60 / 70</div>
+<div class="en">He fixed her car.</div><div class="ana">S=PRON.3sgm V=fix.PAST O=PRON.3sgf^car</div>
+<div class="opts"><label><input type="radio" name="q60" value="right"> right</label>
+<label><input type="radio" name="q60" value="wrong"> wrong</label>
+<label><input type="radio" name="q60" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="61"><div class="num">61 / 70</div>
+<div class="en">All baggage is subject to inspection.</div><div class="ana">S=all+baggage V=be.PRES TO=inspect&gt;ACT P=subject</div>
+<div class="opts"><label><input type="radio" name="q61" value="right"> right</label>
+<label><input type="radio" name="q61" value="wrong"> wrong</label>
+<label><input type="radio" name="q61" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="62"><div class="num">62 / 70</div>
+<div class="en">Perhaps we&#x27;ll find it.</div><div class="ana">S=PRON.1pl V=find.FUT M=perhaps O=PRON.3sgn</div>
+<div class="opts"><label><input type="radio" name="q62" value="right"> right</label>
+<label><input type="radio" name="q62" value="wrong"> wrong</label>
+<label><input type="radio" name="q62" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="63"><div class="num">63 / 70</div>
+<div class="en">I&#x27;ll buy three pillows.</div><div class="ana">S=PRON.1sg V=buy.FUT O=three+pillow.PL</div>
+<div class="opts"><label><input type="radio" name="q63" value="right"> right</label>
+<label><input type="radio" name="q63" value="wrong"> wrong</label>
+<label><input type="radio" name="q63" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="64"><div class="num">64 / 70</div>
+<div class="en">I did that for fun.</div><div class="ana">S=PRON.1sg V=do.PAST O=that FOR=fun</div>
+<div class="opts"><label><input type="radio" name="q64" value="right"> right</label>
+<label><input type="radio" name="q64" value="wrong"> wrong</label>
+<label><input type="radio" name="q64" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="65"><div class="num">65 / 70</div>
+<div class="en">Take your time in choosing.</div><div class="ana">V=take O=PRON.2sg^time L=choose&gt;ACT</div>
+<div class="opts"><label><input type="radio" name="q65" value="right"> right</label>
+<label><input type="radio" name="q65" value="wrong"> wrong</label>
+<label><input type="radio" name="q65" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="66"><div class="num">66 / 70</div>
+<div class="en">You should look that word up.</div><div class="ana">S=PRON.2sg V=look.PRES.SHOULD M=up O=that+word</div>
+<div class="opts"><label><input type="radio" name="q66" value="right"> right</label>
+<label><input type="radio" name="q66" value="wrong"> wrong</label>
+<label><input type="radio" name="q66" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="67"><div class="num">67 / 70</div>
+<div class="en">Where can I put my luggage?</div><div class="ana">S=PRON.1sg V=put.PRES.CAN M=where O=PRON.1sg^luggage</div>
+<div class="opts"><label><input type="radio" name="q67" value="right"> right</label>
+<label><input type="radio" name="q67" value="wrong"> wrong</label>
+<label><input type="radio" name="q67" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="68"><div class="num">68 / 70</div>
+<div class="en">His patience is worn out.</div><div class="ana">S=PRON.3sgm^patience V=be.PRES A=worn+out</div>
+<div class="opts"><label><input type="radio" name="q68" value="right"> right</label>
+<label><input type="radio" name="q68" value="wrong"> wrong</label>
+<label><input type="radio" name="q68" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="69"><div class="num">69 / 70</div>
+<div class="en">Tom and Mary don&#x27;t often do that.</div><div class="ana">S=NAME.Tom&amp;NAME.Mary V=do.PRES.NEG M=often O=that</div>
+<div class="opts"><label><input type="radio" name="q69" value="right"> right</label>
+<label><input type="radio" name="q69" value="wrong"> wrong</label>
+<label><input type="radio" name="q69" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<div class="item" data-n="70"><div class="num">70 / 70</div>
+<div class="en">Tom is really, really busy.</div><div class="ana">S=NAME.Tom V=be.PRES A=really+really+busy</div>
+<div class="opts"><label><input type="radio" name="q70" value="right"> right</label>
+<label><input type="radio" name="q70" value="wrong"> wrong</label>
+<label><input type="radio" name="q70" value="unsure"> not sure</label>
+<input class="note" placeholder="optional: what is wrong"></div></div>
+<button id="save">Save answers</button><span id="count"></span>
+<script>
+const KEY='tatoeba-handcheck-v1';
+function collect(){const a={};document.querySelectorAll('.item').forEach(d=>{const n=d.dataset.n;
+ const r=d.querySelector('input[type=radio]:checked');a[n]={answer:r?r.value:null,note:d.querySelector('.note').value};
+ d.classList.toggle('done',!!r);});return a;}
+function update(){const a=collect();try{localStorage.setItem(KEY,JSON.stringify(a));}catch(e){}
+ document.getElementById('count').textContent=Object.values(a).filter(x=>x.answer).length+' of 70 answered';}
+try{const s=JSON.parse(localStorage.getItem(KEY)||'{}');document.querySelectorAll('.item').forEach(d=>{const x=s[d.dataset.n];
+ if(!x)return;if(x.answer){const r=d.querySelector('input[value='+x.answer+']');if(r)r.checked=true;}
+ d.querySelector('.note').value=x.note||'';});}catch(e){}
+document.addEventListener('change',update);document.addEventListener('input',update);update();
+document.getElementById('save').onclick=()=>{const b=new Blob([JSON.stringify(collect(),null,1)],{type:'application/json'});
+ const u=URL.createObjectURL(b);const l=document.createElement('a');l.href=u;l.download='tatoeba_handcheck_answers.json';
+ l.click();URL.revokeObjectURL(u);};
+</script></body></html>

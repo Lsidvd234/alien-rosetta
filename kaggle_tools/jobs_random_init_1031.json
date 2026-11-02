@@ -1,0 +1,3 @@
+[
+ {"name": "s4-random", "args": ["--preset","tamil_like","--script","abugida_pua","--add-tokens","--model","Qwen/Qwen3-0.6B-Base","--epochs","3","--batch","16","--grad-accum","2","--grad-ckpt","off","--eval-batch","16","--n-train","50000","--new-tok-init","random","--save-adapter","/kaggle/working/model"]}
+]

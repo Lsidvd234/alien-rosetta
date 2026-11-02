@@ -1,0 +1,578 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{iclr2025_conference,times}
+
+\input{math_commands.tex}
+
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\setlist{itemsep=0.1em,topsep=0.25em}
+
+\newcommand{\an}[1]{\texttt{#1}}
+\newcommand{\run}[1]{\texttt{#1}}
+
+\title{Alien Rosetta: How Far Does a Small LLM Learn\\ a Language It Has Never Seen?}
+
+\author{Kavinraj \\
+Group 14, roll number 24IM10055 \\
+Indian Institute of Technology Kharagpur \\
+Course project, AI60213 Foundations of Large Language Models \\
+Code: \url{https://github.com/Lsidvd234/alien-rosetta}
+}
+
+\iclrfinalcopy
+\begin{document}
+
+\maketitle
+\lhead{AI60213 course project report, in the ICLR 2025 format (not an ICLR publication)}
+
+\begin{abstract}
+Studying how a language model learns a new language is hard with real languages: the model may have seen them in
+pretraining, and there is no exact answer key. We build a generator that invents a complete Tamil-like language
+(subject--object--verb order, case and agreement endings, sound changes, 11,078 root words) written in 27 invented
+glyphs that no tokenizer has seen, with a deterministic translation for every English sentence. We fine-tune
+Qwen3-0.6B-Base with LoRA to translate English into it, first writing a structured \emph{meaning analysis} and then
+the glyphs, so every error can be split into a misreading of the English or a mistake in the new language. Across
+165 training runs on free GPUs we find: (A) generalisation stops at what training covers: held-out English
+structures score 0.00--0.09, while putting back only 50 passive sentences (0.06\% of the data) lifts passive
+reading from 0.00 to 0.53--0.66; (B) a spelling rule transfers to never-seen words when it covers the whole vocabulary
+(0.67) but is learned mostly as a list when it covers a 4--12\% minority (0.19--0.27); (C) on real English only more
+varied English helps (Tatoeba meaning 0.62 $\rightarrow$ 0.92, 2 seeds), while focal loss, paraphrases, more epochs,
+decoding tricks and a 3$\times$ larger model do not; (D) on real English the failures are in \emph{reading} the
+English, and where the English has words the training never had, in both reading and writing; (E) directions read
+from the English hidden states causally steer the invented-language output (tense flips 0.97--1.00 vs $\le$0.02 for
+random directions). A sixth, preliminary maths finding and the negative results are reported with their run counts.
+\end{abstract}
+
+%=====================================================================
+\section{Introduction}
+
+Large language models are increasingly adapted to low-resource languages, new notations and domain scripts, often
+with a small model and a parameter-efficient method such as LoRA \citep{hu2022lora}. What such a model can and cannot
+learn from a modest amount of parallel data is therefore a practical question. It is also a hard one to answer
+cleanly with real languages: pretraining may already contain the language, the gold translations are themselves
+noisy, and one cannot change a single property of a real language and keep everything else fixed.
+
+We take the opposite route and \emph{invent} the language. A generator produces a language with a fixed grammar,
+vocabulary and script, renders any meaning into it deterministically, and lets us change one property at a time:
+which sentence structures appear in training, which words are spelled by a rule, how much real English is mixed in.
+The model has certainly never seen the language, and every test sentence has exactly one right answer. Our
+research question is:
+
+\begin{center}
+\emph{What does it take for a small LLM to learn a language it has never seen, and where does that learning stop?}
+\end{center}
+
+\paragraph{Setting.} The input is an English sentence; the output is the same sentence in the invented language,
+written in 27 Unicode Private Use Area glyphs, each added to the tokenizer as one new token. The main models first
+write a meaning analysis such as \an{S=NAME.Tom V=beat.FUT O=PRON.2sg} and then the glyphs. Because rendering a
+meaning is deterministic, any wrong output is either a \emph{reading} error (wrong analysis) or a \emph{writing}
+error (right analysis, wrong glyphs). Models are tested on generated sentences, on 600 real sentences from Tatoeba
+\citep{tatoeba}, and on a \emph{sealed} set of free English written by the author and frozen before it could
+influence any design decision.
+
+\paragraph{Contributions.}
+\begin{itemize}
+\item \textbf{A controlled testbed}: an invented-language generator with an exact answer key, a meaning-first
+output that splits every error into reading vs writing, and a sealed test set used only as totals (Section~\ref{sec:setup}).
+\item \textbf{Five findings with stated strength} (Section~\ref{sec:results}): (A) coverage limits structure,
+with a 50-example dose that switches passives on; (B) rule vs list spelling depends on how much of the vocabulary the
+rule covers; (C) only English variety helps real English, tested against eight alternatives; (D) on real English
+reading fails, and with untrained words both fail; (E) English-side directions steer the output and repair real
+subject errors. A preliminary maths result (F) is reported as such.
+\item \textbf{Pre-registered predictions and negative results}: most extension runs had written predictions before
+they ran; three earlier claims that did not survive seeds or controls are reported in Section~\ref{sec:dropped}.
+\end{itemize}
+
+Every number states how many training runs it rests on: \emph{1 run}, \emph{2 seeds}, or a range over runs.
+
+%=====================================================================
+\section{Related work}\label{sec:related}
+
+\textbf{Compositional and length generalisation.} Sequence models fail on held-out combinations and longer inputs
+\citep{lake2018scan,kim2020cogs}, and transformers solve multi-step tasks by matching seen subgraphs rather than
+composing them \citep{dziri2023faith}. Fine-tuned LLMs struggle with typologically novel features of a new
+language \citep{marmonier2025explicit}, and learning a language from a grammar book is far from solved
+\citep{tanzer2024mtob}. Our claim A confirms the general limit in a setting where coverage can be changed one
+structure at a time and measured as a dose.
+
+\textbf{Rules vs memorisation.} Whether a pattern is learned as a rule depends on how regular it is: the Tolerance
+Principle \citep{yang2016price,schuler2016tolerance}, neural inflection models
+\citep{kirov2018recurrent,mccurdy2020inflecting}, and compositional languages in neural agents
+\citep{galke2024compositional}; \citet{friedman2026tolerance} find a gradual rather than sharp change in a small LM.
+Claim B is a controlled same-model contrast between the two ends; we do not claim a threshold.
+
+\textbf{Synthetic vs real input.} Semantic parsers trained on synthetic utterances fail on real ones
+\citep{wang2015overnight,herzig2019detect,marzoev2020unnatural}, and scale does not close out-of-distribution gaps
+\citep{qiu2022scale}. In low-resource translation the \emph{generation} side is usually the barrier
+\citep{bafna2025barrier,vamvas2026romansh}; our claim D finds the opposite because here the target language is
+dense in training and the English input is the unfamiliar side.
+
+\textbf{Probing and steering.} Linear probes read features from hidden states \citep{alain2016probes}; adding
+activation differences steers outputs \citep{turner2023actadd,panickssery2024caa}, including tense
+\citep{klerings2025tense}. Claim E replicates steering in a new setting: an English-side direction controlling a
+language learned from scratch with LoRA. \textbf{New-token initialisation} is studied by
+\citet{hewitt2021init,dobler2023focus,loveland2026items}; our related results are in Section~\ref{sec:dropped}.
+
+%=====================================================================
+\section{Problem formulation}\label{sec:problem}
+
+\paragraph{The language.} A generator defines a meaning space $\mathcal{M}$, an English renderer $E$ and a glyph
+renderer $R$. A meaning $m\in\mathcal{M}$ is a list of events, each a set of fields (doer \an{S}, verb with tense,
+aspect, modality, negation and question marks \an{V}, object \an{O}, place, manner, time, 21 relation fields, \ldots;
+Appendix~\ref{app:language}). $E(m, v)$ renders $m$ as English using a surface variant $v$ (word order, voice,
+contractions, casing, typos, synonyms). $R(m)$ is deterministic: it orders the words subject--object--verb, adds
+case and agreement endings, applies sound changes where pieces join, and spells every sound in glyphs from the
+alphabet $\Sigma$, $|\Sigma|=27$.
+
+\paragraph{Input, process, output.} The input is an English sentence $x = E(m, v)$. The model outputs the target
+string
+\begin{equation}
+z = m \;\Vert\; \texttt{=>} \;\Vert\; y, \qquad y = R(m),
+\end{equation}
+(``analysis first''), or $z=y$ for direct models. The model is a causal LM $p_\theta$ with frozen pretrained weights
+$W$, LoRA updates $\Delta W = BA$ with $B\in\R^{d\times r}$, $A\in\R^{r\times d}$, $r=16$, on every attention and MLP
+projection, and a trainable embedding table $E_\Sigma\in\R^{|\Sigma|\times d}$ for the new glyph tokens (tied input
+and output). Training minimises the token-level cross-entropy on the target only:
+\begin{equation}
+\mathcal{L}(\theta) = -\sum_{(x,z)\in\mathcal{D}} \sum_{t=1}^{|z|} \log p_\theta(z_t \mid x, z_{<t}),
+\qquad \theta = \{A, B, E_\Sigma\}.
+\end{equation}
+Each glyph $g$ spells one sound $s(g)$ (\emph{k}, \emph{zh}, \emph{aa}, \ldots); its embedding starts at the
+embedding of the token for that sound, $E_\Sigma[g] \leftarrow e_{\mathrm{tok}(s(g))}$ (the sound with no letter,
+the virama, starts at the mean embedding).
+
+\paragraph{Reading and writing errors.} For a test pair $(x, m, y)$ and output $(\hat m, \hat y)$ we define
+\begin{equation}
+\text{reading error: } \hat m \neq m; \qquad \text{writing error: } \hat m = m \wedge \hat y \neq y .
+\end{equation}
+Because $R$ is deterministic, a writing error is a true error in the new language, and for a reading error we can
+also check whether $\hat y = R(\hat m)$, i.e.\ the model faithfully wrote its own misreading.
+
+\paragraph{Coverage.} For a training set $\mathcal{D}$ let $c_\mathcal{D}(k)$ count the occurrences of a meaning key
+$k$ (a word, a structure feature, a multiplication fact). The questions of this paper are how accuracy on test items
+depends on $c_\mathcal{D}$ of the keys they need: zero (held out), small (a dose), or large; and which changes to
+$\mathcal{D}$ or to the model move accuracy on real English, where $c_\mathcal{D}$ is not under our control.
+
+%=====================================================================
+\section{Experimental setup}\label{sec:setup}
+
+\paragraph{Data pipeline.} The generator samples a meaning \emph{first} (so labels are right by construction) from
+\emph{families}: kind of utterance (statement, yes/no and wh-question, command, fragment, greeting), predicate,
+aspect, modality, subject and object kinds, determiners and owners, relation and time fields, joining words; then a
+surface variant. Vocabulary is drawn by tempered English word frequency, with a \emph{word floor} guaranteeing every
+word at least 12 sightings. A main training set has 80,000 translation pairs plus 2,500 refusal examples
+(non-English input $\rightarrow$ a refusal output) and 6,000 replay examples (88,500 in total). Extensions change
+one thing: hold structures out, put a dose back, spell loanwords by a sound rule, replace 15\% of the pairs with
+12,269 real Tatoeba sentences labelled by an automatic English reader, add the everyday English the generator left
+out, or paraphrase training English with a frozen instruct model. Figure~\ref{fig:pipeline-example} shows the
+format.
+
+\begin{table}[t]
+\caption{Training and test format: English input, meaning analysis (the model's first output), and the glyph
+output, shown schematically (the glyphs are Private Use Area characters). Real Tatoeba sentences.}
+\label{fig:pipeline-example}
+\centering\small
+\begin{tabular}{ll}
+\toprule
+English input $x$ & Meaning analysis $m$ \\
+\midrule
+Yanni washed the figs. & \an{S=NAME.Yanni V=wash.PAST O=fig.PL} \\
+You guys can't scare me. & \an{S=PRON.2pl V=scare.PRES.CAN.NEG O=PRON.1sg} \\
+Tom is going to beat you. & \an{S=NAME.Tom V=beat.FUT O=PRON.2sg} \\
+Doesn't Tom ever wear a suit? & \an{S=NAME.Tom V=wear.PRES.NEG.Q M=ever O=suit} \\
+\midrule
+\multicolumn{2}{p{0.92\linewidth}}{Glyphs $y=R(m)$ for the third row, glossed: \emph{Tom you-ACC beat-FUT-3sg.m} (subject--object--verb order, case and agreement endings, sound changes at the joins).} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Model and training.} Qwen3-0.6B-Base \citep{yang2025qwen3} (a 1.7B model was used once), LoRA rank 16,
+$\alpha=32$, no dropout, on q, k, v, o, gate, up and down projections; the 27 glyph tokens added with trainable
+embeddings; AdamW, learning rate $2\times10^{-4}$, no weight decay, 3\% linear warm-up then linear decay, effective
+batch 32, 4 epochs (11,064 steps), fp16. One run takes about 6 GPU-hours on a free Kaggle T4. The baseline for
+every extension is the analysis-first model with no structures held out (\run{e2b-v2fix-cot-80k-noheld}).
+
+\paragraph{Test sets.} (1) \emph{Generated}: 300 sentences from the generator, never in training, shared by all
+runs (paired tests are valid), plus 100-sentence held-out-structure sets. (2) \emph{Tatoeba 600}: real sentences
+filtered to the language's scope; gold from the automatic reader. A blind hand-check of 70 gold labels found only
+about 0.6 right, so Tatoeba measures agreement with the reader. (3) \emph{Sealed}: 147 in-scope and 25 out-of-scope
+free sentences written by the author, annotated by hand, frozen with a SHA-256 fingerprint before any reader-labelled
+training data existed, and used \emph{only as totals} (no sentence was inspected after freezing).
+
+\paragraph{Metrics and statistics.} Meaning exact, glyphs exact, word accuracy, refusal rate. Paired McNemar tests
+\citep{mcnemar1947} on the same sentences (for the sealed set, only fix and break counts), bootstrap intervals, and a
+Holm correction \citep{holm1979} across 21 claim-level tests. For most extension runs the prediction and the
+decision rule were written in the project log before the run or before scoring; we say where a result was found
+after the data.
+
+%=====================================================================
+\section{Results}\label{sec:results}
+
+\subsection{A. Generalisation stops at what training covers}\label{sec:claimA}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.53\linewidth]{figures/fig_heldout_structures.pdf}\hfill
+\includegraphics[width=0.44\linewidth]{figures/fig_passive_dose.pdf}
+\caption{Left: English structures held out of training (first language version, analysis-first model, 5 epochs;
+three runs give 0.00--0.09 on every held-out structure). Right: passives put back as a dose, nothing else changed
+(1 run per dose; diamonds: second training seed).}
+\label{fig:claimA}
+\end{figure}
+
+Holding 20\% of English structure variants out of training gives near-zero accuracy on exactly those structures
+(passive 0.00--0.02, clefts 0.01--0.09, topicalised objects 0.00--0.01, three runs) while trained structures stay at
+0.97--0.99 (Figure~\ref{fig:claimA}, left). The misreading is by position: a passive takes its first noun as the
+doer. A dose test isolates the cause in the final language: with only plain passives held out and 0, 50 or 300 put
+back into $\sim$88k examples, held-out passive meaning goes 0.00 / 0.53 / 0.75, and the 0 $\rightarrow$ 50 step
+replicates on a second seed (0.00 / 0.66) (Figure~\ref{fig:claimA}, right). Fifty examples, 0.06\% of the data,
+switch the structure on; the rest of the language is unchanged.
+
+The same limit appears in arithmetic written in glyph digits (base 7). Removing every training multiplication that
+needs one single-digit fact drops problems that need it to 0.05 (5$\times$6), 0.10 (3$\times$4) and 0.41
+(2$\times$2), while problems that avoid it stay at 0.91--0.96; a control that also removes the swapped twin keeps
+the avoid-group at 0.82--0.89. A bridge run that trains base conversion of every product, including the removed one,
+still does not rebuild 5$\times$6 (problems needing it 0.03). A scratchpad trained on workings with at most 3 steps
+per row writes exactly 2 rows of 3 steps on every longer problem (1,798 of 1,800 rows; exact 0.00--0.01): it learned
+the template of its longest working, not the loop, the subgraph-matching pattern of \citet{dziri2023faith}.
+
+\textbf{Strength: strong} as a description (many runs, two seeds where tested); causal for one structure and one
+fact. New relative to prior work: the 50-example dose and the fixed scratchpad shape with dropped-digit answers.
+
+\subsection{B. A spelling rule transfers only when it covers the vocabulary}\label{sec:claimB}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\linewidth]{figures/fig_rule_vs_list.pdf}
+\caption{Words spelled by fixed sound rules from their English letters. Loanwords: only a minority of nouns follow
+the rule (rate 0.04, and 0.12 in the ``$\times$3'' run). Sound-rule language: every content word does, and 20\% of
+content words (2,232) never appear in training. 1 run per condition, 300--600 generated sentences.}
+\label{fig:claimB}
+\end{figure}
+
+Two extensions spell words by the same letter-to-sound rules (\emph{b}$\rightarrow$\emph{p},
+\emph{th}$\rightarrow$\emph{t}, \ldots). If the rule were learned, words never seen in training should be spelled
+almost as well as seen ones. When only loanwords follow it (4\% of nouns, marked \an{LOAN}), new loans are spelled
+right 0.19 against 0.51 for seen loans; tripling the loan rate lifts seen loans to 0.82 but new loans only to 0.27,
+missing the pre-registered +0.10, and the seen--new gap grows from 0.32 to 0.55 (Figure~\ref{fig:claimB}). Some of
+the rule is learned: one-letter mappings transfer better than multi-letter ones (0.23 vs 0.12, Fisher $p=0.005$),
+and near-miss spellings rise from 21\% to 33\% of errors. Recognition fails first: only 0.34--0.46 of new loans are
+marked as loans; most are written as a bare English word the language does not have. When \emph{every} content word
+follows the rule, never-trained words are spelled right 0.67 (seen words 0.96 in the same sentences) and recognised
+0.87, at no cost elsewhere (generated glyphs 0.71 vs 0.61 baseline).
+
+\textbf{Strength: moderate} (1 run per condition). The two conditions also differ in what must be recognised, and
+the general idea is known (Tolerance Principle); we claim only the two ends, not a threshold.
+
+\subsection{C. Only English variety helps real English}\label{sec:claimC}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.86\linewidth]{figures/fig_english_variety.pdf}
+\caption{One change per run against the baseline. Gray: model, loss and training-length changes; green: the common
+English words and uses the generator left out (no reader labels); blue: 15\% real Tatoeba sentences. Sealed numbers
+are totals over 147 sentences.}
+\label{fig:claimC}
+\end{figure}
+
+Trained models read generated English almost perfectly (0.943 of sentences with every meaning fact right), but real
+English is far harder: Tatoeba meaning 0.62, sealed 0.47. Replacing 15\% of training with real Tatoeba sentences
+lifts Tatoeba meaning to 0.923 / 0.928 (2 seeds; +0.307, 189 fixes vs 5 breaks, $p=1.8\times10^{-49}$) and sealed
+meaning from 0.476 / 0.463 to 0.558 / 0.558 (paired McNemar $p=0.036$ / $0.013$ per seed; not significant after the
+Holm correction). Because Tatoeba gold and the real training labels come from the same automatic reader, and the
+hand-check finds the gold right in 0.61 of the gained sentences, about +0.19 of the +0.31 rests on correct labels. A
+run that adds only the everyday English words and uses the generator never produced (main-verb \emph{have/do},
+\emph{people}, \emph{just}, nouns made from verbs; no real sentences, no reader labels) gains +0.11 on Tatoeba
+(77 fixes vs 12 breaks, $p<10^{-11}$) and +0.04 on the sealed set (1 run).
+
+Every alternative tried is null or harmful on real English (Figure~\ref{fig:claimC}): focal loss ($-0.028$,
+$p=0.014$), paraphrased training English at 1.4\% and 8\% of the data, a word floor of 25, 6 epochs instead of 4
+($-0.053$, $p=0.0002$, also after Holm: more epochs fit the generated style), a two-stage rewriter, beam search and
+majority voting over samples (changes below 0.01), and Qwen3-1.7B (Tatoeba reading failures 0.37 vs 0.38 at the
+same 2 epochs; the pre-registered $\ge$0.05 improvement fails). Of the baseline's 217 never-seen word occurrences on
+Tatoeba, most are everyday words and uses, not rare words; real text cuts them to 20.
+
+\textbf{Strength: strong on Tatoeba} (2 seeds), \textbf{moderate on the sealed set}. The synthetic-to-real gap is
+known \citep{herzig2019detect}; our contribution is a controlled test against eight alternatives.
+
+\subsection{D. On real English, reading fails; with untrained words, both}\label{sec:claimD}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/fig_reading_writing.pdf}
+\caption{Left: share of sentences with a reading error ($\hat m\neq m$) and a writing error (judged on the model's
+own meaning) for the baseline as the English moves away from training. Right: separate reader and writer models,
+the writer given the gold meaning, on Tatoeba by the least-trained word key in the meaning (1 run each).}
+\label{fig:claimD}
+\end{figure}
+
+Judged on the model's own meaning, the baseline's writing errors stay roughly flat from generated to Tatoeba to sealed
+sentences (0.24, 0.31, 0.26) while reading errors climb (0.21, 0.38, 0.52) (Figure~\ref{fig:claimD}, left). On
+held-out English structures 73--75\% of items are misread and only 0.4--1.6\% miswritten. To separate the two
+causally we trained a reader alone (English $\rightarrow$ meaning) and a writer alone (meaning $\rightarrow$
+glyphs). The reader is wrong in 74\% (Tatoeba) and 90\% (sealed) of pipeline failures; on held-out passives the
+reader scores 0.00 while the writer, given the gold meaning, writes 0.72. But the writer from gold is right only
+0.63 on Tatoeba. A per-sentence test with predictions written beforehand shows why (Figure~\ref{fig:claimD}, right):
+the writer is right 0.84 when every word key of the meaning was trained at least 25 times, 0.82 when the rarest was
+seen 1--24 times, and 0.20 when one was never trained (a third of Tatoeba); the reader also fails there (0.25). The
+sealed set goes the same way (0.93 vs 0.34). For passives the mechanism is in the representation: a linear probe
+cannot read the passive doer from the hidden states of the model trained without passives beyond what the surface
+words give (0.746 vs 0.704), but reads it in models trained on passives (0.871, 0.950).
+
+\textbf{Strength: moderate} (1 run per model; the split was examined after the first results, and the later
+predictions were written before their runs). The usual low-resource finding is the opposite
+\citep{bafna2025barrier}; here the target language is dense in training and the English input is the unfamiliar
+side.
+
+\subsection{E. English meaning directions steer the invented-language output}\label{sec:claimE}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.80\linewidth]{figures/fig_steering.pdf}
+\caption{Adding a mean-difference direction (from English hidden states of sentences with the two values) at layer
+6 of the baseline while it reads the English. Flip: the output's meaning now carries the target value. Random: a
+same-size random direction. 100 generated sentences per pair.}
+\label{fig:claimE}
+\end{figure}
+
+Probes read tense, negation, question, aspect, modality and subject from the hidden states of every model at
+0.90--1.00, which shows information, not use. Steering tests use. Adding the tense direction flips the output tense
+in 0.97--1.00 of sentences and negation in 0.91--0.99, against $\le$0.02 for random directions, on four models (two
+training seeds each of the baseline and the real-text model) (Figure~\ref{fig:claimE}). Subject person/number pushes
+flip at 1.00 on most pairs with random and shuffled-label controls at 0.00, and repair 11 of 12 (seed 0) and 10 of 10
+(seed 1) real Tatoeba subject errors of the baseline. Picking the steering setting on 100 \emph{other} sentences
+keeps tense within 0.03 in both models; one negation direction of the real-text model drops from 0.97 to 0.79.
+Where the output is wrong, the probe is usually wrong too (0.41 right vs 0.79 for the majority class) and in 59\% of
+cases reads the same wrong value: most real-English errors are already in the representation.
+
+\textbf{Strength: moderate, narrowed.} Steering vectors and tense steering are known
+\citep{turner2023actadd,klerings2025tense}; new is the setting (an English-side direction controlling a language
+learned with LoRA) and the repair of real errors. Adding a question depends on the chosen setting (0.29 vs 0.95
+across seeds), and the pushes are entangled with other features.
+
+\subsection{F (preliminary). In maths, a missing fact is rebuilt only from facts seen in the same role}\label{sec:claimF}
+
+With 5$\times$6 and 6$\times$5 removed, a scratchpad that \emph{builds} each product from a smaller one
+(\an{5x6=5x4=26+5=34+5=42}, base 7) with one building rule gets problems needing 5$\times$6 right only 0.08; mixing
+three building rules gives 0.77 (Appendix Figure~\ref{fig:maths}). With one rule, 5$\times$4 appears as a building
+block only inside the removed working, and the model recalls that block wrong although it knows 5$\times$4 as an
+ordinary step. With mixed rules, steps built from blocks seen in that role are right 99.6\% of the time and steps
+from blocks never seen in that role 17\%. Forcing every route, 15 of 18 blocks follow this role rule, and showing
+5$\times$4 as a block in only 5 training workings makes the 5$\times$6 steps right 0.91 (0.00 with none).
+\textbf{Not rated}: same-seed re-runs of maths models differ by $\pm$0.1--0.2 because of GPU non-determinism, and
+the second seed is less clean (0.84 vs 0.56); Section~\ref{sec:future} describes the deterministic seed replicates.
+
+%=====================================================================
+\section{What did not hold}\label{sec:dropped}
+
+Three earlier claims are reported as negative or inconclusive results (details in Appendix~\ref{app:dropped}).
+\textbf{Glyph starting point.} Starting each glyph's embedding at its own sound looked decisive in single runs
+(unseen ending combinations 0.42 $\rightarrow$ 0.97 vs a random-token start). With three training seeds per start,
+letter starts (right or wrong letter) learn in 6 of 6 runs and non-letter starts in 3 of 6 ($p=0.18$): a difference
+in reliability, not significant. Two findings remain: a wrong-letter start learns as well as the right one, and
+trained glyph embeddings stay next to where they started (cosine 0.95--0.97), as \citet{loveland2026items} report
+for item tokens. In maths the real-digit start does generalise better on 2 seeds (add 4+4 digits: 0.86 vs 0.09 for
+a neutral start), and a swap test shows the result follows the starting permutation, not the data.
+\textbf{Word floor.} Raising every word to at least 25 sightings gives +0.11 on generated sentences, but a
+size-matched control shows half of it is extra data, and it never helps real English. \textbf{Meaning first speeds
+learning.} Writing the analysis first converged faster in the first language version (3 vs 5 epochs) but showed no
+significant speed-up in the final one.
+
+%=====================================================================
+\section{Limitations}\label{sec:limitations}
+
+\begin{itemize}
+\item \textbf{Run counts.} Most extension results are single training runs; real text, steering and the passive
+0/50 dose have two seeds. On the 147-sentence sealed set only differences above about 0.11 are clear for a single
+comparison, and the Tatoeba gold is the automatic reader's (about a third wrong by a 70-sentence hand-check).
+\item \textbf{GPU non-determinism.} Same-seed maths re-runs with byte-identical data differ by $\pm$0.1--0.2 on the
+needs-pair tests (non-deterministic attention backward pass). A \texttt{--deterministic} option makes full language
+runs reproduce exactly on two different machines; all maths numbers are single draws.
+\item \textbf{One model family and size} (Qwen3-0.6B, one 1.7B run) and one invented grammar; claims B and D were
+partly formed after the first data, and are marked as such.
+\item \textbf{Sealed set.} Its gold meanings are reader output with hand corrections, so a model trained on reader
+labels can partly gain by learning reader conventions; the everyday-words run, which uses no reader labels, is the
+cleaner evidence for claim C.
+\end{itemize}
+
+%=====================================================================
+\section{Future work}\label{sec:future}
+
+The following extend experiments that already have results; their predictions are written but they were not run
+for this report.
+\begin{itemize}
+\item \textbf{Seed replicates for claim B}: a second training seed of the sound-rule language (does 0.67 for
+never-trained words replicate?).
+\item \textbf{Intermediate rule coverage for claim B}: languages in which 25\% and 50\% of content words are
+rule-spelled, to see whether the change between a 4--12\% minority (0.19--0.27) and the whole vocabulary (0.67) is
+gradual or sharp, as \citet{friedman2026tolerance} would predict for gradual.
+\item \textbf{Three deterministic seeds for claim F}: the mixed-rule scratchpads (5$\times$6, 3$\times$4,
+6$\times$6, whole 6 row removed) and the 0- and 5-workings role doses, each with three seeds, judged on 3-seed means
+against the written thresholds (seen-role blocks $\ge$0.90, never-seen-role blocks $\le$0.30).
+\item \textbf{Determinism for maths}: confirming that the attention fix makes maths runs bit-identical, so that
+single-run thresholds in claims A and F can be re-judged without seed noise.
+\end{itemize}
+
+%=====================================================================
+\section{Conclusion}
+
+A small model learns an invented language with its own script well, but it generalises only as far as its training
+covers: unseen structures fail and fifty examples switch one on; a spelling rule transfers when it covers the
+vocabulary and stays a list when it covers a minority. On real English the limit is reading the English, not
+writing the new language, and only more varied English in the training data moves it; loss functions, decoding,
+more epochs and a 3$\times$ larger model do not. Inside the model, the invented-language output is driven by the
+model's English meaning representation, which can be steered, and most real-English errors are already present in
+that representation. For anyone adapting a small model to a new language, the practical lesson is to spend effort on
+the coverage and variety of the source-language side of the data.
+
+\subsubsection*{Acknowledgments}
+Compute: free Kaggle GPUs (three accounts, two lent by friends), a laptop RTX 2050, and one paid cloud session of
+about USD 1.60. Concept images in the presentation are credited in Appendix~\ref{app:credits}.
+
+\bibliography{references}
+\bibliographystyle{iclr2025_conference}
+
+%=====================================================================
+\newpage
+\appendix
+
+\section{The invented language}\label{app:language}
+
+\paragraph{Grammar.} Subject--object--verb order, no articles, case endings (object, location and 21 relation cases
+such as ON, TO, WITH, FROM), every tense an ending, full person/number/gender agreement on the verb, a negation
+ending, irregular past stems, progressive, perfect and modal endings (CAN, MUST, SHOULD, MAY, WOULD, LET), yes/no
+questions as an ending, question words left in place, and sound changes (sandhi) where pieces join.
+
+\paragraph{Vocabulary.} 11,078 root words (including 2,355 abstract and mass nouns), hand-listed everyday words, and
+words built from stackable pieces: \an{fun>ADJ} (funny), \an{hope>LESS} (hopeless), \an{run>AGENT} (runner),
+\an{happy>NOT>QUAL} (unhappiness); 2,127 such words verified with WordNet, plus compounds such as \an{book\_shop}.
+
+\paragraph{Script.} 27 invented glyphs from the Unicode Private Use Area, an abugida like Tamil script (each sign a
+consonant with an inherent vowel, or a vowel). Without being added to the vocabulary each glyph would be split into
+three byte tokens; we add each as one new token.
+
+\paragraph{Analysis fields.} Each event has optional fields \an{S} (doer), \an{V} (verb with endings), \an{O}
+(object), \an{L} (place), \an{M} (manner), \an{A} (describing words after ``be''), \an{P} (noun after ``be''),
+\an{C} (joining word), \an{I} (greeting), \an{Y} (person spoken to), \an{T} (time phrase) and one field per relation
+(\an{ON=}, \an{TO=}, \ldots); events are separated by ``;''. Partial inputs (a bare noun phrase, a bare verb) are
+also translated.
+
+\paragraph{Earlier version.} The first language version (4,320 English content words, one event per sentence) was
+used for the held-out structure study (Figure~\ref{fig:claimA}, left) and the script study (Appendix~\ref{app:script}).
+The final version keeps every first-version form unchanged (checked on 4,587 clauses).
+
+\section{Training details and compute}\label{app:training}
+
+\begin{center}\small
+\begin{tabular}{lp{0.72\linewidth}}
+\toprule
+Base model & Qwen3-0.6B-Base (one run: Qwen3-1.7B-Base, 2 epochs) \\
+Adapter & LoRA $r=16$, $\alpha=32$, dropout 0; q, k, v, o, gate, up, down projections \\
+New tokens & 27 glyphs, trainable tied embeddings, start = embedding of the glyph's sound \\
+Optimiser & AdamW, lr $2\times10^{-4}$, weight decay 0, 3\% warm-up, linear decay \\
+Batch & 16 $\times$ 2 gradient accumulation; long batches split by a 1,600-token budget \\
+Data & 80,000 translation + 2,500 refusal + 6,000 replay examples; word floor 12 \\
+Length & 4 epochs, 11,064 steps; fp16; about 6 GPU-hours on a Kaggle T4 \\
+Compute & free Kaggle (about 30 GPU-h per account per week), laptop RTX 2050 (4 GB) for scoring, probes, steering \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Stage 1: the script and the tokenizer}\label{app:script}
+
+The project began with a tokenization question: does the number of tokens a script costs predict how well a model
+learns a language written in it? In a 2$\times$2 grid (English-like vs Tamil-like grammar, Latin vs Tamil script,
+three random languages per cell, 20k sentences) content-word accuracy was 0.82 (easy, Latin), 0.86 (easy, Tamil
+script, 3$\times$ more tokens), 0.04 (hard, Latin) and 0.24 (hard, Tamil script): more tokens did not mean worse
+learning, and grammar dominated; at 50k sentences all four cells reach 0.98--0.99. What hurt was \emph{byte pieces
+that do not line up with known characters}: invented glyphs split into 3 byte tokens collapse at 20k sentences
+(exact 0.00). Adding each glyph as one token fixed the easy language but not the hard one, which led to the
+glyph-start study below.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.62\linewidth]{figures/fig1_learning_curves.png}
+\caption{Stage 1 learning curves: content-word accuracy against training sentences for the four grammar $\times$
+script cells and the invented-glyph runs (first language version).}
+\end{figure}
+
+\section{Additional results}\label{app:more}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.84\linewidth]{figures/fig_maths.pdf}
+\caption{Maths in base-7 glyph digits. Left: removing every training multiplication that needs one fact
+(claim A). Right: scratchpads with 5$\times$6 and 6$\times$5 removed (claim F, 1 seed).}
+\label{fig:maths}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.74\linewidth]{figures/fig_error_split.pdf}
+\caption{Every output classified by comparing the analysis and the glyphs with the gold (\% of items, 1 seed each).
+``Other'' is mostly an analysis using a word the language does not have. Real text removes most errors on Tatoeba
+but none of the translation errors on generated sentences: what it adds is vocabulary, not a better command of the
+endings.}
+\end{figure}
+
+\paragraph{Decoding.} On Tatoeba, beam search with 4 beams gives meaning exact 0.618 vs 0.617 greedy (5 fixes, 4
+breaks, $p=1.0$) and a majority vote of 5 samples 0.622 ($p=0.51$): other outputs repeat the same misreading.
+
+\paragraph{What the base model knows.} On generated statements the untrained base model answering comprehension
+questions gets 0.649 of facts right, the instruct version 0.725, and linear probes on the frozen base model recover
+tense 0.94--0.99, negation 0.99--1.00 and word role 0.87--0.89. The fine-tuned baseline reaches 0.987: the base model
+encodes much more than it can be prompted to say.
+
+\paragraph{Real English by epoch.} The baseline's meaning on Tatoeba is 0.577 / 0.612 / 0.617 after epochs 1 / 2 / 4
+and on the sealed set 0.429 / 0.463 / 0.476: reading real English is almost settled by epoch 2; later epochs mainly
+improve the glyphs.
+
+\paragraph{Why the sealed set is harder than Tatoeba.} An automatic totals-only breakdown (predictions written first)
+finds that on single-clause sentences the baseline scores the same on the sealed set as on Tatoeba (0.61 vs 0.62);
+the gap comes from multi-clause sentences (sealed 0.17), which are a third of free writing but 1\% of Tatoeba.
+Real text adds +0.15 on single clauses and nothing on multi-clause ones.
+
+\paragraph{Grokking side study.} Long training with weight decay 1.0 (translation, 12k steps; maths, 60k steps) shows
+no late jump in test accuracy \citep{power2022grokking}; the logit norm rises instead of falling.
+
+\section{Dropped claims in detail}\label{app:dropped}
+
+\begin{center}\small
+\begin{tabular}{p{0.38\linewidth}cccc}
+\toprule
+Glyph start (stage 1, 50k sentences, 1 run each) & in distr. & new pairs & new endings & longer \\
+\midrule
+copy of a random unrelated token & 0.570 & 0.506 & 0.420 & 0.000 \\
+copy of the token for its own sound & 0.990 & 0.986 & 0.972 & 0.974 \\
+copy of a deliberately wrong sound & 0.982 & 0.978 & 0.860 & 0.650 \\
+\bottomrule
+\end{tabular}
+\end{center}
+With three training seeds per start (teacher-forced exact, in distribution) every letter start is $\ge$0.988 in all
+6 runs, a random-vector start gives 0.676 / 0.560 / 0.966 and a random word-piece start 0.570 / 0.930 / 0.976;
+6 of 6 vs 3 of 6 is not significant (Fisher $p=0.18$), and the wrong-sound collapse on longer sentences disappears on
+re-seeding (0.16 $\rightarrow$ 0.98). Word floor 25: generated +0.113 ($p=2.4\times10^{-5}$) vs the baseline, but a
+floor-12 run of the same data size gets +0.063, leaving +0.050 for the floor itself ($p=0.058$); Tatoeba $-0.013$.
+Meaning first, final language: glyphs exact 0.14 vs 0.10 at epoch 1 and 0.33 vs 0.36 at epoch 4 (noise).
+
+\section{Code}\label{app:code}
+
+The code is submitted with this report and is public at
+\url{https://github.com/Lsidvd234/alien-rosetta}. Main parts: \texttt{conlang/} (grammar, lexicon, script and the v2
+generator), \texttt{train/run.py} (data building, glyph tokens and their initialisation, LoRA training, evaluation),
+\texttt{train/maths.py} (base-7 arithmetic and scratchpads), \texttt{analysis/} (scoring, significance tests, error
+split, reader/writer bottleneck, loanword and sound-rule analysis, probes and steering), \texttt{kaggle\_tools/}
+(job queues for free Kaggle GPUs), and \texttt{sealed/} (the frozen test set is not included).
+
+\section{Image credits (presentation)}\label{app:credits}
+Rosetta Stone photograph: Hans Hillewaert, CC BY-SA 4.0, Wikimedia Commons. Tamil alphabet chart: public domain,
+Wikimedia Commons. Decoder-only transformer diagram: Marxav, CC BY-SA 4.0, Wikimedia Commons. LoRA diagram: Figure 1
+of \citet{hu2022lora}. Activation-addition diagram: Figure 1 of \citet{turner2023actadd}.
+
+\end{document}

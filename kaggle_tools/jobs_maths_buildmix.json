@@ -1,0 +1,17 @@
+[
+ {
+  "name": "maths-meaning-buildmix-drop56",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--drop-pair",
+   "5,6",
+   "--grad-accum",
+   "2"
+  ]
+ }
+]

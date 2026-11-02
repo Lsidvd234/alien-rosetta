@@ -1,0 +1,45 @@
+[
+ {
+  "name": "maths-meaning-buildmix-drop6row",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "6,4;6,5;6,6"
+  ]
+ },
+ {
+  "name": "maths-meaning-scratch-drop6row",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch",
+   "--drop-pair",
+   "6,4;6,5;6,6"
+  ]
+ },
+ {
+  "name": "maths-meaning-buildadd-drop6row",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-add",
+   "--grad-accum",
+   "4",
+   "--drop-pair",
+   "6,4;6,5;6,6"
+  ]
+ }
+]

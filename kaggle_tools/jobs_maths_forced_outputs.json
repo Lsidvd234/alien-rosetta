@@ -1,0 +1,5 @@
+[
+ {"name": "maths-meaning-buildmix-drop56-s1-fo", "args": ["@maths","--init","meaning","--eval-every","500","--scratch-build-mix","--grad-accum","2","--drop-pair","5,6","--seed","1","--force-routes"]},
+ {"name": "maths-meaning-buildmix-drop66-fo", "args": ["@maths","--init","meaning","--eval-every","500","--scratch-build-mix","--grad-accum","2","--drop-pair","6,6","--force-routes"]},
+ {"name": "maths-meaning-buildmix-drop6row-fo", "args": ["@maths","--init","meaning","--eval-every","500","--scratch-build-mix","--grad-accum","2","--drop-pair","6,4;6,5;6,6","--force-routes"]}
+]

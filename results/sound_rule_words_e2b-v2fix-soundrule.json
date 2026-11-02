@@ -1,0 +1,15 @@
+{
+ "run": "e2b-v2fix-soundrule",
+ "sentences": 300,
+ "skipped (gold not re-rendered)": 2,
+ "sentence_glyph_exact": 0.4533333333333333,
+ "sentence_meaning_exact": 0.7266666666666667,
+ "new_words": 470,
+ "new_glyph_right": 0.6680851063829787,
+ "seen_words": 1459,
+ "seen_glyph_right": 0.9629883481836875,
+ "new_recognised_in_meaning": 0.8680851063829788,
+ "new_wrong": 156,
+ "near_miss": 0.5833333333333334,
+ "closeness_median": 0.7777777777777778
+}

@@ -1,0 +1,80 @@
+{
+ "run": "e2b-v2fix-loan-r2",
+ "n": 300,
+ "sets": {
+  "seen loans": {
+   "loans": 451,
+   "meaning_right": 0.5609756097560976,
+   "glyph_right": 0.5055432372505543,
+   "sentences_right": 0.25,
+   "groups": {
+    "letter by letter only": [
+     271,
+     131
+    ],
+    "needs a multi-letter rule": [
+     180,
+     97
+    ],
+    "<=4 sounds": [
+     79,
+     36
+    ],
+    "5-7 sounds": [
+     255,
+     131
+    ],
+    ">=8 sounds": [
+     117,
+     61
+    ]
+   },
+   "wrong": 223,
+   "near_miss": 0.15695067264573992,
+   "closeness_median": 0.48,
+   "recognition": {
+    "LOAN.word right": 0.5609756097560976,
+    "marker missing (bare word)": 0.3458980044345898,
+    "other": 0.09312638580931264
+   },
+   "false_loans_per_sentence": 0.06
+  },
+  "new loans (never trained)": {
+   "loans": 470,
+   "meaning_right": 0.3404255319148936,
+   "glyph_right": 0.18936170212765957,
+   "sentences_right": 0.08666666666666667,
+   "groups": {
+    "letter by letter only": [
+     299,
+     68
+    ],
+    "needs a multi-letter rule": [
+     171,
+     21
+    ],
+    "<=4 sounds": [
+     116,
+     16
+    ],
+    "5-7 sounds": [
+     224,
+     51
+    ],
+    ">=8 sounds": [
+     130,
+     22
+    ]
+   },
+   "wrong": 381,
+   "near_miss": 0.2125984251968504,
+   "closeness_median": 0.5,
+   "recognition": {
+    "LOAN.word right": 0.3404255319148936,
+    "marker missing (bare word)": 0.5148936170212766,
+    "other": 0.14468085106382977
+   },
+   "false_loans_per_sentence": 0.056666666666666664
+  }
+ }
+}

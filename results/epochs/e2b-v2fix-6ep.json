@@ -1,0 +1,61 @@
+{
+ "run": "e2b-v2fix-6ep",
+ "n": 100,
+ "cot": true,
+ "epochs": [
+  {
+   "epoch": 1,
+   "glyph_exact": 0.18,
+   "word_acc": 0.7346437160460877,
+   "meaning_exact": 0.64,
+   "train_loss": 0.19255498051643372,
+   "zero_grad_fp32": 0.009083349257707596,
+   "gap_median": 9.09375
+  },
+  {
+   "epoch": 2,
+   "glyph_exact": 0.29,
+   "word_acc": 0.8396531064912638,
+   "meaning_exact": 0.73,
+   "train_loss": 0.07169914990663528,
+   "zero_grad_fp32": 0.031791724264621735,
+   "gap_median": 10.46875
+  },
+  {
+   "epoch": 3,
+   "glyph_exact": 0.46,
+   "word_acc": 0.9035468898631226,
+   "meaning_exact": 0.76,
+   "train_loss": 0.023501833900809288,
+   "zero_grad_fp32": 0.05853003263473511,
+   "gap_median": 11.4375
+  },
+  {
+   "epoch": 4,
+   "glyph_exact": 0.66,
+   "word_acc": 0.9227812404650136,
+   "meaning_exact": 0.76,
+   "train_loss": 0.011758605018258095,
+   "zero_grad_fp32": 0.08609992265701294,
+   "gap_median": 12.03125
+  },
+  {
+   "epoch": 5,
+   "glyph_exact": 0.62,
+   "word_acc": 0.9248276190651006,
+   "meaning_exact": 0.73,
+   "train_loss": 0.008604606613516808,
+   "zero_grad_fp32": 0.13938464224338531,
+   "gap_median": 12.625
+  },
+  {
+   "epoch": 6,
+   "glyph_exact": 0.59,
+   "word_acc": 0.9184301831676644,
+   "meaning_exact": 0.73,
+   "train_loss": 0.007745412643998861,
+   "zero_grad_fp32": 0.16081367433071136,
+   "gap_median": 12.96875
+  }
+ ]
+}

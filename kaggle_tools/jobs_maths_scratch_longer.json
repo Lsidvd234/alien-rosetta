@@ -1,0 +1,17 @@
+[
+ {
+  "name": "maths-meaning-scratch-longer",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch",
+   "--add-max",
+   "4",
+   "--mul-max",
+   "3x2"
+  ]
+ }
+]

@@ -1,0 +1,594 @@
+{
+ "run": "e2b-v2fix-cot-80k-noheld",
+ "layers": [
+  6,
+  10,
+  14,
+  18,
+  22,
+  27
+ ],
+ "fit_sizes": {
+  "3sgm": 127,
+  "2pl": 84,
+  "3pl": 130,
+  "3sgn": 117,
+  "none": 300,
+  "1pl": 300,
+  "group": 300,
+  "name": 300,
+  "noun": 300,
+  "1sg": 121,
+  "2sg": 104,
+  "3sgf": 121
+ },
+ "stage1": {
+  "L6:english:0.02": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L6:english:0.035": {
+   "flip": 0.975,
+   "broken": 0.0,
+   "others_kept": 0.9,
+   "random_flip": 0.0
+  },
+  "L6:english:0.05": {
+   "flip": 0.725,
+   "broken": 0.025,
+   "others_kept": 0.6410256410256411,
+   "random_flip": 0.0
+  },
+  "L6:english:0.1": {
+   "flip": 0.0,
+   "broken": 0.15,
+   "others_kept": 0.11764705882352941,
+   "random_flip": 0.075
+  },
+  "L6:all:0.02": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L6:all:0.035": {
+   "flip": 0.975,
+   "broken": 0.0,
+   "others_kept": 0.875,
+   "random_flip": 0.0
+  },
+  "L6:all:0.05": {
+   "flip": 0.35,
+   "broken": 0.125,
+   "others_kept": 0.5428571428571428,
+   "random_flip": 0.0
+  },
+  "L6:all:0.1": {
+   "flip": 0.0,
+   "broken": 1.0,
+   "others_kept": null,
+   "random_flip": 0.0
+  },
+  "L10:english:0.02": {
+   "flip": 0.875,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L10:english:0.035": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.95,
+   "random_flip": 0.0
+  },
+  "L10:english:0.05": {
+   "flip": 0.75,
+   "broken": 0.025,
+   "others_kept": 0.8974358974358975,
+   "random_flip": 0.0
+  },
+  "L10:english:0.1": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 0.3,
+   "random_flip": 0.0
+  },
+  "L10:all:0.02": {
+   "flip": 0.8,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L10:all:0.035": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.925,
+   "random_flip": 0.0
+  },
+  "L10:all:0.05": {
+   "flip": 0.675,
+   "broken": 0.0,
+   "others_kept": 0.9,
+   "random_flip": 0.0
+  },
+  "L10:all:0.1": {
+   "flip": 0.0,
+   "broken": 0.025,
+   "others_kept": 0.2564102564102564,
+   "random_flip": 0.0
+  },
+  "L14:english:0.02": {
+   "flip": 0.175,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L14:english:0.035": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.95,
+   "random_flip": 0.0
+  },
+  "L14:english:0.05": {
+   "flip": 0.975,
+   "broken": 0.025,
+   "others_kept": 0.9230769230769231,
+   "random_flip": 0.0
+  },
+  "L14:english:0.1": {
+   "flip": 0.0,
+   "broken": 0.025,
+   "others_kept": 0.5128205128205128,
+   "random_flip": 0.0
+  },
+  "L14:all:0.02": {
+   "flip": 0.175,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L14:all:0.035": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.95,
+   "random_flip": 0.0
+  },
+  "L14:all:0.05": {
+   "flip": 0.95,
+   "broken": 0.025,
+   "others_kept": 0.9487179487179487,
+   "random_flip": 0.0
+  },
+  "L14:all:0.1": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 0.475,
+   "random_flip": 0.0
+  },
+  "L18:english:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:english:0.035": {
+   "flip": 0.3,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:english:0.05": {
+   "flip": 0.975,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:english:0.1": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.925,
+   "random_flip": 0.0
+  },
+  "L18:all:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:all:0.035": {
+   "flip": 0.3,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:all:0.05": {
+   "flip": 0.975,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:all:0.1": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.925,
+   "random_flip": 0.0
+  },
+  "L22:english:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:english:0.035": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:english:0.05": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:english:0.1": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:all:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:all:0.035": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:all:0.05": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:all:0.1": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:english:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:english:0.035": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:english:0.05": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:english:0.1": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:all:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:all:0.035": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:all:0.05": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:all:0.1": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  }
+ },
+ "stage2": {
+  "1sg>2sg": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.975,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "2sg>1sg": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "1sg>3sgm": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "3sgm>1sg": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "3sgm>3sgf": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "3sgf>3sgm": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.975,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "1sg>1pl": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "1pl>1sg": {
+   "n": 40,
+   "flip": 0.525,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "3sgm>3pl": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "3pl>3sgm": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "name>noun": {
+   "n": 40,
+   "flip": 0.65,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "noun>name": {
+   "n": 40,
+   "flip": 0.05,
+   "broken": 0.025,
+   "others_kept": 1.0,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  }
+ },
+ "stage3": {
+  "picked": {
+   "setting": [
+    6,
+    "english",
+    0.02
+   ],
+   "n_failures": 12,
+   "skipped": 0,
+   "fixed": 11,
+   "random_fixed": 3,
+   "shuffled_fixed": 3,
+   "unreadable": 0,
+   "cases": [
+    {
+     "english": "Tom fell apart.",
+     "wrote": "none",
+     "gold": "name",
+     "steered": "name"
+    },
+    {
+     "english": "Tom and Mary are worried about you.",
+     "wrote": "group",
+     "gold": "none",
+     "steered": "none"
+    },
+    {
+     "english": "The victory was dearly won.",
+     "wrote": "none",
+     "gold": "noun",
+     "steered": "noun"
+    },
+    {
+     "english": "Someone please stop this nightmare.",
+     "wrote": "none",
+     "gold": "noun",
+     "steered": "none"
+    },
+    {
+     "english": "Maria usually goes to school on bike.",
+     "wrote": "name",
+     "gold": "noun",
+     "steered": "noun"
+    },
+    {
+     "english": "You said it, Tom.",
+     "wrote": "name",
+     "gold": "2sg",
+     "steered": "2sg"
+    },
+    {
+     "english": "Ken met Tom here.",
+     "wrote": "name",
+     "gold": "noun",
+     "steered": "noun"
+    },
+    {
+     "english": "Mum plays tennis.",
+     "wrote": "name",
+     "gold": "noun",
+     "steered": "noun"
+    },
+    {
+     "english": "Your mother is worried about you.",
+     "wrote": "noun",
+     "gold": "none",
+     "steered": "none"
+    },
+    {
+     "english": "He is satisfied.",
+     "wrote": "3sgm",
+     "gold": "none",
+     "steered": "none"
+    },
+    {
+     "english": "Anton is talking to me.",
+     "wrote": "noun",
+     "gold": "name",
+     "steered": "name"
+    },
+    {
+     "english": "War seemed a long way off.",
+     "wrote": "name",
+     "gold": "noun",
+     "steered": "noun"
+    }
+   ]
+  },
+  "tense setting": {
+   "setting": [
+    6,
+    "all",
+    0.035
+   ],
+   "n_failures": 12,
+   "skipped": 0,
+   "fixed": 10,
+   "random_fixed": 3,
+   "shuffled_fixed": 5,
+   "unreadable": 1,
+   "cases": [
+    {
+     "english": "Tom fell apart.",
+     "wrote": "none",
+     "gold": "name",
+     "steered": "name"
+    },
+    {
+     "english": "Tom and Mary are worried about you.",
+     "wrote": "group",
+     "gold": "none",
+     "steered": "none"
+    },
+    {
+     "english": "The victory was dearly won.",
+     "wrote": "none",
+     "gold": "noun",
+     "steered": null
+    },
+    {
+     "english": "Someone please stop this nightmare.",
+     "wrote": "none",
+     "gold": "noun",
+     "steered": "noun"
+    },
+    {
+     "english": "Maria usually goes to school on bike.",
+     "wrote": "name",
+     "gold": "noun",
+     "steered": "noun"
+    },
+    {
+     "english": "You said it, Tom.",
+     "wrote": "name",
+     "gold": "2sg",
+     "steered": "2sg"
+    },
+    {
+     "english": "Ken met Tom here.",
+     "wrote": "name",
+     "gold": "noun",
+     "steered": "noun"
+    },
+    {
+     "english": "Mum plays tennis.",
+     "wrote": "name",
+     "gold": "noun",
+     "steered": "noun"
+    },
+    {
+     "english": "Your mother is worried about you.",
+     "wrote": "noun",
+     "gold": "none",
+     "steered": "none"
+    },
+    {
+     "english": "He is satisfied.",
+     "wrote": "3sgm",
+     "gold": "none",
+     "steered": "none"
+    },
+    {
+     "english": "Anton is talking to me.",
+     "wrote": "noun",
+     "gold": "name",
+     "steered": "none"
+    },
+    {
+     "english": "War seemed a long way off.",
+     "wrote": "name",
+     "gold": "noun",
+     "steered": "noun"
+    }
+   ]
+  }
+ },
+ "picked": {
+  "layer": 6,
+  "position": "english",
+  "alpha": 0.02
+ }
+}

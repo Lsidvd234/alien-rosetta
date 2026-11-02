@@ -1,0 +1,30 @@
+[
+ {
+  "name": "maths-shuffled-s0-perms1",
+  "args": [
+   "@maths",
+   "--init",
+   "shuffled",
+   "--eval-every",
+   "500",
+   "--seed",
+   "0",
+   "--shuffle-perm",
+   "1,0,3,4,2,6,5"
+  ]
+ },
+ {
+  "name": "maths-shuffled-s1-perms0",
+  "args": [
+   "@maths",
+   "--init",
+   "shuffled",
+   "--eval-every",
+   "500",
+   "--seed",
+   "1",
+   "--shuffle-perm",
+   "3,6,5,2,0,4,1"
+  ]
+ }
+]

@@ -1,0 +1,462 @@
+{
+ "run": "e2b-v2fix-real15-ts1",
+ "layers": [
+  6,
+  10,
+  14,
+  18,
+  22,
+  27
+ ],
+ "fit_sizes": {
+  "3sgm": 127,
+  "2pl": 84,
+  "3pl": 130,
+  "3sgn": 117,
+  "none": 300,
+  "1pl": 300,
+  "group": 300,
+  "name": 300,
+  "noun": 300,
+  "1sg": 121,
+  "2sg": 104,
+  "3sgf": 121
+ },
+ "stage1": {
+  "L6:english:0.02": {
+   "flip": 0.975,
+   "broken": 0.0,
+   "others_kept": 0.975,
+   "random_flip": 0.0
+  },
+  "L6:english:0.035": {
+   "flip": 0.9,
+   "broken": 0.0,
+   "others_kept": 0.925,
+   "random_flip": 0.0
+  },
+  "L6:english:0.05": {
+   "flip": 0.575,
+   "broken": 0.0,
+   "others_kept": 0.675,
+   "random_flip": 0.0
+  },
+  "L6:english:0.1": {
+   "flip": 0.0,
+   "broken": 0.35,
+   "others_kept": 0.2692307692307692,
+   "random_flip": 0.0
+  },
+  "L6:all:0.02": {
+   "flip": 0.975,
+   "broken": 0.0,
+   "others_kept": 0.975,
+   "random_flip": 0.0
+  },
+  "L6:all:0.035": {
+   "flip": 0.9,
+   "broken": 0.0,
+   "others_kept": 0.925,
+   "random_flip": 0.0
+  },
+  "L6:all:0.05": {
+   "flip": 0.2,
+   "broken": 0.1,
+   "others_kept": 0.6944444444444444,
+   "random_flip": 0.0
+  },
+  "L6:all:0.1": {
+   "flip": 0.0,
+   "broken": 0.65,
+   "others_kept": 0.14285714285714285,
+   "random_flip": 0.0
+  },
+  "L10:english:0.02": {
+   "flip": 0.6,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L10:english:0.035": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L10:english:0.05": {
+   "flip": 0.725,
+   "broken": 0.0,
+   "others_kept": 0.775,
+   "random_flip": 0.0
+  },
+  "L10:english:0.1": {
+   "flip": 0.0,
+   "broken": 0.15,
+   "others_kept": 0.35294117647058826,
+   "random_flip": 0.0
+  },
+  "L10:all:0.02": {
+   "flip": 0.5,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L10:all:0.035": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L10:all:0.05": {
+   "flip": 0.75,
+   "broken": 0.025,
+   "others_kept": 0.7692307692307693,
+   "random_flip": 0.0
+  },
+  "L10:all:0.1": {
+   "flip": 0.0,
+   "broken": 0.525,
+   "others_kept": 0.10526315789473684,
+   "random_flip": 0.0
+  },
+  "L14:english:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L14:english:0.035": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L14:english:0.05": {
+   "flip": 0.95,
+   "broken": 0.0,
+   "others_kept": 0.975,
+   "random_flip": 0.0
+  },
+  "L14:english:0.1": {
+   "flip": 0.0,
+   "broken": 0.05,
+   "others_kept": 0.42105263157894735,
+   "random_flip": 0.075
+  },
+  "L14:all:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L14:all:0.035": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L14:all:0.05": {
+   "flip": 0.9,
+   "broken": 0.0,
+   "others_kept": 0.95,
+   "random_flip": 0.0
+  },
+  "L14:all:0.1": {
+   "flip": 0.0,
+   "broken": 0.05,
+   "others_kept": 0.2894736842105263,
+   "random_flip": 0.0
+  },
+  "L18:english:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:english:0.035": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:english:0.05": {
+   "flip": 0.975,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:english:0.1": {
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:all:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:all:0.035": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:all:0.05": {
+   "flip": 0.975,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L18:all:0.1": {
+   "flip": 0.975,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:english:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:english:0.035": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:english:0.05": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:english:0.1": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:all:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:all:0.035": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:all:0.05": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L22:all:0.1": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:english:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:english:0.035": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:english:0.05": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:english:0.1": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:all:0.02": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:all:0.035": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:all:0.05": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  },
+  "L27:all:0.1": {
+   "flip": 0.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0
+  }
+ },
+ "stage2": {
+  "1sg>2sg": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.975,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "2sg>1sg": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.925,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "1sg>3sgm": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 1.0,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "3sgm>1sg": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.875,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "3sgm>3sgf": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.95,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "3sgf>3sgm": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.875,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "1sg>1pl": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.95,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "1pl>1sg": {
+   "n": 40,
+   "flip": 0.975,
+   "broken": 0.0,
+   "others_kept": 0.475,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "3sgm>3pl": {
+   "n": 40,
+   "flip": 1.0,
+   "broken": 0.0,
+   "others_kept": 0.975,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "3pl>3sgm": {
+   "n": 40,
+   "flip": 0.975,
+   "broken": 0.0,
+   "others_kept": 0.975,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "name>noun": {
+   "n": 40,
+   "flip": 0.55,
+   "broken": 0.0,
+   "others_kept": 0.975,
+   "random_flip": 0.0,
+   "shuffled_flip": 0.0
+  },
+  "noun>name": {
+   "n": 40,
+   "flip": 0.575,
+   "broken": 0.0,
+   "others_kept": 0.975,
+   "random_flip": 0.025,
+   "shuffled_flip": 0.0
+  }
+ },
+ "stage3": {
+  "picked": {
+   "setting": [
+    10,
+    "english",
+    0.035
+   ],
+   "n_failures": 1,
+   "skipped": 0,
+   "fixed": 1,
+   "random_fixed": 0,
+   "shuffled_fixed": 0,
+   "unreadable": 0,
+   "cases": [
+    {
+     "english": "Maria usually goes to school on bike.",
+     "wrote": "name",
+     "gold": "noun",
+     "steered": "noun"
+    }
+   ]
+  },
+  "tense setting": {
+   "setting": [
+    6,
+    "all",
+    0.035
+   ],
+   "n_failures": 1,
+   "skipped": 0,
+   "fixed": 1,
+   "random_fixed": 0,
+   "shuffled_fixed": 1,
+   "unreadable": 0,
+   "cases": [
+    {
+     "english": "Maria usually goes to school on bike.",
+     "wrote": "name",
+     "gold": "noun",
+     "steered": "noun"
+    }
+   ]
+  }
+ },
+ "picked": {
+  "layer": 10,
+  "position": "english",
+  "alpha": 0.035
+ }
+}

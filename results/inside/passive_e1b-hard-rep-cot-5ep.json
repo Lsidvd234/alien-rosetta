@@ -1,0 +1,151 @@
+{
+ "run": "e1b-hard-rep-cot-5ep",
+ "n_active": 600,
+ "n_passive": 600,
+ "probe_A": {
+  "layer": "last:18",
+  "active_val": 1.0,
+  "passive_doer": 0.0,
+  "passive_reads_patient": 1.0
+ },
+ "probe_B": {
+  "layer": "last:25",
+  "passive_val": 0.8833,
+  "passive_doer": 0.8625,
+  "per_layer_passive_test": {
+   "last:0": 0.5,
+   "last:1": 0.6833,
+   "last:2": 0.7083,
+   "last:3": 0.65,
+   "last:4": 0.6625,
+   "last:5": 0.6333,
+   "last:6": 0.6042,
+   "last:7": 0.6333,
+   "last:8": 0.5792,
+   "last:9": 0.6333,
+   "last:10": 0.6667,
+   "last:11": 0.675,
+   "last:12": 0.6333,
+   "last:13": 0.6708,
+   "last:14": 0.7958,
+   "last:15": 0.7958,
+   "last:16": 0.8083,
+   "last:17": 0.7792,
+   "last:18": 0.8042,
+   "last:19": 0.8542,
+   "last:20": 0.8458,
+   "last:21": 0.85,
+   "last:22": 0.85,
+   "last:23": 0.8375,
+   "last:24": 0.8542,
+   "last:25": 0.8625,
+   "last:26": 0.8583,
+   "last:27": 0.8667,
+   "last:28": 0.8708,
+   "mean:0": 0.7458,
+   "mean:1": 0.725,
+   "mean:2": 0.6917,
+   "mean:3": 0.6917,
+   "mean:4": 0.6833,
+   "mean:5": 0.6208,
+   "mean:6": 0.6375,
+   "mean:7": 0.6417,
+   "mean:8": 0.7167,
+   "mean:9": 0.7083,
+   "mean:10": 0.7208,
+   "mean:11": 0.7542,
+   "mean:12": 0.7708,
+   "mean:13": 0.8,
+   "mean:14": 0.8,
+   "mean:15": 0.8208,
+   "mean:16": 0.8292,
+   "mean:17": 0.8292,
+   "mean:18": 0.7708,
+   "mean:19": 0.8042,
+   "mean:20": 0.7833,
+   "mean:21": 0.7042,
+   "mean:22": 0.7167,
+   "mean:23": 0.675,
+   "mean:24": 0.6875,
+   "mean:25": 0.6833,
+   "mean:26": 0.675,
+   "mean:27": 0.6375,
+   "mean:28": 0.7
+  }
+ },
+ "control_shuffled": 0.4958,
+ "probe_B_patient": {
+  "layer": "last:25",
+  "passive_patient": 0.8625
+ },
+ "output": {
+  "analysis_exact": 0.0,
+  "doer_number_right": 0.0,
+  "position_reading (S = gold patient)": 0.9958,
+  "n_doer_wrong": 240,
+  "probe_B_where_output_doer_wrong": 0.8625,
+  "probe_A_where_output_doer_wrong": 0.0
+ },
+ "samples": [
+  {
+   "english": "a  durable  meteorite  isn't  estimated  by  them  within  the  museum.",
+   "gold": "S=PRON.3pl V=estimate.PRES.NEG O=durable+meteorite L=museum",
+   "model": "S=durable+meteorite V=estimate.PRES.NEG L=museum"
+  },
+  {
+   "english": "The Thermal Nuggets Were Resented By It Inside The Bookstore",
+   "gold": "S=PRON.3sgn V=resent.PAST O=thermal+nugget.PL L=bookstore",
+   "model": "S=thermal+nugget.PL V=resent.PAST L=bookstore"
+  },
+  {
+   "english": "that  stove  will  be  revisited  by  these  rods.",
+   "gold": "S=rod.PL V=revisit.FUT O=stove",
+   "model": "S=stove V=revisit.FUT O=rod.PL"
+  },
+  {
+   "english": "THESE  COVERINGS  ARE  SUGGESTED  BY  THAT  SHOOTER  IN  THE  OFFICE",
+   "gold": "S=shooter V=suggest.PRES O=covering.PL L=office",
+   "model": "S=covering.PL V=suggest.PRES O=shooter L=office"
+  },
+  {
+   "english": "a shield was smacked by us.",
+   "gold": "S=PRON.1pl V=smack.PAST O=shield",
+   "model": "S=shield V=smack.PAST O=NAME.User"
+  },
+  {
+   "english": "A Holder Will Be Discriminated By Them",
+   "gold": "S=PRON.3pl V=discriminate.FUT O=holder",
+   "model": "S=holder V=discriminate.FUT O=PRON.3pl"
+  },
+  {
+   "english": "this held grating will not be wanted by the arbors",
+   "gold": "S=arbor.PL V=want.FUT.NEG O=held+grating",
+   "model": "S=held+grating V=want.FUT.NEG O=arbor.PL"
+  },
+  {
+   "english": "the queens will be shouted by this motorbike in the plumbing.",
+   "gold": "S=motorbike V=shout.FUT O=queen.PL L=plumbing",
+   "model": "S=queen.PL V=shout.FUT L=plumbing"
+  },
+  {
+   "english": "THAT  ECOLOGICAL  MALE  WAS  UPGRADED  BY  THE  LEMONS",
+   "gold": "S=lemon.PL V=upgrade.PAST O=ecological+male",
+   "model": "S=ecological+male V=upgrade.PAST O=lemon.PL"
+  },
+  {
+   "english": "this track is wrapped by us",
+   "gold": "S=PRON.1pl V=wrap.PRES O=track",
+   "model": "S=track V=wrap.PRES"
+  },
+  {
+   "english": "the pizzas will be rescued by that diplomatic berry",
+   "gold": "S=diplomatic+berry V=rescue.FUT O=pizza.PL",
+   "model": "S=pizza.PL V=rescue.FUT O=diplomatic+berry"
+  },
+  {
+   "english": "A  Daughter  Was  Classified  By  Those  Clean  Buttons",
+   "gold": "S=clean+button.PL V=classify.PAST O=daughter",
+   "model": "S=daughter V=classify.PAST O=clean+button.PL"
+  }
+ ]
+}

@@ -266,6 +266,8 @@ def main(argv=None) -> dict:
         opt.load_state_dict(st["opt"])
         for g in opt.param_groups:                       # the optimiser state restores the OLD weight decay:
             g["weight_decay"] = a.weight_decay            # use this call's value (e.g. continue with stronger decay)
+        if "scaler" in st:                               # fp16 loss scale (saved since 2026-10-26; older states start fresh)
+            scaler.load_state_dict(st["scaler"])
         step, curve = st["step"], st["curve"]
         log(f"resumed from {path} at step {step}")
     stop_at = min(a.steps_total, step + a.chunk_steps) if a.chunk_steps else a.steps_total
@@ -340,7 +342,7 @@ def main(argv=None) -> dict:
     if a.save:
         a.save.mkdir(parents=True, exist_ok=True)
         torch.save({"params": {n: p.detach().cpu() for n, p in params.items()}, "opt": opt.state_dict(),
-                    "step": step, "curve": curve, "args": vars(a) | {"save": str(a.save), "out": str(a.out)}},
+                    "scaler": scaler.state_dict(), "step": step, "curve": curve, "args": vars(a) | {"save": str(a.save), "out": str(a.out)}},
                    a.save / "grok_state.pt")
         log(f"saved state at step {step} -> {a.save / 'grok_state.pt'}")
     res = {"task": a.task, "init": a.init, "step": step, "steps_total": a.steps_total, "done": step >= a.steps_total,

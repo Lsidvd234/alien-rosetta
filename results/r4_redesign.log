@@ -1,0 +1,212 @@
+=== waiting for run_r4_and_loans.sh to print DONE 11:44
+=== 1 R4 redesign: e1b-hard-rep-cot-5ep, then base 12:02
+e1b-hard-rep-cot-5ep: 600 active, 600 passive sentences (doer and patient differ in number)
+{
+ "run": "e1b-hard-rep-cot-5ep",
+ "n_active": 600,
+ "n_passive": 600,
+ "probe_A": {
+  "layer": "last:18",
+  "active_val": 1.0,
+  "passive_doer": 0.5083,
+  "passive_reads_patient": 1.0
+ },
+ "probe_B": {
+  "layer": "last:14",
+  "passive_val": 0.8417,
+  "passive_doer": 0.7833,
+  "per_layer_passive_test": {
+   "last:0": 0.5208,
+   "last:1": 0.7125,
+   "last:2": 0.7708,
+   "last:3": 0.7333,
+   "last:4": 0.7208,
+   "last:5": 0.7167,
+   "last:6": 0.6625,
+   "last:7": 0.6667,
+   "last:8": 0.6875,
+   "last:9": 0.725,
+   "last:10": 0.7333,
+   "last:11": 0.7458,
+   "last:12": 0.75,
+   "last:13": 0.75,
+   "last:14": 0.7833,
+   "last:15": 0.7833,
+   "last:16": 0.7542,
+   "last:17": 0.75,
+   "last:18": 0.7625,
+   "last:19": 0.7958,
+   "last:20": 0.7625,
+   "last:21": 0.7625,
+   "last:22": 0.7667,
+   "last:23": 0.7417,
+   "last:24": 0.7833,
+   "last:25": 0.7458,
+   "last:26": 0.7667,
+   "last:27": 0.7417,
+   "last:28": 0.7292,
+   "mean:0": 0.7792,
+   "mean:1": 0.7042,
+   "mean:2": 0.7042,
+   "mean:3": 0.6833,
+   "mean:4": 0.6958,
+   "mean:5": 0.7208,
+   "mean:6": 0.6792,
+   "mean:7": 0.6667,
+   "mean:8": 0.6875,
+   "mean:9": 0.6917,
+   "mean:10": 0.6708,
+   "mean:11": 0.7292,
+   "mean:12": 0.7583,
+   "mean:13": 0.7458,
+   "mean:14": 0.7417,
+   "mean:15": 0.7625,
+   "mean:16": 0.7333,
+   "mean:17": 0.7542,
+   "mean:18": 0.7458,
+   "mean:19": 0.7458,
+   "mean:20": 0.7208,
+   "mean:21": 0.7125,
+   "mean:22": 0.6958,
+   "mean:23": 0.6875,
+   "mean:24": 0.6667,
+   "mean:25": 0.6708,
+   "mean:26": 0.65,
+   "mean:27": 0.6917,
+   "mean:28": 0.675
+  }
+ },
+ "control_shuffled": 0.4417,
+ "probe_B_patient": {
+  "layer": "last:21",
+  "passive_patient": 0.8708
+ },
+ "baselines": {
+  "bag_of_words": 0.8,
+  "layer0_mean": 0.7792
+ },
+ "output": {
+  "analysis_exact": 0.0,
+  "doer_number_right (doer, patient differ)": 0.0,
+  "position_reading (S = gold patient)": 1.0,
+  "n_doer_wrong": 240,
+  "probe_B_where_output_doer_wrong": 0.7833,
+  "probe_A_where_output_doer_wrong": 0.5083,
+  "bag_of_words_where_output_doer_wrong": 0.8,
+  "layer0_where_output_doer_wrong": 0.7792
+ },
+ "R4": "representation failure"
+}
+base: 600 active, 600 passive sentences (doer and patient differ in number)
+{
+ "run": "base",
+ "n_active": 600,
+ "n_passive": 600,
+ "probe_A": {
+  "layer": "mean:6",
+  "active_val": 0.9917,
+  "passive_doer": 0.5333,
+  "passive_reads_patient": 0.975
+ },
+ "probe_B": {
+  "layer": "mean:0",
+  "passive_val": 0.8083,
+  "passive_doer": 0.7792,
+  "per_layer_passive_test": {
+   "last:0": 0.5208,
+   "last:1": 0.7417,
+   "last:2": 0.7417,
+   "last:3": 0.7083,
+   "last:4": 0.7042,
+   "last:5": 0.7042,
+   "last:6": 0.6875,
+   "last:7": 0.6917,
+   "last:8": 0.675,
+   "last:9": 0.7292,
+   "last:10": 0.7,
+   "last:11": 0.7083,
+   "last:12": 0.6917,
+   "last:13": 0.6917,
+   "last:14": 0.7,
+   "last:15": 0.7083,
+   "last:16": 0.6958,
+   "last:17": 0.675,
+   "last:18": 0.7042,
+   "last:19": 0.7083,
+   "last:20": 0.6958,
+   "last:21": 0.6917,
+   "last:22": 0.6917,
+   "last:23": 0.6792,
+   "last:24": 0.725,
+   "last:25": 0.7167,
+   "last:26": 0.7083,
+   "last:27": 0.7042,
+   "last:28": 0.6917,
+   "mean:0": 0.7792,
+   "mean:1": 0.6875,
+   "mean:2": 0.7042,
+   "mean:3": 0.7,
+   "mean:4": 0.6375,
+   "mean:5": 0.6833,
+   "mean:6": 0.6208,
+   "mean:7": 0.6583,
+   "mean:8": 0.675,
+   "mean:9": 0.7083,
+   "mean:10": 0.7125,
+   "mean:11": 0.7208,
+   "mean:12": 0.7208,
+   "mean:13": 0.7042,
+   "mean:14": 0.6917,
+   "mean:15": 0.725,
+   "mean:16": 0.7083,
+   "mean:17": 0.7083,
+   "mean:18": 0.6833,
+   "mean:19": 0.6875,
+   "mean:20": 0.6875,
+   "mean:21": 0.725,
+   "mean:22": 0.7125,
+   "mean:23": 0.7,
+   "mean:24": 0.6792,
+   "mean:25": 0.6708,
+   "mean:26": 0.6583,
+   "mean:27": 0.6583,
+   "mean:28": 0.6792
+  }
+ },
+ "control_shuffled": 0.475,
+ "probe_B_patient": {
+  "layer": "mean:8",
+  "passive_patient": 0.9042
+ },
+ "baselines": {
+  "bag_of_words": 0.8,
+  "layer0_mean": 0.7792
+ }
+}
+# Is a misread passive's doer still in the model? (`analysis/inside_passive.py`, prediction R4, redesign)
+
+All four doer x patient number combinations, balanced. Probe A: trained on actives only. Probe B: trained on actives + other passives (R4). Baselines on the same split: bag of words (no model) and layer 0 (word embeddings). Misread = output S= is not the gold doer. Chance 0.5. Rule (amended 28 Oct): readout failure if probe B where misread >= 0.85 and >= 0.10 above the better baseline; representation failure if < 0.60 or within 0.05.
+
+| run | output: doer number right (differ) | output: first noun read as doer | probe A on passives | probe B on passives | bag of words / layer 0 | where misread (n): probe B, bag of words, layer 0 | shuffled control | patient probe | layers A / B | R4 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| base | - | - | 0.5333 | 0.7792 | 0.8 / 0.7792 | (-) -, -, - | 0.475 | 0.9042 | mean:6 / mean:0 | - |
+| e1b-hard-rep-cot-5ep | 0.0 | 1.0 | 0.5083 | 0.7833 | 0.8 / 0.7792 | (240) 0.7833, 0.8, 0.7792 | 0.4417 | 0.8708 | last:18 / last:14 | representation failure |
+=== 2 loanwords re-scored (fixed grouping, no model) 12:10
+# Per-loanword accuracy (`analysis/loan_words.py`)
+
+Run e2b-v2fix-loan-r2. 300 generated sentences per set; every loan noun in the gold answer is scored.
+
+| set | loan nouns | meaning right (LOAN.word) | glyph word right | sentences fully right |
+|---|---|---|---|---|
+| seen loans | 451 | **0.56** | **0.51** | 0.25 |
+| new loans (never trained) | 470 | **0.34** | **0.19** | 0.09 |
+
+## Rule or list: glyph word right by kind of loan (n loans)
+
+Closeness compares whole glyph words, including the shared LOAN ending and case/plural ending, so it runs high even for a wrong stem; compare it across runs, not as an absolute.
+
+| set | letter by letter only | needs a multi-letter rule | <=4 sounds | 5-7 sounds | >=8 sounds | wrong loans | near misses (closeness >= 0.75) | median closeness |
+|---|---|---|---|---|---|---|---|---|
+| seen loans | 0.48 (271) | 0.54 (180) | 0.46 (79) | 0.51 (255) | 0.52 (117) | 223 | 16% | 0.48 |
+=== end 12:10
+DONE

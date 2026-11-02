@@ -1,0 +1,49 @@
+[
+ {
+  "name": "maths-meaning-buildmix-drop56-s1",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "5,6",
+   "--seed",
+   "1"
+  ]
+ },
+ {
+  "name": "maths-meaning-buildmix-drop34",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "3,4"
+  ]
+ },
+ {
+  "name": "maths-meaning-buildmix-drop66",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "6,6"
+  ]
+ }
+]

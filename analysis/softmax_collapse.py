@@ -37,7 +37,8 @@ def run_one(run: str, n: int) -> None:
     items, _ = R2.build_training(cfg.get("preset", "tamil_like"), cfg.get("script", "abugida_pua"),
                                  int(cfg.get("seed", 0)), n=n, n_refuse=0, n_replay=0, cot=cot,
                                  held_frac=float(cfg.get("rep_held_frac", 0.2)), min_count=0,
-                                 paraphrase_file=para, loan_rate=float(cfg.get("rep_loan_rate", 0) or 0))
+                                 paraphrase_file=para, loan_rate=float(cfg.get("rep_loan_rate", 0) or 0),
+                                 everyday=str(cfg.get("rep_everyday")) == "True")
     model, tok, _ = load_trained(mdir)
     device = next(model.parameters()).device
     amp = lambda: torch.autocast("cuda", dtype=torch.float16)  # noqa: E731  (as trained on T4 / P100)

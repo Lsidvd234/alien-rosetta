@@ -1,0 +1,194 @@
+=== R4 v2 start 18:34
+e2b-v2fix-passive0: 600 active, 600 passive sentences (doer and patient differ in number)
+{
+ "run": "e2b-v2fix-passive0",
+ "n_active": 600,
+ "n_passive": 600,
+ "probe_A": {
+  "layer": "last:19",
+  "active_val": 1.0,
+  "passive_doer": 0.5625,
+  "passive_reads_patient": 0.9375
+ },
+ "probe_B": {
+  "layer": "last:17",
+  "passive_val": 0.725,
+  "passive_doer": 0.7458,
+  "per_layer_passive_test": {
+   "last:0": 0.5208,
+   "last:1": 0.6583,
+   "last:2": 0.6625,
+   "last:3": 0.6667,
+   "last:4": 0.6542,
+   "last:5": 0.6875,
+   "last:6": 0.6625,
+   "last:7": 0.6667,
+   "last:8": 0.625,
+   "last:9": 0.6833,
+   "last:10": 0.6375,
+   "last:11": 0.6625,
+   "last:12": 0.6375,
+   "last:13": 0.6542,
+   "last:14": 0.7083,
+   "last:15": 0.7167,
+   "last:16": 0.725,
+   "last:17": 0.7458,
+   "last:18": 0.6083,
+   "last:19": 0.6042,
+   "last:20": 0.55,
+   "last:21": 0.6042,
+   "last:22": 0.5667,
+   "last:23": 0.5583,
+   "last:24": 0.5208,
+   "last:25": 0.5667,
+   "last:26": 0.5667,
+   "last:27": 0.5875,
+   "last:28": 0.5792,
+   "mean:0": 0.7042,
+   "mean:1": 0.6458,
+   "mean:2": 0.6375,
+   "mean:3": 0.6583,
+   "mean:4": 0.6375,
+   "mean:5": 0.6875,
+   "mean:6": 0.6375,
+   "mean:7": 0.6625,
+   "mean:8": 0.6792,
+   "mean:9": 0.6792,
+   "mean:10": 0.6833,
+   "mean:11": 0.6958,
+   "mean:12": 0.7167,
+   "mean:13": 0.7292,
+   "mean:14": 0.7375,
+   "mean:15": 0.7417,
+   "mean:16": 0.7,
+   "mean:17": 0.6917,
+   "mean:18": 0.7167,
+   "mean:19": 0.6917,
+   "mean:20": 0.6917,
+   "mean:21": 0.6833,
+   "mean:22": 0.6708,
+   "mean:23": 0.65,
+   "mean:24": 0.675,
+   "mean:25": 0.65,
+   "mean:26": 0.6458,
+   "mean:27": 0.6583,
+   "mean:28": 0.6583
+  }
+ },
+ "control_shuffled": 0.4833,
+ "probe_B_patient": {
+  "layer": "last:19",
+  "passive_patient": 0.9417
+ },
+ "baselines": {
+  "bag_of_words": 0.6875,
+  "layer0_mean": 0.7042
+ },
+ "output": {
+  "analysis_exact": 0.0,
+  "doer_number_right (doer, patient differ)": 0.0,
+  "position_reading (S = gold patient)": 0.0792,
+  "n_doer_wrong": 240,
+  "probe_B_where_output_doer_wrong": 0.7458,
+  "probe_A_where_output_doer_wrong": 0.5625,
+  "bag_of_words_where_output_doer_wrong": 0.6875,
+  "layer0_where_output_doer_wrong": 0.7042
+ },
+ "R4": "representation failure"
+}
+base: 600 active, 600 passive sentences (doer and patient differ in number)
+{
+ "run": "base",
+ "n_active": 600,
+ "n_passive": 600,
+ "probe_A": {
+  "layer": "mean:20",
+  "active_val": 0.9667,
+  "passive_doer": 0.5542,
+  "passive_reads_patient": 0.9792
+ },
+ "probe_B": {
+  "layer": "mean:0",
+  "passive_val": 0.6833,
+  "passive_doer": 0.7042,
+  "per_layer_passive_test": {
+   "last:0": 0.5208,
+   "last:1": 0.6542,
+   "last:2": 0.6292,
+   "last:3": 0.6667,
+   "last:4": 0.6292,
+   "last:5": 0.6375,
+   "last:6": 0.6292,
+   "last:7": 0.6708,
+   "last:8": 0.6417,
+   "last:9": 0.6583,
+   "last:10": 0.6542,
+   "last:11": 0.6875,
+   "last:12": 0.6458,
+   "last:13": 0.6333,
+   "last:14": 0.6542,
+   "last:15": 0.6292,
+   "last:16": 0.6375,
+   "last:17": 0.6375,
+   "last:18": 0.6917,
+   "last:19": 0.6583,
+   "last:20": 0.65,
+   "last:21": 0.625,
+   "last:22": 0.6417,
+   "last:23": 0.6542,
+   "last:24": 0.6167,
+   "last:25": 0.5917,
+   "last:26": 0.6083,
+   "last:27": 0.6083,
+   "last:28": 0.625,
+   "mean:0": 0.7042,
+   "mean:1": 0.65,
+   "mean:2": 0.6458,
+   "mean:3": 0.65,
+   "mean:4": 0.6583,
+   "mean:5": 0.65,
+   "mean:6": 0.625,
+   "mean:7": 0.6375,
+   "mean:8": 0.6583,
+   "mean:9": 0.6625,
+   "mean:10": 0.6958,
+   "mean:11": 0.6833,
+   "mean:12": 0.6875,
+   "mean:13": 0.6792,
+   "mean:14": 0.6708,
+   "mean:15": 0.6667,
+   "mean:16": 0.65,
+   "mean:17": 0.6583,
+   "mean:18": 0.6708,
+   "mean:19": 0.6875,
+   "mean:20": 0.6542,
+   "mean:21": 0.6375,
+   "mean:22": 0.6333,
+   "mean:23": 0.6,
+   "mean:24": 0.6167,
+   "mean:25": 0.6083,
+   "mean:26": 0.5833,
+   "mean:27": 0.5958,
+   "mean:28": 0.5958
+  }
+ },
+ "control_shuffled": 0.4625,
+ "probe_B_patient": {
+  "layer": "mean:20",
+  "passive_patient": 0.8167
+ },
+ "baselines": {
+  "bag_of_words": 0.6875,
+  "layer0_mean": 0.7042
+ }
+}
+# Is a misread passive's doer still in the model? (`analysis/inside_passive.py`, prediction R4, redesign)
+
+All four doer x patient number combinations, balanced. Probe A: trained on actives only. Probe B: trained on actives + other passives (R4). Baselines on the same split: bag of words (no model) and layer 0 (word embeddings). Misread = output S= is not the gold doer. Chance 0.5. Rule (amended 28 Oct): readout failure if probe B where misread >= 0.85 and >= 0.10 above the better baseline; representation failure if < 0.60 or within 0.05.
+
+| run | output: doer number right (differ) | output: first noun read as doer | probe A on passives | probe B on passives | bag of words / layer 0 | where misread (n): probe B, bag of words, layer 0 | shuffled control | patient probe | layers A / B | R4 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| base | - | - | 0.5542 | 0.7042 | 0.6875 / 0.7042 | (-) -, -, - | 0.4625 | 0.8167 | mean:20 / mean:0 | - |
+| e2b-v2fix-passive0 | 0.0 | 0.0792 | 0.5625 | 0.7458 | 0.6875 / 0.7042 | (240) 0.7458, 0.6875, 0.7042 | 0.4833 | 0.9417 | last:19 / last:17 | representation failure |
+=== end 18:43
+DONE

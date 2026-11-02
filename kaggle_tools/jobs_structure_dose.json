@@ -48,7 +48,8 @@
    "--rep-held-only",
    "voice=passive",
    "--rep-held-putback",
-   "0"
+   "0",
+   "--rep-protect-putback"
   ]
  },
  {
@@ -100,7 +101,8 @@
    "--rep-held-only",
    "voice=passive",
    "--rep-held-putback",
-   "50"
+   "50",
+   "--rep-protect-putback"
   ]
  },
  {
@@ -152,7 +154,8 @@
    "--rep-held-only",
    "voice=passive",
    "--rep-held-putback",
-   "300"
+   "300",
+   "--rep-protect-putback"
   ]
  }
 ]

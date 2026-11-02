@@ -1,0 +1,239 @@
+=== steering, held-out selection: e2b-v2fix-cot-80k-noheld 00:24
+  stage1 L6 english a=0.005: flip 0.03 (random 0.01) broken 0.00
+  stage1 L6 english a=0.01: flip 0.45 (random 0.01) broken 0.00
+  stage1 L6 english a=0.02: flip 0.98 (random 0.01) broken 0.00
+  stage1 L6 english a=0.035: flip 0.99 (random 0.00) broken 0.00
+  stage1 L6 english a=0.05: flip 0.99 (random 0.00) broken 0.01
+  stage1 L6 english a=0.1: flip 0.96 (random 0.08) broken 0.04
+  stage1 L6 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L6 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L6 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L6 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L6 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L6 last    a=0.1: flip 0.01 (random 0.01) broken 0.04
+  stage1 L6 all     a=0.005: flip 0.03 (random 0.01) broken 0.00
+  stage1 L6 all     a=0.01: flip 0.43 (random 0.01) broken 0.00
+  stage1 L6 all     a=0.02: flip 0.98 (random 0.01) broken 0.00
+  stage1 L6 all     a=0.035: flip 0.99 (random 0.00) broken 0.00
+  stage1 L6 all     a=0.05: flip 0.89 (random 0.00) broken 0.11
+  stage1 L6 all     a=0.1: flip 0.05 (random 0.00) broken 0.95
+  stage1 L10 english a=0.005: flip 0.03 (random 0.01) broken 0.00
+  stage1 L10 english a=0.01: flip 0.23 (random 0.01) broken 0.00
+  stage1 L10 english a=0.02: flip 0.86 (random 0.01) broken 0.00
+  stage1 L10 english a=0.035: flip 0.99 (random 0.01) broken 0.00
+  stage1 L10 english a=0.05: flip 0.99 (random 0.00) broken 0.00
+  stage1 L10 english a=0.1: flip 0.84 (random 0.00) broken 0.16
+  stage1 L10 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L10 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L10 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L10 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L10 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L10 last    a=0.1: flip 0.01 (random 0.01) broken 0.03
+  stage1 L10 all     a=0.005: flip 0.03 (random 0.01) broken 0.00
+  stage1 L10 all     a=0.01: flip 0.23 (random 0.01) broken 0.00
+  stage1 L10 all     a=0.02: flip 0.85 (random 0.01) broken 0.00
+  stage1 L10 all     a=0.035: flip 0.99 (random 0.00) broken 0.00
+  stage1 L10 all     a=0.05: flip 0.99 (random 0.00) broken 0.00
+  stage1 L10 all     a=0.1: flip 0.04 (random 0.00) broken 0.96
+  stage1 L14 english a=0.005: flip 0.03 (random 0.01) broken 0.00
+  stage1 L14 english a=0.01: flip 0.03 (random 0.01) broken 0.00
+  stage1 L14 english a=0.02: flip 0.72 (random 0.01) broken 0.00
+  stage1 L14 english a=0.035: flip 0.99 (random 0.01) broken 0.00
+  stage1 L14 english a=0.05: flip 1.00 (random 0.01) broken 0.00
+  stage1 L14 english a=0.1: flip 0.92 (random 0.01) broken 0.00
+  stage1 L14 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 last    a=0.1: flip 0.01 (random 0.01) broken 0.01
+  stage1 L14 all     a=0.005: flip 0.03 (random 0.01) broken 0.00
+  stage1 L14 all     a=0.01: flip 0.03 (random 0.01) broken 0.00
+  stage1 L14 all     a=0.02: flip 0.72 (random 0.01) broken 0.00
+  stage1 L14 all     a=0.035: flip 0.99 (random 0.01) broken 0.00
+  stage1 L14 all     a=0.05: flip 1.00 (random 0.01) broken 0.00
+  stage1 L14 all     a=0.1: flip 0.15 (random 0.00) broken 0.83
+  stage1 L18 english a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 english a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 english a=0.02: flip 0.03 (random 0.01) broken 0.00
+  stage1 L18 english a=0.035: flip 0.08 (random 0.01) broken 0.00
+  stage1 L18 english a=0.05: flip 0.14 (random 0.01) broken 0.00
+  stage1 L18 english a=0.1: flip 0.30 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.02: flip 0.03 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.035: flip 0.09 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.05: flip 0.16 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.1: flip 0.36 (random 0.01) broken 0.01
+  stage1 L22 english a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 english a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 english a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 english a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 english a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 english a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.1: flip 0.01 (random 0.01) broken 0.00
+  picked layer 6, english, alpha 0.035
+  stage2 tense:PRES>PAST : flip 1.00 (random 0.00) broken 0.00 others kept 0.66
+  stage2 tense:PAST>PRES : flip 1.00 (random 0.00) broken 0.00 others kept 0.85
+  stage2 tense:PRES>FUT  : flip 0.97 (random 0.01) broken 0.01 others kept 0.2727272727272727
+  stage2 tense:FUT>PRES  : flip 0.98 (random 0.01) broken 0.00 others kept 0.13
+  stage2 NEG:no>yes      : flip 0.90 (random 0.00) broken 0.03 others kept 0.7010309278350515
+  stage2 NEG:yes>no      : flip 0.98 (random 0.00) broken 0.01 others kept 0.6060606060606061
+=== steering, held-out selection: e2b-v2fix-real15 09:19
+  stage1 L6 english a=0.005: flip 0.02 (random 0.01) broken 0.00
+  stage1 L6 english a=0.01: flip 0.42 (random 0.01) broken 0.00
+  stage1 L6 english a=0.02: flip 0.93 (random 0.00) broken 0.00
+  stage1 L6 english a=0.035: flip 1.00 (random 0.01) broken 0.00
+  stage1 L6 english a=0.05: flip 1.00 (random 0.01) broken 0.00
+  stage1 L6 english a=0.1: flip 0.91 (random 0.00) broken 0.08
+  stage1 L6 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L6 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L6 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L6 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L6 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L6 last    a=0.1: flip 0.01 (random 0.01) broken 0.02
+  stage1 L6 all     a=0.005: flip 0.02 (random 0.01) broken 0.00
+  stage1 L6 all     a=0.01: flip 0.34 (random 0.01) broken 0.00
+  stage1 L6 all     a=0.02: flip 0.90 (random 0.00) broken 0.00
+  stage1 L6 all     a=0.035: flip 0.99 (random 0.01) broken 0.01
+  stage1 L6 all     a=0.05: flip 0.60 (random 0.00) broken 0.40
+  stage1 L6 all     a=0.1: flip 0.13 (random 0.00) broken 0.86
+  stage1 L10 english a=0.005: flip 0.02 (random 0.01) broken 0.00
+  stage1 L10 english a=0.01: flip 0.16 (random 0.01) broken 0.00
+  stage1 L10 english a=0.02: flip 0.82 (random 0.00) broken 0.00
+  stage1 L10 english a=0.035: flip 1.00 (random 0.00) broken 0.00
+  stage1 L10 english a=0.05: flip 1.00 (random 0.00) broken 0.00
+  stage1 L10 english a=0.1: flip 0.98 (random 0.00) broken 0.02
+  stage1 L10 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L10 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L10 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L10 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L10 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L10 last    a=0.1: flip 0.01 (random 0.01) broken 0.07
+  stage1 L10 all     a=0.005: flip 0.02 (random 0.01) broken 0.00
+  stage1 L10 all     a=0.01: flip 0.19 (random 0.01) broken 0.00
+  stage1 L10 all     a=0.02: flip 0.80 (random 0.00) broken 0.00
+  stage1 L10 all     a=0.035: flip 1.00 (random 0.00) broken 0.00
+  stage1 L10 all     a=0.05: flip 1.00 (random 0.00) broken 0.00
+  stage1 L10 all     a=0.1: flip 0.26 (random 0.00) broken 0.74
+  stage1 L14 english a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 english a=0.01: flip 0.02 (random 0.01) broken 0.00
+  stage1 L14 english a=0.02: flip 0.64 (random 0.01) broken 0.00
+  stage1 L14 english a=0.035: flip 0.96 (random 0.01) broken 0.00
+  stage1 L14 english a=0.05: flip 1.00 (random 0.01) broken 0.00
+  stage1 L14 english a=0.1: flip 0.99 (random 0.00) broken 0.00
+  stage1 L14 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 last    a=0.1: flip 0.01 (random 0.00) broken 0.01
+  stage1 L14 all     a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L14 all     a=0.01: flip 0.02 (random 0.01) broken 0.00
+  stage1 L14 all     a=0.02: flip 0.66 (random 0.01) broken 0.00
+  stage1 L14 all     a=0.035: flip 0.95 (random 0.01) broken 0.00
+  stage1 L14 all     a=0.05: flip 0.98 (random 0.02) broken 0.01
+  stage1 L14 all     a=0.1: flip 0.23 (random 0.00) broken 0.76
+  stage1 L18 english a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 english a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 english a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 english a=0.035: flip 0.03 (random 0.01) broken 0.00
+  stage1 L18 english a=0.05: flip 0.14 (random 0.01) broken 0.00
+  stage1 L18 english a=0.1: flip 0.30 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 last    a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.035: flip 0.03 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.05: flip 0.17 (random 0.01) broken 0.00
+  stage1 L18 all     a=0.1: flip 0.36 (random 0.01) broken 0.03
+  stage1 L22 english a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 english a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 english a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 english a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 english a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 english a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 last    a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L22 all     a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 english a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 last    a=0.1: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.005: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.01: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.02: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.035: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.05: flip 0.01 (random 0.01) broken 0.00
+  stage1 L27 all     a=0.1: flip 0.01 (random 0.01) broken 0.00
+  picked layer 10, english, alpha 0.035
+  stage2 tense:PRES>PAST : flip 0.98 (random 0.00) broken 0.00 others kept 0.89
+  stage2 tense:PAST>PRES : flip 1.00 (random 0.00) broken 0.00 others kept 0.95
+  stage2 tense:PRES>FUT  : flip 0.99 (random 0.01) broken 0.00 others kept 0.29
+  stage2 tense:FUT>PRES  : flip 0.98 (random 0.01) broken 0.00 others kept 0.38
+  stage2 NEG:no>yes      : flip 0.89 (random 0.00) broken 0.00 others kept 0.96
+  stage2 NEG:yes>no      : flip 0.79 (random 0.00) broken 0.00 others kept 0.9
+  stage2 Q:no>yes        : flip 0.92 (random 0.00) broken 0.01 others kept 0.8484848484848485
+  stage2 Q:yes>no        : flip 0.98 (random 0.01) broken 0.00 others kept 0.3333333333333333
+  stage3 tense: 0/0 real failures fixed (random 0)
+  stage3 NEG: 0/0 real failures fixed (random 0)
+  stage3 Q: 0/0 real failures fixed (random 0)
+=== end 15:44
+DONE

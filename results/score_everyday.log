@@ -1,0 +1,48 @@
+=== start 00:14
+e2b-v2fix-everyday {'run': 'e2b-v2fix-everyday', 'n': 600, 'cot': True, 'glyph_exact': 0.605, 'word_acc': 0.869, 'meaning_exact': 0.725}
+e2b-v2fix-everyday: scored 172 entries in 576 s
+# Real-English test 2: 600 held-out Tatoeba sentences (`analysis/score_tatoeba.py`)
+
+Gold labels from the sealed-set reader (label precision ~88% by hand check), so ~0.88 meaning is the ceiling.
+
+| run | glyphs exact | meaning exact | glyph word accuracy |
+|---|---|---|---|
+| e2a-v2-80k | 0.438 | - | 0.774 |
+| e2b-v2-cot-80k-noheld | 0.462 | 0.620 | 0.792 |
+| e2b-v2-cot-80k | 0.458 | 0.622 | 0.806 |
+| e2b-v2fix-6ep | 0.450 | 0.563 | 0.776 |
+| e2b-v2fix-cot-80k-noheld | 0.467 | 0.617 | 0.798 |
+| e2b-v2fix-cot-80k-noheld@epoch1 | 0.292 | 0.577 | 0.714 |
+| e2b-v2fix-cot-80k-noheld@epoch2 | 0.420 | 0.612 | 0.779 |
+| e2b-v2fix-cot-80k | 0.503 | 0.633 | 0.813 |
+| e2b-v2fix-everyday | 0.605 | 0.725 | 0.869 |
+| e2b-v2fix-floor25 | 0.483 | 0.603 | 0.814 |
+| e2b-v2fix-focal-r2 | 0.455 | 0.588 | 0.795 |
+| e2b-v2fix-loan-r2 | 0.502 | 0.592 | 0.817 |
+| e2b-v2fix-para | 0.477 | 0.615 | 0.810 |
+| e2b-v2fix-para8 | 0.480 | 0.620 | 0.807 |
+| e2b-v2fix-real15-ts1 | 0.892 | 0.928 | 0.965 |
+| e2b-v2fix-real15 | 0.890 | 0.923 | 0.963 |
+| e2b-v2fix-ts1 | 0.467 | 0.625 | 0.809 |
+|---|---|---|---|---|
+| e1b-hard-rep-cot-5ep | 0.020 | 0.048 | 0.194 | 0.720 |
+| e2a-v2-80k | 0.401 | - | 0.711 | 0.840 |
+| e2b-v2-cot-80k-noheld | 0.422 | 0.463 | 0.733 | 0.840 |
+| e2b-v2-cot-80k | 0.408 | 0.415 | 0.723 | 0.920 |
+| e2b-v2fix-6ep | 0.395 | 0.449 | 0.729 | 0.920 |
+| e2b-v2fix-cot-80k-noheld | 0.422 | 0.476 | 0.749 | 0.720 |
+| e2b-v2fix-cot-80k-noheld@epoch1 | 0.259 | 0.429 | 0.648 | 0.640 |
+| e2b-v2fix-cot-80k-noheld@epoch2 | 0.401 | 0.463 | 0.737 | 0.960 |
+| e2b-v2fix-cot-80k | 0.449 | 0.469 | 0.745 | 0.920 |
+| e2b-v2fix-everyday | 0.476 | 0.517 | 0.769 | 0.920 |
+| e2b-v2fix-floor25 | 0.456 | 0.503 | 0.738 | 0.920 |
+| e2b-v2fix-focal-r2 | 0.388 | 0.442 | 0.725 | 0.840 |
+| e2b-v2fix-loan-r2 | 0.429 | 0.442 | 0.733 | 0.760 |
+| e2b-v2fix-para | 0.429 | 0.449 | 0.737 | 0.920 |
+| e2b-v2fix-para8 | 0.408 | 0.469 | 0.733 | 0.880 |
+| e2b-v2fix-real15-ts1 | 0.551 | 0.558 | 0.795 | 0.760 |
+| e2b-v2fix-real15 | 0.558 | 0.558 | 0.796 | 0.960 |
+| e2b-v2fix-ts1 | 0.435 | 0.463 | 0.751 | 0.960 |
+| two-stage(Qwen3-0.6B)+e2b-v2fix-cot-80k-noheld | 0.422 | 0.476 | 0.749 | 0.600 |
+=== end 00:43
+DONE

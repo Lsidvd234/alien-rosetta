@@ -1,0 +1,116 @@
+[
+ {
+  "name": "maths-meaning-buildmix-drop56-s2d",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "5,6",
+   "--force-routes",
+   "--seed",
+   "2",
+   "--deterministic"
+  ]
+ },
+ {
+  "name": "maths-meaning-buildmix-drop34-s1d",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "3,4",
+   "--force-routes",
+   "--seed",
+   "1",
+   "--deterministic"
+  ]
+ },
+ {
+  "name": "maths-meaning-buildmix-drop34-s2d",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "3,4",
+   "--force-routes",
+   "--seed",
+   "2",
+   "--deterministic"
+  ]
+ },
+ {
+  "name": "maths-meaning-buildmix-drop66-s1d",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "6,6",
+   "--force-routes",
+   "--seed",
+   "1",
+   "--deterministic"
+  ]
+ },
+ {
+  "name": "maths-meaning-buildmix-drop66-s2d",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "6,6",
+   "--force-routes",
+   "--seed",
+   "2",
+   "--deterministic"
+  ]
+ },
+ {
+  "name": "maths-meaning-buildmix-drop6row-s1d",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "6,4;6,5;6,6",
+   "--force-routes",
+   "--seed",
+   "1",
+   "--deterministic"
+  ]
+ }
+]

@@ -1,0 +1,43 @@
+{
+ "run": "e2b-v2fix-real15-ts1",
+ "n": 100,
+ "cot": true,
+ "epochs": [
+  {
+   "epoch": 1,
+   "glyph_exact": 0.16,
+   "word_acc": 0.7324913467865202,
+   "meaning_exact": 0.68,
+   "train_loss": 0.20342613756656647,
+   "zero_grad_fp32": 0.001471246825531125,
+   "gap_median": 8.65625
+  },
+  {
+   "epoch": 2,
+   "glyph_exact": 0.29,
+   "word_acc": 0.8298951408720167,
+   "meaning_exact": 0.73,
+   "train_loss": 0.07640372216701508,
+   "zero_grad_fp32": 0.011002367362380028,
+   "gap_median": 10.109375
+  },
+  {
+   "epoch": 3,
+   "glyph_exact": 0.43,
+   "word_acc": 0.8800726253224009,
+   "meaning_exact": 0.76,
+   "train_loss": 0.028627537190914154,
+   "zero_grad_fp32": 0.04068317264318466,
+   "gap_median": 11.09375
+  },
+  {
+   "epoch": 4,
+   "glyph_exact": 0.58,
+   "word_acc": 0.9163560964224804,
+   "meaning_exact": 0.81,
+   "train_loss": 0.015877509489655495,
+   "zero_grad_fp32": 0.0591697059571743,
+   "gap_median": 11.609375
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+[
+ {
+  "name": "maths-meaning-scratch",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch"
+  ]
+ },
+ {
+  "name": "maths-meaning-scratch-drop56",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch",
+   "--drop-pair",
+   "5,6"
+  ]
+ }
+]

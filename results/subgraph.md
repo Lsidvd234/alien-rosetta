@@ -82,6 +82,52 @@ Check of the check: re-rendering the GOLD analysis gives the gold glyphs for 198
 | both wrong | 14 | 0.05 |
 | unreadable analysis | 25 | 0.08 |
 
+## e2b-v2fix-6ep
+
+**1. Glyph words: exact form seen in training vs new form (root trained this many times)**
+
+| root trained | form seen | new form, known root |
+|---|---|---|
+| 1-9 | 1.00 (1) | - |
+| 10-29 | 0.94 (367) | 0.83 (140) |
+| 30-99 | 0.96 (391) | 0.86 (114) |
+| 100+ | 0.95 (300) | 0.87 (55) |
+| root never trained | - | - |
+| (pronouns and grammar words) | 0.97 (937) | 1.00 (1) |
+
+**2. Sentences: every piece of a kind seen vs at least one new**
+
+| piece | all seen | at least one new |
+|---|---|---|
+| clause template | 0.66 (287) | 0.62 (13) |
+| slot shape | 0.66 (300) | - |
+| verb endings | 0.66 (300) | - |
+| word form | 0.80 (102) | 0.59 (198) |
+| (everything seen) | 0.80 (101) | - |
+
+**3. Sentence accuracy by share of its pieces seen in training**
+
+| pieces seen | sentences right |
+|---|---|
+| 100% | 0.80 (101) |
+| 95%-100% | 0.54 (24) |
+| 90%-95% | 0.59 (79) |
+| 80%-90% | 0.60 (88) |
+| 0%-80% | 0.50 (8) |
+
+**4. Where the steps went wrong (meaning first, then glyphs)**
+
+Check of the check: re-rendering the GOLD analysis gives the gold glyphs for 198/200 generated sentences, so about 1% of true propagation errors may be counted as 'both wrong'.
+
+| outcome | sentences | share |
+|---|---|---|
+| correct | 197 | 0.66 |
+| local | 46 | 0.15 |
+| propagation | 28 | 0.09 |
+| restoration | 1 | 0.00 |
+| both wrong | 3 | 0.01 |
+| unreadable analysis | 25 | 0.08 |
+
 ## e2b-v2fix-cot-80k-noheld
 
 **1. Glyph words: exact form seen in training vs new form (root trained this many times)**
@@ -174,6 +220,52 @@ Check of the check: re-rendering the GOLD analysis gives the gold glyphs for 198
 | restoration | 1 | 0.00 |
 | both wrong | 19 | 0.06 |
 | unreadable analysis | 50 | 0.17 |
+
+## e2b-v2fix-floor25
+
+**1. Glyph words: exact form seen in training vs new form (root trained this many times)**
+
+| root trained | form seen | new form, known root |
+|---|---|---|
+| 1-9 | 1.00 (1) | - |
+| 10-29 | 0.93 (352) | 0.91 (108) |
+| 30-99 | 0.96 (402) | 0.89 (114) |
+| 100+ | 0.95 (335) | 0.88 (56) |
+| root never trained | - | - |
+| (pronouns and grammar words) | 0.98 (937) | 1.00 (1) |
+
+**2. Sentences: every piece of a kind seen vs at least one new**
+
+| piece | all seen | at least one new |
+|---|---|---|
+| clause template | 0.72 (290) | 0.70 (10) |
+| slot shape | 0.72 (300) | - |
+| verb endings | 0.72 (300) | - |
+| word form | 0.82 (113) | 0.66 (187) |
+| (everything seen) | 0.82 (112) | - |
+
+**3. Sentence accuracy by share of its pieces seen in training**
+
+| pieces seen | sentences right |
+|---|---|
+| 100% | 0.82 (112) |
+| 95%-100% | 0.64 (22) |
+| 90%-95% | 0.63 (86) |
+| 80%-90% | 0.70 (74) |
+| 0%-80% | 0.67 (6) |
+
+**4. Where the steps went wrong (meaning first, then glyphs)**
+
+Check of the check: re-rendering the GOLD analysis gives the gold glyphs for 198/200 generated sentences, so about 1% of true propagation errors may be counted as 'both wrong'.
+
+| outcome | sentences | share |
+|---|---|---|
+| correct | 214 | 0.71 |
+| local | 37 | 0.12 |
+| propagation | 23 | 0.08 |
+| restoration | 2 | 0.01 |
+| both wrong | 5 | 0.02 |
+| unreadable analysis | 19 | 0.06 |
 
 ## e2b-v2fix-focal-r2
 
@@ -312,3 +404,141 @@ Check of the check: re-rendering the GOLD analysis gives the gold glyphs for 198
 | restoration | 0 | 0.00 |
 | both wrong | 9 | 0.03 |
 | unreadable analysis | 22 | 0.07 |
+
+## e2b-v2fix-real15-ts1
+
+**1. Glyph words: exact form seen in training vs new form (root trained this many times)**
+
+| root trained | form seen | new form, known root |
+|---|---|---|
+| 1-9 | 1.00 (1) | - |
+| 10-29 | 0.89 (401) | 0.75 (155) |
+| 30-99 | 0.94 (383) | 0.86 (118) |
+| 100+ | 0.96 (264) | 0.96 (46) |
+| root never trained | - | - |
+| (pronouns and grammar words) | 0.97 (937) | 1.00 (1) |
+
+**2. Sentences: every piece of a kind seen vs at least one new**
+
+| piece | all seen | at least one new |
+|---|---|---|
+| clause template | 0.62 (286) | 0.50 (14) |
+| slot shape | 0.61 (300) | - |
+| verb endings | 0.61 (300) | - |
+| word form | 0.75 (106) | 0.54 (194) |
+| (everything seen) | 0.74 (105) | - |
+
+**3. Sentence accuracy by share of its pieces seen in training**
+
+| pieces seen | sentences right |
+|---|---|
+| 100% | 0.74 (105) |
+| 95%-100% | 0.31 (13) |
+| 90%-95% | 0.46 (89) |
+| 80%-90% | 0.64 (87) |
+| 0%-80% | 0.67 (6) |
+
+**4. Where the steps went wrong (meaning first, then glyphs)**
+
+Check of the check: re-rendering the GOLD analysis gives the gold glyphs for 198/200 generated sentences, so about 1% of true propagation errors may be counted as 'both wrong'.
+
+| outcome | sentences | share |
+|---|---|---|
+| correct | 182 | 0.61 |
+| local | 69 | 0.23 |
+| propagation | 24 | 0.08 |
+| restoration | 1 | 0.00 |
+| both wrong | 6 | 0.02 |
+| unreadable analysis | 18 | 0.06 |
+
+## e2b-v2fix-real15
+
+**1. Glyph words: exact form seen in training vs new form (root trained this many times)**
+
+| root trained | form seen | new form, known root |
+|---|---|---|
+| 1-9 | 1.00 (1) | - |
+| 10-29 | 0.89 (401) | 0.83 (155) |
+| 30-99 | 0.95 (383) | 0.84 (118) |
+| 100+ | 0.94 (264) | 0.85 (46) |
+| root never trained | - | - |
+| (pronouns and grammar words) | 0.97 (937) | 1.00 (1) |
+
+**2. Sentences: every piece of a kind seen vs at least one new**
+
+| piece | all seen | at least one new |
+|---|---|---|
+| clause template | 0.59 (286) | 0.43 (14) |
+| slot shape | 0.59 (300) | - |
+| verb endings | 0.59 (300) | - |
+| word form | 0.71 (106) | 0.52 (194) |
+| (everything seen) | 0.71 (105) | - |
+
+**3. Sentence accuracy by share of its pieces seen in training**
+
+| pieces seen | sentences right |
+|---|---|
+| 100% | 0.71 (105) |
+| 95%-100% | 0.46 (13) |
+| 90%-95% | 0.47 (89) |
+| 80%-90% | 0.56 (87) |
+| 0%-80% | 0.67 (6) |
+
+**4. Where the steps went wrong (meaning first, then glyphs)**
+
+Check of the check: re-rendering the GOLD analysis gives the gold glyphs for 198/200 generated sentences, so about 1% of true propagation errors may be counted as 'both wrong'.
+
+| outcome | sentences | share |
+|---|---|---|
+| correct | 175 | 0.58 |
+| local | 64 | 0.21 |
+| propagation | 28 | 0.09 |
+| restoration | 1 | 0.00 |
+| both wrong | 9 | 0.03 |
+| unreadable analysis | 23 | 0.08 |
+
+## e2b-v2fix-ts1
+
+**1. Glyph words: exact form seen in training vs new form (root trained this many times)**
+
+| root trained | form seen | new form, known root |
+|---|---|---|
+| 1-9 | 1.00 (1) | - |
+| 10-29 | 0.86 (367) | 0.82 (140) |
+| 30-99 | 0.96 (391) | 0.89 (114) |
+| 100+ | 0.95 (300) | 0.95 (55) |
+| root never trained | - | - |
+| (pronouns and grammar words) | 0.97 (937) | 1.00 (1) |
+
+**2. Sentences: every piece of a kind seen vs at least one new**
+
+| piece | all seen | at least one new |
+|---|---|---|
+| clause template | 0.63 (287) | 0.46 (13) |
+| slot shape | 0.63 (300) | - |
+| verb endings | 0.63 (300) | - |
+| word form | 0.79 (102) | 0.54 (198) |
+| (everything seen) | 0.79 (101) | - |
+
+**3. Sentence accuracy by share of its pieces seen in training**
+
+| pieces seen | sentences right |
+|---|---|
+| 100% | 0.79 (101) |
+| 95%-100% | 0.33 (24) |
+| 90%-95% | 0.52 (79) |
+| 80%-90% | 0.60 (88) |
+| 0%-80% | 0.75 (8) |
+
+**4. Where the steps went wrong (meaning first, then glyphs)**
+
+Check of the check: re-rendering the GOLD analysis gives the gold glyphs for 198/200 generated sentences, so about 1% of true propagation errors may be counted as 'both wrong'.
+
+| outcome | sentences | share |
+|---|---|---|
+| correct | 186 | 0.62 |
+| local | 59 | 0.20 |
+| propagation | 19 | 0.06 |
+| restoration | 2 | 0.01 |
+| both wrong | 7 | 0.02 |
+| unreadable analysis | 27 | 0.09 |

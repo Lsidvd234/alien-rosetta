@@ -252,6 +252,14 @@ def loan_sounds(word: str) -> tuple[str, ...]:
     return tuple(out) or ("a",)
 
 
+# Extension (2026-10-28, SOUND_RULE_LANGUAGE.md): every content root (nouns, verbs, describing and how words, places)
+# is its English word respelled by the loanword rules (dog -> t o k); grammar, endings, pronouns, determiners,
+# connectors, question words and interjections stay v2's. Off = the v2 language exactly (read when a LanguageV2 is made).
+SOUND_RULE = {"on": False, "words": None}   # words: None = every content word (as before); a set = only these
+                                            # English words are rule-spelled, the rest keep v2's roots (01 Nov)
+CONTENT_ROLES = ("N", "V", "A", "R", "L")
+
+
 class LanguageV2(Language):
     def __init__(self, config, seed: int, vocab: VocabV2):
         super().__init__(config, seed, vocab.v1)                   # exactly the v1 language, v1 random draws
@@ -284,6 +292,16 @@ class LanguageV2(Language):
         self.grams["LOAN"] = forms.ending()                       # loanwords (LOAN.pizza), drawn last of all
         self.vocab = vocab
         self.v2 = vocab
+        if SOUND_RULE["on"]:                                       # after every draw: endings, function words and
+            sel = SOUND_RULE.get("words")                          # names stay exactly v2's (pronouns: PRON.1sg)
+            for c in self.roots:
+                role, _, w = c.partition(":")
+                if w and role in CONTENT_ROLES and c != "V:be" and (sel is None or w in sel):
+                    self.roots[c] = loan_sounds(w)
+            if sel is None:
+                self.irregular_past = {}                           # a random past form is not rule-built
+            else:                                                  # partial rule: only the rule words lose theirs
+                self.irregular_past = {v: f for v, f in self.irregular_past.items() if v not in sel}
 
     # --- words from keys ------------------------------------------------------------------------------------
     def root_of(self, word: str, prefs: str) -> tuple[tuple, str]:

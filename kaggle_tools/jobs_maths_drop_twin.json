@@ -1,0 +1,51 @@
+[
+ {
+  "name": "maths-meaning-drop56-tw",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "5,6"
+  ]
+ },
+ {
+  "name": "maths-meaning-drop34-tw",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "3,4"
+  ]
+ },
+ {
+  "name": "maths-meaning-drop22",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "2,2"
+  ]
+ },
+ {
+  "name": "maths-meaning-scratch-drop56-tw",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch",
+   "--drop-pair",
+   "5,6"
+  ]
+ }
+]

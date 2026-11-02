@@ -1,0 +1,277 @@
+=== waiting for the decoding test (results/decode_tricks_e2b-v2fix-cot-80k-noheld.md) 09:59
+=== 1 R4 pilot: passive doer inside the model 09:59
+e1b-hard-rep-cot-5ep: 600 active, 600 passive sentences (doer and patient differ in number)
+{
+ "run": "e1b-hard-rep-cot-5ep",
+ "n_active": 600,
+ "n_passive": 600,
+ "probe_A": {
+  "layer": "last:18",
+  "active_val": 1.0,
+  "passive_doer": 0.0,
+  "passive_reads_patient": 1.0
+ },
+ "probe_B": {
+  "layer": "last:25",
+  "passive_val": 0.8833,
+  "passive_doer": 0.8625,
+  "per_layer_passive_test": {
+   "last:0": 0.5,
+   "last:1": 0.6833,
+   "last:2": 0.7083,
+   "last:3": 0.65,
+   "last:4": 0.6625,
+   "last:5": 0.6333,
+   "last:6": 0.6042,
+   "last:7": 0.6333,
+   "last:8": 0.5792,
+   "last:9": 0.6333,
+   "last:10": 0.6667,
+   "last:11": 0.675,
+   "last:12": 0.6333,
+   "last:13": 0.6708,
+   "last:14": 0.7958,
+   "last:15": 0.7958,
+   "last:16": 0.8083,
+   "last:17": 0.7792,
+   "last:18": 0.8042,
+   "last:19": 0.8542,
+   "last:20": 0.8458,
+   "last:21": 0.85,
+   "last:22": 0.85,
+   "last:23": 0.8375,
+   "last:24": 0.8542,
+   "last:25": 0.8625,
+   "last:26": 0.8583,
+   "last:27": 0.8667,
+   "last:28": 0.8708,
+   "mean:0": 0.7458,
+   "mean:1": 0.725,
+   "mean:2": 0.6917,
+   "mean:3": 0.6917,
+   "mean:4": 0.6833,
+   "mean:5": 0.6208,
+   "mean:6": 0.6375,
+   "mean:7": 0.6417,
+   "mean:8": 0.7167,
+   "mean:9": 0.7083,
+   "mean:10": 0.7208,
+   "mean:11": 0.7542,
+   "mean:12": 0.7708,
+   "mean:13": 0.8,
+   "mean:14": 0.8,
+   "mean:15": 0.8208,
+   "mean:16": 0.8292,
+   "mean:17": 0.8292,
+   "mean:18": 0.7708,
+   "mean:19": 0.8042,
+   "mean:20": 0.7833,
+   "mean:21": 0.7042,
+   "mean:22": 0.7167,
+   "mean:23": 0.675,
+   "mean:24": 0.6875,
+   "mean:25": 0.6833,
+   "mean:26": 0.675,
+   "mean:27": 0.6375,
+   "mean:28": 0.7
+  }
+ },
+ "control_shuffled": 0.4958,
+ "probe_B_patient": {
+  "layer": "last:25",
+  "passive_patient": 0.8625
+ },
+ "output": {
+  "analysis_exact": 0.0,
+  "doer_number_right": 0.0,
+  "position_reading (S = gold patient)": 0.9958,
+  "n_doer_wrong": 240,
+  "probe_B_where_output_doer_wrong": 0.8625,
+  "probe_A_where_output_doer_wrong": 0.0
+ }
+}
+base: 600 active, 600 passive sentences (doer and patient differ in number)
+{
+ "run": "base",
+ "n_active": 600,
+ "n_passive": 600,
+ "probe_A": {
+  "layer": "mean:22",
+  "active_val": 1.0,
+  "passive_doer": 0.0958,
+  "passive_reads_patient": 0.9042
+ },
+ "probe_B": {
+  "layer": "mean:18",
+  "passive_val": 0.7583,
+  "passive_doer": 0.6875,
+  "per_layer_passive_test": {
+   "last:0": 0.5,
+   "last:1": 0.6958,
+   "last:2": 0.6958,
+   "last:3": 0.6833,
+   "last:4": 0.6708,
+   "last:5": 0.6583,
+   "last:6": 0.6458,
+   "last:7": 0.6083,
+   "last:8": 0.5917,
+   "last:9": 0.6375,
+   "last:10": 0.6375,
+   "last:11": 0.5667,
+   "last:12": 0.5625,
+   "last:13": 0.575,
+   "last:14": 0.55,
+   "last:15": 0.5375,
+   "last:16": 0.6,
+   "last:17": 0.6042,
+   "last:18": 0.65,
+   "last:19": 0.6958,
+   "last:20": 0.7042,
+   "last:21": 0.6792,
+   "last:22": 0.6542,
+   "last:23": 0.6542,
+   "last:24": 0.6833,
+   "last:25": 0.6542,
+   "last:26": 0.6625,
+   "last:27": 0.6542,
+   "last:28": 0.65,
+   "mean:0": 0.7458,
+   "mean:1": 0.7333,
+   "mean:2": 0.6667,
+   "mean:3": 0.7083,
+   "mean:4": 0.6667,
+   "mean:5": 0.675,
+   "mean:6": 0.6458,
+   "mean:7": 0.6208,
+   "mean:8": 0.675,
+   "mean:9": 0.7292,
+   "mean:10": 0.6708,
+   "mean:11": 0.6958,
+   "mean:12": 0.7,
+   "mean:13": 0.6708,
+   "mean:14": 0.6792,
+   "mean:15": 0.6833,
+   "mean:16": 0.65,
+   "mean:17": 0.65,
+   "mean:18": 0.6875,
+   "mean:19": 0.7083,
+   "mean:20": 0.7042,
+   "mean:21": 0.6458,
+   "mean:22": 0.6542,
+   "mean:23": 0.675,
+   "mean:24": 0.6583,
+   "mean:25": 0.6375,
+   "mean:26": 0.6375,
+   "mean:27": 0.6292,
+   "mean:28": 0.6167
+  }
+ },
+ "control_shuffled": 0.5667,
+ "probe_B_patient": {
+  "layer": "mean:18",
+  "passive_patient": 0.6875
+ }
+}
+# Is a misread passive's doer still in the model? (`analysis/inside_passive.py`, prediction R4)
+
+Test passives whose doer and patient differ in number. Probe A: trained on actives only. Probe B: trained on actives + other passives (R4). Chance 0.5.
+
+| run | output: doer number right | output: first noun read as doer | probe A on passives (reads patient) | probe B on passives | probe B where output wrong (n) | shuffled control | patient probe | layers A / B |
+|---|---|---|---|---|---|---|---|---|
+| base | - | - | 0.0958 (0.9042) | 0.6875 | - (-) | 0.5667 | 0.6875 | mean:22 / mean:18 |
+| e1b-hard-rep-cot-5ep | 0.0 | 0.9958 | 0.0 (1.0) | 0.8625 | 0.8625 (240) | 0.4958 | 0.8625 | last:18 / last:25 |
+=== 2 loanwords with saved predictions + recognition 10:07
+  seen loans 8/300
+  seen loans 16/300
+  seen loans 24/300
+  seen loans 32/300
+  seen loans 40/300
+  seen loans 48/300
+  seen loans 56/300
+  seen loans 64/300
+  seen loans 72/300
+  seen loans 80/300
+  seen loans 88/300
+  seen loans 96/300
+  seen loans 104/300
+  seen loans 112/300
+  seen loans 120/300
+  seen loans 128/300
+  seen loans 136/300
+  seen loans 144/300
+  seen loans 152/300
+  seen loans 160/300
+  seen loans 168/300
+  seen loans 176/300
+  seen loans 184/300
+  seen loans 192/300
+  seen loans 200/300
+  seen loans 208/300
+  seen loans 216/300
+  seen loans 224/300
+  seen loans 232/300
+  seen loans 240/300
+  seen loans 248/300
+  seen loans 256/300
+  seen loans 264/300
+  seen loans 272/300
+  seen loans 280/300
+  seen loans 288/300
+  seen loans 296/300
+  seen loans 300/300
+  new loans (never trained) 8/300
+  new loans (never trained) 16/300
+  new loans (never trained) 24/300
+  new loans (never trained) 32/300
+  new loans (never trained) 40/300
+  new loans (never trained) 48/300
+  new loans (never trained) 56/300
+  new loans (never trained) 64/300
+  new loans (never trained) 72/300
+  new loans (never trained) 80/300
+  new loans (never trained) 88/300
+  new loans (never trained) 96/300
+  new loans (never trained) 104/300
+  new loans (never trained) 112/300
+  new loans (never trained) 120/300
+  new loans (never trained) 128/300
+  new loans (never trained) 136/300
+  new loans (never trained) 144/300
+  new loans (never trained) 152/300
+  new loans (never trained) 160/300
+  new loans (never trained) 168/300
+  new loans (never trained) 176/300
+  new loans (never trained) 184/300
+  new loans (never trained) 192/300
+  new loans (never trained) 200/300
+  new loans (never trained) 208/300
+  new loans (never trained) 216/300
+  new loans (never trained) 224/300
+  new loans (never trained) 232/300
+  new loans (never trained) 240/300
+  new loans (never trained) 248/300
+  new loans (never trained) 256/300
+  new loans (never trained) 264/300
+  new loans (never trained) 272/300
+  new loans (never trained) 280/300
+  new loans (never trained) 288/300
+  new loans (never trained) 296/300
+  new loans (never trained) 300/300
+# Per-loanword accuracy (`analysis/loan_words.py`)
+
+Run e2b-v2fix-loan-r2. 300 generated sentences per set; every loan noun in the gold answer is scored.
+
+| set | loan nouns | meaning right (LOAN.word) | glyph word right | sentences fully right |
+|---|---|---|---|---|
+| seen loans | 451 | **0.56** | **0.51** | 0.25 |
+| new loans (never trained) | 470 | **0.34** | **0.19** | 0.09 |
+
+## Rule or list: glyph word right by kind of loan (n loans)
+
+| set | letter by letter only | needs a multi-letter rule | <=4 sounds | 5-7 sounds | >=8 sounds | wrong loans | near misses (closeness >= 0.75) | median closeness |
+|---|---|---|---|---|---|---|---|---|
+| seen loans | 0.50 (300) | 0.52 (151) | 0.46 (79) | 0.51 (255) | 0.52 (117) | 223 | 16% | 0.48 |
+| new loans (never trained) | 0.19 (350) | 0.17 (120) | 0.14 (116) | 0.23 (224) | 0.17 (130) | 381 | 21% | 0.50 |
+
+=== end 12:02
+DONE

@@ -1,0 +1,4 @@
+[
+ {"name": "maths-meaning-buildadd-drop6row-rep", "args": ["@maths","--init","meaning","--eval-every","500","--scratch-build-add","--grad-accum","4","--drop-pair","6,4;6,5;6,6"]},
+ {"name": "maths-meaning-buildadd-drop6row-s1", "args": ["@maths","--init","meaning","--eval-every","500","--scratch-build-add","--grad-accum","4","--drop-pair","6,4;6,5;6,6","--seed","1"]}
+]

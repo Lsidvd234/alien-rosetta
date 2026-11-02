@@ -1,0 +1,140 @@
+=== start 17:19
+=== buildmix_blocks (one table, all mixed-rule runs) 17:19
+# Mixed-rule scratchpad: unseen fact built from which blocks? (`analysis/buildmix_blocks.py`)
+
+| run | missing fact | seed | needs-pair exact | its written steps | share from a seen block | right: seen block | right: never-a-block | blocks used (steps, right) | per fact written (right, steps) |
+|---|---|---|---|---|---|---|---|---|---|
+| maths-meaning-buildmix-drop56 | 5x6 | 0 | 5x6 0.77 | 353 | 0.80 | 1.00 | 0.17 | 5x4 139 (1.00), 6x3 108 (1.00), 6x4 35 (0.97), 4x6 34 (0.35, never a block), 5x5 33 (0.00, never a block), 6x6 4 (0.00, never a block) | 5x6 0.82 (184), 6x5 0.84 (169) |
+| maths-meaning-buildmix-drop56-s1 | 5x6 | 1 | 5x6 0.72 | 355 | 0.78 | 0.84 | 0.56 | 5x4 112 (1.00), 6x4 94 (0.99), 6x3 70 (0.40), 4x6 52 (0.85, never a block), 5x5 27 (0.00, never a block) | 5x6 0.88 (178), 6x5 0.68 (177) |
+| maths-meaning-buildmix-drop34 | 3x4 | 0 | 3x4 0.98 | 356 | 1.00 | 0.99 | - | 4x2 133 (1.00), 3x2 68 (0.99), 2x4 66 (1.00), 3x3 59 (1.00), 4x1 29 (1.00), 2x3 1 (0.00) | 3x4 0.99 (174), 4x3 1.00 (182) |
+| maths-meaning-buildmix-drop66 | 6x6 | 0 | 6x6 0.64 | 174 | 0.13 | 0.96 | 0.67 | 6x5 122 (0.71, never a block), 5x6 29 (0.48, never a block), 6x4 23 (0.96) | 6x6 0.71 (174) |
+| maths-meaning-buildmix-drop6row | 6x4, 6x5, 6x6 | 0 | 6x4 0.43, 6x5 0.29, 6x6 0.49 | 890 | 0.39 | 0.96 | 0.23 | 5x4 147 (0.97), 6x3 145 (0.00, never a block), 6x4 141 (0.00, never a block), 6x5 110 (0.98, never a block), 6x2 90 (0.91), 3x6 72 (0.00, never a block), 4x5 60 (1.00), 4x4 47 (0.96), 5x5 32 (0.00, never a block), 4x6 30 (0.00, never a block), 5x6 15 (1.00, never a block), 6x6 1 (0.00, never a block) | 4x6 0.59 (178), 5x6 0.66 (186), 6x4 0.57 (178), 6x5 0.00 (176), 6x6 0.72 (172) |
+=== scratch_missing_fact maths-meaning-build-drop56-role5 17:19
+
+By test: mul: 3x1 0.50 (16); mul: 3x2 0.45 (64); mul: 3x3 0.33 (36); mul: needs dropped pair 5x6 (trained lengths) 0.50 (353); mul: up to 2x2 (trained lengths) 0.36 (28)
+
+By test, by position: mul: 3x1 0.15 (27); mul: 3x2 0.12 (89); mul: 3x3 0.03 (120); mul: needs dropped pair 5x6 (trained lengths) 0.50 (353); mul: up to 2x2 (trained lengths) 0.36 (28)
+=== scratch_missing_fact maths-meaning-build-drop56-role25 17:19
+
+By test: mul: 3x1 0.59 (22); mul: 3x2 0.43 (67); mul: 3x3 0.38 (56); mul: needs dropped pair 5x6 (trained lengths) 0.52 (353); mul: up to 2x2 (trained lengths) 0.32 (28)
+
+By test, by position: mul: 3x1 0.26 (27); mul: 3x2 0.13 (89); mul: 3x3 0.07 (120); mul: needs dropped pair 5x6 (trained lengths) 0.52 (353); mul: up to 2x2 (trained lengths) 0.32 (28)
+=== scratch_missing_fact maths-meaning-build-drop56-role100 17:19
+
+By test: mul: 3x1 0.47 (30); mul: 3x2 0.37 (65); mul: 3x3 0.41 (29); mul: needs dropped pair 5x6 (trained lengths) 0.50 (353); mul: up to 2x2 (trained lengths) 0.32 (28)
+
+By test, by position: mul: 3x1 0.22 (27); mul: 3x2 0.08 (89); mul: 3x3 0.01 (120); mul: needs dropped pair 5x6 (trained lengths) 0.50 (353); mul: up to 2x2 (trained lengths) 0.32 (28)
+=== scratch_missing_fact maths-meaning-build-drop56-role400 17:19
+
+By test: mul: 3x1 0.75 (24); mul: 3x2 0.65 (77); mul: 3x3 0.46 (57); mul: needs dropped pair 5x6 (trained lengths) 0.73 (353); mul: up to 2x2 (trained lengths) 0.57 (28)
+
+By test, by position: mul: 3x1 0.41 (27); mul: 3x2 0.16 (89); mul: 3x3 0.07 (120); mul: needs dropped pair 5x6 (trained lengths) 0.73 (353); mul: up to 2x2 (trained lengths) 0.57 (28)
+=== tatoeba q17 (from run) 17:19
+e2b-v2fix-q17 {'run': 'e2b-v2fix-q17', 'n': 600, 'cot': True, 'glyph_exact': 0.428, 'word_acc': 0.792, 'meaning_exact': 0.625}
+=== tatoeba e2b-v2fix-n98k 17:19
+e2b-v2fix-n98k {'run': 'e2b-v2fix-n98k', 'n': 600, 'cot': True, 'glyph_exact': 0.488, 'word_acc': 0.812, 'meaning_exact': 0.61}
+=== sealed e2b-v2fix-n98k 17:41
+e2b-v2fix-n98k: scored 172 entries in 711 s
+=== tatoeba e2b-v2fix-soundrule 17:53
+e2b-v2fix-soundrule {'run': 'e2b-v2fix-soundrule', 'n': 600, 'cot': True, 'glyph_exact': 0.5, 'word_acc': 0.827, 'meaning_exact': 0.577}
+=== sealed e2b-v2fix-soundrule 18:19
+e2b-v2fix-soundrule: scored 172 entries in 755 s
+=== tatoeba e2b-v2fix-loan12 18:33
+e2b-v2fix-loan12 {'run': 'e2b-v2fix-loan12', 'n': 600, 'cot': True, 'glyph_exact': 0.477, 'word_acc': 0.805, 'meaning_exact': 0.612}
+=== sealed e2b-v2fix-loan12 18:53
+e2b-v2fix-loan12: scored 172 entries in 691 s
+=== tatoeba e2b-v2fix-passive50-ts1 19:05
+e2b-v2fix-passive50-ts1 {'run': 'e2b-v2fix-passive50-ts1', 'n': 600, 'cot': True, 'glyph_exact': 0.473, 'word_acc': 0.806, 'meaning_exact': 0.607}
+=== sealed e2b-v2fix-passive50-ts1 19:26
+e2b-v2fix-passive50-ts1: scored 172 entries in 698 s
+=== tatoeba e2b-v2fix-passive0-meaning 19:38
+e2b-v2fix-passive0-meaning {'run': 'e2b-v2fix-passive0-meaning', 'n': 600, 'cot': True, 'glyph_exact': 0.0, 'word_acc': 0.0, 'meaning_exact': 0.603}
+=== sealed e2b-v2fix-passive0-meaning 19:46
+e2b-v2fix-passive0-meaning: scored 172 entries in 284 s
+=== sound_rule_words 19:51
+# Sound-rule language: words never seen in training (`analysis/sound_rule_words.py`), run e2b-v2fix-soundrule
+
+300 test sentences that each use at least one held-out word (sentence glyphs exact 0.453, meaning exact 0.727; 2 skipped: gold not re-rendered).
+
+| words | n | glyph word right |
+|---|---|---|
+| new (never in training) | 470 | **0.67** |
+| seen (same sentences) | 1459 | 0.96 |
+
+New words read as words of the language (their key in the model's meaning): 0.87. Wrong new words: 156, near misses (closeness >= 0.75) 58%, median closeness 0.78.
+
+## Examples
+=== bottleneck 19:52
+# Reader or writer? Two-model pipeline vs one model (`analysis/bottleneck.py`)
+
+reader = e2b-v2fix-passive0-meaning (English -> meaning), writer = e2b-v2fix-passive0-writer (meaning -> glyphs), one model = e2b-v2fix-passive0. Exact-match shares; the sealed row is totals only.
+
+| test | n | reading | writing (gold meaning) | pipeline | one model: glyphs | one model: meaning | pipeline failures: reader wrong / writer wrong |
+|---|---|---|---|---|---|---|---|
+| Tatoeba 600 | 600 | 0.603 | 0.628 | 0.482 | 0.478 | 0.603 | 231 / 80 |
+| generated: in-distribution mix | 300 | 0.867 | 0.833 | 0.723 | 0.613 | 0.823 | 40 / 43 |
+| generated: held-out voice = passive | 300 | 0.000 | 0.717 | 0.003 | 0.003 | 0.000 | 299 / 0 |
+| sealed (totals only) | 147 | 0.469 | 0.707 | 0.429 | 0.449 | 0.476 | 76 / 8 |
+=== freq_weighted e2b-v2fix-n98k 00:04
+e2b-v2fix-n98k: 300 sentences, 2306 scored words, sentence exact 0.670
+=== subgraph e2b-v2fix-n98k 00:46
+=== restarted 01 Nov 11:52 (user: start the unqueued runs to completion)
+=== start 11:53
+=== buildmix_blocks (one table, all mixed-rule runs) 11:53
+# Mixed-rule scratchpad: unseen fact built from which blocks? (`analysis/buildmix_blocks.py`)
+
+| run | missing fact | seed | needs-pair exact | its written steps | share from a seen block | right: seen block | right: never-a-block | blocks used (steps, right) | per fact written (right, steps) |
+|---|---|---|---|---|---|---|---|---|---|
+| maths-meaning-buildmix-drop56 | 5x6 | 0 | 5x6 0.77 | 353 | 0.80 | 1.00 | 0.17 | 5x4 139 (1.00), 6x3 108 (1.00), 6x4 35 (0.97), 4x6 34 (0.35, never a block), 5x5 33 (0.00, never a block), 6x6 4 (0.00, never a block) | 5x6 0.82 (184), 6x5 0.84 (169) |
+| maths-meaning-buildmix-drop56-s1 | 5x6 | 1 | 5x6 0.72 | 355 | 0.78 | 0.84 | 0.56 | 5x4 112 (1.00), 6x4 94 (0.99), 6x3 70 (0.40), 4x6 52 (0.85, never a block), 5x5 27 (0.00, never a block) | 5x6 0.88 (178), 6x5 0.68 (177) |
+| maths-meaning-buildmix-drop34 | 3x4 | 0 | 3x4 0.98 | 356 | 1.00 | 0.99 | - | 4x2 133 (1.00), 3x2 68 (0.99), 2x4 66 (1.00), 3x3 59 (1.00), 4x1 29 (1.00), 2x3 1 (0.00) | 3x4 0.99 (174), 4x3 1.00 (182) |
+| maths-meaning-buildmix-drop66 | 6x6 | 0 | 6x6 0.64 | 174 | 0.13 | 0.96 | 0.67 | 6x5 122 (0.71, never a block), 5x6 29 (0.48, never a block), 6x4 23 (0.96) | 6x6 0.71 (174) |
+| maths-meaning-buildmix-drop6row | 6x4, 6x5, 6x6 | 0 | 6x4 0.43, 6x5 0.29, 6x6 0.49 | 890 | 0.39 | 0.96 | 0.23 | 5x4 147 (0.97), 6x3 145 (0.00, never a block), 6x4 141 (0.00, never a block), 6x5 110 (0.98, never a block), 6x2 90 (0.91), 3x6 72 (0.00, never a block), 4x5 60 (1.00), 4x4 47 (0.96), 5x5 32 (0.00, never a block), 4x6 30 (0.00, never a block), 5x6 15 (1.00, never a block), 6x6 1 (0.00, never a block) | 4x6 0.59 (178), 5x6 0.66 (186), 6x4 0.57 (178), 6x5 0.00 (176), 6x6 0.72 (172) |
+=== subgraph e2b-v2fix-n98k 11:53
+  288/300
+  300/300
+e2b-v2fix-n98k: 300 sentences, errors {'correct': 199, 'propagation': 20, 'both wrong': 4, 'local': 54, 'unreadable analysis': 21, 'restoration': 2}
+=== freq_weighted e2b-v2fix-soundrule 12:57
+e2b-v2fix-soundrule: 300 sentences, 2112 scored words, sentence exact 0.760
+=== subgraph e2b-v2fix-soundrule 14:56
+=== restarted 01 Nov 16:21 (user: okay restart; window had died ~14:56-16:10, likely low memory)
+=== start 16:22
+=== buildmix_blocks (one table, all mixed-rule runs) 16:22
+# Mixed-rule scratchpad: unseen fact built from which blocks? (`analysis/buildmix_blocks.py`)
+
+| run | missing fact | seed | needs-pair exact | its written steps | share from a seen block | right: seen block | right: never-a-block | blocks used (steps, right) | per fact written (right, steps) |
+|---|---|---|---|---|---|---|---|---|---|
+| maths-meaning-buildmix-drop56 | 5x6 | 0 | 5x6 0.77 | 353 | 0.80 | 1.00 | 0.17 | 5x4 139 (1.00), 6x3 108 (1.00), 6x4 35 (0.97), 4x6 34 (0.35, never a block), 5x5 33 (0.00, never a block), 6x6 4 (0.00, never a block) | 5x6 0.82 (184), 6x5 0.84 (169) |
+| maths-meaning-buildmix-drop56-s1 | 5x6 | 1 | 5x6 0.72 | 355 | 0.78 | 0.84 | 0.56 | 5x4 112 (1.00), 6x4 94 (0.99), 6x3 70 (0.40), 4x6 52 (0.85, never a block), 5x5 27 (0.00, never a block) | 5x6 0.88 (178), 6x5 0.68 (177) |
+| maths-meaning-buildmix-drop34 | 3x4 | 0 | 3x4 0.98 | 356 | 1.00 | 0.99 | - | 4x2 133 (1.00), 3x2 68 (0.99), 2x4 66 (1.00), 3x3 59 (1.00), 4x1 29 (1.00), 2x3 1 (0.00) | 3x4 0.99 (174), 4x3 1.00 (182) |
+| maths-meaning-buildmix-drop66 | 6x6 | 0 | 6x6 0.64 | 174 | 0.13 | 0.96 | 0.67 | 6x5 122 (0.71, never a block), 5x6 29 (0.48, never a block), 6x4 23 (0.96) | 6x6 0.71 (174) |
+| maths-meaning-buildmix-drop6row | 6x4, 6x5, 6x6 | 0 | 6x4 0.43, 6x5 0.29, 6x6 0.49 | 890 | 0.39 | 0.96 | 0.23 | 5x4 147 (0.97), 6x3 145 (0.00, never a block), 6x4 141 (0.00, never a block), 6x5 110 (0.98, never a block), 6x2 90 (0.91), 3x6 72 (0.00, never a block), 4x5 60 (1.00), 4x4 47 (0.96), 5x5 32 (0.00, never a block), 4x6 30 (0.00, never a block), 5x6 15 (1.00, never a block), 6x6 1 (0.00, never a block) | 4x6 0.59 (178), 5x6 0.66 (186), 6x4 0.57 (178), 6x5 0.00 (176), 6x6 0.72 (172) |
+=== subgraph e2b-v2fix-soundrule 16:22
+  288/300
+  300/300
+e2b-v2fix-soundrule: 300 sentences, errors {'correct': 226, 'unreadable analysis': 19, 'propagation': 15, 'local': 35, 'both wrong': 3, 'restoration': 2}
+=== freq_weighted e2b-v2fix-loan12 16:56
+e2b-v2fix-loan12: 300 sentences, 2306 scored words, sentence exact 0.637
+=== subgraph e2b-v2fix-loan12 17:40
+  288/300
+  300/300
+e2b-v2fix-loan12: 300 sentences, errors {'correct': 190, 'propagation': 24, 'local': 45, 'both wrong': 13, 'unreadable analysis': 27, 'restoration': 1}
+=== freq_weighted e2b-v2fix-passive50-ts1 18:26
+e2b-v2fix-passive50-ts1: 300 sentences, 2306 scored words, sentence exact 0.607
+=== subgraph e2b-v2fix-passive50-ts1 19:07
+  288/300
+  300/300
+e2b-v2fix-passive50-ts1: 300 sentences, errors {'correct': 181, 'propagation': 24, 'local': 62, 'both wrong': 9, 'unreadable analysis': 23, 'restoration': 1}
+=== tatoeba e2b-v2fix-passive0-ts1 19:48
+e2b-v2fix-passive0-ts1 {'run': 'e2b-v2fix-passive0-ts1', 'n': 600, 'cot': True, 'glyph_exact': 0.468, 'word_acc': 0.803, 'meaning_exact': 0.597}
+=== sealed e2b-v2fix-passive0-ts1 20:08
+e2b-v2fix-passive0-ts1: scored 172 entries in 654 s
+=== freq_weighted e2b-v2fix-passive0-ts1 20:19
+e2b-v2fix-passive0-ts1: 300 sentences, 2306 scored words, sentence exact 0.633
+=== subgraph e2b-v2fix-passive0-ts1 21:03
+  288/300
+  300/300
+e2b-v2fix-passive0-ts1: 300 sentences, errors {'correct': 189, 'propagation': 20, 'both wrong': 11, 'local': 52, 'unreadable analysis': 27, 'restoration': 1}
+=== tables 21:43
+=== end 21:45
+DONE

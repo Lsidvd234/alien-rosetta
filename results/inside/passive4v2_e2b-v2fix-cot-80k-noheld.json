@@ -1,0 +1,158 @@
+{
+ "run": "e2b-v2fix-cot-80k-noheld",
+ "n_active": 600,
+ "n_passive": 600,
+ "probe_A": {
+  "layer": "last:20",
+  "active_val": 1.0,
+  "passive_doer": 0.6708,
+  "passive_reads_patient": 0.6375
+ },
+ "probe_B": {
+  "layer": "last:28",
+  "passive_val": 0.9417,
+  "passive_doer": 0.8708,
+  "per_layer_passive_test": {
+   "last:0": 0.5208,
+   "last:1": 0.6833,
+   "last:2": 0.6625,
+   "last:3": 0.6917,
+   "last:4": 0.6833,
+   "last:5": 0.6875,
+   "last:6": 0.6583,
+   "last:7": 0.6542,
+   "last:8": 0.6708,
+   "last:9": 0.6542,
+   "last:10": 0.6708,
+   "last:11": 0.675,
+   "last:12": 0.7333,
+   "last:13": 0.7167,
+   "last:14": 0.775,
+   "last:15": 0.8333,
+   "last:16": 0.8583,
+   "last:17": 0.8792,
+   "last:18": 0.9167,
+   "last:19": 0.9042,
+   "last:20": 0.9083,
+   "last:21": 0.9,
+   "last:22": 0.8875,
+   "last:23": 0.8875,
+   "last:24": 0.9125,
+   "last:25": 0.9,
+   "last:26": 0.875,
+   "last:27": 0.8667,
+   "last:28": 0.8708,
+   "mean:0": 0.7042,
+   "mean:1": 0.6542,
+   "mean:2": 0.6542,
+   "mean:3": 0.6833,
+   "mean:4": 0.6583,
+   "mean:5": 0.6583,
+   "mean:6": 0.6292,
+   "mean:7": 0.6333,
+   "mean:8": 0.675,
+   "mean:9": 0.6875,
+   "mean:10": 0.6958,
+   "mean:11": 0.7375,
+   "mean:12": 0.7333,
+   "mean:13": 0.7375,
+   "mean:14": 0.75,
+   "mean:15": 0.7542,
+   "mean:16": 0.75,
+   "mean:17": 0.7417,
+   "mean:18": 0.7583,
+   "mean:19": 0.7208,
+   "mean:20": 0.675,
+   "mean:21": 0.6958,
+   "mean:22": 0.6708,
+   "mean:23": 0.6792,
+   "mean:24": 0.7,
+   "mean:25": 0.6792,
+   "mean:26": 0.6708,
+   "mean:27": 0.6667,
+   "mean:28": 0.7042
+  }
+ },
+ "control_shuffled": 0.4875,
+ "probe_B_patient": {
+  "layer": "last:21",
+  "passive_patient": 0.9125
+ },
+ "baselines": {
+  "bag_of_words": 0.6875,
+  "layer0_mean": 0.7042
+ },
+ "output": {
+  "analysis_exact": 0.975,
+  "doer_number_right (doer, patient differ)": 1.0,
+  "position_reading (S = gold patient)": 0.0292,
+  "n_doer_wrong": 3,
+  "probe_B_where_output_doer_wrong": 1.0,
+  "probe_A_where_output_doer_wrong": 0.6667,
+  "bag_of_words_where_output_doer_wrong": 0.6667,
+  "layer0_where_output_doer_wrong": 0.3333
+ },
+ "R4": "readout failure",
+ "samples": [
+  {
+   "english": "Ten allegations have been kept by one electronic flight",
+   "gold": "S=one+electron>ADJ+flight V=keep.PRES.PERF O=ten+allegation.PL",
+   "model": "S=one+electron>ADJ+flight V=keep.PRES.PERF O=ten+allegation.PL"
+  },
+  {
+   "english": "We must be contained by his greasy reactors in front of my moneys.",
+   "gold": "S=PRON.3sgm^grease>ADJ+reactor.PL V=contain.PRES.MUST O=PRON.1pl FRONT=PRON.1sg^money.PL",
+   "model": "S=PRON.3sgm^grease>ADJ+reactor.PL V=contain.PRES.MUST O=PRON.1pl FRONT=PRON.1sg^money.PL"
+  },
+  {
+   "english": "Each more accidental and trendy confrontation should be separated by both littler models again",
+   "gold": "S=both+little>MORE+model.PL V=separate.PRES.SHOULD M=again O=each+more+accident>ADJ+trend>ADJ+confront>ACT",
+   "model": "S=both+little>MORE+model.PL V=separate.PRES.SHOULD M=again O=each+more+accident>ADJ+trend>ADJ+confront>ACT"
+  },
+  {
+   "english": "Dollars will be dismantled by me across the component",
+   "gold": "S=PRON.1sg V=dismantle.FUT O=dollar.PL THROUGH=component",
+   "model": "S=PRON.1sg V=dismantle.FUT O=dollar.PL THROUGH=component"
+  },
+  {
+   "english": "Hundred distal soles will be passed by one quality before one international loan really indirectly",
+   "gold": "S=one+quality V=pass.FUT M=really+indirect>ADV O=hundred+distal+sole.PL BEFORE=one+international+loan",
+   "model": "S=one+quality V=pass.FUT M=really+indirect>ADV O=hundred+distal+sole.PL BEFORE=one+international+loan"
+  },
+  {
+   "english": "The methodologies will be shown by a vigil from an addition each summer",
+   "gold": "S=vigil T=each+summer V=show.FUT O=methodology.PL FROM=add>ACT",
+   "model": "S=vigil T=each+summer V=show.FUT O=methodology.PL FROM=add>ACT"
+  },
+  {
+   "english": "A really exact bullock must be shouted by the really bitter profitable and inconceivable oxidation there",
+   "gold": "S=really+bitter+profitable+inconceivable+oxidation V=shout.PRES.MUST M=there O=really+exact+bullock",
+   "model": "S=really+bitter+profitable+inconceivable+oxidation V=shout.PRES.MUST M=there O=really+exact+bullock"
+  },
+  {
+   "english": "The placements were fought by a jersey.",
+   "gold": "S=jersey V=fight.PAST O=placement.PL",
+   "model": "S=jersey V=fight.PAST O=placement.PL"
+  },
+  {
+   "english": "They could be watched by us within these verges next evening.",
+   "gold": "S=PRON.1pl T=next+evening V=watch.PAST.CAN O=PRON.3pl L=this+verge.PL",
+   "model": "S=PRON.1pl T=next+evening V=watch.PAST.CAN O=PRON.3pl L=this+verge.PL"
+  },
+  {
+   "english": "One eighth and made laboratory can be accepted by us tomorrow.",
+   "gold": "S=PRON.1pl V=accept.PRES.CAN M=tomorrow O=one+eighth+made+laboratory",
+   "model": "S=PRON.1pl V=accept.PRES.CAN M=tomorrow O=one+eighth+made+laboratory"
+  },
+  {
+   "english": "He is attempted by no complex, straight, curly whit every year",
+   "gold": "S=no+complex+straight+curly+whit T=every+year V=attempt.PRES O=PRON.3sgm",
+   "model": "S=no+complex+straight+curly+whit T=every+year V=attempt.PRES O=PRON.3sgm"
+  },
+  {
+   "english": "The condition of the driver can be signified by them during the so beautiful ordination of the tensor a lot.",
+   "gold": "S=PRON.3pl V=signify.PRES.CAN M=much O=drive>AGENT^condition DURING=tense>AGENT^so+beautiful+ordination",
+   "model": "S=PRON.3pl V=signify.PRES.CAN M=much O=drive>AGENT^condition DURING=tense>AGENT^so+beautiful+ordination"
+  }
+ ]
+}

@@ -1,0 +1,386 @@
+=== start 22:08
+  greedy 8/600
+  greedy 16/600
+  greedy 24/600
+  greedy 32/600
+  greedy 40/600
+  greedy 48/600
+  greedy 56/600
+  greedy 64/600
+  greedy 72/600
+  greedy 80/600
+  greedy 88/600
+  greedy 96/600
+  greedy 104/600
+  greedy 112/600
+  greedy 120/600
+  greedy 128/600
+  greedy 136/600
+  greedy 144/600
+  greedy 152/600
+  greedy 160/600
+  greedy 168/600
+  greedy 176/600
+  greedy 184/600
+  greedy 192/600
+  greedy 200/600
+  greedy 208/600
+  greedy 216/600
+  greedy 224/600
+  greedy 232/600
+  greedy 240/600
+  greedy 248/600
+  greedy 256/600
+  greedy 264/600
+  greedy 272/600
+  greedy 280/600
+  greedy 288/600
+  greedy 296/600
+  greedy 304/600
+  greedy 312/600
+  greedy 320/600
+  greedy 328/600
+  greedy 336/600
+  greedy 344/600
+  greedy 352/600
+  greedy 360/600
+  greedy 368/600
+  greedy 376/600
+  greedy 384/600
+  greedy 392/600
+  greedy 400/600
+  greedy 408/600
+  greedy 416/600
+  greedy 424/600
+  greedy 432/600
+  greedy 440/600
+  greedy 448/600
+  greedy 456/600
+  greedy 464/600
+  greedy 472/600
+  greedy 480/600
+  greedy 488/600
+  greedy 496/600
+  greedy 504/600
+  greedy 512/600
+  greedy 520/600
+  greedy 528/600
+  greedy 536/600
+  greedy 544/600
+  greedy 552/600
+  greedy 560/600
+  greedy 568/600
+  greedy 576/600
+  greedy 584/600
+  greedy 592/600
+  greedy 600/600
+  beam 4 4/600
+  beam 4 8/600
+  beam 4 12/600
+  beam 4 16/600
+  beam 4 20/600
+  beam 4 24/600
+  beam 4 28/600
+  beam 4 32/600
+  beam 4 36/600
+  beam 4 40/600
+  beam 4 44/600
+  beam 4 48/600
+  beam 4 52/600
+  beam 4 56/600
+  beam 4 60/600
+  beam 4 64/600
+  beam 4 68/600
+  beam 4 72/600
+  beam 4 76/600
+  beam 4 80/600
+  beam 4 84/600
+  beam 4 88/600
+  beam 4 92/600
+  beam 4 96/600
+  beam 4 100/600
+  beam 4 104/600
+  beam 4 108/600
+  beam 4 112/600
+  beam 4 116/600
+  beam 4 120/600
+  beam 4 124/600
+  beam 4 128/600
+  beam 4 132/600
+  beam 4 136/600
+  beam 4 140/600
+  beam 4 144/600
+  beam 4 148/600
+  beam 4 152/600
+  beam 4 156/600
+  beam 4 160/600
+  beam 4 164/600
+  beam 4 168/600
+  beam 4 172/600
+  beam 4 176/600
+  beam 4 180/600
+  beam 4 184/600
+  beam 4 188/600
+  beam 4 192/600
+  beam 4 196/600
+  beam 4 200/600
+  beam 4 204/600
+  beam 4 208/600
+  beam 4 212/600
+  beam 4 216/600
+  beam 4 220/600
+  beam 4 224/600
+  beam 4 228/600
+  beam 4 232/600
+  beam 4 236/600
+  beam 4 240/600
+  beam 4 244/600
+  beam 4 248/600
+  beam 4 252/600
+  beam 4 256/600
+  beam 4 260/600
+  beam 4 264/600
+  beam 4 268/600
+  beam 4 272/600
+  beam 4 276/600
+  beam 4 280/600
+  beam 4 284/600
+  beam 4 288/600
+  beam 4 292/600
+  beam 4 296/600
+  beam 4 300/600
+  beam 4 304/600
+  beam 4 308/600
+  beam 4 312/600
+  beam 4 316/600
+  beam 4 320/600
+  beam 4 324/600
+  beam 4 328/600
+  beam 4 332/600
+  beam 4 336/600
+  beam 4 340/600
+  beam 4 344/600
+  beam 4 348/600
+  beam 4 352/600
+  beam 4 356/600
+  beam 4 360/600
+  beam 4 364/600
+  beam 4 368/600
+  beam 4 372/600
+  beam 4 376/600
+  beam 4 380/600
+  beam 4 384/600
+  beam 4 388/600
+  beam 4 392/600
+  beam 4 396/600
+  beam 4 400/600
+  beam 4 404/600
+  beam 4 408/600
+  beam 4 412/600
+  beam 4 416/600
+  beam 4 420/600
+  beam 4 424/600
+  beam 4 428/600
+  beam 4 432/600
+  beam 4 436/600
+  beam 4 440/600
+  beam 4 444/600
+  beam 4 448/600
+  beam 4 452/600
+  beam 4 456/600
+  beam 4 460/600
+  beam 4 464/600
+  beam 4 468/600
+  beam 4 472/600
+  beam 4 476/600
+  beam 4 480/600
+  beam 4 484/600
+  beam 4 488/600
+  beam 4 492/600
+  beam 4 496/600
+  beam 4 500/600
+  beam 4 504/600
+  beam 4 508/600
+  beam 4 512/600
+  beam 4 516/600
+  beam 4 520/600
+  beam 4 524/600
+  beam 4 528/600
+  beam 4 532/600
+  beam 4 536/600
+  beam 4 540/600
+  beam 4 544/600
+  beam 4 548/600
+  beam 4 552/600
+  beam 4 556/600
+  beam 4 560/600
+  beam 4 564/600
+  beam 4 568/600
+  beam 4 572/600
+  beam 4 576/600
+  beam 4 580/600
+  beam 4 584/600
+  beam 4 588/600
+  beam 4 592/600
+  beam 4 596/600
+  beam 4 600/600
+  vote 5 4/600
+  vote 5 8/600
+  vote 5 12/600
+  vote 5 16/600
+  vote 5 20/600
+  vote 5 24/600
+  vote 5 28/600
+  vote 5 32/600
+  vote 5 36/600
+  vote 5 40/600
+  vote 5 44/600
+  vote 5 48/600
+  vote 5 52/600
+  vote 5 56/600
+  vote 5 60/600
+  vote 5 64/600
+  vote 5 68/600
+  vote 5 72/600
+  vote 5 76/600
+  vote 5 80/600
+  vote 5 84/600
+  vote 5 88/600
+  vote 5 92/600
+  vote 5 96/600
+  vote 5 100/600
+  vote 5 104/600
+  vote 5 108/600
+  vote 5 112/600
+  vote 5 116/600
+  vote 5 120/600
+  vote 5 124/600
+  vote 5 128/600
+  vote 5 132/600
+  vote 5 136/600
+  vote 5 140/600
+  vote 5 144/600
+  vote 5 148/600
+  vote 5 152/600
+  vote 5 156/600
+  vote 5 160/600
+  vote 5 164/600
+  vote 5 168/600
+  vote 5 172/600
+  vote 5 176/600
+  vote 5 180/600
+  vote 5 184/600
+  vote 5 188/600
+  vote 5 192/600
+  vote 5 196/600
+  vote 5 200/600
+  vote 5 204/600
+  vote 5 208/600
+  vote 5 212/600
+  vote 5 216/600
+  vote 5 220/600
+  vote 5 224/600
+  vote 5 228/600
+  vote 5 232/600
+  vote 5 236/600
+  vote 5 240/600
+  vote 5 244/600
+  vote 5 248/600
+  vote 5 252/600
+  vote 5 256/600
+  vote 5 260/600
+  vote 5 264/600
+  vote 5 268/600
+  vote 5 272/600
+  vote 5 276/600
+  vote 5 280/600
+  vote 5 284/600
+  vote 5 288/600
+  vote 5 292/600
+  vote 5 296/600
+  vote 5 300/600
+  vote 5 304/600
+  vote 5 308/600
+  vote 5 312/600
+  vote 5 316/600
+  vote 5 320/600
+  vote 5 324/600
+  vote 5 328/600
+  vote 5 332/600
+  vote 5 336/600
+  vote 5 340/600
+  vote 5 344/600
+  vote 5 348/600
+  vote 5 352/600
+  vote 5 356/600
+  vote 5 360/600
+  vote 5 364/600
+  vote 5 368/600
+  vote 5 372/600
+  vote 5 376/600
+  vote 5 380/600
+  vote 5 384/600
+  vote 5 388/600
+  vote 5 392/600
+  vote 5 396/600
+  vote 5 400/600
+  vote 5 404/600
+  vote 5 408/600
+  vote 5 412/600
+  vote 5 416/600
+  vote 5 420/600
+  vote 5 424/600
+  vote 5 428/600
+  vote 5 432/600
+  vote 5 436/600
+  vote 5 440/600
+  vote 5 444/600
+  vote 5 448/600
+  vote 5 452/600
+  vote 5 456/600
+  vote 5 460/600
+  vote 5 464/600
+  vote 5 468/600
+  vote 5 472/600
+  vote 5 476/600
+  vote 5 480/600
+  vote 5 484/600
+  vote 5 488/600
+  vote 5 492/600
+  vote 5 496/600
+  vote 5 500/600
+  vote 5 504/600
+  vote 5 508/600
+  vote 5 512/600
+  vote 5 516/600
+  vote 5 520/600
+  vote 5 524/600
+  vote 5 528/600
+  vote 5 532/600
+  vote 5 536/600
+  vote 5 540/600
+  vote 5 544/600
+  vote 5 548/600
+  vote 5 552/600
+  vote 5 556/600
+  vote 5 560/600
+  vote 5 564/600
+  vote 5 568/600
+  vote 5 572/600
+  vote 5 576/600
+  vote 5 580/600
+  vote 5 584/600
+  vote 5 588/600
+  vote 5 592/600
+  vote 5 596/600
+  vote 5 600/600
+# Decoding tricks on Tatoeba (`analysis/decode_tricks.py`), run e2b-v2fix-cot-80k-noheld, 600 sentences
+
+| decoding | meaning exact | glyphs exact | vs greedy (meaning): fixes / breaks | McNemar p |
+|---|---|---|---|---|
+| greedy | 0.617 | 0.467 | - | - |
+| beam 4 | 0.618 | 0.472 | 5 / 4 | 1 |
+| vote 5 | 0.622 | 0.433 | 6 / 3 | 0.51 |
+
+Greedy reproduces the saved Tatoeba predictions on 596 of 600 sentences.
+=== end 00:01

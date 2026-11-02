@@ -1,0 +1,64 @@
+=== waiting for loan12 (13:50)
+=== bottleneck_items 00:00
+
+| | writer (gold meaning) right | writer wrong | writer accuracy |
+|---|---|---|---|
+| reader right | 217 | 43 | 0.83 |
+| reader wrong | 33 | 7 | 0.82 |
+
+| least-trained word key of the gold meaning | n | writer accuracy | reader accuracy |
+|---|---|---|---|
+| a key never trained (0) | 1 | 0.00 | 1.00 |
+| rarest key 1-24 | 188 | 0.80 | 0.85 |
+| all keys >= 25 | 110 | 0.89 | 0.89 |
+| no word keys | 1 | 1.00 | 1.00 |
+
+| meaning length | n | writer accuracy |
+|---|---|---|
+| <= 4 keys | 118 | 0.89 |
+| 5-7 keys | 74 | 0.88 |
+| >= 8 keys | 108 | 0.74 |
+
+## generated: held-out voice = passive (n = 300)
+
+Reader right 0, writer from gold right 215, pipeline right 1.
+
+| | writer (gold meaning) right | writer wrong | writer accuracy |
+|---|---|---|---|
+| reader right | 0 | 0 | nan |
+| reader wrong | 215 | 85 | 0.72 |
+
+| least-trained word key of the gold meaning | n | writer accuracy | reader accuracy |
+|---|---|---|---|
+| rarest key 1-24 | 236 | 0.69 | 0.00 |
+| all keys >= 25 | 64 | 0.80 | 0.00 |
+
+| meaning length | n | writer accuracy |
+|---|---|---|
+| <= 4 keys | 62 | 0.79 |
+| 5-7 keys | 62 | 0.82 |
+| >= 8 keys | 176 | 0.65 |
+
+## sealed (totals only) (n = 147)
+
+Reader right 69, writer from gold right 104, pipeline right 63.
+
+| | writer (gold meaning) right | writer wrong | writer accuracy |
+|---|---|---|---|
+| reader right | 61 | 8 | 0.88 |
+| reader wrong | 43 | 35 | 0.55 |
+
+| least-trained word key of the gold meaning | n | writer accuracy | reader accuracy |
+|---|---|---|---|
+| a key never trained (0) | 47 | 0.34 | 0.13 |
+| rarest key 1-24 | 15 | 0.60 | 0.87 |
+| all keys >= 25 | 85 | 0.93 | 0.59 |
+
+| meaning length | n | writer accuracy |
+|---|---|---|
+| <= 4 keys | 82 | 0.73 |
+| 5-7 keys | 54 | 0.80 |
+| >= 8 keys | 11 | 0.09 |
+
+=== end 02:38
+DONE

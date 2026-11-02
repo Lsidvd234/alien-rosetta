@@ -48,10 +48,11 @@ GRAMMAR = set(DETERMINERS) | set(QUESTION_WORDS) | set(INTERJECTIONS) | set(CONN
 
 
 def key_counts(items: list[dict]) -> collections.Counter:
-    """How often each word key appears in the training analyses (a key = root plus endings: fun>ADJ, book_shop)."""
+    """How often each word key appears in the training analyses (a key = root plus endings: fun>ADJ, book_shop).
+    Real-text examples (aug "real", real15 runs) count too since 2026-10-25; before, only generated ones did."""
     c = collections.Counter()
     for it in items:
-        if it.get("aug") != "rep2":
+        if it.get("aug") not in ("rep2", "real"):
             continue
         a = it["analysis"]
         for k in re.findall(r"(?<![A-Z.])([a-z][a-z_]*(?:>[A-Z]+)*)", a):
@@ -113,8 +114,10 @@ def test_items(gen: R2.GenV2, n: int, seed: int = 4242) -> list[tuple[dict, dict
 
 def score_run(run: str, n: int) -> None:
     from train.load import load_trained, translate
-    mdir = ROOT / "results" / "kaggle" / run / "model"
+    name, _, ep = run.partition("@epoch")              # RUN@epochN: that run's epoch-N checkpoint (as score_tatoeba)
+    mdir = ROOT / "results" / "kaggle" / name / (f"model_epoch{ep}" if ep else "model")
     cfg = json.loads((mdir / "run_args.json").read_text(encoding="utf-8"))
+    R2.language_of_run(cfg)                           # sound-rule runs: their own language and held-out words
     seed = int(cfg.get("seed", 0))
     held = float(cfg.get("rep_held_frac", 0.2))
     rep_n = int(cfg.get("rep_n", 80000))
@@ -132,7 +135,12 @@ def score_run(run: str, n: int) -> None:
                                      loan_rate=float(cfg.get("rep_loan_rate", 0) or 0),   # loanword runs
                                      held_only=None if cfg.get("rep_held_only") in (None, "None", "") else
                                      cfg["rep_held_only"],                                 # structure-dose runs
-                                     putback=int(cfg.get("rep_held_putback", 0) or 0))
+                                     putback=int(cfg.get("rep_held_putback", 0) or 0),
+                                     real_file=None if cfg.get("rep_real") in (None, "None", "") else
+                                     str(ROOT / cfg["rep_real"]),
+                                     everyday=str(cfg.get("rep_everyday")) == "True",    # real-text runs; --rep-everyday runs
+                                     exact_n=str(cfg.get("rep_exact_n")) == "True",
+                                     protect_putback=str(cfg.get("rep_protect_putback")) == "True")   # as trained
         R2.LOAN.update(rate=0.0, pool="train")     # build_training set the loan rate: tests use the standard mix
         counts = key_counts(items)
         train_en = {it["english"] for it in items if "english" in it}
@@ -152,6 +160,7 @@ def score_run(run: str, n: int) -> None:
         gold = it["target"].split()
         kinds = [k for cl in ex["clauses"] for k in word_keys(gen.rep, cl)]
         if len(kinds) != len(gold):
+            sentences.append(glyph == it["target"])    # keep sentences aligned with the test list
             continue                                   # (should not happen; keep the scoring honest)
         ok = [False] * len(gold)
         sm = difflib.SequenceMatcher(a=gold, b=glyph.split(), autojunk=False)

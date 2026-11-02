@@ -1,0 +1,97 @@
+[
+ {
+  "name": "maths-meaning-buildmix-drop6row-s2d",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "6,4;6,5;6,6",
+   "--force-routes",
+   "--seed",
+   "2",
+   "--deterministic"
+  ]
+ },
+ {
+  "name": "maths-meaning-build-drop56-s1d",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build",
+   "--drop-pair",
+   "5,6",
+   "--grad-accum",
+   "2",
+   "--seed",
+   "1",
+   "--deterministic"
+  ]
+ },
+ {
+  "name": "maths-meaning-build-drop56-s2d",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build",
+   "--drop-pair",
+   "5,6",
+   "--grad-accum",
+   "2",
+   "--seed",
+   "2",
+   "--deterministic"
+  ]
+ },
+ {
+  "name": "maths-meaning-build-drop56-role5-s1d",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build",
+   "--drop-pair",
+   "5,6",
+   "--grad-accum",
+   "2",
+   "--role-dose",
+   "5",
+   "--seed",
+   "1",
+   "--deterministic"
+  ]
+ },
+ {
+  "name": "maths-meaning-build-drop56-role5-s2d",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build",
+   "--drop-pair",
+   "5,6",
+   "--grad-accum",
+   "2",
+   "--role-dose",
+   "5",
+   "--seed",
+   "2",
+   "--deterministic"
+  ]
+ }
+]

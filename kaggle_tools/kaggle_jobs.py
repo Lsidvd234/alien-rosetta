@@ -160,6 +160,7 @@ def cmd_code(a: KaggleApi) -> None:
         for f in (ROOT / "sealed" / "app" / "english_parse.py", ROOT / "scripts" / "build_paraphrases.py",
                   ROOT / "scripts" / "build_paraphrases_v2.py"):
             zf.write(f, f.relative_to(ROOT).as_posix())         # the reader only (no sealed data), for paraphrases
+        zf.write(ROOT / "results" / "tatoeba_test.json", "eval/tatoeba_test.json")   # inputs for --extra-translate
         ff = ROOT.parent / "papers"                              # Faith and Fate: our model runner + their generator
         for src, dst in ((ff / "ff_tools" / "run_ff_models.py", "ff/run_ff_models.py"),
                          (ff / "faith-and-fate" / "multiplication" / "generate_scratchpads.py",
@@ -254,8 +255,9 @@ def cmd_queue(a: KaggleApi, jobs_file: Path) -> None:
             except Exception as e:                     # network drop: wait and retry
                 print(time.strftime("%H:%M:%S"), "push failed (network?), retrying later:", type(e).__name__)
                 break
-            if err and "maximum" in err.lower():
-                break                                  # no free GPU slot yet
+            if err and any(k in err.lower() for k in ("maximum", "quota", "limit", "gpu", "accelerator")):
+                print(time.strftime("%H:%M:%S"), "not pushed yet (slot or quota):", err[:120], flush=True)
+                break                                  # no free GPU slot / quota yet: retry later, never drop the job
             pending.pop(0)
             if err:
                 done.append((job["name"], "push-error: " + err))

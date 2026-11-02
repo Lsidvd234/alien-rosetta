@@ -91,7 +91,12 @@ def _training_pieces(cfg: dict) -> tuple[dict, set, set, tuple]:
                                  loan_rate=float(cfg.get("rep_loan_rate", 0) or 0),
                                  held_only=None if cfg.get("rep_held_only") in (None, "None", "") else
                                  cfg["rep_held_only"],                                     # structure-dose runs
-                                 putback=int(cfg.get("rep_held_putback", 0) or 0))
+                                 putback=int(cfg.get("rep_held_putback", 0) or 0),
+                                 real_file=None if cfg.get("rep_real") in (None, "None", "") else
+                                 str(ROOT / cfg["rep_real"]),
+                                 everyday=str(cfg.get("rep_everyday")) == "True",    # real-text runs; --rep-everyday runs
+                                 exact_n=str(cfg.get("rep_exact_n")) == "True",
+                                 protect_putback=str(cfg.get("rep_protect_putback")) == "True")   # as trained
     R2.LOAN.update(rate=0.0, pool="train")     # build_training set the loan rate: tests use the standard mix
     rep = [it for it in items if it.get("aug") == "rep2"]
     forms = collections.Counter(w for it in rep for w in it["target"].split())
@@ -108,8 +113,10 @@ def _training_pieces(cfg: dict) -> tuple[dict, set, set, tuple]:
 def analyse(run: str, n: int) -> None:
     from conlang.v2 import from_analysis
     from english_parse import spell_name, with_gender
-    mdir = ROOT / "results" / "kaggle" / run / "model"
+    name, _, ep = run.partition("@epoch")              # RUN@epochN: that run's epoch-N checkpoint (as score_tatoeba)
+    mdir = ROOT / "results" / "kaggle" / name / (f"model_epoch{ep}" if ep else "model")
     cfg = json.loads((mdir / "run_args.json").read_text(encoding="utf-8"))
+    R2.language_of_run(cfg)                           # sound-rule runs: their own language and held-out words
     cot = str(cfg.get("cot")) == "True"
     OUT.mkdir(parents=True, exist_ok=True)
     parts, train_en, held, (forms, keys) = training_pieces(cfg, OUT / f"{run}.pieces.json")
@@ -118,6 +125,11 @@ def analyse(run: str, n: int) -> None:
     ppath = OUT / f"{run}.preds.json"
     if ppath.exists():
         preds = json.loads(ppath.read_text(encoding="utf-8"))
+        if isinstance(preds, dict):                    # newer caches keep the English to check the alignment
+            assert preds["english"] == [it["english"] for it, _ in tests], f"{ppath.name}: test list changed"
+            preds = preds["preds"]
+        else:
+            assert len(preds) == len(tests), f"{ppath.name}: {len(preds)} saved predictions, {len(tests)} tests"
     else:
         from train.load import load_trained, translate
         model, tok, _ = load_trained(mdir)
@@ -125,7 +137,8 @@ def analyse(run: str, n: int) -> None:
         for i in range(0, len(tests), 16):
             preds += translate(model, tok, [it["english"] for it, _ in tests[i:i + 16]], max_new_tokens=700)
             print(f"  {len(preds)}/{len(tests)}", flush=True)
-        ppath.write_text(json.dumps(preds, ensure_ascii=False), encoding="utf-8")
+        ppath.write_text(json.dumps({"english": [it["english"] for it, _ in tests], "preds": preds},
+                                    ensure_ascii=False), encoding="utf-8")
         del model
 
     words, sents, errors = [], [], collections.Counter()

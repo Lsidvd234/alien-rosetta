@@ -1,0 +1,86 @@
+{
+ "run": "maths-meaning-build-drop56-role100",
+ "headline": {
+  "test": "mul: needs dropped pair 5x6 (trained lengths)",
+  "positional_steps": 353,
+  "positional_accuracy": 0.5042492917847026,
+  "written_steps": 353,
+  "written_exact": 0.5042492917847026
+ },
+ "steps": 505,
+ "exact": 0.4693069306930693,
+ "tens_right": 0.8554455445544554,
+ "units_right": 0.4693069306930693,
+ "wrong": 268,
+ "wrong_with_tens_right": 0.7276119402985075,
+ "wrong_units_is_operand": 0.6343283582089553,
+ "implied_facts": {
+  "42": 237,
+  "45": 159,
+  "36": 61,
+  "33": 17,
+  "35": 16,
+  "34": 11
+ },
+ "implied_top3_share": 0.904950495049505,
+ "same_fact_within_problem": 0.6615384615384615,
+ "problems_with_2plus_steps": 65,
+ "by_order": {
+  "5x6": {
+   "n": 248,
+   "exact": 0.9556451612903226
+  },
+  "6x5": {
+   "n": 257,
+   "exact": 0.0
+  }
+ },
+ "by_test": {
+  "mul: 3x1": {
+   "n": 30,
+   "exact": 0.4666666666666667
+  },
+  "mul: 3x2": {
+   "n": 65,
+   "exact": 0.36923076923076925
+  },
+  "mul: 3x3": {
+   "n": 29,
+   "exact": 0.41379310344827586
+  },
+  "mul: needs dropped pair 5x6 (trained lengths)": {
+   "n": 353,
+   "exact": 0.5042492917847026
+  },
+  "mul: up to 2x2 (trained lengths)": {
+   "n": 28,
+   "exact": 0.32142857142857145
+  }
+ },
+ "neighbour_facts": {
+  "n": 893,
+  "exact": 1.0
+ },
+ "positional_by_test": {
+  "mul: 3x1": {
+   "n": 27,
+   "accuracy": 0.2222222222222222
+  },
+  "mul: 3x2": {
+   "n": 89,
+   "accuracy": 0.07865168539325842
+  },
+  "mul: 3x3": {
+   "n": 120,
+   "accuracy": 0.008333333333333333
+  },
+  "mul: needs dropped pair 5x6 (trained lengths)": {
+   "n": 353,
+   "accuracy": 0.5042492917847026
+  },
+  "mul: up to 2x2 (trained lengths)": {
+   "n": 28,
+   "accuracy": 0.32142857142857145
+  }
+ }
+}

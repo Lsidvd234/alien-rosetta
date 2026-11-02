@@ -1,0 +1,488 @@
+{
+ "e2b-v2fix-6ep": {
+  "tatoeba": {
+   "both wrong": 56,
+   "word not in language": 119,
+   "translation error": 77,
+   "both right": 261,
+   "understanding error": 78,
+   "lucky glyphs": 9
+  },
+  "generated": {
+   "both right": 197,
+   "understanding error": 28,
+   "lucky glyphs": 1,
+   "unreadable": 25,
+   "translation error": 46,
+   "both wrong": 3
+  },
+  "sealed": {
+   "both right": 56,
+   "understanding error": 30,
+   "word not in language": 33,
+   "lucky glyphs": 2,
+   "both wrong": 16,
+   "translation error": 10
+  }
+ },
+ "e2b-v2fix-cot-80k-noheld": {
+  "tatoeba": {
+   "understanding error": 82,
+   "both wrong": 57,
+   "word not in language": 85,
+   "translation error": 96,
+   "both right": 274,
+   "lucky glyphs": 6
+  },
+  "generated": {
+   "both right": 180,
+   "understanding error": 30,
+   "unreadable": 22,
+   "translation error": 58,
+   "both wrong": 8,
+   "lucky glyphs": 2
+  },
+  "sealed": {
+   "both right": 58,
+   "understanding error": 26,
+   "word not in language": 33,
+   "lucky glyphs": 3,
+   "both wrong": 15,
+   "translation error": 12
+  }
+ },
+ "e2b-v2fix-cot-80k-noheld@epoch1": {
+  "tatoeba": {
+   "understanding error": 57,
+   "word not in language": 88,
+   "both wrong": 105,
+   "both right": 171,
+   "translation error": 175,
+   "lucky glyphs": 4
+  },
+  "sealed": {
+   "translation error": 29,
+   "both right": 34,
+   "analysis wrong, glyphs wrong": 80,
+   "lucky glyphs": 4
+  }
+ },
+ "e2b-v2fix-cot-80k-noheld@epoch2": {
+  "tatoeba": {
+   "understanding error": 73,
+   "translation error": 123,
+   "word not in language": 86,
+   "both right": 244,
+   "both wrong": 66,
+   "lucky glyphs": 8
+  },
+  "sealed": {
+   "both right": 57,
+   "analysis wrong, glyphs wrong": 77,
+   "lucky glyphs": 2,
+   "translation error": 11
+  }
+ },
+ "e2b-v2fix-everyday": {
+  "tatoeba": {
+   "both right": 358,
+   "understanding error": 69,
+   "word not in language": 70,
+   "translation error": 77,
+   "both wrong": 21,
+   "lucky glyphs": 5
+  },
+  "sealed": {
+   "both right": 69,
+   "understanding error": 29,
+   "both wrong": 12,
+   "lucky glyphs": 1,
+   "translation error": 7,
+   "word not in language": 28,
+   "unreadable": 1
+  }
+ },
+ "e2b-v2fix-floor25": {
+  "tatoeba": {
+   "understanding error": 99,
+   "translation error": 79,
+   "both wrong": 59,
+   "word not in language": 73,
+   "both right": 283,
+   "lucky glyphs": 7
+  },
+  "generated": {
+   "both right": 214,
+   "understanding error": 23,
+   "unreadable": 19,
+   "translation error": 37,
+   "both wrong": 5,
+   "lucky glyphs": 2
+  },
+  "sealed": {
+   "both right": 65,
+   "understanding error": 29,
+   "both wrong": 12,
+   "lucky glyphs": 2,
+   "translation error": 9,
+   "word not in language": 30
+  }
+ },
+ "e2b-v2fix-focal-r2": {
+  "tatoeba": {
+   "translation error": 89,
+   "understanding error": 95,
+   "word not in language": 82,
+   "both right": 264,
+   "both wrong": 61,
+   "lucky glyphs": 9
+  },
+  "generated": {
+   "both right": 169,
+   "unreadable": 29,
+   "translation error": 57,
+   "understanding error": 28,
+   "both wrong": 16,
+   "lucky glyphs": 1
+  },
+  "sealed": {
+   "both right": 55,
+   "understanding error": 41,
+   "word not in language": 26,
+   "lucky glyphs": 2,
+   "both wrong": 13,
+   "translation error": 10
+  }
+ },
+ "e2b-v2fix-loan12": {
+  "tatoeba": {
+   "understanding error": 99,
+   "translation error": 88,
+   "word not in language": 86,
+   "both right": 279,
+   "both wrong": 41,
+   "lucky glyphs": 7
+  },
+  "generated": {
+   "both right": 190,
+   "understanding error": 24,
+   "translation error": 45,
+   "both wrong": 13,
+   "unreadable": 27,
+   "lucky glyphs": 1
+  },
+  "sealed": {
+   "both right": 62,
+   "understanding error": 31,
+   "word not in language": 35,
+   "lucky glyphs": 1,
+   "both wrong": 12,
+   "translation error": 6
+  }
+ },
+ "e2b-v2fix-n98k": {
+  "tatoeba": {
+   "both right": 288,
+   "understanding error": 84,
+   "both wrong": 68,
+   "word not in language": 77,
+   "translation error": 78,
+   "lucky glyphs": 5
+  },
+  "generated": {
+   "both right": 199,
+   "understanding error": 20,
+   "both wrong": 4,
+   "translation error": 54,
+   "unreadable": 21,
+   "lucky glyphs": 2
+  },
+  "sealed": {
+   "both right": 61,
+   "understanding error": 32,
+   "lucky glyphs": 3,
+   "both wrong": 12,
+   "translation error": 8,
+   "word not in language": 31
+  }
+ },
+ "e2b-v2fix-para": {
+  "tatoeba": {
+   "understanding error": 92,
+   "both wrong": 48,
+   "word not in language": 83,
+   "translation error": 91,
+   "both right": 278,
+   "lucky glyphs": 8
+  },
+  "generated": {
+   "both right": 190,
+   "understanding error": 25,
+   "both wrong": 9,
+   "translation error": 54,
+   "unreadable": 22
+  },
+  "sealed": {
+   "both right": 60,
+   "understanding error": 36,
+   "word not in language": 30,
+   "lucky glyphs": 3,
+   "both wrong": 12,
+   "translation error": 6
+  }
+ },
+ "e2b-v2fix-passive0": {
+  "tatoeba": {
+   "understanding error": 91,
+   "both wrong": 54,
+   "word not in language": 87,
+   "both right": 281,
+   "translation error": 81,
+   "lucky glyphs": 6
+  },
+  "generated": {
+   "both right": 182,
+   "understanding error": 26,
+   "translation error": 61,
+   "unreadable": 25,
+   "both wrong": 6
+  },
+  "sealed": {
+   "both right": 64,
+   "understanding error": 33,
+   "word not in language": 32,
+   "lucky glyphs": 2,
+   "translation error": 6,
+   "both wrong": 10
+  }
+ },
+ "e2b-v2fix-passive0-meaning": {
+  "tatoeba": {
+   "word not in language": 89,
+   "translation error": 362,
+   "both wrong": 149
+  },
+  "sealed": {
+   "translation error": 69,
+   "both wrong": 43,
+   "word not in language": 35
+  }
+ },
+ "e2b-v2fix-passive0-ts1": {
+  "tatoeba": {
+   "both right": 274,
+   "translation error": 84,
+   "both wrong": 57,
+   "word not in language": 94,
+   "understanding error": 84,
+   "lucky glyphs": 7
+  },
+  "generated": {
+   "both right": 189,
+   "understanding error": 20,
+   "both wrong": 11,
+   "translation error": 52,
+   "unreadable": 27,
+   "lucky glyphs": 1
+  },
+  "sealed": {
+   "both right": 60,
+   "understanding error": 28,
+   "word not in language": 34,
+   "lucky glyphs": 3,
+   "translation error": 6,
+   "both wrong": 16
+  }
+ },
+ "e2b-v2fix-passive300": {
+  "tatoeba": {
+   "understanding error": 97,
+   "word not in language": 80,
+   "both wrong": 50,
+   "translation error": 88,
+   "both right": 279,
+   "lucky glyphs": 6
+  },
+  "generated": {
+   "both right": 192,
+   "understanding error": 23,
+   "translation error": 57,
+   "unreadable": 23,
+   "both wrong": 5
+  },
+  "sealed": {
+   "both right": 55,
+   "understanding error": 38,
+   "lucky glyphs": 2,
+   "translation error": 9,
+   "word not in language": 31,
+   "both wrong": 12
+  }
+ },
+ "e2b-v2fix-passive50": {
+  "tatoeba": {
+   "understanding error": 91,
+   "word not in language": 77,
+   "both wrong": 63,
+   "both right": 257,
+   "translation error": 107,
+   "lucky glyphs": 5
+  },
+  "generated": {
+   "both right": 176,
+   "understanding error": 21,
+   "unreadable": 30,
+   "translation error": 62,
+   "both wrong": 10,
+   "lucky glyphs": 1
+  },
+  "sealed": {
+   "both right": 54,
+   "understanding error": 35,
+   "word not in language": 30,
+   "lucky glyphs": 3,
+   "both wrong": 15,
+   "translation error": 10
+  }
+ },
+ "e2b-v2fix-passive50-ts1": {
+  "tatoeba": {
+   "understanding error": 75,
+   "translation error": 87,
+   "both wrong": 67,
+   "word not in language": 87,
+   "both right": 277,
+   "lucky glyphs": 7
+  },
+  "generated": {
+   "both right": 181,
+   "understanding error": 24,
+   "translation error": 62,
+   "both wrong": 9,
+   "unreadable": 23,
+   "lucky glyphs": 1
+  },
+  "sealed": {
+   "both right": 58,
+   "understanding error": 32,
+   "lucky glyphs": 4,
+   "both wrong": 14,
+   "translation error": 7,
+   "word not in language": 31,
+   "unreadable": 1
+  }
+ },
+ "e2b-v2fix-q17": {
+  "tatoeba": {
+   "translation error": 121,
+   "understanding error": 77,
+   "word not in language": 77,
+   "both right": 254,
+   "both wrong": 68,
+   "lucky glyphs": 3
+  }
+ },
+ "e2b-v2fix-real15": {
+  "tatoeba": {
+   "both right": 534,
+   "translation error": 20,
+   "word not in language": 11,
+   "understanding error": 28,
+   "both wrong": 7
+  },
+  "generated": {
+   "both right": 175,
+   "understanding error": 28,
+   "translation error": 64,
+   "unreadable": 23,
+   "both wrong": 9,
+   "lucky glyphs": 1
+  },
+  "sealed": {
+   "both right": 81,
+   "understanding error": 44,
+   "both wrong": 8,
+   "lucky glyphs": 1,
+   "word not in language": 12,
+   "translation error": 1
+  }
+ },
+ "e2b-v2fix-real15-ts1": {
+  "tatoeba": {
+   "both right": 534,
+   "translation error": 23,
+   "both wrong": 6,
+   "word not in language": 11,
+   "understanding error": 25,
+   "lucky glyphs": 1
+  },
+  "generated": {
+   "both right": 182,
+   "understanding error": 24,
+   "translation error": 69,
+   "unreadable": 18,
+   "both wrong": 6,
+   "lucky glyphs": 1
+  },
+  "sealed": {
+   "both right": 80,
+   "understanding error": 45,
+   "word not in language": 13,
+   "both wrong": 6,
+   "lucky glyphs": 1,
+   "translation error": 2
+  }
+ },
+ "e2b-v2fix-soundrule": {
+  "tatoeba": {
+   "both wrong": 50,
+   "understanding error": 111,
+   "word not in language": 88,
+   "both right": 295,
+   "translation error": 51,
+   "lucky glyphs": 5
+  },
+  "generated": {
+   "both right": 226,
+   "unreadable": 19,
+   "understanding error": 15,
+   "translation error": 35,
+   "both wrong": 3,
+   "lucky glyphs": 2
+  },
+  "sealed": {
+   "both right": 59,
+   "understanding error": 26,
+   "word not in language": 37,
+   "lucky glyphs": 6,
+   "both wrong": 10,
+   "translation error": 9
+  }
+ },
+ "e2b-v2fix-ts1": {
+  "tatoeba": {
+   "both right": 272,
+   "translation error": 103,
+   "both wrong": 57,
+   "word not in language": 82,
+   "understanding error": 78,
+   "lucky glyphs": 8
+  },
+  "generated": {
+   "both right": 186,
+   "understanding error": 19,
+   "unreadable": 27,
+   "translation error": 59,
+   "both wrong": 7,
+   "lucky glyphs": 2
+  },
+  "sealed": {
+   "both right": 61,
+   "understanding error": 34,
+   "lucky glyphs": 3,
+   "both wrong": 13,
+   "translation error": 7,
+   "word not in language": 29
+  }
+ }
+}

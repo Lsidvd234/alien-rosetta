@@ -1,0 +1,41 @@
+[
+ {
+  "name": "maths-meaning-drop56-bridge",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "5,6",
+   "--bridge-tests"
+  ]
+ },
+ {
+  "name": "maths-mean-drop56-bridge",
+  "args": [
+   "@maths",
+   "--init",
+   "mean",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "5,6",
+   "--bridge-tests"
+  ]
+ },
+ {
+  "name": "maths-shuffled-drop56-bridge",
+  "args": [
+   "@maths",
+   "--init",
+   "shuffled",
+   "--eval-every",
+   "500",
+   "--drop-pair",
+   "5,6",
+   "--bridge-tests"
+  ]
+ }
+]

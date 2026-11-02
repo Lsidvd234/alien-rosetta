@@ -7,3 +7,5 @@ results/kaggle/
 sealed/
 .kaggle*/
 .venv*/
+~$*
+results/sealed*

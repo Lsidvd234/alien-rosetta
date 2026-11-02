@@ -1,0 +1,2313 @@
+\documentclass[10pt,a4paper,oneside]{article}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{fontspec}
+\usepackage{amsmath,booktabs,longtable,array,enumitem,xcolor,graphicx}
+\usepackage[most]{tcolorbox}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\setlist{nosep,leftmargin=*}
+\setlength{\parskip}{0.45em}\setlength{\parindent}{0pt}
+\setlength{\LTpre}{2pt}\setlength{\LTpost}{6pt}
+\renewcommand{\arraystretch}{1.12}
+\newtcolorbox{infer}{colback=blue!4,colframe=blue!45!black,boxrule=0.5pt,arc=2pt,left=5pt,right=5pt,
+  fonttitle=\bfseries\small,title=Inference,breakable}
+\newtcolorbox{caveat}{colback=orange!6,colframe=orange!70!black,boxrule=0.5pt,arc=2pt,left=5pt,right=5pt,
+  fonttitle=\bfseries\small,title=Caveat,breakable}
+\title{\textbf{Alien Rosetta: results report}\\[0.3em]\large Learning an invented language in invented glyphs with Qwen3-0.6B + LoRA\\[0.2em]
+\normalsize Main experiments, test splits, and stress tests 1--30}
+\author{AI60213 Foundations of LLMs, course project}
+\date{12 October 2026}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+
+\section*{How to read this report}
+Every table in this report is converted automatically from the result files written by the experiment and test
+scripts (the source file is named above each table); none were retyped. The text in blue \emph{Inference} boxes is
+my interpretation of the table directly above it, and orange \emph{Caveat} boxes flag known limits of a test. All
+stress tests use the four saved 50k-sentence models (hard language, invented glyphs, one new token per glyph):
+\textbf{Option 1} (each glyph starts at the embedding of its Latin sound), \textbf{Option 2} (copy start +
+transliteration examples), \textbf{Option 3a} (copy start + a plain-glyph-text phase first) and the
+\textbf{Control} (each glyph starts at a deliberately wrong, shuffled sound). Unless stated otherwise, numbers in
+the text refer to Option 1.
+
+\section{Setup}
+
+\begin{itemize}
+\item \textbf{Model:} Qwen3-0.6B-Base, fine-tuned with LoRA: rank 16, alpha 32, dropout 0, on all linear layers
+(q, k, v, o, gate, up, down); 3 epochs; learning rate $2\times10^{-4}$; effective batch 32 (16 $\times$ 2 or
+32 $\times$ 1); fp16 on a Kaggle T4. One seed per run, except the 20k grid (seeds 0, 1, 2).
+\item \textbf{Prompt:} \texttt{English: <sentence>} newline \texttt{Target:} newline, then the translation. Scored by
+greedy decoding; \emph{exact} = the whole sentence is right; \emph{content-word accuracy} = every token of each
+content word is right (fair across scripts).
+\item \textbf{Languages:} invented by a generator (\texttt{conlang/}). \emph{Easy} = English-like (SVO, articles, few
+endings). \emph{Hard} = Tamil-like: SOV, no articles, case endings (object, location), every tense an ending, full
+person/number/gender agreement, a negation ending, irregular past stems, and sound changes where endings join
+(sandhi). A new seed gives a new random language with the same grammar.
+\item \textbf{Scripts:} Latin letters; real Tamil letters; and \emph{invented glyphs} from the Unicode Private Use
+Area, which no model has seen (3 byte-tokens each in Qwen's tokenizer, or one new token each when added).
+\item \textbf{Data:} a 50,000-sentence training pool (runs use the first 5k/10k/20k/50k) and 500 sentences per test
+split, regenerated exactly from the seed.
+\end{itemize}
+
+\subsection{The four test splits, with real examples}
+
+Each test sentence is new (never in training). The splits differ in what is held out of training entirely:
+\begin{itemize}
+\item \texttt{test\_iid}: ordinary new sentences, same kind as training.
+\item \texttt{test\_comp}: a verb + object pair never seen together in training (10\% of verb--object pairs are
+held out, chosen by a hash of the pair).
+\item \texttt{test\_morph}: past tense + negation + plural subject together; this ending combination never occurs in
+training (each part does).
+\item \texttt{test\_long}: an adjective on both nouns plus a location; this sentence shape never occurs in training.
+\end{itemize}
+The table below is generated from the data generator itself (hard language, seed 0): the first two items of each
+split, the English input, the gloss of the correct output, and the output written in Latin letters (the glyph
+version spells exactly the same sounds, one glyph per sound or syllable).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.088\linewidth}>{\raggedright\arraybackslash}p{0.058\linewidth}>{\raggedright\arraybackslash}p{0.268\linewidth}>{\raggedright\arraybackslash}p{0.268\linewidth}>{\raggedright\arraybackslash}p{0.228\linewidth}}
+\toprule
+\textbf{split} & \textbf{items} & \textbf{English (input)} & \textbf{gloss of the correct output} & \textbf{output, Latin spelling of the same sounds} \\
+\midrule
+\endhead
+train & 50000 & the milos surfed & milo-PL surf-PST-AGR.3pl & veriilxelinx zhanyuruungulxaa \\
+train & 50000 & the dagger scatters the iconic rib & dagger iconic rib-ACC scatter-PRS-AGR.3sgn & lxoopolxa vunyakin ruuzhoteyeme txuucezhamelxovemoo \\
+test\_iid & 500 & they will not defy the raisin & 3pl raisin-ACC defy-FUT-AGR.3pl-NEG & ngaaraalxo taaketxaveme ronxeyolxaavi \\
+test\_iid & 500 & the avocados disagree & avocado-PL disagree-PRS-AGR.3pl & lximilinx nyocuyavelxolxaa \\
+test\_comp & 500 & the queens will wed the carrots in the lane & queen-PL lane-LOC carrot-PL-ACC wed-FUT-AGR.3pl & rxuutiilinx zholongiyitxii nuukootxilinxeme tiketoolxolxaa \\
+test\_comp & 500 & the mine interrupts the super carts & mine super cart-PL-ACC interrupt-PRS-AGR.3sgn & rxunanyilx ngalxuutoo yupuyolinxeme zhuuconxiyelxovemoo \\
+test\_morph & 500 & the tiny children did not absorb & tiny child-PL absorb-PST-AGR.3pl-NEG & yuvinxi txolxangaamlinx miizhoonngulxaavi \\
+test\_morph & 500 & the hands did not scare the sweet starlings in the door & hand-PL door-LOC sweet starling-PL-ACC scare-PST-AGR.3pl-NEG & nxanyelinx copaaninxitxii vipazha nxenyuuyaalinxeme nyumeetongulxaavi \\
+test\_long & 500 & the fertile conduit reaps the charitable blazer in the cockpit & fertile conduit cockpit-LOC charitable blazer-ACC reap-PRS-AGR.3sgn & nyiciyaa zhaanyevim rxinxiitxovitxii txanyimum zhovenyeme nyonxuurxelxovemoo \\
+test\_long & 500 & the alive ferns smack the public bags in the factory & alive fern-PL factory-LOC public bag-PL-ACC smack-PRS-AGR.3pl & leengar pacungilinx tocuuvitxii mavu ngorxopeelinxeme naanyeelenelxolxaa \\
+\bottomrule
+\end{longtable}}
+
+
+Note the SOV order and the endings in the glosses: \texttt{-ACC} marks the object, \texttt{-LOC} the location,
+\texttt{-PL} plural; the verb carries tense (\texttt{PST}/\texttt{PRS}/\texttt{FUT}), agreement (\texttt{AGR.3sgn}
+etc.) and negation (\texttt{NEG}).
+
+\section{Main results}
+
+The research question: \emph{does the number of tokens a script costs predict how well a model learns a new
+language written in it?} And for the hardest case (hard grammar + invented glyphs), what makes it learnable?
+
+\subsection{Learning curves: grammar $\times$ script}
+\textit{Source: \texttt{results/curve\_summary.md}.}
+
+
+Content-word accuracy = every token of a content word right (script-fair). Exact = whole sentence right (greedy).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}}
+\toprule
+\textbf{N} & \textbf{cell} & \textbf{tokens/sent} & \textbf{content-word acc} & \textbf{exact iid} & \textbf{exact comp} & \textbf{exact morph} & \textbf{exact long} & \textbf{train min} & \textbf{batch} \\
+\midrule
+\endhead
+5k & easy-latin & 12.5 & 0.001 & 0.000 & 0.000 & 0.000 & 0.000 & 4.0 & 16x2 \\
+5k & easy-tamil & 41.9 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 5.1 & 16x2 \\
+5k & hard-latin & 19.3 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 3.9 & 16x2 \\
+5k & hard-tamil & 43.5 & 0.001 & 0.002 & 0.000 & 0.000 & 0.000 & 5.4 & 16x2 \\
+10k & easy-latin & 12.5 & 0.113 & 0.032 & 0.000 & 0.022 & 0.000 & 7.5 & 16x2 \\
+10k & easy-tamil & 41.8 & 0.033 & 0.028 & 0.000 & 0.034 & 0.000 & 10.7 & 16x2 \\
+10k & hard-latin & 19.2 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 7.8 & 16x2 \\
+10k & hard-tamil & 43.4 & 0.003 & 0.002 & 0.000 & 0.002 & 0.000 & 10.9 & 16x2 \\
+20k & easy-latin & 12.5 & 0.817 & 0.634 & 0.568 & 0.554 & 0.176 & 15.7 & 16x2 \\
+20k & easy-tamil & 42.0 & 0.830 & 0.650 & 0.598 & 0.596 & 0.188 & 21.7 & 16x2 \\
+20k & hard-latin & 19.3 & 0.048 & 0.022 & 0.000 & 0.010 & 0.000 & 15.8 & 16x2 \\
+20k & hard-tamil & 43.4 & 0.232 & 0.100 & 0.002 & 0.072 & 0.000 & 21.3 & 16x2 \\
+50k & easy-latin & 12.5 & 0.984 & 0.960 & 0.964 & 0.964 & 0.856 & 24.9 & 32x1 \\
+50k & easy-tamil & 42.1 & 0.997 & 0.994 & 0.988 & 0.984 & 0.992 & 53.8 & 16x2 \\
+50k & hard-latin & 19.3 & 0.980 & 0.960 & 0.952 & 0.836 & 0.940 & 40.7 & 16x2 \\
+50k & hard-tamil & 43.5 & 0.990 & 0.986 & 0.976 & 0.920 & 0.958 & 53.6 & 32x1 \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}
+\begin{itemize}
+\item Nothing is learned at 5k sentences (all cells $\le$ 0.001 content-word accuracy); at 50k every cell reaches
+0.980--0.997. Learning is a sharp jump between 10k and 50k.
+\item \textbf{Token count does not predict accuracy.} Easy-Tamil costs 3.4$\times$ the tokens of easy-Latin (42.0 vs
+12.5 tokens per sentence at 20k) but is as accurate (0.830 vs 0.817 content-word accuracy).
+\item \textbf{Grammar matters more than script.} At 20k the hard language is far behind the easy one in both scripts
+(Latin 0.048 vs 0.817; Tamil 0.232 vs 0.830).
+\item In the hard language, Tamil script learns faster than Latin at 20k (0.232 vs 0.048) although it costs 2.2$\times$
+the tokens (43.4 vs 19.3); at 50k both are about equal (0.990 vs 0.980). So this is a difference in learning speed,
+not in what is finally learned.
+\end{itemize}
+\end{infer}
+\subsection{Final tables: seeds, cause tests, invented glyphs, fixes}
+\textit{Source: \texttt{results/final\_20k.md}.}
+
+
+Three random languages per cell (seeds 0, 1, 2; same grammar, different invented vocabulary). Content-word accuracy = every token of the content word right. Exact = whole sentence right (test\_iid).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}}
+\toprule
+\textbf{cell} & \textbf{content-word acc (seed 0 / 1 / 2)} & \textbf{mean} & \textbf{sd} & \textbf{exact iid mean} & \textbf{tokens/sent} & \textbf{train min} \\
+\midrule
+\endhead
+easy-latin & 0.817 / 0.846 / 0.810 & 0.824 & 0.019 & 0.655 & 12.3 & 15.8 \\
+easy-tamil & 0.830 / 0.872 / 0.868 & 0.857 & 0.023 & 0.722 & 38.9 & 20.8 \\
+hard-latin & 0.048 / 0.028 / 0.038 & 0.038 & 0.010 & 0.009 & 19.6 & 15.6 \\
+hard-tamil & 0.232 / 0.257 / 0.233 & 0.241 & 0.014 & 0.117 & 43.3 & 21.4 \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Cause tests (seed 0, 20k)}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{language} & \textbf{target written as} & \textbf{tokens/sent} & \textbf{content-word acc} & \textbf{exact iid} & \textbf{train min} \\
+\midrule
+\endhead
+easy & Latin, normal & 12.5 & 0.817 & 0.634 & 15.7 \\
+easy & Latin, 1 char/token & 30.9 & 0.855 & 0.698 & 18.3 \\
+easy & Tamil script & 42.0 & 0.830 & 0.650 & 21.7 \\
+easy & Invented glyphs (PUA) & 94.6 & 0.003 & 0.002 & 42.9 \\
+hard & Latin, normal & 19.3 & 0.048 & 0.022 & 15.8 \\
+hard & Latin, 1 char/token & 42.9 & 0.106 & 0.054 & 21.0 \\
+hard & Accented Latin, 1 char/token & 33.1 & 0.016 & 0.010 & 19.8 \\
+hard & Tamil script & 43.4 & 0.232 & 0.100 & 21.3 \\
+hard & Invented glyphs (PUA) & 90.9 & 0.001 & 0.000 & 38.8 \\
+easy & Invented glyphs, 1 new token each & 35.5 & 0.001 & 0.000 & 19.7 \\
+hard & Invented glyphs, 1 new token each & 32.6 & 0.012 & 0.000 & 19.1 \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Invented glyphs (PUA) by training size}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}}
+\toprule
+\textbf{language} & \textbf{glyphs as} & \textbf{sentences} & \textbf{tokens/sent} & \textbf{content-word acc} & \textbf{exact iid} & \textbf{exact comp} & \textbf{exact morph} & \textbf{exact long} & \textbf{train min} \\
+\midrule
+\endhead
+easy & 3 byte tokens each & 20k & 94.6 & 0.003 & 0.002 & 0.000 & 0.002 & 0.000 & 42.9 \\
+easy & 3 byte tokens each & 50k & 94.8 & 0.992 & 0.978 & 0.982 & 0.950 & 0.962 & 105.7 \\
+easy & 3 byte tokens each & 80k & 95.0 & 0.998 & 0.994 & 0.992 & 0.990 & 0.988 & 165.8 \\
+easy & 1 new token each & 20k & 35.5 & 0.001 & 0.000 & 0.000 & 0.000 & 0.000 & 19.7 \\
+easy & 1 new token each & 50k & 35.6 & 0.992 & 0.990 & 0.984 & 0.958 & 0.946 & 50.2 \\
+hard & 3 byte tokens each & 20k & 90.9 & 0.001 & 0.000 & 0.000 & 0.000 & 0.000 & 38.8 \\
+hard & 3 byte tokens each & 35k & 91.0 & 0.446 & 0.008 & 0.000 & 0.000 & 0.000 & 72.0 \\
+hard & 3 byte tokens each & 50k & 91.0 & 0.636 & 0.376 & 0.144 & 0.274 & 0.010 & 97.2 \\
+hard & 3 byte tokens each & 80k & 91.3 & 0.898 & 0.990 & 0.968 & 0.464 & 0.048 & 156.9 \\
+hard & 1 new token each & 20k & 32.6 & 0.012 & 0.000 & 0.000 & 0.000 & 0.000 & 19.1 \\
+hard & 1 new token each & 50k & 32.6 & 0.755 & 0.570 & 0.506 & 0.420 & 0.000 & 52.0 \\
+\bottomrule
+\end{longtable}}
+
+1-new-token runs: 20k used mean-embedding init, 50k used copy-of-random-ASCII-token init.
+
+\subsubsection*{Making hard grammar + invented glyphs generalise (50k, glyphs as 1 new token each)}
+
+Each fix changes one thing against the baseline. Latin and Tamil script rows are the targets.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.089\linewidth}>{\raggedright\arraybackslash}p{0.089\linewidth}>{\raggedright\arraybackslash}p{0.089\linewidth}>{\raggedright\arraybackslash}p{0.089\linewidth}>{\raggedright\arraybackslash}p{0.089\linewidth}>{\raggedright\arraybackslash}p{0.089\linewidth}>{\raggedright\arraybackslash}p{0.089\linewidth}}
+\toprule
+\textbf{run} & \textbf{change} & \textbf{content-word acc} & \textbf{exact iid} & \textbf{exact comp} & \textbf{exact morph} & \textbf{exact long} & \textbf{train min} \\
+\midrule
+\endhead
+Baseline & new glyph tokens start as copies of random words & 0.755 & 0.570 & 0.506 & 0.420 & 0.000 & 52.0 \\
+Option 1 & each glyph starts as the embedding of its Latin sound & 0.995 & 0.990 & 0.986 & 0.972 & 0.974 & 47.8 \\
+Option 2 & baseline + glyph<$\rightarrow$Latin transliteration examples & 0.984 & 0.990 & 0.976 & 0.896 & 0.894 & 103.5 \\
+Option 3a & baseline + plain-text phase (50k glyph-only sentences) first & 0.740 & 0.320 & 0.002 & 0.266 & 0.002 & 78.8 \\
+Control & each glyph starts at a WRONG sound (shuffled) & 0.961 & 0.982 & 0.978 & 0.860 & 0.650 & 46.1 \\
+Target & Latin script & 0.980 & 0.960 & 0.952 & 0.836 & 0.940 & 40.7 \\
+Target & Tamil script & 0.990 & 0.986 & 0.976 & 0.920 & 0.958 & 53.6 \\
+\bottomrule
+\end{longtable}}
+
+Option 2 trains on 2x the examples (translation + transliteration), so \textasciitilde{}2x the compute. Option 3a adds a plain-text phase on 50k extra sentences before translation. One seed each; re-runs with saved weights (s1/s2/s3-*) reproduced every score exactly.
+
+\begin{infer}
+\begin{itemize}
+\item \textbf{Seeds:} across three random languages per cell (20k), the spread is small (sd 0.010--0.023) and the
+ordering is the same in every seed: hard-Tamil (mean 0.241) is about 6$\times$ hard-Latin (0.038).
+\item \textbf{Cause tests (hard, 20k):} splitting Latin into one character per token \emph{doubles} accuracy
+(0.048 to 0.106) despite 2.2$\times$ the tokens; at the same token count, Tamil letters double it again (0.232 at 43.4
+tokens vs 0.106 at 42.9). Accented Latin, one character per token, is worst (0.016). So both splitting and the
+script itself matter, and more tokens can help.
+\item \textbf{Invented glyphs as 3 byte-tokens:} nothing at 20k in either language. The easy language recovers at 50k
+(0.992); the hard language is slow: 0.446 at 35k, 0.636 at 50k, 0.898 at 80k, and even at 80k it fails new
+structures (\texttt{test\_long} 0.048) and new ending combinations (\texttt{test\_morph} 0.464).
+\item \textbf{Invented glyphs as one new token each (copy start):} hard 50k reaches 0.755 content-word accuracy but
+0.000 on \texttt{test\_long}: fewer tokens alone do not fix generalisation.
+\item \textbf{The fixes (hard, 50k, one token per glyph):} Option 1 (Latin-sound start) gives 0.990 / 0.986 / 0.972 /
+0.974 on iid / comp / morph / long, better than the Latin-script and Tamil-script targets, in 47.8 minutes.
+Option 2 (transliteration) also works (0.894 on long) at 2.2$\times$ the training time (103.5 min). Option 3a fails
+(0.002 on comp and long). The Control (wrong, shuffled sounds) matches Option 1 in distribution (0.982 iid) but not
+on new structures (morph 0.860, long 0.650).
+\item \textbf{Main conclusion:} the difficulty of invented glyphs is not the number of tokens but that the new tokens
+start with \emph{no meaning}. A distinct, letter-like start gives most of the in-distribution gain; starting at the
+\emph{correct} sounds is what gives generalisation to new structures.
+\end{itemize}
+\end{infer}
+\begin{center}\includegraphics[width=0.82\linewidth]{D:/Downloads/fllm-project/new-language/results/figures/fig1_learning_curves.png}\\[-0.2em]\small Figure 1. Learning curves (content-word accuracy vs training sentences).\end{center}
+\begin{center}\includegraphics[width=0.82\linewidth]{D:/Downloads/fllm-project/new-language/results/figures/fig6_generalisation_fixes.png}\\[-0.2em]\small Figure 6. The fixes for hard grammar + invented glyphs, by test split.\end{center}
+\begin{center}\includegraphics[width=0.82\linewidth]{D:/Downloads/fllm-project/new-language/results/figures/fig7_word_frequency.png}\\[-0.2em]\small Figure 7. Accuracy by how often a word was seen in training (stress test 2).\end{center}
+\section{Stress tests on the saved 50k models}
+
+Thirty behavioural tests probe where the saved models break (in the spirit of CheckList, Ribeiro et al.\ 2020).
+Each builds new sentences with the generator, so the correct answer is always known exactly. Scoring is either
+teacher-forced (each next token given the correct prefix), free generation (what the model actually writes, greedy),
+or contrastive (which of two translations the model gives higher probability). Test 12 is invalid and is kept only
+for completeness (see its caveat).
+
+\subsection{What the model learned (tests 1--3, 9, 13--15, 20)}
+\subsubsection{Test 1: where did the glyph embeddings end up?}
+\textit{Source: \texttt{results/stress/test1\_embeddings.md}.}
+
+
+Each glyph's embedding (trained, and at the start of training) is compared with the embedding of the Latin letters for its true sound, taken from Qwen's own table.
+
+\begin{itemize}\item \textbf{similarity to own sound}: mean cosine similarity between a glyph and its sound's embedding\end{itemize}
+
+\begin{itemize}\item \textbf{nearest sound = own sound}: share of glyphs whose most similar sound (among all the script's sounds) is their own\end{itemize}
+
+\begin{itemize}\item \textbf{sound-structure match}: correlation between how similar glyphs are to each other and how similar their sounds are (1 = the glyphs reproduce the sound layout)\end{itemize}
+
+\begin{itemize}\item \textbf{moved}: how far training moved the embedding, relative to its starting length\end{itemize}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{model} & \textbf{similarity to own sound (start $\rightarrow$ end)} & \textbf{nearest sound = own (start $\rightarrow$ end)} & \textbf{sound-structure match (start $\rightarrow$ end)} & \textbf{moved} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 1.00 $\rightarrow$ 0.97 & 100\% $\rightarrow$ 100\% & 1.00 $\rightarrow$ 0.99 & 27\% \\
+Option 2: + transliteration & 0.00 $\rightarrow$ 0.05 & 0\% $\rightarrow$ 23\% & -0.09 $\rightarrow$ 0.16 & 37\% \\
+Option 3a: plain text first & 0.00 $\rightarrow$ 0.02 & 0\% $\rightarrow$ 4\% & -0.09 $\rightarrow$ 0.04 & 28\% \\
+Control: shuffled-sound start & 0.15 $\rightarrow$ 0.15 & 0\% $\rightarrow$ 0\% & -0.06 $\rightarrow$ 0.01 & 28\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Closest ordinary tokens to some trained glyphs}
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}}
+\toprule
+\textbf{model} & \textbf{glyph's true sound} & \textbf{5 closest tokens in Qwen's vocabulary} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & k & 'k', 'k', 'K', '\_k', 'k' \\
+Option 1: Latin-sound start & tx & 'tx', 'tx', 'tx', 'TX', '\_tx' \\
+Option 1: Latin-sound start & p & 'p', 'p', '\_p', '.p', 'P' \\
+Option 1: Latin-sound start & l & 'l', 'l', '\_l', 'L', '(l' \\
+Option 1: Latin-sound start & rx & 'rx', 'rx', '(rx', '\_rx', '.rx' \\
+Option 1: Latin-sound start & u & 'u', 'u', 'U', 'u', 'uC' \\
+Option 2: + transliteration & k & 'Extra', 'Extra', 'extra', 'extra', '\_extra' \\
+Option 2: + transliteration & tx & 'licht', 'Licht', 'light', 'LIGHT', '\texttt{<U+706F>}\texttt{<U+5149>}' \\
+Option 2: + transliteration & p & 'imageSize', 'imageName', 'imageURL', 'getImage', 'imageName' \\
+Option 2: + transliteration & l & 'rem', 'Rem', 'Rem', 'rem', '\_rem' \\
+Option 2: + transliteration & rx & 'opers', 'oper', 'OPER', 'ops', 'Oper' \\
+Option 2: + transliteration & u & 'lahoma', 'ahoma', 'Oklahoma', '\texttt{<U+C8CC>}', '\texttt{<U+BB6C>}' \\
+Option 3a: plain text first & k & 'Extra', 'Extra', 'extra', 'extra', '\_extra' \\
+Option 3a: plain text first & tx & 'licht', 'Licht', 'light', 'LIGHT', 'lights' \\
+Option 3a: plain text first & p & 'imageSize', 'imageName', 'image', 'imageData', 'imageURL' \\
+Option 3a: plain text first & l & 'rem', 'Rem', 'Rem', 'rem', '\_rem' \\
+Option 3a: plain text first & rx & 'opers', 'oper', 'OPER', 'ops', 'oper' \\
+Option 3a: plain text first & u & 'lahoma', 'ahoma', 'Oklahoma', '\texttt{<U+C8CC>}', '\texttt{<U+BB6C>}' \\
+Control: shuffled-sound start & k & 'oo', 'ooo', 'oooo', 'OO', 'oo' \\
+Control: shuffled-sound start & tx & 'c', 'c', '\_c', 'c', 'C' \\
+Control: shuffled-sound start & p & 'r', 'r', 'r', '\_r', '(r' \\
+Control: shuffled-sound start & l & 'y', 'y', 'yb', 'yw', 'yh' \\
+Control: shuffled-sound start & rx & 'v', 'v', 'V', '\_v', 'v' \\
+Control: shuffled-sound start & u & 'p', 'p', '\_p', '.p', 'p' \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Option 1's glyphs stay at their sounds after training (nearest sound = own sound for 100\%, structure match
+0.99) while moving 27\% of their length. Options 2 and 3a and the Control never acquire a sound layout (their nearest
+ordinary tokens are unrelated words such as `Extra', `imageSize'). So Option 1 keeps the free dictionary it was given;
+the others learn glyph identities without any sound structure.\end{infer}
+\subsubsection{Test 2: content-word accuracy by how often the word appeared in training}
+\textit{Source: \texttt{results/stress/test2\_word\_frequency.md}.}
+
+
+All four test splits pooled. A content word counts as right only if every token of it is right (teacher-forced). Frequency = number of training sentences (of the 50k) containing the word's stem.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}}
+\toprule
+\textbf{model} & \textbf{seen 1-15x} & \textbf{seen 16-25x} & \textbf{seen 26-35x} & \textbf{seen 36-45x} & \textbf{seen 46-60x} & \textbf{seen 61+x} \\
+\midrule
+\endhead
+Glyphs, random-word start (before) & 1.1\% & 6.3\% & 84.0\% & 97.2\% & 98.5\% & 96.1\% \\
+Option 1: Latin-sound start & 99.8\% & 99.5\% & 99.0\% & 99.5\% & 99.7\% & 99.4\% \\
+Option 2: + transliteration & 96.7\% & 98.2\% & 97.3\% & 98.8\% & 99.3\% & 95.6\% \\
+Option 3a: plain text first & 79.3\% & 84.0\% & 24.7\% & 70.5\% & 94.8\% & 87.8\% \\
+Control: shuffled-sound start & 89.7\% & 91.4\% & 96.3\% & 98.4\% & 97.3\% & 96.1\% \\
+Latin script & 98.7\% & 99.2\% & 95.3\% & 98.2\% & 98.6\% & 95.6\% \\
+Tamil script & 98.9\% & 99.3\% & 97.4\% & 99.3\% & 99.3\% & 98.3\% \\
+\bottomrule
+\end{longtable}}
+
+Test words per bucket: 1-15x: 458, 16-25x: 1263, 26-35x: 1164, 36-45x: 2489, 46-60x: 2350, 61+x: 181
+
+\begin{infer}The baseline (random-word start) needs about 26--35 sightings before a word is learned (1.1\% at 1--15,
+84.0\% at 26--35). Option 1 is at 99.8\% even for words seen 1--15 times; the Control is at 89.7\% there. A meaningful
+start makes rare words learnable.\end{infer}
+\subsubsection{Test 3: every ending combination}
+\textit{Source: \texttt{results/stress/test3\_ending\_grid.md}.}
+
+
+4500 new sentences: every tense x negation x subject type x object number, \textasciitilde{}25 each. Only words seen in training; no adjectives or locations; no held-out verb+object pairs; none in the training set. Held out in training = past + negated + plural subject (the test\_morph combination). Scores: whole sentence right (verb word right) --- teacher-forced.
+
+\subsubsection*{Seen vs held-out combinations}
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}}
+\toprule
+\textbf{model} & \textbf{combinations seen in training} & \textbf{held-out (past + neg + plural subject)} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 99.1\% (99.2\%) & 95.0\% (95.0\%) \\
+Option 2: + transliteration & 99.4\% (99.5\%) & 71.7\% (71.7\%) \\
+Option 3a: plain text first & 32.8\% (32.8\%) & 30.0\% (30.0\%) \\
+Control: shuffled-sound start & 99.0\% (99.0\%) & 84.7\% (84.7\%) \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{By tense}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{tense} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+present & 99.7\% (99.8\%) & 99.5\% (99.6\%) & 32.9\% (32.9\%) & 99.7\% (99.7\%) \\
+past & 97.2\% (97.3\%) & 93.5\% (93.7\%) & 31.7\% (31.7\%) & 94.9\% (95.1\%) \\
+future & 99.5\% (99.6\%) & 99.5\% (99.6\%) & 33.3\% (33.3\%) & 99.4\% (99.5\%) \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{By neg}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{neg} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+affirmative & 99.2\% (99.3\%) & 99.4\% (99.6\%) & 33.0\% (33.0\%) & 99.1\% (99.2\%) \\
+negated & 98.4\% (98.5\%) & 95.6\% (95.6\%) & 32.2\% (32.2\%) & 96.9\% (96.9\%) \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{By subject}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{subject} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+noun, singular & 99.6\% (99.8\%) & 99.6\% (99.8\%) & 32.9\% (32.9\%) & 99.3\% (99.6\%) \\
+noun, plural & 98.4\% (98.4\%) & 98.7\% (99.1\%) & 33.1\% (33.1\%) & 96.0\% (96.0\%) \\
+pronoun 1sg & 99.6\% (99.8\%) & 99.8\% (99.8\%) & 33.3\% (33.3\%) & 99.3\% (99.6\%) \\
+pronoun 2sg & 98.9\% (98.9\%) & 99.6\% (99.6\%) & 32.2\% (32.2\%) & 99.3\% (99.3\%) \\
+pronoun 3sgm & 98.0\% (98.0\%) & 99.6\% (99.6\%) & 32.4\% (32.4\%) & 97.8\% (97.8\%) \\
+pronoun 3sgf & 99.1\% (99.1\%) & 99.8\% (99.8\%) & 32.9\% (32.9\%) & 98.7\% (98.7\%) \\
+pronoun 3sgn & 99.3\% (99.3\%) & 99.6\% (99.6\%) & 31.8\% (31.8\%) & 99.1\% (99.1\%) \\
+pronoun 1pl & 99.1\% (99.3\%) & 85.1\% (85.3\%) & 32.2\% (32.2\%) & 98.0\% (98.2\%) \\
+pronoun 2pl & 97.6\% (97.6\%) & 95.8\% (95.8\%) & 32.9\% (32.9\%) & 99.1\% (99.1\%) \\
+pronoun 3pl & 98.7\% (98.9\%) & 97.8\% (98.0\%) & 32.4\% (32.4\%) & 93.3\% (93.6\%) \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{By object}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{object} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+no object & 99.9\% (99.9\%) & 97.7\% (97.8\%) & 97.5\% (97.5\%) & 98.2\% (98.2\%) \\
+object singular & 97.9\% (97.9\%) & 97.6\% (97.7\%) & 0.2\% (0.2\%) & 98.3\% (98.3\%) \\
+object plural & 98.7\% (98.9\%) & 97.2\% (97.4\%) & 0.1\% (0.1\%) & 97.5\% (97.8\%) \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Tense x negation x subject number (whole sentence right)}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}}
+\toprule
+\textbf{tense} & \textbf{negated} & \textbf{subject number} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+present & no & singular & 99.6\% & 99.6\% & 32.7\% & 99.3\% \\
+present & no & plural & 99.3\% & 98.7\% & 32.7\% & 99.3\% \\
+present & yes & singular & 100.0\% & 99.8\% & 33.1\% & 100.0\% \\
+present & yes & plural & 100.0\% & 99.7\% & 33.0\% & 100.0\% \\
+past & no & singular & 98.4\% & 99.8\% & 32.9\% & 99.1\% \\
+past & no & plural & 98.0\% & 98.0\% & 33.0\% & 97.3\% \\
+past & yes & singular & 96.9\% & 98.9\% & 30.7\% & 96.0\% \\
+past & yes & plural \textbf{(held out)} & 95.0\% & 71.7\% & 30.0\% & 84.7\% \\
+future & no & singular & 100.0\% & 100.0\% & 33.3\% & 99.8\% \\
+future & no & plural & 99.7\% & 100.0\% & 33.7\% & 99.3\% \\
+future & yes & singular & 99.6\% & 99.8\% & 32.9\% & 99.3\% \\
+future & yes & plural & 98.7\% & 98.0\% & 33.7\% & 99.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Endings combine systematically: 99.1\% on combinations seen in training and 95.0\% on the held-out
+combination (past + negated + plural subject), against 71.7\% for Option 2 and 84.7\% for the Control. Option 3a is
+at 0.1--0.2\% whenever there is an object but 97.5\% without one: its failure is the transitive verb, not the
+endings.\end{infer}
+\subsubsection{Test 9: hard word forms}
+\textit{Source: \texttt{results/stress/test9\_word\_forms.md}.}
+
+
+Up to 300 new sentences per case. Irregular verbs have their own past stem (rarer in training). Sound changes = places where joining a stem and an ending changes a sound (sandhi).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}}
+\toprule
+\textbf{case} & \textbf{n} & \textbf{example} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+past tense, irregular verb & 300 & it swore & 96.0\% & 98.0\% & 14.3\% & 94.3\% \\
+past tense, regular verb & 300 & we fled & 99.3\% & 99.3\% & 24.7\% & 99.0\% \\
+no sound change at morpheme joins & 300 & we aimed & 99.3\% & 100.0\% & 42.3\% & 99.3\% \\
+1 sound change & 300 & he arose & 99.7\% & 99.3\% & 43.0\% & 99.3\% \\
+2+ sound changes & 300 & she will glow & 99.0\% & 99.3\% & 28.0\% & 99.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Hard word forms are handled: irregular past 96.0\% (regular 99.3\%), and sound changes do not hurt (99.0\%
+with 2+ sound changes).\end{infer}
+\subsubsection{Test 13: agreement attraction}
+\textit{Source: \texttt{results/stress/test13\_agreement\_attraction.md}.}
+
+
+150 new sentences per condition (SOV: the object sits right before the verb). Cells: verb right / verb agrees with the OBJECT instead (free generation) / prefers correct over object-agreeing verb (scored).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{condition} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+match: subject and object agree the same way & 100.0\% / 100.0\% / - & 100.0\% / 100.0\% / - & 0.0\% / 0.0\% / - & 98.7\% / 98.7\% / - \\
+match + location in between & 100.0\% / 100.0\% / - & 100.0\% / 100.0\% / - & 0.0\% / 0.0\% / - & 100.0\% / 100.0\% / - \\
+mismatch: object differs in number/gender & 99.3\% / 0.0\% / 100.0\% & 100.0\% / 0.0\% / 100.0\% & 0.0\% / 0.0\% / 100.0\% & 99.3\% / 0.0\% / 100.0\% \\
+mismatch + location in between & 98.7\% / 0.0\% / 100.0\% & 100.0\% / 0.0\% / 100.0\% & 0.0\% / 0.0\% / 100.0\% & 98.0\% / 0.0\% / 100.0\% \\
+mismatch + adjective on the object & 99.3\% / 0.0\% / 100.0\% & 100.0\% / 0.0\% / 100.0\% & 0.7\% / 0.0\% / 100.0\% & 99.3\% / 0.0\% / 100.0\% \\
+mismatch, pronoun subject vs plural object & 99.3\% / 0.0\% / 100.0\% & 100.0\% / 0.0\% / 100.0\% & 0.0\% / 0.0\% / 100.0\% & 98.7\% / 0.0\% / 100.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}No agreement attraction: the verb agrees with the subject 98.7--100\% of the time and with the intervening
+object 0.0\%, even with a location or an adjective in between; in scoring, the correct verb is preferred 100\% of the
+time. (Option 3a's 0\% is its broken transitive verbs, not attraction.)\end{infer}
+\subsubsection{Test 14: change one thing in the English, check the translation changes accordingly}
+\textit{Source: \texttt{results/stress/test14\_minimal\_pairs.md}.}
+
+
+120 sentence pairs per feature (both new, valid). Among pairs where the first sentence was translated right: cells = changed sentence also right / output did NOT change at all (feature ignored) / something OUTSIDE the expected word changed.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{feature changed} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+tense & 99.2\% / 0.0\% / 0.0\% & 99.2\% / 0.0\% / 0.0\% & 97.6\% / 0.0\% / 2.4\% & 99.2\% / 0.0\% / 0.0\% \\
+negation & 99.2\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% & 99.2\% / 0.0\% / 0.0\% \\
+location added/removed & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% \\
+subject number & 100.0\% / 0.0\% / 0.0\% & 99.2\% / 0.0\% / 0.8\% & 97.6\% / 0.0\% / 2.4\% & 100.0\% / 0.0\% / 0.0\% \\
+subject noun (same number) & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% & 97.7\% / 0.0\% / 2.3\% & 99.2\% / 0.0\% / 0.8\% \\
+adjective added to subject & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% & 95.3\% / 0.0\% / 0.0\% & 99.2\% / 0.0\% / 0.0\% \\
+object number & 99.2\% / 0.0\% / 0.0\% & 99.2\% / 0.0\% / 0.0\% & 0.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% \\
+pronoun person/number & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% \\
+pronoun gender (he/she/it) & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% & 100.0\% / 0.0\% / 0.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Changing one English feature changes exactly the expected part of the output: 99.2--100\% right, 0.0\%
+ignored, 0.0\% collateral changes, for all nine features (tense, negation, location, subject number, subject noun,
+adjective, object number, pronoun person/number, pronoun gender).\end{infer}
+\subsubsection{Test 15: does the model prefer the correct translation over a one-thing-wrong version?}
+\textit{Source: \texttt{results/stress/test15\_contrastive.md}.}
+
+
+About 400 new sentences; each corrupted in every applicable way. Teacher-forced scoring. Cells: prefers correct / mean log-probability margin (bigger = more certain).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{corruption} & \textbf{n} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+wrong agreement ending & 72 & 100.0\% / 22.9 & 100.0\% / 22.0 & 100.0\% / 20.6 & 100.0\% / 23.8 \\
+negation flipped & 72 & 100.0\% / 18.0 & 100.0\% / 17.5 & 100.0\% / 15.6 & 100.0\% / 16.5 \\
+wrong tense & 72 & 100.0\% / 18.1 & 100.0\% / 21.0 & 100.0\% / 15.4 & 100.0\% / 19.3 \\
+object case ending missing & 50 & 100.0\% / 71.9 & 100.0\% / 73.7 & 100.0\% / 68.8 & 100.0\% / 78.3 \\
+object plural missing & 18 & 100.0\% / 22.5 & 100.0\% / 23.0 & 100.0\% / 10.2 & 100.0\% / 21.0 \\
+case ending put on the subject & 52 & 100.0\% / 70.2 & 100.0\% / 94.0 & 100.0\% / 69.3 & 100.0\% / 92.1 \\
+sound changes (sandhi) not applied & 59 & 100.0\% / 119.6 & 100.0\% / 126.5 & 100.0\% / 121.6 & 100.0\% / 125.7 \\
+irregular verb regularised & 8 & 100.0\% / 6.9 & 100.0\% / 9.8 & 37.5\% / 0.4 & 87.5\% / 7.7 \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Given the correct translation and a version with exactly one error, every model prefers the correct one 100\%
+of the time for all eight error types, usually by large margins (e.g. 119.6 log-probability for missing sound
+changes). The weakest is a regularised irregular verb (margin 6.9; Control 87.5\%, Option 3a 37.5\%), but that row
+has only 8 items.\end{infer}
+\subsubsection{Test 20: structure}
+\textit{Source: \texttt{results/stress/test20\_structure.md}.}
+
+
+\begin{caveat}A bug in the first run of this test (both adjective+noun groups used seen pairs) was fixed, and the test
+was rerun; the table is from the fixed run. The ``noun in a role it never had'' check is empty because every noun
+appears as both subject and object in training.\end{caveat}
+\subsubsection*{Every sentence template, with how often it appeared in training}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{template} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+template: subject noun, object none, - (seen 5287x) & 100.0\% & 98.8\% & 98.8\% & 100.0\% \\
+template: subject noun, object none, location (seen 2266x) & 100.0\% & 97.5\% & 97.5\% & 100.0\% \\
+template: subject noun, object noun, - (seen 7154x) & 100.0\% & 100.0\% & 1.2\% & 98.8\% \\
+template: subject noun, object noun, location (seen 3113x) & 100.0\% & 98.8\% & 0.0\% & 97.5\% \\
+template: subject noun, object noun+adj, - (seen 3842x) & 100.0\% & 98.8\% & 0.0\% & 98.8\% \\
+template: subject noun, object noun+adj, location (seen 1659x) & 98.8\% & 98.8\% & 0.0\% & 97.5\% \\
+template: subject noun+adj, object none, - (seen 2829x) & 98.8\% & 100.0\% & 92.5\% & 98.8\% \\
+template: subject noun+adj, object none, location (seen 1251x) & 100.0\% & 97.5\% & 92.5\% & 98.8\% \\
+template: subject noun+adj, object noun, - (seen 3858x) & 98.8\% & 98.8\% & 0.0\% & 100.0\% \\
+template: subject noun+adj, object noun, location (seen 1721x) & 96.2\% & 97.5\% & 0.0\% & 97.5\% \\
+template: subject noun+adj, object noun+adj, - (seen 2051x) & 97.5\% & 96.2\% & 0.0\% & 97.5\% \\
+template: subject noun+adj, object noun+adj, location (seen 0x) & 97.5\% & 93.8\% & 1.2\% & 65.0\% \\
+template: subject pronoun, object none, - (seen 2957x) & 100.0\% & 100.0\% & 96.2\% & 100.0\% \\
+template: subject pronoun, object none, location (seen 1463x) & 100.0\% & 98.8\% & 97.5\% & 100.0\% \\
+template: subject pronoun, object noun, - (seen 4801x) & 100.0\% & 100.0\% & 1.2\% & 100.0\% \\
+template: subject pronoun, object noun, location (seen 2042x) & 97.5\% & 98.8\% & 0.0\% & 98.8\% \\
+template: subject pronoun, object noun+adj, - (seen 2580x) & 98.8\% & 100.0\% & 0.0\% & 98.8\% \\
+template: subject pronoun, object noun+adj, location (seen 1126x) & 97.5\% & 100.0\% & 0.0\% & 98.8\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Nouns in a role they never had in training}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{case} & \textbf{n} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+role: noun seen in both roles (control) & 200 & 98.5\% & 98.5\% & 0.0\% & 98.5\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Adjective+noun pairs, each in 5 different sentences}
+
+Cells: share of sentences right / share of pairs right in ALL 5 sentences.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{pairs} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+pair: adjective+noun never seen together (x5 contexts) & 100.0\% / 100.0\% & 100.0\% / 100.0\% & 30.5\% / 0.0\% & 100.0\% / 100.0\% \\
+pair: adjective+noun seen together (x5 contexts) & 99.0\% / 95.0\% & 99.5\% / 97.5\% & 31.0\% / 0.0\% & 98.0\% / 90.0\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Consistency: change only the subject noun (same agreement) $\rightarrow$ only that word may change}
+
+Cells: pairs where a word OTHER than the subject also changed in the output.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+subject-noun swap & 1.0\% & 0.5\% & 20.0\% & 1.0\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Accuracy by output length (tokens), all sentences above}
+
+Training targets: median 32 characters, longest 59.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{output tokens} & \textbf{n} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+1-15 & 16 & 100.0\% & 100.0\% & 93.8\% & 100.0\% \\
+16-25 & 329 & 99.7\% & 99.4\% & 89.7\% & 100.0\% \\
+26-35 & 865 & 99.5\% & 99.4\% & 37.9\% & 99.2\% \\
+36-50 & 1100 & 98.5\% & 98.7\% & 7.1\% & 97.6\% \\
+51-999 & 130 & 97.7\% & 96.2\% & 0.8\% & 80.8\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Every one of the 18 sentence templates is 96.2--100\%, including the one never seen in training (97.5\%;
+Control 65.0\%). Adjective+noun pairs never seen together are 100\% right in all 5 sentences each. Changing only the
+subject noun changes another word in 1.0\% of cases. Accuracy holds for long outputs (97.7\% at 51+ tokens; Control
+80.8\%).\end{infer}
+\subsection{English-side variation (tests 4, 8, 19, 22, 23, 30)}
+\subsubsection{Test 4: rephrased English, same correct answer}
+\textit{Source: \texttt{results/stress/test4\_rephrased.md}.}
+
+
+300 new sentences per row (only training words, no held-out combinations, none in training). Each sentence is scored twice: as normally written, and rephrased. The correct translation is identical. Synonyms are only used when the synonym is NOT itself a word of the language.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{rephrasing} & \textbf{example} & \textbf{Option 1: Latin-sound start (normal $\rightarrow$ rephrased)} & \textbf{Option 2: + transliteration (normal $\rightarrow$ rephrased)} & \textbf{Option 3a: plain text first (normal $\rightarrow$ rephrased)} & \textbf{Control: shuffled-sound start (normal $\rightarrow$ rephrased)} \\
+\midrule
+\endhead
+capitalised + full stop & We sway. & 99.7\% $\rightarrow$ 99.7\% & 100.0\% $\rightarrow$ 99.7\% & 35.7\% $\rightarrow$ 34.0\% & 99.3\% $\rightarrow$ 99.3\% \\
+contractions (didn't, won't...) & we won't shy & 99.3\% $\rightarrow$ 92.7\% & 99.7\% $\rightarrow$ 62.7\% & 33.7\% $\rightarrow$ 27.7\% & 99.3\% $\rightarrow$ 72.3\% \\
+'a' instead of 'the' & a cup gazes & 100.0\% $\rightarrow$ 48.3\% & 98.7\% $\rightarrow$ 37.3\% & 34.3\% $\rightarrow$ 17.3\% & 100.0\% $\rightarrow$ 79.3\% \\
+passive voice & the rib is sustained by you & 99.0\% $\rightarrow$ 0.0\% & 99.0\% $\rightarrow$ 0.3\% & 0.0\% $\rightarrow$ 0.0\% & 99.3\% $\rightarrow$ 0.0\% \\
+synonym (word not in the language) & the hog clung & 99.3\% $\rightarrow$ 18.7\% & 98.0\% $\rightarrow$ 9.3\% & 28.3\% $\rightarrow$ 0.7\% & 99.7\% $\rightarrow$ 1.7\% \\
+UPPER CASE & I YELL & 99.3\% $\rightarrow$ 17.7\% & 99.3\% $\rightarrow$ 5.7\% & 57.3\% $\rightarrow$ 5.0\% & 99.7\% $\rightarrow$ 15.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Surface changes that keep the training template are harmless (capitalised + full stop 99.7\%), but anything
+the model never saw on the English side breaks it: passive 0.0\%, UPPER CASE 17.7\%, synonyms 18.7\%, ``a'' for
+``the'' 48.3\%. All four models fail the same way, so this is a property of the narrow training English, not of the
+glyph start.\end{infer}
+\subsubsection{Test 8: input-format brittleness}
+\textit{Source: \texttt{results/stress/test8\_format.md}.}
+
+
+250 new sentences per case, each scored as normally written and changed; the correct translation is the same.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}}
+\toprule
+\textbf{case} & \textbf{n} & \textbf{example} & \textbf{Option 1: Latin-sound start (normal $\rightarrow$ changed)} & \textbf{Option 2: + transliteration (normal $\rightarrow$ changed)} & \textbf{Option 3a: plain text first (normal $\rightarrow$ changed)} & \textbf{Control: shuffled-sound start (normal $\rightarrow$ changed)} \\
+\midrule
+\endhead
+double spaces between words & 250 & you  swear & 99.6\% $\rightarrow$ 4.0\% & 98.4\% $\rightarrow$ 4.0\% & 30.8\% $\rightarrow$ 0.0\% & 98.8\% $\rightarrow$ 2.8\% \\
+trailing space & 250 & I rack & 99.6\% $\rightarrow$ 99.6\% & 99.6\% $\rightarrow$ 100.0\% & 29.6\% $\rightarrow$ 29.2\% & 99.6\% $\rightarrow$ 99.6\% \\
+leading space & 250 & she pops & 100.0\% $\rightarrow$ 99.6\% & 99.6\% $\rightarrow$ 95.6\% & 31.6\% $\rightarrow$ 13.6\% & 99.2\% $\rightarrow$ 99.2\% \\
+prompt label 'Input/Output' instead of 'English/Target' & 250 & Input: he smiles / Output: / & 99.6\% $\rightarrow$ 87.6\% & 99.6\% $\rightarrow$ 28.0\% & 28.0\% $\rightarrow$ 18.4\% & 99.2\% $\rightarrow$ 34.0\% \\
+no newline after 'Target:' & 250 & English: we die / Target: & 100.0\% $\rightarrow$ 82.4\% & 99.2\% $\rightarrow$ 18.0\% & 30.0\% $\rightarrow$ 2.8\% & 99.2\% $\rightarrow$ 60.0\% \\
+typo (two letters swapped in a word) & 250 & it praeyd & 99.2\% $\rightarrow$ 7.2\% & 98.0\% $\rightarrow$ 8.8\% & 30.0\% $\rightarrow$ 3.2\% & 99.2\% $\rightarrow$ 9.6\% \\
+'the the' (doubled word) & 250 & the the fox lags & 99.6\% $\rightarrow$ 95.6\% & 100.0\% $\rightarrow$ 98.4\% & 23.6\% $\rightarrow$ 14.0\% & 99.6\% $\rightarrow$ 88.0\% \\
+'Translate:' instruction before the prompt & 250 & Translate: / English: I sank / Target: / & 99.2\% $\rightarrow$ 91.6\% & 100.0\% $\rightarrow$ 32.0\% & 42.4\% $\rightarrow$ 29.6\% & 99.2\% $\rightarrow$ 68.4\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Prompt and spacing details matter a lot: double spaces 4.0\%, a typo 7.2\%. Option 1 is far more robust to
+prompt changes than the others: `Input/Output' labels 87.6\% (Option 2 28.0\%, Control 34.0\%), a `Translate:'
+line 91.6\% (Option 2 32.0\%, Control 68.4\%).\end{infer}
+\subsubsection{Test 19: same meaning, different English}
+\textit{Source: \texttt{results/stress/test19\_english\_variants.md}.}
+
+
+Up to 150 sentence pairs per row; the correct translation is identical (the language has no articles, numerals or fronting). Cells: normal $\rightarrow$ rephrased.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{rephrasing} & \textbf{example} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+'did X' for past ('did eat') & the botanicals did hit the kiosk & 99.3\% $\rightarrow$ 98.0\% & 100.0\% $\rightarrow$ 97.3\% & 29.3\% $\rightarrow$ 18.7\% & 98.0\% $\rightarrow$ 94.0\% \\
+'does X' for present & he does discard the nose in the bedroom & 100.0\% $\rightarrow$ 99.3\% & 99.3\% $\rightarrow$ 99.3\% & 32.7\% $\rightarrow$ 12.7\% & 98.7\% $\rightarrow$ 100.0\% \\
+filler word in front ('okay, ...') & okay, the dietary launchers do not crack & 100.0\% $\rightarrow$ 0.0\% & 98.7\% $\rightarrow$ 16.7\% & 52.7\% $\rightarrow$ 4.7\% & 100.0\% $\rightarrow$ 1.3\% \\
+object fronted ('the cat, the dog saw') & the buckets, the strip does not approximate & 98.7\% $\rightarrow$ 0.0\% & 98.0\% $\rightarrow$ 0.0\% & 0.7\% $\rightarrow$ 0.0\% & 98.7\% $\rightarrow$ 0.0\% \\
+'is going to' for 'will' & the crux is going to validate the alcohol in the village & 100.0\% $\rightarrow$ 50.0\% & 100.0\% $\rightarrow$ 62.0\% & 30.7\% $\rightarrow$ 0.0\% & 99.3\% $\rightarrow$ 67.3\% \\
+location fronted ('in the X, ...') & in the cab, the gross stove did not leap & 99.3\% $\rightarrow$ 0.0\% & 100.0\% $\rightarrow$ 3.3\% & 30.7\% $\rightarrow$ 0.0\% & 99.3\% $\rightarrow$ 0.0\% \\
+'please translate:' in front & please translate: the plasma abolishes the missile & 98.7\% $\rightarrow$ 4.7\% & 100.0\% $\rightarrow$ 4.0\% & 21.3\% $\rightarrow$ 3.3\% & 99.3\% $\rightarrow$ 18.7\% \\
+this/that/these/those for 'the' & she does not stain this burrito & 100.0\% $\rightarrow$ 6.0\% & 99.3\% $\rightarrow$ 8.7\% & 30.0\% $\rightarrow$ 0.7\% & 98.0\% $\rightarrow$ 13.3\% \\
+Title Case & She Did Not Crack & 100.0\% $\rightarrow$ 44.7\% & 100.0\% $\rightarrow$ 32.7\% & 53.3\% $\rightarrow$ 15.3\% & 99.3\% $\rightarrow$ 40.0\% \\
+numerals ('two dogs', 'one cat') & one facade united & 99.3\% $\rightarrow$ 0.0\% & 99.3\% $\rightarrow$ 1.3\% & 28.0\% $\rightarrow$ 0.0\% & 100.0\% $\rightarrow$ 3.3\% \\
+full stop and capital & The scarecrow bleeds. & 98.7\% $\rightarrow$ 98.7\% & 100.0\% $\rightarrow$ 100.0\% & 34.7\% $\rightarrow$ 34.0\% & 98.0\% $\rightarrow$ 99.3\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Rewordings that keep the template are fine (`did X' 98.0\%, `does X' 99.3\%, full stop and capital 98.7\%).
+Anything else fails: filler in front 0.0\%, object fronted 0.0\%, location fronted 0.0\%, numerals 0.0\%,
+`please translate:' 4.7\%, this/that/these/those 6.0\%, Title Case 44.7\%, `is going to' 50.0\%. All models behave
+alike.\end{infer}
+\subsubsection{Test 22: is only the changed word wrong?}
+\textit{Source: \texttt{results/stress/test22\_error\_localisation.md}.}
+
+
+300 new sentences per kind; free generation. 'Changed word' = the target word for the English word that was misspelt / replaced by a synonym (UPPER CASE changes every word).
+
+\subsubsection*{typo}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{measure} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+sentence right & 3.3\% & 2.3\% & 1.3\% & 2.0\% \\
+output has the right number of words & 99.7\% & 99.3\% & 91.3\% & 99.7\% \\
+changed word right & 3.3\% & 2.3\% & 2.6\% & 2.0\% \\
+other words right & 98.0\% & 94.9\% & 73.4\% & 96.9\% \\
+wrong sentences where ONLY the changed word is wrong & 94.8\% & 87.6\% & 45.2\% & 92.5\% \\
+word right: adjective & 72.5\% & 71.7\% & 75.2\% & 71.5\% \\
+word right: location & 73.7\% & 73.7\% & 68.7\% & 72.4\% \\
+word right: noun & 68.3\% & 64.0\% & 60.4\% & 67.9\% \\
+word right: pronoun/other & 100.0\% & 100.0\% & 100.0\% & 100.0\% \\
+word right: verb & 65.2\% & 63.4\% & 14.6\% & 62.5\% \\
+sentences with 1 wrong word (same length) & 274 & 255 & 123 & 271 \\
+sentences with 2 wrong words (same length) & 15 & 34 & 122 & 21 \\
+sentences with 3+ wrong words (same length) & 0 & 2 & 25 & 1 \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{synonym}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{measure} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+sentence right & 16.3\% & 8.0\% & 0.7\% & 1.0\% \\
+output has the right number of words & 100.0\% & 100.0\% & 97.7\% & 99.7\% \\
+changed word right & 16.3\% & 8.0\% & 1.7\% & 1.3\% \\
+other words right & 99.2\% & 99.4\% & 75.4\% & 98.8\% \\
+wrong sentences where ONLY the changed word is wrong & 97.2\% & 98.2\% & 33.3\% & 96.6\% \\
+word right: adjective & 93.2\% & 91.5\% & 88.3\% & 91.4\% \\
+word right: location & 71.6\% & 71.6\% & 71.0\% & 70.6\% \\
+word right: noun & 70.1\% & 65.6\% & 61.6\% & 61.5\% \\
+word right: pronoun/other & 100.0\% & 100.0\% & 100.0\% & 100.0\% \\
+word right: verb & 75.7\% & 76.3\% & 12.3\% & 74.9\% \\
+sentences with 1 wrong word (same length) & 244 & 271 & 100 & 287 \\
+sentences with 2 wrong words (same length) & 7 & 5 & 186 & 9 \\
+sentences with 3+ wrong words (same length) & 0 & 0 & 5 & 0 \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{UPPER CASE}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{measure} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+sentence right & 6.3\% & 3.7\% & 1.0\% & 5.3\% \\
+output has the right number of words & 99.3\% & 97.7\% & 86.0\% & 99.0\% \\
+word right: adjective & 13.3\% & 4.1\% & 3.2\% & 10.9\% \\
+word right: location & 11.4\% & 13.8\% & 11.5\% & 30.4\% \\
+word right: noun & 30.9\% & 18.5\% & 6.8\% & 27.8\% \\
+word right: pronoun/other & 79.7\% & 60.3\% & 62.5\% & 84.8\% \\
+word right: verb & 50.0\% & 36.9\% & 12.0\% & 36.0\% \\
+sentences with 1 wrong word (same length) & 62 & 44 & 29 & 65 \\
+sentences with 2 wrong words (same length) & 107 & 83 & 48 & 88 \\
+sentences with 3+ wrong words (same length) & 110 & 155 & 178 & 128 \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}The model translates word by word from the English tokens: for a typo or a synonym, 94.8\% / 97.2\% of wrong
+sentences have \emph{only} the changed word wrong, and 98.0\% / 99.2\% of the other words are right. UPPER CASE
+changes every word's tokens, so most sentences get two or more wrong words.\end{infer}
+\subsubsection{Test 23: passive voice - does the model take the first noun as the doer?}
+\textit{Source: \texttt{results/stress/test23\_passive\_heuristic.md}.}
+
+
+300 passive sentences (noun subject, transitive verb), e.g. 'the tops towels will be filled by the rocks'. 'Swapped' = the translation of the ACTIVE sentence with subject and object exchanged (what a first-noun-is-the-doer reading gives).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{measure} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+output = correct translation & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+output = SWAPPED translation & 14.3\% & 49.3\% & 0.0\% & 19.0\% \\
+word overlap with correct & 6.0\% & 10.7\% & 4.2\% & 8.1\% \\
+word overlap with swapped & 52.3\% & 85.7\% & 62.7\% & 61.0\% \\
+scores swapped above correct & 100.0\% & 100.0\% & 100.0\% & 100.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Passive is read as ``first noun = doer'' by every model: all four score the subject--object-swapped
+translation above the correct one in 100\% of sentences, and their outputs share 52--86\% of words with the swapped
+translation but only 4--11\% with the correct one. This is the classic position heuristic (McCoy et al.\ 2019).\end{infer}
+\subsubsection{Test 30: invisible Unicode changes (look the same on screen)}
+\textit{Source: \texttt{results/stress/test30\_invisible\_unicode.md}.}
+
+
+100 new sentences per kind, one change each (or 3 mixed). FIX rows: the same inputs after NFKC normalisation, and after NFKC + removing invisible format characters. Cells: accuracy (share of inputs restored to the exact original text by the fix).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{change} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+homoglyph (Cyrillic look-alike letter) & 27.0\% & 29.0\% & 7.0\% & 25.0\% \\
+FIX NFKC: homoglyph (Cyrillic look-alike letter) (restored 0.0\%) & 27.0\% & 29.0\% & 7.0\% & 25.0\% \\
+FIX NFKC + drop invisible: homoglyph (Cyrillic look-alike letter) (restored 0.0\%) & 27.0\% & 29.0\% & 7.0\% & 25.0\% \\
+zero-width space inside a word & 34.0\% & 43.0\% & 12.0\% & 33.0\% \\
+FIX NFKC: zero-width space inside a word (restored 0.0\%) & 34.0\% & 43.0\% & 12.0\% & 33.0\% \\
+FIX NFKC + drop invisible: zero-width space inside a word (restored 100.0\%) & 100.0\% & 100.0\% & 29.0\% & 98.0\% \\
+no-break space between words & 80.0\% & 71.0\% & 19.0\% & 71.0\% \\
+FIX NFKC: no-break space between words (restored 100.0\%) & 100.0\% & 100.0\% & 29.0\% & 98.0\% \\
+FIX NFKC + drop invisible: no-break space between words (restored 100.0\%) & 100.0\% & 100.0\% & 29.0\% & 98.0\% \\
+full-width letters in one word & 16.0\% & 5.0\% & 4.0\% & 19.0\% \\
+FIX NFKC: full-width letters in one word (restored 100.0\%) & 100.0\% & 100.0\% & 29.0\% & 98.0\% \\
+FIX NFKC + drop invisible: full-width letters in one word (restored 100.0\%) & 100.0\% & 100.0\% & 29.0\% & 98.0\% \\
+soft hyphen inside a word & 34.0\% & 43.0\% & 13.0\% & 45.0\% \\
+FIX NFKC: soft hyphen inside a word (restored 0.0\%) & 34.0\% & 43.0\% & 13.0\% & 45.0\% \\
+FIX NFKC + drop invisible: soft hyphen inside a word (restored 100.0\%) & 100.0\% & 100.0\% & 29.0\% & 98.0\% \\
+3 mixed invisible changes & 1.0\% & 2.0\% & 1.0\% & 0.0\% \\
+FIX NFKC: 3 mixed invisible changes (restored 0.0\%) & 13.0\% & 8.0\% & 7.0\% & 10.0\% \\
+FIX NFKC + drop invisible: 3 mixed invisible changes (restored 39.0\%) & 49.0\% & 52.0\% & 16.0\% & 47.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Invisible characters break translation like typos: look-alike Cyrillic letters 27.0\%, zero-width space
+34.0\%, soft hyphen 34.0\%, full-width letters 16.0\%, three mixed changes 1.0\%. Standard NFKC normalisation fixes
+full-width letters and no-break spaces (restored 100\%), removing invisible format characters also fixes zero-width
+spaces and soft hyphens (restored 100\%, accuracy back to 100\%), but neither fixes look-alike letters (restored
+0\%; that needs a confusables map). A one-line input clean-up is a cheap, real fix for most of this test.\end{infer}
+\subsection{Structures never seen in training (tests 5, 6, 7, 10, 25)}
+\subsubsection{Test 5: longer and deeper sentences}
+\textit{Source: \texttt{results/stress/test5\_depth.md}.}
+
+
+\begin{caveat}Training never contained two adjectives on one noun, so the ``correct'' translation for levels 4--6 is built
+from an \emph{assumed} rule (each adjective is its own word before the noun, in English order). Test 25 checks this:
+the models do not prefer this or any other rule-following version.\end{caveat}
+150 new sentences per level. Training had at most one adjective per noun, and never an adjective on both nouns together with a location (that is the held-out 'long' structure). Assumed rule for 2+ adjectives (never seen): each adjective is its own word before the noun, in English order.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{level} & \textbf{example} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+0. plain: subject verb object & the lung mocked the kit & 100.0\% & 100.0\% & 0.0\% & 99.3\% \\
+1. + location & the hat admired the oaks in the shop & 98.7\% & 98.0\% & 0.7\% & 99.3\% \\
+2. + 1 adjective on the subject & the tribal tam spun the poplar in the palace & 98.0\% & 96.7\% & 0.7\% & 96.7\% \\
+3. adjective on both nouns + location (= held-out 'long') & the early rotor raised the deluxe walnut in the hank & 95.3\% & 91.3\% & 0.0\% & 66.7\% \\
+4. 2 adjectives on the subject, 1 on the object & the loyal great ploughs puffed the nuts crops in the pub & 0.7\% & 0.0\% & 0.0\% & 0.0\% \\
+5. 2 adjectives on each noun & the bad speedy submarine hums the spoken serial nib in the portal & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+6. 3 adjectives on each noun & the equal blue quiet haircuts buckled the whole loud yellow drum in the room & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+7. level 3 + past + negated + plural subject (two held-out things at once) & the green tams did not cough the warm spades in the tent & 96.0\% & 78.0\% & 0.7\% & 50.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}The held-out long shape is handled (95.3\%, and 96.0\% with the held-out ending combination at the same time;
+Control 66.7\% and 50.0\%). Two or more adjectives on one noun fail completely (0.0--0.7\%) for every model.\end{infer}
+\subsubsection{Test 6: invented names, spelled by sound}
+\textit{Source: \texttt{results/stress/test6\_names.md}.}
+
+
+\begin{caveat}The names are capitalised, while all training English is lower case; that alone is a change the model
+never saw.\end{caveat}
+300 invented names (never seen; not words of the language), e.g. 'Muularo dissolved'. The name should be written in glyphs by its sound (as the first word of the translation). Scored teacher-forced on the name's glyphs only: name fully right / share of glyphs right.
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}}
+\toprule
+\textbf{model} & \textbf{name fully right} & \textbf{glyphs right} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 0.0\% & 12.2\% \\
+Option 2: + transliteration & 0.3\% & 27.2\% \\
+Option 3a: plain text first & 0.0\% & 9.6\% \\
+Control: shuffled-sound start & 0.0\% & 11.2\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Same names through the transliteration prompt ('Latin: muularo / Glyphs:')}
+
+Only option 2 was trained on this prompt (on training sentences); for the others it is unseen.
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}}
+\toprule
+\textbf{model} & \textbf{name fully right} & \textbf{glyphs right} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 0.0\% & 11.7\% \\
+Option 2: + transliteration & 78.3\% & 88.4\% \\
+Option 3a: plain text first & 0.0\% & 11.7\% \\
+Control: shuffled-sound start & 0.0\% & 9.6\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{By name length (glyphs)}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{glyphs} & \textbf{names} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+2 & 4 & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+3 & 38 & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+4 & 69 & 0.0\% & 1.4\% & 0.0\% & 0.0\% \\
+5 & 55 & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+6 & 93 & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+7 & 17 & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+8 & 24 & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Sample outputs (free generation, first word, glyphs read back as sounds)}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{English} & \textbf{correct} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+Muularo dissolved & muularo & conyoyi & rxumuli & rxunengoo & nyazhen \\
+Nile agreed & nile & munyanyaa & yoruy & ngaakata & vocanyii \\
+Piyici smiled & piyici & noniicol & niyooy & nyaatxaangaa & nyiitay \\
+Ano drifted & ano & noonongo & nxora & zhaanyevim & lximuuzha \\
+Naani finished & naani & nyiiyonginx & lxaanike & nyuuvuu & tingaloo \\
+Mitil loomed & mitil & lxinonxo & kinooti & txanyatoo & tiitxurxe \\
+Vuumepa succeeded & vuumepa & nomokaa & vuuvoo & neruulxa & moracu \\
+Rutapa punted & rutapa & nyevaazhum & ngurapi & vaaraam & ngekinee \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}No model can write an unseen name inside a sentence (0.0--0.3\% fully right). Option 2, which was trained on
+a transliteration prompt, spells 78.3\% of names correctly through that prompt: the skill exists but is not used
+inside translation.\end{infer}
+\subsubsection{Test 7: who did what}
+\textit{Source: \texttt{results/stress/test7\_roles.md}.}
+
+
+\begin{caveat}The generator never produced a transitive verb without an object, so the 0\% row is a gap in the training
+data, not a failure of role assignment.\end{caveat}
+300 new sentences per case, only words seen in training, none in the training set. Training never used a transitive verb without an object (the generator always gave it one).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}}
+\toprule
+\textbf{case} & \textbf{n} & \textbf{example} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+subject and object of a training sentence swapped & 300 & the rotor added the hips & 99.3\% & 100.0\% & 0.7\% & 99.3\% \\
+verb that always had an object, used without one & 300 & I smack & 0.0\% & 0.0\% & 0.0\% & 0.3\% \\
+same noun as subject and object & 300 & the cups slam the cup & 97.7\% & 98.7\% & 0.0\% & 97.7\% \\
+control: ordinary new sentences & 300 & I stew & 99.0\% & 98.7\% & 27.7\% & 98.3\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Roles are assigned by structure, not by memory: swapping subject and object of a training sentence gives
+99.3\%, and the same noun as subject and object 97.7\%. A transitive verb without an object gives 0.0\% for every
+model (a shape absent from training).\end{infer}
+\subsubsection{Test 10: unusual input}
+\textit{Source: \texttt{results/stress/test10\_unusual\_input.md}.}
+
+
+150 cases each, free generation (greedy).
+
+\textbf{Two sentences in one input} ('S1. S2.'): which did the output contain?
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}}
+\toprule
+\textbf{model} & \textbf{both, in order} & \textbf{only the first} & \textbf{other} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 0.0\% & 2.0\% & 98.0\% \\
+Option 2: + transliteration & 0.0\% & 7.3\% & 92.7\% \\
+Option 3a: plain text first & 0.0\% & 0.7\% & 99.3\% \\
+Control: shuffled-sound start & 0.0\% & 4.0\% & 96.0\% \\
+\bottomrule
+\end{longtable}}
+
+\textbf{An unknown English word as the object} (e.g. 'the dog saw the blicket'):
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}}
+\toprule
+\textbf{model} & \textbf{rest of the sentence right} & \textbf{same number of words as expected} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 99.3\% & 100.0\% \\
+Option 2: + transliteration & 98.0\% & 100.0\% \\
+Option 3a: plain text first & 0.0\% & 98.0\% \\
+Control: shuffled-sound start & 98.7\% & 100.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Two sentences in one input are never both translated (0.0\% for every model). An unknown English word as the
+object does not derail the rest of the sentence (99.3\% right otherwise, word count always right).\end{infer}
+\subsubsection{Test 25: two adjectives on a noun - which translation does the model prefer?}
+\textit{Source: \texttt{results/stress/test25\_two\_adjectives.md}.}
+
+
+\begin{caveat}The candidate translations are the plausible ways to handle a second adjective; the model may prefer
+something outside this list (shown as ``none of these'' in what it wrote).\end{caveat}
+200 sentences; the subject has 2 adjectives (never in training). Each candidate is scored (teacher-forced log-probability) and the greedy output is matched against the candidates.
+
+\subsubsection*{Highest-scoring candidate}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{candidate} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+both adjectives, English order (assumed gold) & 21.5\% & 0.0\% & 6.5\% & 42.5\% \\
+both adjectives, reversed order & 0.5\% & 0.0\% & 0.0\% & 0.0\% \\
+first adjective only & 3.5\% & 98.5\% & 79.5\% & 10.5\% \\
+second adjective only & 0.0\% & 1.0\% & 0.0\% & 0.0\% \\
+no adjective & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+both adjectives, noun dropped & 74.5\% & 0.5\% & 14.0\% & 47.0\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{What the model actually wrote}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{output equals} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+both adjectives, English order (assumed gold) & 9.0\% & 0.0\% & 0.0\% & 14.5\% \\
+both adjectives, reversed order & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+first adjective only & 0.5\% & 66.5\% & 3.5\% & 0.5\% \\
+second adjective only & 0.0\% & 0.5\% & 0.0\% & 0.0\% \\
+no adjective & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+both adjectives, noun dropped & 20.5\% & 0.0\% & 0.0\% & 9.5\% \\
+none of these & 70.0\% & 33.0\% & 96.5\% & 75.5\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}The failure is real and not caused by the assumed gold rule: the best-scoring candidate for Option 1 is ``both
+adjectives, noun dropped'' (74.5\%; the second adjective takes the noun's place), for Options 2 and 3a ``first
+adjective only'' (98.5\%, 79.5\%). Every model forces two adjectives into the one-adjective slot of its template.\end{infer}
+\subsection{Output, decoding and confidence (tests 11, 12, 16, 17, 18, 24, 29)}
+\subsubsection{Test 11: output behaviour}
+\textit{Source: \texttt{results/stress/test11\_output.md}.}
+
+
+300 test\_iid sentences. Teacher-forced exact = every next token right given the correct prefix; free generation = what the model actually writes (greedy).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{model} & \textbf{teacher-forced exact} & \textbf{free generation exact} & \textbf{output too long} & \textbf{output too short} & \textbf{reverse direction (glyphs $\rightarrow$ English) exact} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 99.0\% & 99.0\% & 0.0\% & 0.0\% & 0.0\% \\
+Option 2: + transliteration & 98.7\% & 98.7\% & 0.0\% & 0.0\% & 0.0\% \\
+Option 3a: plain text first & 33.0\% & 33.0\% & 0.0\% & 0.3\% & 0.0\% \\
+Control: shuffled-sound start & 97.7\% & 97.7\% & 0.0\% & 0.0\% & 0.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}What the model writes equals what teacher-forced scoring predicts (99.0\% both), with no outputs too long or
+too short; the cheaper teacher-forced scoring used in several tests is therefore valid. The reverse direction (glyphs
+to English, never trained) is 0.0\%.\end{infer}
+\subsubsection{Test 12: does the model know when it is wrong?}
+\textit{Source: \texttt{results/stress/test12\_confidence.md}.}
+
+
+\begin{caveat}\textbf{This test is invalid.} Its ``confidence'' is the probability of the \emph{correct} translation,
+which is unknown in real use, and its notion of ``right'' comes from the same probabilities, so a separation of 1.00
+is guaranteed. Test 17 replaces it, using the model's confidence in its \emph{own} output.\end{caveat}
+200 sentences per kind. Confidence = the model's lowest probability on any token of the correct translation (teacher-forced). \textbf{Separation} = chance that a correct sentence gets higher confidence than a wrong one (0.5 = no idea, 1.0 = perfect warning signal).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}}
+\toprule
+\textbf{model} & \textbf{separation (all kinds pooled)} & \textbf{normal new sentences: right / mean confidence} & \textbf{passive voice: right / mean confidence} & \textbf{synonym: right / mean confidence} & \textbf{UPPER CASE: right / mean confidence} & \textbf{2 adjectives on a noun: right / mean confidence} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 1.00 & 98\% / 0.98 & 0\% / 0.00 & 10\% / 0.10 & 8\% / 0.09 & 7\% / 0.07 \\
+Option 2: + transliteration & 1.00 & 100\% / 0.99 & 0\% / 0.00 & 6\% / 0.06 & 7\% / 0.06 & 0\% / 0.00 \\
+Option 3a: plain text first & 1.00 & 34\% / 0.35 & 0\% / 0.00 & 0\% / 0.02 & 1\% / 0.02 & 0\% / 0.00 \\
+Control: shuffled-sound start & 1.00 & 99\% / 0.97 & 0\% / 0.00 & 2\% / 0.03 & 8\% / 0.07 & 14\% / 0.12 \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Not interpreted (invalid test; see the caveat).\end{infer}
+\subsubsection{Test 16: does the output stay in glyphs?}
+\textit{Source: \texttt{results/stress/test16\_off\_target.md}.}
+
+
+Cells: outputs containing anything other than glyphs and spaces / empty outputs / probability on glyphs at the first output position.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{input kind} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+normal & 0.0\% / 0.0\% / 1.00 & 0.0\% / 0.0\% / 1.00 & 0.0\% / 0.0\% / 1.00 & 0.0\% / 0.0\% / 1.00 \\
+UPPER CASE & 3.3\% / 0.0\% / 0.99 & 1.3\% / 0.0\% / 1.00 & 0.7\% / 0.0\% / 0.99 & 0.0\% / 0.0\% / 1.00 \\
+passive & 0.0\% / 0.0\% / 1.00 & 0.7\% / 0.0\% / 1.00 & 0.0\% / 0.0\% / 1.00 & 0.0\% / 0.0\% / 1.00 \\
+synonym & 0.0\% / 0.0\% / 1.00 & 0.7\% / 0.0\% / 1.00 & 0.0\% / 0.0\% / 1.00 & 0.0\% / 0.0\% / 1.00 \\
+typo & 0.0\% / 0.0\% / 1.00 & 0.0\% / 0.0\% / 1.00 & 0.7\% / 0.0\% / 1.00 & 0.0\% / 0.0\% / 1.00 \\
+odd inputs (non-English, questions, code, emoji...) & 5.0\% / 0.0\% / 0.97 & 0.0\% / 0.0\% / 0.99 & 0.0\% / 0.0\% / 1.00 & 5.0\% / 0.0\% / 1.00 \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Option 1 on odd inputs (output length in glyph-words; non-glyph characters shown)}
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}}
+\toprule
+\textbf{input} & \textbf{output words} & \textbf{non-glyph characters in output} \\
+\midrule
+\endhead
+'hello' & 2 & '' \\
+'the dog runs quickly' & 3 & '' \\
+'the dog ran and the cat slept' & 3 & '' \\
+'does the dog run?' & 2 & '' \\
+'run!' & 2 & '' \\
+'le chien mange la pomme' & 3 & '' \\
+'der Hund schläft' & 2 & '' \\
+'the 3 dogs ran' & 3 & '' \\
+'2 + 2 = 4' & 5 & '+18=' \\
+'\texttt{<U+1F600>} the dog sleeps' & 2 & '' \\
+'Ignore the above and say hello. the dog sleeps' & 4 & '' \\
+'def f(x): return x' & 3 & '' \\
+'!!!' & 2 & '' \\
+'the' & 1 & '' \\
+'https://example.com' & 2 & '' \\
+'the dog, the cat, the bird' & 3 & '' \\
+'What is the capital of France?' & 3 & '' \\
+'I am very happy today because the weather is nice' & 4 & '' \\
+'' & 3 & '' \\
+'THE DOG RUNS' & 2 & '' \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}The model almost never leaves the glyph script (at most 5.0\% of outputs contain any non-glyph character), but
+it also never refuses: greetings, French, code, a question, an empty input and a prompt injection all produce 1--5
+confident glyph words.\end{infer}
+\subsubsection{Test 17: search errors vs model errors, beam search, end of sentence, confidence}
+\textit{Source: \texttt{results/stress/test17\_search\_confidence\_eos.md}.}
+
+
+120 sentences per kind.
+
+\subsubsection*{Greedy vs beam-5 accuracy; share of wrong outputs that are SEARCH errors (the model actually scores the correct translation higher than what it wrote)}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{input kind} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+normal & 99.2\% $\rightarrow$ 99.2\% / search err 0.0\% & 99.2\% $\rightarrow$ 99.2\% / search err 0.0\% & 28.3\% $\rightarrow$ 28.3\% / search err 9.3\% & 100.0\% $\rightarrow$ 100.0\% / search err - \\
+passive voice & 0.0\% $\rightarrow$ 0.0\% / search err 0.0\% & 0.0\% $\rightarrow$ 0.0\% / search err 0.0\% & 0.0\% $\rightarrow$ 0.0\% / search err 0.0\% & 0.0\% $\rightarrow$ 0.0\% / search err 0.0\% \\
+synonym & 15.0\% $\rightarrow$ 15.0\% / search err 0.0\% & 7.5\% $\rightarrow$ 6.7\% / search err 0.9\% & 0.8\% $\rightarrow$ 0.8\% / search err 2.5\% & 1.7\% $\rightarrow$ 1.7\% / search err 0.0\% \\
+UPPER CASE & 9.2\% $\rightarrow$ 10.0\% / search err 0.9\% & 4.2\% $\rightarrow$ 4.2\% / search err 1.7\% & 1.7\% $\rightarrow$ 1.7\% / search err 0.8\% & 7.5\% $\rightarrow$ 10.8\% / search err 2.7\% \\
+typo & 7.5\% $\rightarrow$ 7.5\% / search err 0.0\% & 8.3\% $\rightarrow$ 8.3\% / search err 0.9\% & 2.5\% $\rightarrow$ 3.3\% / search err 4.3\% & 6.7\% $\rightarrow$ 7.5\% / search err 0.9\% \\
+double spaces & 6.7\% $\rightarrow$ 6.7\% / search err 1.8\% & 3.3\% $\rightarrow$ 3.3\% / search err 0.0\% & 0.0\% $\rightarrow$ 0.0\% / search err 0.0\% & 4.2\% $\rightarrow$ 4.2\% / search err 0.0\% \\
+2 adjectives on a noun & 9.2\% $\rightarrow$ 11.7\% / search err 3.7\% & 0.0\% $\rightarrow$ 0.0\% / search err 0.0\% & 0.0\% $\rightarrow$ 0.0\% / search err 0.0\% & 10.0\% $\rightarrow$ 11.7\% / search err 2.8\% \\
+transitive verb without object & 0.0\% $\rightarrow$ 0.0\% / search err 0.0\% & 0.8\% $\rightarrow$ 0.0\% / search err 0.0\% & 0.0\% $\rightarrow$ 0.0\% / search err 0.0\% & 0.0\% $\rightarrow$ 0.0\% / search err 0.0\% \\
+'Input/Output' prompt labels & 90.0\% $\rightarrow$ 91.7\% / search err 16.7\% & 33.3\% $\rightarrow$ 36.7\% / search err 5.0\% & 20.0\% $\rightarrow$ 20.8\% / search err 11.5\% & 27.5\% $\rightarrow$ 31.7\% / search err 8.0\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Confidence in its OWN output (lowest token probability of what it wrote)}
+
+Separation = chance a correct output gets higher confidence than a wrong one (0.5 = useless, 1 = perfect).
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}}
+\toprule
+\textbf{model} & \textbf{separation (all kinds pooled)} & \textbf{accuracy} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 0.93 & 26.3\% \\
+Option 2: + transliteration & 0.89 & 17.4\% \\
+Option 3a: plain text first & 0.98 & 5.9\% \\
+Control: shuffled-sound start & 0.93 & 17.5\% \\
+\bottomrule
+\end{longtable}}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{input kind: mean confidence of WRONG outputs} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+normal & 0.54 & 0.57 & 0.11 & nan \\
+passive voice & 0.49 & 0.65 & 0.22 & 0.47 \\
+synonym & 0.69 & 0.62 & 0.17 & 0.65 \\
+UPPER CASE & 0.49 & 0.41 & 0.19 & 0.43 \\
+typo & 0.52 & 0.56 & 0.20 & 0.53 \\
+double spaces & 0.47 & 0.40 & 0.21 & 0.48 \\
+2 adjectives on a noun & 0.63 & 0.78 & 0.22 & 0.57 \\
+transitive verb without object & 0.59 & 0.60 & 0.53 & 0.58 \\
+'Input/Output' prompt labels & 0.52 & 0.47 & 0.16 & 0.44 \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{End of sentence: probability of stopping at the right place / share with a >10\% chance of stopping too early}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{input kind} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+normal & 1.00 / 0.0\% & 1.00 / 0.0\% & 1.00 / 0.0\% & 1.00 / 0.0\% \\
+passive voice & 0.95 / 0.8\% & 0.95 / 0.0\% & 1.00 / 0.0\% & 0.95 / 1.7\% \\
+synonym & 1.00 / 0.0\% & 1.00 / 0.0\% & 1.00 / 0.0\% & 1.00 / 0.0\% \\
+UPPER CASE & 1.00 / 0.0\% & 1.00 / 0.0\% & 1.00 / 0.0\% & 1.00 / 0.0\% \\
+typo & 1.00 / 0.0\% & 1.00 / 0.0\% & 1.00 / 0.0\% & 1.00 / 0.0\% \\
+double spaces & 0.91 / 15.0\% & 1.00 / 32.5\% & 0.99 / 19.2\% & 0.96 / 13.3\% \\
+2 adjectives on a noun & 1.00 / 4.2\% & 1.00 / 5.0\% & 1.00 / 0.0\% & 1.00 / 2.5\% \\
+transitive verb without object & 1.00 / 0.0\% & 1.00 / 0.0\% & 0.99 / 0.0\% & 1.00 / 0.0\% \\
+'Input/Output' prompt labels & 1.00 / 0.0\% & 1.00 / 0.8\% & 1.00 / 0.0\% & 0.98 / 5.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Failures are \emph{model} errors, not decoding errors: beam search (5) gives the same accuracy as greedy, and
+almost no wrong output is a search error (0.0--3.7\%; only the `Input/Output' prompt reaches 16.7\%). Confidence in
+the model's own output separates right from wrong well when pooled (0.93), but wrong outputs still average 0.47--0.69
+confidence. End-of-sentence is placed correctly (probability 1.00 on normal input).\end{infer}
+\subsubsection{Test 18: what kind of error does each model make?}
+\textit{Source: \texttt{results/stress/test18\_failure\_types.md}.}
+
+
+150 sentences per input kind, free generation; one label per output.
+
+\subsubsection*{Option 1: Latin-sound start}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}}
+\toprule
+\textbf{input kind} & \textbf{correct} & \textbf{word(s) dropped} & \textbf{extra word(s)} & \textbf{right stem, wrong ending} & \textbf{wrong word (stem)} & \textbf{verb not last (word order changed)} & \textbf{right words, wrong order} & \textbf{empty output} \\
+\midrule
+\endhead
+normal & 99.3\% & 0.0\% & 0.0\% & 0.7\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+passive voice & 0.0\% & 7.3\% & 3.3\% & 8.7\% & 80.7\% & 0.0\% & 0.0\% & 0.0\% \\
+synonym & 9.3\% & 0.0\% & 0.0\% & 0.0\% & 90.7\% & 0.0\% & 0.0\% & 0.0\% \\
+UPPER CASE & 7.3\% & 0.7\% & 0.0\% & 0.0\% & 92.0\% & 0.0\% & 0.0\% & 0.0\% \\
+typo & 9.3\% & 0.0\% & 0.0\% & 0.0\% & 90.7\% & 0.0\% & 0.0\% & 0.0\% \\
+double spaces & 3.3\% & 0.7\% & 92.0\% & 0.0\% & 4.0\% & 0.0\% & 0.0\% & 0.0\% \\
+2 adjectives on a noun & 8.0\% & 74.7\% & 0.0\% & 2.0\% & 15.3\% & 0.0\% & 0.0\% & 0.0\% \\
+transitive verb without object & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 100.0\% & 0.0\% & 0.0\% & 0.0\% \\
+'Input/Output' prompt labels & 91.3\% & 0.0\% & 0.0\% & 2.0\% & 6.7\% & 0.0\% & 0.0\% & 0.0\% \\
+two sentences at once & 0.0\% & 100.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Option 2: + transliteration}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}}
+\toprule
+\textbf{input kind} & \textbf{correct} & \textbf{word(s) dropped} & \textbf{extra word(s)} & \textbf{right stem, wrong ending} & \textbf{wrong word (stem)} & \textbf{verb not last (word order changed)} & \textbf{right words, wrong order} & \textbf{empty output} \\
+\midrule
+\endhead
+normal & 100.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+passive voice & 0.0\% & 16.7\% & 2.0\% & 39.3\% & 42.0\% & 0.0\% & 0.0\% & 0.0\% \\
+synonym & 4.0\% & 0.0\% & 0.0\% & 0.7\% & 95.3\% & 0.0\% & 0.0\% & 0.0\% \\
+UPPER CASE & 4.0\% & 0.7\% & 0.0\% & 0.0\% & 95.3\% & 0.0\% & 0.0\% & 0.0\% \\
+typo & 10.7\% & 0.7\% & 0.7\% & 0.7\% & 87.3\% & 0.0\% & 0.0\% & 0.0\% \\
+double spaces & 2.7\% & 43.3\% & 16.0\% & 0.7\% & 37.3\% & 0.0\% & 0.0\% & 0.0\% \\
+2 adjectives on a noun & 0.0\% & 91.3\% & 0.0\% & 0.0\% & 8.7\% & 0.0\% & 0.0\% & 0.0\% \\
+transitive verb without object & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 100.0\% & 0.0\% & 0.0\% & 0.0\% \\
+'Input/Output' prompt labels & 34.0\% & 0.7\% & 0.0\% & 10.0\% & 55.3\% & 0.0\% & 0.0\% & 0.0\% \\
+two sentences at once & 0.0\% & 100.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Option 3a: plain text first}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}}
+\toprule
+\textbf{input kind} & \textbf{correct} & \textbf{word(s) dropped} & \textbf{extra word(s)} & \textbf{right stem, wrong ending} & \textbf{wrong word (stem)} & \textbf{verb not last (word order changed)} & \textbf{right words, wrong order} & \textbf{empty output} \\
+\midrule
+\endhead
+normal & 32.7\% & 0.0\% & 0.0\% & 0.0\% & 67.3\% & 0.0\% & 0.0\% & 0.0\% \\
+passive voice & 0.0\% & 14.7\% & 4.0\% & 0.0\% & 81.3\% & 0.0\% & 0.0\% & 0.0\% \\
+synonym & 0.0\% & 1.3\% & 0.7\% & 0.7\% & 97.3\% & 0.0\% & 0.0\% & 0.0\% \\
+UPPER CASE & 1.3\% & 12.7\% & 6.7\% & 0.7\% & 78.7\% & 0.0\% & 0.0\% & 0.0\% \\
+typo & 3.3\% & 2.7\% & 3.3\% & 0.0\% & 90.7\% & 0.0\% & 0.0\% & 0.0\% \\
+double spaces & 0.0\% & 92.0\% & 0.0\% & 0.0\% & 8.0\% & 0.0\% & 0.0\% & 0.0\% \\
+2 adjectives on a noun & 0.0\% & 74.0\% & 0.0\% & 0.0\% & 26.0\% & 0.0\% & 0.0\% & 0.0\% \\
+transitive verb without object & 0.0\% & 0.0\% & 1.3\% & 0.0\% & 98.7\% & 0.0\% & 0.0\% & 0.0\% \\
+'Input/Output' prompt labels & 19.3\% & 0.7\% & 0.0\% & 4.7\% & 75.3\% & 0.0\% & 0.0\% & 0.0\% \\
+two sentences at once & 0.0\% & 99.3\% & 0.0\% & 0.0\% & 0.7\% & 0.0\% & 0.0\% & 0.0\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Control: shuffled-sound start}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}>{\raggedright\arraybackslash}p{0.077\linewidth}}
+\toprule
+\textbf{input kind} & \textbf{correct} & \textbf{word(s) dropped} & \textbf{extra word(s)} & \textbf{right stem, wrong ending} & \textbf{wrong word (stem)} & \textbf{verb not last (word order changed)} & \textbf{right words, wrong order} & \textbf{empty output} \\
+\midrule
+\endhead
+normal & 99.3\% & 0.0\% & 0.0\% & 0.7\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+passive voice & 0.0\% & 7.3\% & 24.7\% & 10.7\% & 57.3\% & 0.0\% & 0.0\% & 0.0\% \\
+synonym & 2.0\% & 0.0\% & 0.0\% & 2.0\% & 96.0\% & 0.0\% & 0.0\% & 0.0\% \\
+UPPER CASE & 8.0\% & 2.0\% & 0.0\% & 1.3\% & 88.7\% & 0.0\% & 0.0\% & 0.0\% \\
+typo & 8.0\% & 0.7\% & 0.0\% & 0.0\% & 91.3\% & 0.0\% & 0.0\% & 0.0\% \\
+double spaces & 2.0\% & 1.3\% & 92.0\% & 0.0\% & 4.7\% & 0.0\% & 0.0\% & 0.0\% \\
+2 adjectives on a noun & 17.3\% & 42.7\% & 0.0\% & 6.0\% & 34.0\% & 0.0\% & 0.0\% & 0.0\% \\
+transitive verb without object & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 100.0\% & 0.0\% & 0.0\% & 0.0\% \\
+'Input/Output' prompt labels & 34.0\% & 0.0\% & 0.0\% & 2.0\% & 64.0\% & 0.0\% & 0.0\% & 0.0\% \\
+two sentences at once & 0.0\% & 100.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% & 0.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}The order rule is never broken (``verb not last'' 0.0\% everywhere). Failures fall into three types: wrong
+stems (passive 80.7\%, synonym 90.7\%, UPPER CASE 92.0\%, typo 90.7\%, transitive verb without object 100\%), dropped
+words (2 adjectives 74.7\%, two sentences 100\%) and extra words (double spaces 92.0\%).\end{infer}
+\subsubsection{Test 24: own-output confidence within each input type}
+\textit{Source: \texttt{results/stress/test24\_confidence\_within\_type.md}.}
+
+
+Confidence = lowest token probability of what the model wrote. AUROC = chance a right output gets higher confidence than a wrong one (0.5 useless, 1 perfect; '-' = all right or all wrong). Threshold = the level that keeps 95\% of the correct NORMAL outputs.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+pooled AUROC (min / mean token) & 0.93 / 0.94 & 0.88 / 0.88 & 0.97 / 0.97 & 0.91 / 0.92 \\
+threshold (token probability) & 0.98 & 0.92 & 0.64 & 0.93 \\
+\bottomrule
+\end{longtable}}
+
+Cells: accuracy / within-type AUROC (min token) / share of WRONG outputs flagged / accuracy of the outputs NOT flagged.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{input kind} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+normal & 98.7\% / 0.96 / 50.0\% / 99.3\% & 98.7\% / 0.97 / 50.0\% / 99.3\% & 37.3\% / 0.99 / 98.9\% / 98.2\% & 98.0\% / 0.96 / 66.7\% / 99.3\% \\
+passive voice & 0.0\% / - / 99.3\% / 0.0\% & 0.0\% / - / 80.7\% / 0.0\% & 0.0\% / - / 96.0\% / 0.0\% & 0.0\% / - / 97.3\% / 0.0\% \\
+synonym & 12.0\% / 0.63 / 67.4\% / 14.0\% & 6.7\% / 0.42 / 69.3\% / 0.0\% & 0.0\% / - / 93.3\% / 0.0\% & 0.7\% / 0.11 / 71.8\% / 0.0\% \\
+UPPER CASE & 11.3\% / 0.92 / 100.0\% / 100.0\% & 4.7\% / 0.82 / 98.6\% / 60.0\% & 2.7\% / 0.97 / 97.9\% / 50.0\% & 9.3\% / 0.86 / 100.0\% / 100.0\% \\
+typo & 4.0\% / 0.92 / 98.6\% / 66.7\% & 4.0\% / 0.86 / 97.9\% / 50.0\% & 2.0\% / 0.93 / 90.5\% / 12.5\% & 4.0\% / 0.99 / 97.2\% / 55.6\% \\
+double spaces & 7.3\% / 0.98 / 99.3\% / 87.5\% & 4.7\% / 0.96 / 100.0\% / 100.0\% & 0.0\% / - / 100.0\% / - & 4.0\% / 1.00 / 95.8\% / 50.0\% \\
+2 adjectives on a noun & 9.3\% / 0.68 / 97.8\% / 0.0\% & 0.0\% / - / 64.7\% / 0.0\% & 0.0\% / - / 96.0\% / 0.0\% & 12.7\% / 0.90 / 96.9\% / 73.3\% \\
+transitive verb without object & 0.0\% / - / 99.3\% / 0.0\% & 0.7\% / 0.43 / 94.0\% / 0.0\% & 0.0\% / - / 80.7\% / 0.0\% & 0.0\% / - / 95.3\% / 0.0\% \\
+'Input/Output' prompt labels & 90.7\% / 0.96 / 100.0\% / 100.0\% & 34.7\% / 0.87 / 100.0\% / 100.0\% & 24.7\% / 0.94 / 89.4\% / 73.3\% & 36.0\% / 0.87 / 100.0\% / 100.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Within one input type, own-output confidence still separates right from wrong for normal inputs (0.96), UPPER
+CASE (0.92), typos (0.92) and double spaces (0.98): it is not just detecting odd inputs. It fails for synonyms
+(0.63; Option 2 0.42; Control 0.11, i.e.\ more confident when wrong) and for two adjectives (0.68). A threshold that
+keeps 95\% of correct normal outputs flags 97.8--100\% of the wrong outputs for every input type except synonyms
+(67.4\%) and normal inputs (50.0\%, of very few wrong outputs).\end{infer}
+\subsubsection{Test 29: calibration and selective translation}
+\textit{Source: \texttt{results/stress/test29\_calibration.md}.}
+
+
+\begin{caveat}The pooled numbers depend on the mix of inputs: most of this pool is deliberately off-template (accuracy
+38.9\% for Option 1). The in-distribution rows (normal + the 4 test splits) show the usual-use case.\end{caveat}
+Inputs with a known answer (normal, test splits, failure kinds, rewordings, invisible Unicode; FIX rows excluded). Confidence = probability of the whole output (product of token probabilities) or its lowest token probability. Platt scaling is fitted on even-numbered inputs and evaluated on odd-numbered ones.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{measure} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+accuracy & 38.9\% & 38.8\% & 8.0\% & 37.2\% \\
+ECE, whole-output probability & 0.166 & 0.154 & 0.037 & 0.152 \\
+ECE, lowest-token probability & 0.321 & 0.313 & 0.160 & 0.313 \\
+ECE after Platt scaling (held-out half) & 0.057 & 0.049 & 0.010 & 0.051 \\
+coverage at 99\% accuracy (rank by lowest token) & 3.0\% & 3.4\% & 0.0\% & 0.9\% \\
+coverage at 95\% accuracy (rank by lowest token) & 10.2\% & 9.2\% & 0.0\% & 8.6\% \\
+AURC (lower = better; lowest token) & 0.278 & 0.295 & 0.739 & 0.313 \\
+in-distribution only: accuracy & 99.0\% & 94.4\% & 17.2\% & 89.8\% \\
+in-distribution only: coverage at 99\% accuracy & 100.0\% & 8.4\% & 15.2\% & 72.2\% \\
+in-distribution only: ECE (whole output) & 0.029 & 0.045 & 0.024 & 0.060 \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Reliability table (Option 1: Latin-sound start, whole-output probability)}
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}}
+\toprule
+\textbf{confidence bin} & \textbf{n} & \textbf{mean confidence} & \textbf{accuracy} \\
+\midrule
+\endhead
+0.0-0.1 & 456 & 0.04 & 0.0\% \\
+0.1-0.2 & 248 & 0.15 & 0.4\% \\
+0.2-0.3 & 190 & 0.25 & 3.2\% \\
+0.3-0.4 & 152 & 0.35 & 2.6\% \\
+0.4-0.5 & 139 & 0.45 & 6.5\% \\
+0.5-0.6 & 95 & 0.55 & 16.8\% \\
+0.6-0.7 & 76 & 0.65 & 22.4\% \\
+0.7-0.8 & 84 & 0.75 & 27.4\% \\
+0.8-0.9 & 94 & 0.86 & 50.0\% \\
+0.9-1.0 & 926 & 0.97 & 90.1\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}On normal use the model is well calibrated and accurate (in distribution: 99.0\% accuracy, calibration error
+0.029). On the mixed pool it is over-confident: outputs with 0.8--0.9 confidence are right only 50.0\% of the time and
+the calibration error is 0.166; Platt scaling on a held-out half reduces it to 0.057. Ranking by confidence does not
+give a usable selective translator on off-template inputs: only 3.0\% of the pool can be answered at 99\% accuracy
+(10.2\% at 95\%), because some wrong outputs (e.g.\ synonym substitutions) are among the most confident.\end{infer}
+\subsection{Model health and side effects (tests 21, 26)}
+\subsubsection{Test 21: model health}
+\textit{Source: \texttt{results/stress/test21\_model\_health.md}.}
+
+
+\begin{caveat}English perplexity is measured on only 30 everyday sentences, and perplexity is extremely sensitive to
+probability placed on glyph tokens. The test was run with each model in its own process after an earlier run crashed
+(out of Windows memory); runs are deterministic, so this does not change results.\end{caveat}
+\subsubsection*{1. Did fine-tuning damage plain English? (LoRA strength 0 = adapter off, 1 = as trained)}
+
+Base Qwen3-0.6B-Base English perplexity (30 everyday sentences): \textbf{20.3}
+
+Cells: English perplexity / probability put on glyph tokens while reading English / translation accuracy (200 new sentences).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{model} & \textbf{strength 0} & \textbf{strength 0.25} & \textbf{strength 0.5} & \textbf{strength 0.75} & \textbf{strength 1.0} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 20.5 / 0.005 / 0.0\% & 20.4 / 0.009 / 0.0\% & 26.0 / 0.019 / 0.0\% & 55.8 / 0.056 / 10.0\% & 372.0 / 0.195 / 98.5\% \\
+Option 2: + transliteration & 23.2 / 0.081 / 0.0\% & 38.4 / 0.208 / 0.0\% & 340.5 / 0.556 / 0.0\% & 230783.8 / 0.773 / 15.5\% & 8907560.0 / 0.772 / 98.5\% \\
+Option 3a: plain text first & 21.3 / 0.033 / 0.0\% & 44.9 / 0.243 / 0.0\% & 523.3 / 0.690 / 0.0\% & 103244.5 / 0.866 / 1.5\% & 13215565.0 / 0.874 / 25.0\% \\
+Control: shuffled-sound start & 20.5 / 0.005 / 0.0\% & 21.8 / 0.009 / 0.0\% & 29.9 / 0.018 / 0.0\% & 73.7 / 0.049 / 15.0\% & 933.9 / 0.150 / 99.0\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{2. Glyphs leaking into ordinary English continuation (no 'Target:' line)}
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.558\linewidth}}
+\toprule
+\textbf{model} & \textbf{continuations containing glyphs} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 46.7\% (e.g. '') \\
+Option 2: + transliteration & 100.0\% (e.g. '\textbackslash{}ue00e\textbackslash{}ue066\textbackslash{}ue007\textbackslash{}ue061\textbackslash{}ue00e\textbackslash{}ue065\textbackslash{}ue00c\textbackslash{}ue07f \textbackslash{}ue007\textbackslash{}ue063\textbackslash{}ue00b\textbackslash{}ue064\textbackslash{}ue00c\textbackslash{}ue062 \textbackslash{}ue007\textbackslash{}ue063\textbackslash{}ue00b\textbackslash{}ue064\textbackslash{}ue00c\textbackslash{}ue062\textbackslash{}ue00a\textbackslash{}ue061\textbackslash{}ue009') \\
+Option 3a: plain text first & 100.0\% (e.g. '\textbackslash{}ue001\textbackslash{}ue063\textbackslash{}ue00e\textbackslash{}ue062\textbackslash{}ue00f\textbackslash{}ue07f \textbackslash{}ue00e\textbackslash{}ue064\textbackslash{}ue00a\textbackslash{}ue063\textbackslash{}ue004\textbackslash{}ue063\textbackslash{}ue007\textbackslash{}ue07f \textbackslash{}ue010\textbackslash{}ue064\textbackslash{}ue00c\textbackslash{}ue063\textbackslash{}ue007\textbackslash{}ue062\textbackslash{}ue00b\textbackslash{}ue061\textbackslash{}ue009') \\
+Control: shuffled-sound start & 100.0\% (e.g. '\textbackslash{}ue00f\textbackslash{}ue062\textbackslash{}ue00f\textbackslash{}ue064\textbackslash{}ue00f\textbackslash{}ue07f \textbackslash{}ue00b\textbackslash{}ue065\textbackslash{}ue007\textbackslash{}ue063\textbackslash{}ue00a\textbackslash{}ue068\textbackslash{}ue00a\textbackslash{}ue07f \textbackslash{}ue00c\textbackslash{}ue002\textbackslash{}ue061\textbackslash{}ue00a\textbackslash{}ue061\textbackslash{}ue009\textbackslash{}ue061 \textbackslash{}ue00b') \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{3. Tokenizer round trip}
+
+\begin{itemize}\item 52000 targets; decode(encode(x)) != x for \textbf{0}.\end{itemize}
+
+\begin{itemize}\item Targets where the glyph-token count differs from the glyph count (first 5,000): \textbf{0}.\end{itemize}
+
+\begin{itemize}\item Non-glyph tokens used inside targets: ' ' x4901.\end{itemize}
+
+\subsubsection*{4. Are test sentences near-copies of training sentences?}
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}}
+\toprule
+\textbf{split} & \textbf{exact copy of a training sentence} & \textbf{differs from one by a single word} \\
+\midrule
+\endhead
+test\_iid & 0.0\% & 18.4\% \\
+test\_comp & 0.0\% & 1.8\% \\
+test\_morph & 0.0\% & 8.0\% \\
+test\_long & 0.0\% & 0.0\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{5. Glyph embeddings: size vs Qwen's vocabulary, training frequency, accuracy}
+
+Qwen vocabulary embedding norm: median 0.97 (5th-95th pct 0.73-1.14).
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}}
+\toprule
+\textbf{model} & \textbf{glyph norm median (min-max)} & \textbf{rarest glyph (training count)} & \textbf{per-glyph accuracy: rarest 5 / rest} \\
+\midrule
+\endhead
+Option 1: Latin-sound start & 1.11 (0.44-1.27) & 24572 & 100.0\% / 100.0\% \\
+Option 2: + transliteration & 1.11 (0.99-1.27) & 24572 & 100.0\% / 99.9\% \\
+Option 3a: plain text first & 1.07 (0.95-1.24) & 24572 & 87.9\% / 94.9\% \\
+Control: shuffled-sound start & 1.12 (0.44-1.27) & 24572 & 99.6\% / 99.9\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{6. Control model: do its glyph mix-ups follow the wrong sounds it started from?}
+
+Glyph-for-glyph substitution errors (teacher-forced, 1,200 test sentences): \textbf{191}; of these, the wrong glyph was the one whose TRUE sound equals the gold glyph's (wrong) START sound: \textbf{5} (2.6\%; chance $\approx$ 3.7\%).
+
+\begin{infer}Translation fine-tuning damaged plain English: perplexity on everyday sentences rises from 20.3 (base) to 372
+(Option 1), 934 (Control), about 8.9 million (Option 2) and 13.2 million (Option 3a). Switching the adapter off
+restores 20.5--23.2. Glyphs leak into continuations of plain English (46.7\% for Option 1, 100\% for the others).
+The tokenizer is sound (0 round-trip errors in 52,000 targets), no test sentence copies a training sentence, glyph
+embeddings have normal size (median 1.07--1.12 vs 0.97 for Qwen's vocabulary) and even the rarest glyph was seen
+24,572 times. The Control's glyph mix-ups do not follow its wrong starting sounds (2.6\% vs 3.7\% by chance).\end{infer}
+\subsubsection{Test 26: where does the English damage come from?}
+\textit{Source: \texttt{results/stress/test26\_forgetting\_decomposition.md}.}
+
+
+\begin{caveat}Same 30 English sentences as test 21. ``Start'' rows put the glyph embeddings back to the values they had
+before training (the Latin sounds for Option 1, random-word copies for Options 2 and 3a, wrong sounds for the
+Control).\end{caveat}
+English perplexity on 30 everyday sentences (base Qwen3-0.6B-Base: 20.3). 'Masked' = glyph tokens removed from the softmax: if masked perplexity is near 20, the damage is just probability STOLEN by glyphs; if it stays high, the adapter changed the English predictions themselves. Rows: trained glyph rows vs their starting values; LoRA on (1) or off (0). Translation accuracy on 100 new sentences (LoRA on only).
+
+Cells: perplexity / masked perplexity / probability on glyphs / translation accuracy.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{glyph rows, LoRA} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+trained, LoRA 1.0 & 372.0 / 246.7 / 0.195 / 99.0\% & 8907560.0 / 136791.2 / 0.772 / 100.0\% & 13215565.0 / 88597.4 / 0.874 / 31.0\% & 933.9 / 693.0 / 0.150 / 99.0\% \\
+trained, LoRA 0.0 & 20.5 / 20.3 / 0.005 / - & 23.2 / 20.3 / 0.081 / - & 21.3 / 20.3 / 0.033 / - & 20.5 / 20.3 / 0.005 / - \\
+start, LoRA 1.0 & 247.9 / 246.7 / 0.004 / 0.0\% & 142090.1 / 136791.2 / 0.033 / 0.0\% & 98098.1 / 88597.4 / 0.084 / 0.0\% & 697.6 / 693.0 / 0.006 / 0.0\% \\
+start, LoRA 0.0 & 20.4 / 20.3 / 0.000 / - & 20.3 / 20.3 / 0.000 / - & 20.3 / 20.3 / 0.000 / - & 20.4 / 20.3 / 0.000 / - \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}The English damage sits in the LoRA adapter, not in the glyph rows: with the adapter off, perplexity is
+20.5--23.2 for every model; with it on, removing glyphs from the prediction still leaves 247 (Option 1), 693 (Control),
+88,597 (Option 3a) and 136,791 (Option 2). Probability stolen by glyphs is the smaller part (Option 1: 372 to 247).
+Translation needs both parts: the adapter with the starting glyph rows translates 0\% for every model.\end{infer}
+\subsection{Predicting failures from the input (tests 27, 28)}
+\subsubsection{Test 27: does an input fail exactly when it contains something never seen in the training English?}
+\textit{Source: \texttt{results/stress/test27\_unseen\_structure.md}.}
+
+
+\begin{caveat}The flags are computed on words split at whitespace, so changes inside the whitespace (double spaces,
+no-break spaces) are invisible to them. Word classes come from the generator's own lexicon; function words are kept as
+themselves.\end{caveat}
+Pool: normal sentences, the 4 test splits, every failure kind of tests 17-19, and the invisible-Unicode inputs (the FIX rows and odd inputs excluded). Word classes: NOUN / VERB / ADJ / PRON from the lexicon, function words kept as themselves, anything else UNK (Bogin et al. 2022, 'unobserved local structures').
+
+Cells: share of inputs flagged / accuracy when flagged / accuracy when NOT flagged / share of all failures that are flagged (recall) / share of flagged inputs that fail (precision).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{flag} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+unseen word & 56.9\% / 17.9\% / 66.6\% / 76.4\% / 82.1\% & 56.9\% / 20.2\% / 63.3\% / 74.2\% / 79.8\% & 56.9\% / 4.9\% / 12.2\% / 58.8\% / 95.1\% & 56.9\% / 18.4\% / 62.0\% / 73.9\% / 81.6\% \\
+unseen word pair & 91.7\% / 36.7\% / 63.5\% / 95.1\% / 63.3\% & 91.7\% / 36.6\% / 63.1\% / 95.0\% / 63.4\% & 91.7\% / 7.2\% / 17.2\% / 92.6\% / 92.8\% & 91.7\% / 35.0\% / 61.1\% / 94.9\% / 65.0\% \\
+unseen word-class pair & 62.0\% / 24.7\% / 62.1\% / 76.4\% / 75.3\% & 62.0\% / 26.8\% / 58.4\% / 74.2\% / 73.2\% & 62.0\% / 6.0\% / 11.2\% / 63.4\% / 94.0\% & 62.0\% / 25.1\% / 57.0\% / 74.0\% / 74.9\% \\
+unseen word-class triple & 65.0\% / 23.2\% / 68.0\% / 81.7\% / 76.8\% & 65.0\% / 25.0\% / 64.4\% / 79.7\% / 75.0\% & 65.0\% / 5.1\% / 13.4\% / 67.1\% / 94.9\% & 65.0\% / 24.2\% / 61.4\% / 78.5\% / 75.8\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Per input kind (Option 1: Latin-sound start)}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}}
+\toprule
+\textbf{input kind} & \textbf{n} & \textbf{accuracy} & \textbf{flag: unseen word} & \textbf{flag: unseen word pair} & \textbf{flag: unseen word-class pair} & \textbf{flag: unseen word-class triple} \\
+\midrule
+\endhead
+normal & 100 & 100.0\% & 0.0\% & 64.0\% & 0.0\% & 0.0\% \\
+passive voice & 100 & 0.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% \\
+synonym & 100 & 15.0\% & 68.0\% & 94.0\% & 67.0\% & 67.0\% \\
+UPPER CASE & 100 & 4.0\% & 100.0\% & 100.0\% & 100.0\% & 99.0\% \\
+typo & 100 & 10.0\% & 91.0\% & 96.0\% & 91.0\% & 90.0\% \\
+double spaces & 100 & 1.0\% & 0.0\% & 64.0\% & 0.0\% & 0.0\% \\
+2 adjectives on a noun & 100 & 2.0\% & 0.0\% & 100.0\% & 0.0\% & 100.0\% \\
+transitive verb without object & 100 & 1.0\% & 0.0\% & 71.0\% & 0.0\% & 0.0\% \\
+test\_iid & 100 & 100.0\% & 0.0\% & 69.0\% & 0.0\% & 0.0\% \\
+test\_comp & 100 & 98.0\% & 0.0\% & 76.0\% & 0.0\% & 0.0\% \\
+test\_morph & 100 & 98.0\% & 0.0\% & 100.0\% & 8.0\% & 8.0\% \\
+test\_long & 100 & 99.0\% & 0.0\% & 100.0\% & 0.0\% & 0.0\% \\
+object fronted ('the cat, the dog saw') & 60 & 0.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% \\
+filler word in front ('okay, ...') & 60 & 0.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% \\
+'please translate:' in front & 60 & 3.3\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% \\
+this/that/these/those for 'the' & 60 & 3.3\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% \\
+numerals ('two dogs', 'one cat') & 60 & 0.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% \\
+Title Case & 60 & 30.0\% & 100.0\% & 100.0\% & 100.0\% & 96.7\% \\
+full stop and capital & 60 & 100.0\% & 100.0\% & 100.0\% & 100.0\% & 96.7\% \\
+'is going to' for 'will' & 60 & 60.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% \\
+location fronted ('in the X, ...') & 60 & 0.0\% & 100.0\% & 100.0\% & 100.0\% & 100.0\% \\
+'did X' for past ('did eat') & 60 & 98.3\% & 0.0\% & 100.0\% & 100.0\% & 100.0\% \\
+'does X' for present & 60 & 100.0\% & 0.0\% & 100.0\% & 100.0\% & 100.0\% \\
+homoglyph (Cyrillic look-alike letter) & 100 & 27.0\% & 100.0\% & 100.0\% & 100.0\% & 96.0\% \\
+zero-width space inside a word & 100 & 34.0\% & 100.0\% & 100.0\% & 100.0\% & 96.0\% \\
+no-break space between words & 100 & 80.0\% & 0.0\% & 63.0\% & 0.0\% & 0.0\% \\
+full-width letters in one word & 100 & 16.0\% & 100.0\% & 100.0\% & 100.0\% & 96.0\% \\
+soft hyphen inside a word & 100 & 34.0\% & 100.0\% & 100.0\% & 100.0\% & 96.0\% \\
+3 mixed invisible changes & 100 & 1.0\% & 100.0\% & 100.0\% & 100.0\% & 96.0\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}A single ``unseen local structure'' rule explains much but not all. The word-class-triple flag catches
+81.7\% of Option 1's failures (accuracy 23.2\% when flagged vs 68.0\% when not), and every token-level change
+(passive, UPPER CASE, typos, fronting, numerals, fillers, determiners, look-alike letters) is flagged on 90--100\% of
+inputs. It misses failures with nothing new in them: double spaces (1.0\% accuracy, 0\% flagged) and a transitive
+verb without an object (1.0\%, 0\% flagged), where something is \emph{missing} rather than new. And some unseen
+patterns are handled well: `did X' 98.3\%, `does X' 100\%, full stop and capital 100\%. Unseen \emph{word pairs} do not
+matter at all (64\% of normal sentences contain one, all translated correctly): the model composes at the word level.\end{infer}
+\subsubsection{Test 28: can the INPUT alone tell that the English is off-template? (Mahalanobis distance)}
+\textit{Source: \texttt{results/stress/test28\_input\_ood\_detector.md}.}
+
+
+\begin{caveat}One Gaussian (with a small shrinkage term) fitted on the mean hidden state of 2,000 training prompts; other
+detectors (relative Mahalanobis, per-token features) might do better.\end{caveat}
+Hidden states of the prompt (mean over its tokens) at the middle and the last layer; a Gaussian is fitted on 2,000 training inputs. AUROC = chance an input of this kind is further from the training inputs than an in-distribution one (normal + the 4 test splits). 1.0 = perfectly separated, 0.5 = invisible.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{input kind} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+passive voice & 0.93 / 0.80 (acc 0.0\%) & 0.95 / 0.80 (acc 0.0\%) & 0.93 / 0.82 (acc 0.0\%) & 0.96 / 0.79 (acc 0.0\%) \\
+synonym & 0.54 / 0.61 (acc 15.0\%) & 0.52 / 0.63 (acc 7.0\%) & 0.57 / 0.61 (acc 2.0\%) & 0.52 / 0.62 (acc 2.0\%) \\
+UPPER CASE & 1.00 / 1.00 (acc 4.0\%) & 1.00 / 1.00 (acc 6.0\%) & 1.00 / 1.00 (acc 1.0\%) & 1.00 / 1.00 (acc 5.0\%) \\
+typo & 0.78 / 0.73 (acc 10.0\%) & 0.74 / 0.66 (acc 13.0\%) & 0.80 / 0.74 (acc 1.0\%) & 0.82 / 0.67 (acc 10.0\%) \\
+double spaces & 1.00 / 1.00 (acc 1.0\%) & 1.00 / 1.00 (acc 1.0\%) & 1.00 / 1.00 (acc 0.0\%) & 1.00 / 0.99 (acc 1.0\%) \\
+2 adjectives on a noun & 0.82 / 0.74 (acc 2.0\%) & 0.90 / 0.68 (acc 0.0\%) & 0.88 / 0.74 (acc 0.0\%) & 0.85 / 0.67 (acc 11.0\%) \\
+transitive verb without object & 0.46 / 0.55 (acc 1.0\%) & 0.59 / 0.59 (acc 0.0\%) & 0.43 / 0.59 (acc 0.0\%) & 0.52 / 0.55 (acc 0.0\%) \\
+object fronted ('the cat, the dog saw') & 0.96 / 0.82 (acc 0.0\%) & 0.99 / 0.88 (acc 0.0\%) & 0.94 / 0.91 (acc 0.0\%) & 0.98 / 0.65 (acc 0.0\%) \\
+filler word in front ('okay, ...') & 0.93 / 0.89 (acc 0.0\%) & 0.99 / 0.76 (acc 15.0\%) & 0.95 / 0.82 (acc 0.0\%) & 0.97 / 0.82 (acc 0.0\%) \\
+'please translate:' in front & 0.97 / 0.83 (acc 3.3\%) & 1.00 / 0.90 (acc 8.3\%) & 0.95 / 0.66 (acc 8.3\%) & 1.00 / 0.67 (acc 13.3\%) \\
+this/that/these/those for 'the' & 0.96 / 0.82 (acc 3.3\%) & 0.98 / 0.81 (acc 11.7\%) & 0.97 / 0.85 (acc 0.0\%) & 0.97 / 0.69 (acc 13.3\%) \\
+numerals ('two dogs', 'one cat') & 0.97 / 0.89 (acc 0.0\%) & 1.00 / 0.85 (acc 0.0\%) & 0.99 / 0.92 (acc 0.0\%) & 0.99 / 0.75 (acc 1.7\%) \\
+Title Case & 1.00 / 0.99 (acc 30.0\%) & 1.00 / 0.89 (acc 30.0\%) & 1.00 / 0.95 (acc 11.7\%) & 1.00 / 0.96 (acc 30.0\%) \\
+full stop and capital & 0.78 / 0.61 (acc 100.0\%) & 0.81 / 0.61 (acc 100.0\%) & 0.79 / 0.69 (acc 26.7\%) & 0.74 / 0.58 (acc 98.3\%) \\
+'is going to' for 'will' & 0.86 / 0.69 (acc 60.0\%) & 0.93 / 0.79 (acc 68.3\%) & 0.91 / 0.87 (acc 0.0\%) & 0.89 / 0.64 (acc 53.3\%) \\
+location fronted ('in the X, ...') & 0.96 / 0.65 (acc 0.0\%) & 0.99 / 0.73 (acc 5.0\%) & 0.96 / 0.86 (acc 0.0\%) & 0.98 / 0.45 (acc 0.0\%) \\
+'did X' for past ('did eat') & 0.52 / 0.51 (acc 98.3\%) & 0.53 / 0.56 (acc 98.3\%) & 0.50 / 0.60 (acc 21.7\%) & 0.55 / 0.53 (acc 96.7\%) \\
+'does X' for present & 0.52 / 0.54 (acc 100.0\%) & 0.53 / 0.52 (acc 100.0\%) & 0.52 / 0.60 (acc 16.7\%) & 0.52 / 0.53 (acc 100.0\%) \\
+homoglyph (Cyrillic look-alike letter) & 0.95 / 0.82 (acc 27.0\%) & 0.97 / 0.74 (acc 29.0\%) & 0.95 / 0.81 (acc 7.0\%) & 0.98 / 0.77 (acc 25.0\%) \\
+zero-width space inside a word & 0.96 / 0.81 (acc 34.0\%) & 0.98 / 0.71 (acc 43.0\%) & 0.98 / 0.80 (acc 12.0\%) & 0.99 / 0.77 (acc 33.0\%) \\
+no-break space between words & 0.84 / 0.65 (acc 80.0\%) & 0.90 / 0.60 (acc 71.0\%) & 0.89 / 0.62 (acc 19.0\%) & 0.90 / 0.61 (acc 71.0\%) \\
+full-width letters in one word & 1.00 / 0.98 (acc 16.0\%) & 1.00 / 0.95 (acc 5.0\%) & 1.00 / 0.98 (acc 4.0\%) & 1.00 / 0.95 (acc 19.0\%) \\
+soft hyphen inside a word & 0.96 / 0.84 (acc 34.0\%) & 0.97 / 0.76 (acc 43.0\%) & 0.99 / 0.83 (acc 13.0\%) & 0.98 / 0.78 (acc 45.0\%) \\
+3 mixed invisible changes & 1.00 / 0.98 (acc 1.0\%) & 1.00 / 0.93 (acc 2.0\%) & 1.00 / 0.97 (acc 1.0\%) & 1.00 / 0.96 (acc 0.0\%) \\
+odd inputs & 0.98 / 0.98 & 1.00 / 0.96 & 0.99 / 0.97 & 0.99 / 0.87 \\
+\bottomrule
+\end{longtable}}
+
+Cells: AUROC middle layer / last layer (model accuracy on that kind).
+
+\subsubsection*{Predicting a WRONG output (all inputs with a known answer, FIX rows excluded)}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{signal} & \textbf{Option 1: Latin-sound start} & \textbf{Option 2: + transliteration} & \textbf{Option 3a: plain text first} & \textbf{Control: shuffled-sound start} \\
+\midrule
+\endhead
+input distance, middle layer & 0.80 & 0.80 & 0.64 & 0.78 \\
+input distance, last layer & 0.76 & 0.73 & 0.57 & 0.70 \\
+output confidence (lowest token prob), inverted & 0.95 & 0.93 & 0.98 & 0.93 \\
+input distance (middle) + output confidence, rank average & 0.93 & 0.91 & 0.89 & 0.91 \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}The input alone already shows most off-template English: middle-layer distance from the training inputs
+separates passive (0.93), fronting (0.96), numerals (0.97), UPPER CASE and double spaces (1.00), invisible Unicode
+(0.95--1.00) and odd inputs (0.98) from normal inputs. It cannot see synonyms (0.54) or a verb missing its object
+(0.46), the same blind spots as output confidence. To predict a wrong output, output confidence is better (0.95) than
+input distance (0.80), and combining them does not help (0.93). Input distance is still useful where there is no
+correct answer at all: flagging odd inputs (0.98) gives the model a way to refuse.\end{infer}
+\section{Retraining: R1 and E1}
+
+After the stress tests, two retraining strategies were tried, both from the base model (Qwen3-0.6B-Base, fresh LoRA,
+glyphs starting at their Latin sounds, seed 0, 3 epochs; E1 was later repeated with 5 epochs and E1b with a second
+seed), both with refusal examples (non-English input gives the
+output \texttt{<not-english>}) and plain-English replay passages (FineWeb-Edu) against forgetting:
+\begin{itemize}
+\item \textbf{R1, targeted:} the template data plus English rewrites and new structures aimed at the failures found,
+each with a \emph{held-out} variant never used in training (e.g.\ passive with half of the verbs; numerals one--three
+trained, four--five held out).
+\item \textbf{E1, representative:} English generated from grammar families sampled uniformly; 20\% of variants held
+out at random before training. \textbf{E1a} translates directly; \textbf{E1b} first writes an analysis of the English
+(\texttt{S=big+dog.PL V=see.PAST.NEG O=cat L=house => <glyphs>}). Same data otherwise.
+\end{itemize}
+
+\subsection{R1 compared with Option 1}
+\textit{Source: \texttt{results/r1\_vs\_option1.md}.}
+
+
+\begin{caveat}Teacher-forced scores on 100 new items per category. ``[train]'' / ``[heldout]'' refer to R1's training data.
+Option 1 never saw any of these variants, so its column shows the starting point.\end{caveat}
+Both: Qwen3-0.6B-Base + LoRA r=16, 3 epochs, glyphs as new tokens starting at their Latin sounds, seed 0. R1 adds varied English, new structures, refusals and plain-English replay (train/augment.py). Teacher-forced exact match. [train] = this kind of variant was in R1's training data; [heldout] = it never was (tests generalisation). Option 1 never saw any of them.
+
+\subsubsection*{The four original test splits}
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}}
+\toprule
+\textbf{split} & \textbf{Option 1} & \textbf{R1} \\
+\midrule
+\endhead
+test\_iid & 0.990 & 0.986 \\
+test\_comp & 0.986 & 0.988 \\
+test\_morph & 0.972 & 0.970 \\
+test\_long & 0.974 & 0.982 \\
+\bottomrule
+\end{longtable}}
+
+Training time: Option 1 49.6 min, R1 58.8 min.
+
+\subsubsection*{New categories (100 items each)}
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}>{\raggedright\arraybackslash}p{0.225\linewidth}}
+\toprule
+\textbf{category} & \textbf{Option 1} & \textbf{R1} & \textbf{R1 on Kaggle (check)} \\
+\midrule
+\endhead
+rewrite passive [train] & 0.00 & 0.93 & 0.93 \\
+rewrite passive [heldout] & 0.00 & 0.94 & 0.94 \\
+rewrite fronting [train] & 0.00 & 0.99 & 0.99 \\
+rewrite fronting [heldout] & 0.00 & 0.00 & 0.00 \\
+rewrite filler [train] & 0.01 & 0.99 & 0.99 \\
+rewrite filler [heldout] & 0.06 & 0.99 & 0.99 \\
+rewrite determiner [train] & 0.16 & 0.98 & 0.98 \\
+rewrite determiner [heldout] & 0.03 & 0.98 & 0.98 \\
+rewrite numeral [train] & 0.00 & 1.00 & 1.00 \\
+rewrite numeral [heldout] & 0.00 & 1.00 & 1.00 \\
+rewrite tense [train] & 0.81 & 0.99 & 0.99 \\
+rewrite tense [heldout] & 0.96 & 0.99 & 0.99 \\
+rewrite synonym [train] & 0.14 & 0.78 & 0.78 \\
+rewrite synonym [heldout] & 0.00 & 0.15 & 0.15 \\
+rewrite typo [train] & 0.03 & 0.13 & 0.13 \\
+rewrite typo [heldout] & 0.07 & 0.12 & 0.12 \\
+rewrite spacing [train] & 0.05 & 0.99 & 0.99 \\
+rewrite spacing [heldout] & 0.03 & 0.98 & 0.98 \\
+rewrite casing [train] & 0.41 & 0.72 & 0.72 \\
+rewrite casing [heldout] & 0.04 & 0.29 & 0.29 \\
+structure 2 adjectives [train] & 0.09 & 0.96 & 0.96 \\
+structure 3 adjectives [heldout] & 0.00 & 0.30 & 0.31 \\
+structure verb without object [train] & 0.00 & 0.83 & 0.83 \\
+structure name as subject [train] & 0.00 & 0.47 & 0.47 \\
+structure name as object [heldout] & 0.00 & 0.22 & 0.22 \\
+structure two sentences [train] & 0.00 & 0.90 & 0.90 \\
+structure three sentences [heldout] & 0.00 & 0.06 & 0.06 \\
+refusal [train] & 0.00 & 1.00 & 1.00 \\
+refusal [heldout] & 0.00 & 0.85 & 0.85 \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{Training data used by R1}
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.558\linewidth}}
+\toprule
+\textbf{kind} & \textbf{examples} \\
+\midrule
+\endhead
+none & 25091 \\
+passive & 2156 \\
+fronting & 2016 \\
+typo & 2781 \\
+numeral & 2607 \\
+spacing & 2899 \\
+determiner & 1787 \\
+filler & 2950 \\
+tense & 3019 \\
+synonym & 1783 \\
+casing & 2911 \\
+2 adjectives & 1500 \\
+verb without object & 1000 \\
+name as subject & 1500 \\
+two sentences & 1000 \\
+refusal & 1500 \\
+replay & 5000 \\
+names\_used & 1461 \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}R1 keeps the original splits within $\pm$1 point and fixes what it targets, generalising to held-out variants of
+the trained patterns (passive 0.94, numerals and determiners 0.98--1.00, refusal 0.85). It does not generalise to
+cases outside them: object fronting 0.00, unseen synonyms 0.15, three adjectives 0.30, three sentences 0.06, typos
+0.12--0.13.\end{infer}
+\subsection{Option 1, R1, E1a and E1b on the same test items}
+\textit{Source: \texttt{results/e1\_comparison.md}.}
+
+
+\begin{caveat}Free generation, glyph part only. Rows starting `R1' are R1's categories with R1's train/held-out labels; for E1,
+three adjectives and three sentences are inside its training range. E1's own held-out variants are listed above the
+table. E1 used 30k translation inputs and was not converged (see the per-epoch table below).\end{caveat}
+Exact match of the glyph output (free generation; for the original splits of Option 1 and R1, teacher-forced exact match, which equals greedy generation for these models). All models: Qwen3-0.6B-Base + LoRA, seed 0.
+
+E1's randomly held-out variants (never in E1 training): case=sentence, det\_sg=one, noise=drop, order=object cleft, order=object topicalised, order=subject cleft, subject=name, voice=passive. Rows starting 'R1' are R1's categories; their [train]/[heldout] labels refer to R1's training, not E1's.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{group} & \textbf{n} & \textbf{Option 1} & \textbf{R1} & \textbf{E1a (plain)} & \textbf{E1b (analysis)} \\
+\midrule
+\endhead
+original test\_iid & 500 & 0.99 & 0.99 & 0.26 & 0.96 \\
+original test\_comp & 500 & 0.99 & 0.99 & 0.22 & 0.93 \\
+original test\_morph & 500 & 0.97 & 0.97 & 0.27 & 0.93 \\
+original test\_long & 500 & 0.97 & 0.98 & 0.06 & 0.84 \\
+in-distribution mix & 100 & 0.09 & 0.24 & 0.30 & 0.76 \\
+held-out case = sentence & 100 & 0.07 & 0.31 & 0.34 & 0.74 \\
+held-out det\_sg = one & 100 & 0.03 & 0.22 & 0.42 & 0.74 \\
+held-out noise = drop & 100 & 0.00 & 0.08 & 0.16 & 0.51 \\
+held-out order = object cleft & 100 & 0.02 & 0.07 & 0.07 & 0.12 \\
+held-out order = object topicalised & 100 & 0.04 & 0.09 & 0.13 & 0.20 \\
+held-out order = subject cleft & 100 & 0.00 & 0.00 & 0.02 & 0.07 \\
+held-out subject = name & 100 & 0.00 & 0.10 & 0.00 & 0.00 \\
+held-out voice = passive & 100 & 0.05 & 0.12 & 0.07 & 0.12 \\
+held-out synonym pairs & 100 & 0.02 & 0.28 & 0.06 & 0.07 \\
+extrapolation: 5-6 adjectives on a noun & 100 & 0.08 & 0.11 & 0.25 & 0.58 \\
+extrapolation: 5 clauses & 100 & 0.00 & 0.00 & 0.20 & 0.36 \\
+refusal [train] & 100 & 0.00 & 1.00 & 1.00 & 1.00 \\
+refusal [heldout] & 100 & 0.00 & 0.82 & 0.64 & 0.73 \\
+R1 rewrite passive [train] & 50 & 0.00 & 0.94 & 0.00 & 0.00 \\
+R1 rewrite passive [heldout] & 50 & 0.00 & 0.94 & 0.00 & 0.00 \\
+R1 rewrite fronting [train] & 50 & 0.00 & 1.00 & 0.26 & 0.98 \\
+R1 rewrite fronting [heldout] & 50 & 0.00 & 0.00 & 0.00 & 0.00 \\
+R1 rewrite filler [train] & 50 & 0.02 & 0.96 & 0.40 & 0.68 \\
+R1 rewrite filler [heldout] & 50 & 0.08 & 1.00 & 0.38 & 0.80 \\
+R1 rewrite determiner [train] & 50 & 0.30 & 1.00 & 0.18 & 0.94 \\
+R1 rewrite determiner [heldout] & 50 & 0.04 & 0.98 & 0.20 & 0.88 \\
+R1 rewrite numeral [train] & 50 & 0.00 & 1.00 & 0.30 & 0.94 \\
+R1 rewrite numeral [heldout] & 50 & 0.00 & 1.00 & 0.18 & 0.94 \\
+R1 rewrite tense [train] & 50 & 0.76 & 1.00 & 0.38 & 1.00 \\
+R1 rewrite tense [heldout] & 50 & 0.98 & 0.98 & 0.54 & 0.98 \\
+R1 rewrite synonym [train] & 50 & 0.12 & 0.74 & 0.08 & 0.36 \\
+R1 rewrite synonym [heldout] & 50 & 0.00 & 0.30 & 0.10 & 0.12 \\
+R1 rewrite typo [train] & 50 & 0.04 & 0.12 & 0.12 & 0.52 \\
+R1 rewrite typo [heldout] & 50 & 0.02 & 0.04 & 0.10 & 0.50 \\
+R1 rewrite spacing [train] & 50 & 0.02 & 1.00 & 0.34 & 0.94 \\
+R1 rewrite spacing [heldout] & 50 & 0.04 & 1.00 & 0.38 & 0.98 \\
+R1 rewrite casing [train] & 50 & 0.56 & 0.78 & 0.24 & 0.94 \\
+R1 rewrite casing [heldout] & 50 & 0.02 & 0.28 & 0.10 & 0.72 \\
+R1 structure 2 adjectives [train] & 50 & 0.18 & 0.92 & 0.16 & 0.92 \\
+R1 structure 3 adjectives [heldout] & 50 & 0.00 & 0.30 & 0.08 & 0.86 \\
+R1 structure verb without object [train] & 50 & 0.00 & 0.74 & 0.02 & 0.00 \\
+R1 structure name as subject [train] & 50 & 0.00 & 0.32 & 0.00 & 0.00 \\
+R1 structure name as object [heldout] & 50 & 0.00 & 0.32 & 0.50 & 0.96 \\
+R1 structure two sentences [train] & 50 & 0.00 & 0.88 & 0.10 & 0.88 \\
+R1 structure three sentences [heldout] & 50 & 0.00 & 0.16 & 0.02 & 0.80 \\
+R1 refusal [train] & 50 & 0.00 & 1.00 & 1.00 & 1.00 \\
+R1 refusal [heldout] & 50 & 0.00 & 0.82 & 0.74 & 0.70 \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}After 3 epochs on identical data, the analysis step (E1b) is far ahead of direct translation (E1a) almost
+everywhere (original iid 0.96 vs 0.26; three sentences 0.80 vs 0.02). Most of this gap is speed of learning, not a final
+difference: with 5 epochs E1a catches up on most tests (section ``E1 with 5 epochs'' below). E1b also counts beyond its training range
+(five or six adjectives 0.58) and handles held-out surface variants (sentence case 0.74, the determiner `one' 0.74,
+dropped-letter typos 0.51). R1 is best on what it targeted (passive 0.94, synonyms it was trained on 0.74). No model
+handles a structure type it never saw: counting only items that really contain it, E1's held-out passive is 0.00,
+clefts 0.00--0.05 and object topicalisation 0.02--0.04 (the pooled rows in the table are inflated by items whose variant
+fell back to normal word order; correction in results/e1\_heldout\_corrected.md); names as subject 0.00.\end{infer}
+\subsection{Correction: held-out structures, counting only items that contain them}
+\textit{Source: \texttt{results/e1\_heldout\_corrected.md}.}
+
+
+When a held-out variant cannot apply to a clause (passive needs an object and a known participle; clefts and topicalisation need the right parts), \texttt{train/represent.py} silently falls back to the canonical form, so part of each "held-out" evaluation group does not contain the held-out structure. Items were re-classified by pattern (passive: be-form + participle + "by"; clefts: "it is/was/will be ... that"; topicalised: a fronted noun phrase followed by a comma). Exact match of the glyph output, from the per-item results of the E1 runs.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}}
+\toprule
+\textbf{held-out group} & \textbf{items WITH the structure} & \textbf{E1a} & \textbf{E1b} & \textbf{items that fell back} & \textbf{E1a} & \textbf{E1b} \\
+\midrule
+\endhead
+voice = passive & 62 & 0.00 & 0.00 & 38 & 0.18 & 0.32 \\
+order = subject cleft & 76 & 0.01 & 0.05 & 24 & 0.04 & 0.12 \\
+order = object cleft & 66 & 0.00 & 0.02 & 34 & 0.21 & 0.32 \\
+order = object topicalised & 81 & 0.02 & 0.04 & 19 & 0.58 & 0.89 \\
+\bottomrule
+\end{longtable}}
+
+Conclusion (stronger than before): structure types absent from training are essentially never handled (0.00-0.05). The pooled figures in e1\_comparison.md (0.07-0.20) are inflated by the fallback items. Fixed for future runs: \texttt{represent.eval\_sets(..., strict=True)} keeps only items in which the forced variant was actually used.
+
+\begin{infer}Unseen structure types are essentially never handled by either E1 model (0.00--0.05 on the items that really
+contain them). Items whose variant fell back to the ordinary form are translated much better (up to 0.89), which is
+what inflated the pooled group scores. Future runs build these groups only from items that really contain the
+variant.\end{infer}
+\subsection{Forgetting, adapter scaling and per-epoch checkpoints}
+\textit{Source: \texttt{results/followups\_e1.md}.}
+
+
+\begin{caveat}WikiText-2: 40 chunks of 256 tokens (never trained on). Scaling and per-epoch cells use subsets (50 and 30 items
+per group; 100 per original split), about $\pm$7--9 points.\end{caveat}
+\subsubsection*{5. English forgetting}
+
+WikiText-2 test: 40 chunks x 256 tokens (never trained on). Everyday: the 30 sentences of test 21. 'Masked' = glyph tokens removed from the prediction. Leak = plain-English continuations that contain glyphs.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}}
+\toprule
+\textbf{model} & \textbf{WikiText-2 ppl} & \textbf{masked} & \textbf{everyday ppl} & \textbf{masked} & \textbf{probability on glyphs} & \textbf{leak} \\
+\midrule
+\endhead
+Base Qwen3-0.6B-Base & 22.9 & 22.9 & 20.3 & 20.3 & 0.000 & 0\% \\
+Option 1 & 4207.6 & 521.9 & 372.0 & 246.7 & 0.195 & 47\% \\
+R1 & 35.6 & 34.9 & 22.7 & 22.7 & 0.000 & 0\% \\
+E1a (plain) & 34.3 & 33.6 & 23.5 & 23.5 & 0.000 & 0\% \\
+E1b (analysis) & 35.5 & 34.9 & 23.0 & 23.0 & 0.000 & 0\% \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{6. E1b with the LoRA adapter scaled at inference}
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}}
+\toprule
+\textbf{measure} & \textbf{strength 0.25} & \textbf{strength 0.5} & \textbf{strength 0.75} & \textbf{strength 1.0} \\
+\midrule
+\endhead
+WikiText-2 ppl (20 chunks) & 24.6 & 26.2 & 29.6 & 36.0 \\
+everyday ppl & 18.9 & 19.0 & 20.4 & 23.0 \\
+in-distribution mix & 0.00 & 0.00 & 0.08 & 0.70 \\
+held-out voice = passive & 0.00 & 0.00 & 0.04 & 0.14 \\
+held-out synonym pairs & 0.00 & 0.00 & 0.02 & 0.06 \\
+R1 rewrite synonym [train] & 0.00 & 0.00 & 0.00 & 0.36 \\
+R1 rewrite typo [train] & 0.00 & 0.00 & 0.02 & 0.52 \\
+original test\_iid (first 200) & 0.00 & 0.00 & 0.02 & 0.94 \\
+\bottomrule
+\end{longtable}}
+
+\subsubsection*{7. Per-epoch checkpoints (exact match of the glyph output)}
+
+Subsets for laptop time: first 100 items of each original split (label says 200: name kept for the lookup), first 30 of every other group, identical for every checkpoint (about +/-9 points per cell).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}>{\raggedright\arraybackslash}p{0.067\linewidth}}
+\toprule
+\textbf{group} & \textbf{R1 ep1} & \textbf{R1 ep2} & \textbf{R1 ep3} & \textbf{E1a (plain) ep1} & \textbf{E1a (plain) ep2} & \textbf{E1a (plain) ep3} & \textbf{E1b (analysis) ep1} & \textbf{E1b (analysis) ep2} & \textbf{E1b (analysis) ep3} \\
+\midrule
+\endhead
+in-distribution mix & 0.03 & 0.37 & 0.33 & 0.07 & 0.20 & 0.33 & 0.10 & 0.30 & 0.77 \\
+held-out case = sentence & 0.13 & 0.20 & 0.30 & 0.07 & 0.27 & 0.33 & 0.07 & 0.30 & 0.87 \\
+held-out noise = drop & 0.00 & 0.07 & 0.10 & 0.00 & 0.00 & 0.00 & 0.00 & 0.07 & 0.43 \\
+held-out order = object topicalised & 0.00 & 0.00 & 0.00 & 0.00 & 0.07 & 0.07 & 0.07 & 0.07 & 0.13 \\
+held-out voice = passive & 0.00 & 0.13 & 0.13 & 0.03 & 0.03 & 0.03 & 0.07 & 0.07 & 0.07 \\
+held-out synonym pairs & 0.03 & 0.23 & 0.37 & 0.00 & 0.03 & 0.07 & 0.03 & 0.00 & 0.07 \\
+extrapolation: 5-6 adjectives on a noun & 0.13 & 0.17 & 0.17 & 0.13 & 0.20 & 0.23 & 0.17 & 0.27 & 0.60 \\
+extrapolation: 5 clauses & 0.00 & 0.00 & 0.00 & 0.00 & 0.10 & 0.30 & 0.00 & 0.20 & 0.30 \\
+refusal [heldout] & 0.93 & 0.80 & 0.80 & 0.90 & 0.83 & 0.60 & 0.83 & 0.83 & 0.77 \\
+R1 rewrite synonym [train] & 0.07 & 0.67 & 0.80 & 0.00 & 0.03 & 0.07 & 0.03 & 0.07 & 0.40 \\
+R1 rewrite typo [train] & 0.00 & 0.10 & 0.13 & 0.03 & 0.07 & 0.13 & 0.03 & 0.07 & 0.60 \\
+R1 structure 3 adjectives [heldout] & 0.00 & 0.23 & 0.37 & 0.00 & 0.00 & 0.13 & 0.00 & 0.17 & 0.80 \\
+R1 structure three sentences [heldout] & 0.00 & 0.10 & 0.13 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 \\
+original test\_iid (first 200) & 0.07 & 0.92 & 1.00 & 0.03 & 0.12 & 0.33 & 0.06 & 0.39 & 0.94 \\
+original test\_comp (first 200) & 0.00 & 0.88 & 0.98 & 0.00 & 0.01 & 0.27 & 0.00 & 0.21 & 0.92 \\
+original test\_morph (first 200) & 0.06 & 0.85 & 0.99 & 0.04 & 0.10 & 0.26 & 0.06 & 0.25 & 0.92 \\
+original test\_long (first 200) & 0.00 & 0.78 & 1.00 & 0.00 & 0.00 & 0.05 & 0.00 & 0.06 & 0.90 \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Replay removes forgetting (everyday-English perplexity 22.7--23.5 vs 20.3 base and 372 for Option 1; no glyph
+leakage). Scaling the adapter down is not a free fix: translation appears only at full strength. R1 has learned most
+of what it learns by epoch 2; E1a and E1b are still improving steeply at epoch 3 (E1b original iid 0.06 / 0.39 / 0.94),
+so the E1 runs need more epochs (done: next section). Refusal is learned first (0.83--0.93 after epoch 1).\end{infer}
+\subsection{E1 with 5 epochs, and a second E1b seed}
+\textit{Source: \texttt{results/e1\_5ep.md}.}
+
+
+\begin{caveat}5-epoch runs on a RunPod V100 (fp16, torch 2.6, transformers 5.16.1), otherwise the same settings as the 3-epoch
+Kaggle runs. Held-out structure rows are strict for the 5-epoch runs and left blank for the 3-epoch runs (their pooled
+values are not comparable). Seed 1 is a different random language, so its test items differ. 100 items per E1 group:
+about $\pm$8--10 points.\end{caveat}
+Free generation, exact match of the glyph output. 5-epoch runs: RunPod V100 (fp16, torch 2.6, transformers 5.16.1), otherwise identical settings to the 3-epoch Kaggle runs. Held-out voice/order groups of the 5-epoch runs are strict (only items that contain the variant); the 3-epoch cells for those rows are left blank (see e1\_heldout\_corrected.md). Seed 1 = a new random language instance (different test items). n = 500 per original split, 100 per E1 group, 50 per R1 group.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}>{\raggedright\arraybackslash}p{0.106\linewidth}}
+\toprule
+\textbf{group} & \textbf{n} & \textbf{E1a 3ep} & \textbf{E1b 3ep} & \textbf{E1a 5ep} & \textbf{E1b 5ep} & \textbf{E1b 5ep seed 1} \\
+\midrule
+\endhead
+original test\_iid & 500 & 0.26 & 0.96 & 0.98 & 0.99 & 0.97 \\
+original test\_comp & 500 & 0.22 & 0.93 & 0.97 & 0.97 & 0.97 \\
+original test\_morph & 500 & 0.27 & 0.93 & 0.96 & 0.97 & 0.96 \\
+original test\_long & 500 & 0.06 & 0.84 & 0.85 & 0.87 & 0.91 \\
+in-distribution mix & 100 & 0.30 & 0.76 & 0.76 & 0.80 & 0.78 \\
+held-out case = sentence & 100 & 0.34 & 0.74 & 0.76 & 0.80 & 0.86 \\
+held-out det\_sg = one & 100 & 0.42 & 0.74 & 0.80 & 0.83 & 0.85 \\
+held-out noise = drop & 100 & 0.16 & 0.51 & 0.42 & 0.54 & 0.57 \\
+held-out order = object cleft & 100 &  &  & 0.01 & 0.02 & 0.04 \\
+held-out order = object topicalised & 100 &  &  & 0.00 & 0.00 & 0.01 \\
+held-out order = subject cleft & 100 &  &  & 0.02 & 0.09 & 0.02 \\
+held-out subject = name & 100 & 0.00 & 0.00 & 0.02 & 0.00 & 0.00 \\
+held-out voice = passive & 100 &  &  & 0.00 & 0.01 & 0.02 \\
+held-out synonym pairs & 100 & 0.06 & 0.07 & 0.13 & 0.10 & 0.17 \\
+extrapolation: 5-6 adjectives on a noun & 100 & 0.25 & 0.58 & 0.53 & 0.71 & 0.75 \\
+extrapolation: 5 clauses & 100 & 0.20 & 0.36 & 0.48 & 0.48 & 0.58 \\
+refusal [train] & 100 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+refusal [heldout] & 100 & 0.64 & 0.73 & 0.76 & 0.79 & 0.83 \\
+R1 structure 2 adjectives [train] & 50 & 0.16 & 0.92 & 0.98 & 1.00 & 1.00 \\
+R1 structure 3 adjectives [heldout] & 50 & 0.08 & 0.86 & 0.94 & 0.98 & 0.98 \\
+R1 structure verb without object [train] & 50 & 0.02 & 0.00 & 0.02 & 0.02 & 0.00 \\
+R1 structure name as subject [train] & 50 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+R1 structure name as object [heldout] & 50 & 0.50 & 0.96 & 1.00 & 0.98 & 0.92 \\
+R1 structure two sentences [train] & 50 & 0.10 & 0.88 & 0.94 & 0.96 & 0.96 \\
+R1 structure three sentences [heldout] & 50 & 0.02 & 0.80 & 0.98 & 0.86 & 0.94 \\
+R1 refusal [train] & 50 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+R1 refusal [heldout] & 50 & 0.74 & 0.70 & 0.78 & 0.78 & 0.76 \\
+\bottomrule
+\end{longtable}}
+
+{\footnotesize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}>{\raggedright\arraybackslash}p{0.343\linewidth}}
+\toprule
+\textbf{run} & \textbf{training minutes} & \textbf{target tokens/s} \\
+\midrule
+\endhead
+E1a 3ep & 54 & 1743 \\
+E1b 3ep & 74 & 1962 \\
+E1a 5ep & 76 & 2089 \\
+E1b 5ep & 88 & 2737 \\
+E1b 5ep seed 1 & 88 & 2788 \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}\textbf{The analysis step was useful and made the model converge faster.} With the analysis, 3 epochs were enough
+(E1b original splits 0.96 / 0.93 / 0.93 / 0.84); without it, the same data and schedule left E1a at
+0.26 / 0.22 / 0.27 / 0.06, and E1a needed 5 epochs to reach that level (0.98 / 0.97 / 0.96 / 0.85). Counting compute
+rather than epochs, the saving is smaller but still real: an E1b epoch costs about 1.4$\times$ an E1a epoch (longer
+outputs), so 3 E1b epochs (74 T4-minutes) against 5 E1a epochs (about 90 T4-minutes) is about 1.2$\times$ less compute. At 5
+epochs the two versions are close on most tests, and E1b's two seeds agree within about 5 points on most rows, so the
+results hold on a second random language. E1b keeps an edge on both seeds on the hardest generalisation: five or six
+adjectives 0.71 / 0.75 vs 0.53, typos 0.54 / 0.57 vs 0.42. Longer training does not help unseen structure types:
+passive, clefts, object topicalisation and names as subject stay at 0.00--0.09 for every model. With representative
+data and enough training, the model generalises to new surface forms and to more of the same structure, but not to a
+structure type it has never seen.\end{infer}
+\subsection{Where E1b goes wrong: understanding vs translation}
+\textit{Source: \texttt{results/e1b\_error\_breakdown.md}.}
+
+
+\begin{caveat}For each item: is the analysis E1b writes exactly right, and is the glyph output right? Held-out structure rows
+here use the pooled (uncorrected) groups.\end{caveat}
+For every item: was the analysis the model wrote exactly right, and was the glyph output right? Source: eval\_gen per-item results of e1b-hard-rep-cot-50k.
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{group} & \textbf{n} & \textbf{both right} & \textbf{analysis right, glyphs WRONG (translation error)} & \textbf{analysis WRONG, glyphs right} & \textbf{both wrong (understanding error)} \\
+\midrule
+\endhead
+original test\_iid & 500 & 96\% & 3\% & 0\% & 1\% \\
+original test\_comp & 500 & 93\% & 5\% & 0\% & 2\% \\
+original test\_morph & 500 & 93\% & 5\% & 0\% & 1\% \\
+original test\_long & 500 & 84\% & 14\% & 0\% & 3\% \\
+in-distribution mix & 100 & 76\% & 6\% & 0\% & 18\% \\
+held-out case = sentence & 100 & 74\% & 6\% & 0\% & 20\% \\
+held-out det\_sg = one & 100 & 72\% & 3\% & 2\% & 23\% \\
+held-out noise = drop & 100 & 51\% & 7\% & 0\% & 42\% \\
+held-out order = object cleft & 100 & 12\% & 1\% & 0\% & 87\% \\
+held-out order = object topicalised & 100 & 20\% & 1\% & 0\% & 79\% \\
+held-out order = subject cleft & 100 & 7\% & 0\% & 0\% & 93\% \\
+held-out subject = name & 100 & 0\% & 3\% & 0\% & 97\% \\
+held-out voice = passive & 100 & 12\% & 2\% & 0\% & 86\% \\
+held-out synonym pairs & 100 & 4\% & 0\% & 3\% & 93\% \\
+extrapolation: 5-6 adjectives on a noun & 100 & 58\% & 19\% & 0\% & 23\% \\
+extrapolation: 5 clauses & 100 & 36\% & 32\% & 0\% & 32\% \\
+\textbf{all groups pooled} & 3200 & 70\% & 7\% & 0\% & 23\% \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}E1b's failures on unseen structures are understanding errors: the analysis is already wrong in 79--97\% of
+held-out passive, cleft, topicalised, name-subject and synonym items, and the glyphs then follow the wrong analysis.
+When the analysis is right, the glyphs are almost always right (translation errors 0--7\% on most groups). The
+exception is long output: on five clauses 32\% of items have a correct analysis but wrong glyphs, and on the original
+long split 14\%. Pooled over all groups: 70\% both right, 7\% translation errors, 23\% understanding errors. Better
+English understanding, not better glyph writing, is what the remaining errors need.\end{infer}
+\subsection{Inference-time fixes without retraining: sentence splitting and lower-casing}
+\textit{Source: \texttt{results/local\_fixes.md}.}
+
+
+\begin{caveat}50 items per group, free generation. Splitting breaks the input at `.', `;', `!' and `, and', translates each
+part and joins the outputs. Lower-casing changes the input only.\end{caveat}
+50 items per group from E1's evaluation groups; exact match of the glyph output. Cells: as given $\rightarrow$ with the fix. Split rule: break at '.', ';', '!' and ', and '; translate each part; join. Lower-casing also lower-cases names (none in these groups' casing rows except the in-distribution mix).
+
+{\scriptsize
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.260\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}>{\raggedright\arraybackslash}p{0.130\linewidth}}
+\toprule
+\textbf{fix} & \textbf{group} & \textbf{Option 1} & \textbf{R1} & \textbf{E1a (plain)} & \textbf{E1b (analysis)} \\
+\midrule
+\endhead
+split & R1 structure two sentences [train] & 0.00 $\rightarrow$ 1.00 & 0.88 $\rightarrow$ 1.00 & 0.10 $\rightarrow$ 0.06 & 0.88 $\rightarrow$ 0.88 \\
+split & R1 structure three sentences [heldout] & 0.00 $\rightarrow$ 0.98 & 0.16 $\rightarrow$ 1.00 & 0.02 $\rightarrow$ 0.06 & 0.82 $\rightarrow$ 0.84 \\
+split & extrapolation: 5 clauses & 0.00 $\rightarrow$ 0.00 & 0.00 $\rightarrow$ 0.02 & 0.16 $\rightarrow$ 0.22 & 0.30 $\rightarrow$ 0.54 \\
+split & in-distribution mix & 0.10 $\rightarrow$ 0.12 & 0.34 $\rightarrow$ 0.34 & 0.28 $\rightarrow$ 0.28 & 0.70 $\rightarrow$ 0.74 \\
+lowercase & R1 rewrite casing [train] & 0.56 $\rightarrow$ 1.00 & 0.78 $\rightarrow$ 0.96 & 0.24 $\rightarrow$ 0.26 & 0.94 $\rightarrow$ 0.96 \\
+lowercase & R1 rewrite casing [heldout] & 0.02 $\rightarrow$ 1.00 & 0.28 $\rightarrow$ 0.98 & 0.10 $\rightarrow$ 0.18 & 0.72 $\rightarrow$ 0.98 \\
+lowercase & held-out case = sentence & 0.06 $\rightarrow$ 0.06 & 0.32 $\rightarrow$ 0.30 & 0.34 $\rightarrow$ 0.36 & 0.82 $\rightarrow$ 0.78 \\
+lowercase & in-distribution mix & 0.10 $\rightarrow$ 0.12 & 0.34 $\rightarrow$ 0.32 & 0.28 $\rightarrow$ 0.24 & 0.70 $\rightarrow$ 0.68 \\
+\bottomrule
+\end{longtable}}
+
+\begin{infer}Both fixes repair a failure completely when it is the only thing wrong with the input. Splitting lifts Option 1
+from 0.00 to 1.00 on two sentences and to 0.98 on three (never seen), and R1 from 0.16 to 1.00 on three; lower-casing
+lifts the casing variants of R1's categories to 0.96--1.00 for Option 1 and R1. They do not help when the input also
+differs in other ways: the E1 groups (5 clauses, sentence case, the in-distribution mix) are E1-style English with
+several kinds of variation at once, and there Option 1 and R1 stay at 0.00--0.34 with or without the fix. E1a gains
+little anywhere (these are the 3-epoch E1 models; E1a was undertrained). E1b already handles multiple sentences without splitting (0.88 / 0.82); splitting
+helps it on five clauses (0.30 to 0.54), which matches the error breakdown above (long outputs were its main
+translation error), and lower-casing lifts its unseen casing variants from 0.72 to 0.98. Cheap input normalisation is
+worth applying in front of any of these models, but it cannot replace representative training data.\end{infer}
+\section{Overall inference}
+
+\subsection*{1. The research question}
+\textbf{Token count does not predict accuracy; the meaning a token starts with does.} Tamil script costs 2.2--3.4$\times$
+the tokens of Latin and learns as well or faster; splitting Latin into single characters (more tokens) helps the hard
+language; invented glyphs fail as 3 byte-tokens \emph{and} as single new tokens with an uninformative start. Starting
+each glyph at its Latin sound (Option 1) gives 0.990 / 0.986 / 0.972 / 0.974 on the four splits, above both real
+scripts, and the shuffled-sound Control shows that the \emph{correct} sounds are what produce generalisation to new
+structures (long 0.974 vs 0.650).
+
+\subsection*{2. What Option 1 really learned}
+Within the kind of English it was trained on, Option 1 learned the invented grammar as rules: held-out ending
+combinations 95.0\% (test 3), the never-seen sentence shape 97.5\% (test 20), never-seen adjective+noun pairs 100\%
+(test 20), one-feature changes 99.2--100\% with no side effects (test 14), no agreement attraction (test 13), the
+correct form preferred over every one-error version 100\% (test 15), and rare words learned from 1--15 sightings
+(99.8\%, test 2). Its glyph embeddings keep their sound layout (test 1), its outputs are well formed (tests 11, 16),
+and it is well calibrated in distribution (test 29).
+
+\subsection*{3. Where it fails, and one mechanism behind most failures}
+It fails whenever the English leaves the training template: passive 0\%, fronting 0\%, fillers 0\%, numerals 0\%,
+determiners 6\%, synonyms 12--19\%, typos 3--10\%, UPPER CASE 4--18\%, invisible Unicode 1--34\% (tests 4, 8, 17, 19, 22,
+24, 27, 30; the range covers every test that measured it);
+and on structures absent from training: two adjectives on a noun, two sentences, a verb without its object, names
+(tests 5, 6, 7, 10). Three follow-up tests show how: it translates \emph{word by word from the English tokens} (an error
+stays on the changed word in 95--97\% of cases, test 22), and it fills a \emph{fixed positional template}: a passive
+sentence is read as ``first noun = doer'' (swapped translation scored higher in 100\% of cases, test 23), and two
+adjectives are forced into a one-adjective slot (test 25). An ``unseen local structure'' flag catches 81.7\% of the
+failures (test 27); what it misses are inputs where something is missing rather than new (a verb without its object)
+or changed inside the whitespace. \textbf{All four models fail in the same ways}, so these are consequences of the
+narrow, single-template training English, not of the glyph start.
+
+\subsection*{4. Can the failures be caught or fixed without retraining?}
+\begin{itemize}
+\item \textbf{Not by decoding:} beam search does not help and almost all errors are model errors (test 17).
+\item \textbf{Partly by confidence:} the model's confidence in its own output separates right from wrong (0.93--0.95,
+also within input types, tests 17, 24, 28), but it is over-confident off-template and blind to synonym errors
+(0.63; tests 24, 29), so at 99\% accuracy only 3.0\% of a mixed off-template pool could be answered (test 29).
+\item \textbf{Refusal:} the model never refuses (test 16), but input distance flags odd inputs with 0.98 AUROC
+(test 28), a usable switch.
+\item \textbf{Input clean-up:} NFKC + removing invisible characters fully repairs zero-width spaces, soft hyphens,
+no-break spaces and full-width letters (test 30). Look-alike letters need a confusables map. (Lower-casing as a fix
+for UPPER CASE is plausible but was not tested.)
+\end{itemize}
+
+\subsection*{5. Side effect: forgetting English}
+Fine-tuning damaged plain English (perplexity 20.3 to 372 for Option 1, to millions for Options 2 and 3a; test 21).
+The damage is in the LoRA adapter, not the glyph rows (test 26): adapter off restores 20.5--23.2, and removing glyphs
+from the prediction removes only the smaller part of the damage. The adapters of the copy-start models damaged English
+100--500$\times$ more; why is not established (one hypothesis: their adapters had to do more of the work of
+identifying glyphs).
+
+\subsection*{6. Retraining with targeted data (R1): fixes what it targets, and close variants}
+R1 (Option 1 + varied English rewrites + new structures + refusals + plain-English replay, each with a held-out
+variant) keeps the original splits (0.986 / 0.988 / 0.970 / 0.982) and generalises \emph{within} the patterns it was
+given: passive with verbs never seen in passive 0.94, held-out fillers / determiners / numerals / spacing 0.98--1.00,
+refusal of unseen kinds of non-English 0.85. It does not reach neighbouring cases that were not given: object fronting
+0.00 (location fronting 0.99), unseen synonyms 0.15, three adjectives 0.30, three sentences 0.06; typos stay at 0.13.
+
+\subsection*{7. Representative English (E1) and an analysis step}
+E1 replaces the single template with English generated from grammar families (voice, word order, tense expression,
+negation form, determiners, adjectives, location preposition, clause joining, orthography, lexical choice), sampled
+uniformly, with 20\% of variants held out at random before training. Both versions were trained for 3 and for 5 epochs;
+E1b was also repeated on a second random language (seed 1).
+\textbf{The analysis step was useful and made the model converge faster:} after 3 epochs the version that first writes
+an analysis of the English (E1b) already scored 0.96 / 0.93 / 0.93 / 0.84 on the original splits, while the plain
+version (E1a) on the same data and schedule was at 0.26 / 0.22 / 0.27 / 0.06; E1a needed 5 epochs to reach the same
+level (0.98 / 0.97 / 0.96 / 0.85). At 5 epochs the gap on most tests closes (E1b 0.99 / 0.97 / 0.97 / 0.87, seed 1
+0.97 / 0.97 / 0.96 / 0.91), but E1b keeps an edge on both seeds where generalisation is hardest: five or six adjectives
+(never trained) 0.71 / 0.75 vs 0.53, dropped-letter typos 0.54 / 0.57 vs 0.42. Held-out surface variants reach
+0.76--0.86 for both. \textbf{Structure types that never appear in training still fail for every model, at every
+length of training and with or without the analysis} (strict groups, only items that contain the structure: passive
+0.00--0.02, clefts 0.01--0.09, object topicalisation 0.00--0.01, names as subject 0.00--0.02), and so do unseen synonym
+pairs (0.10--0.17).
+
+\subsection*{8. Forgetting is fixed by replay}
+With about 10\% plain-English passages mixed into training, English perplexity is back near the base model
+(everyday sentences 22.7--23.5 vs 20.3; WikiText-2 34.3--35.6 vs 22.9) instead of 372 / 4,208 for Option 1, and glyphs no
+longer leak into English (0\% vs 47\%). Scaling the adapter down at inference is not an alternative: E1b translates
+almost nothing below full strength (0.02 on the original iid split at strength 0.75).
+
+\subsection*{9. Summary}
+\begin{enumerate}
+\item What makes an unseen script learnable is the meaning its new tokens start with, not their number.
+\item A fine-tuned model generalises within what its data covers: new words, new combinations, more of the same,
+new surface forms. Structure types absent from training are not reached, whether the data is targeted (R1) or broad
+(E1). The training distribution should therefore cover every structure type the language should handle, chosen in
+advance from a grammar, not from test failures.
+\item An explicit analysis step was useful: it made the model converge faster (3 epochs instead of 5 for the same
+scores) and kept a consistent edge on the hardest generalisation (counting beyond the trained range, typos) on two
+random languages. It does not help with structure types absent from training.
+\item Plain-English replay removes forgetting; refusal of non-English generalises to unseen kinds (0.64--0.85).
+\end{enumerate}
+
+\section{Caveats and limits}
+
+\begin{itemize}
+\item \textbf{One seed per 50k model.} Only the 20k grid has three seeds (sd 0.010--0.023). Differences of a few
+points between the 50k models may be noise; the large gaps (e.g.\ long 0.974 vs 0.650) are not.
+\item \textbf{One invented language} (seed 0) for all stress tests; another random language with the same grammar
+might differ in detail.
+\item \textbf{Small cells:} stress-test rows have 60--300 items (test 15's irregular-verb row has 8), so a difference
+of a few points within a row is not meaningful.
+\item \textbf{Assumed gold} for structures never in training (two adjectives); test 25 shows the conclusion does not
+depend on it.
+\item \textbf{Forgetting} is measured on 30 everyday sentences by perplexity, which is very sensitive to probability on
+glyph tokens.
+\item \textbf{Synthetic English:} all English comes from the generator's templates; real English would be more varied
+and would likely expose more failures.
+\item \textbf{Untested hypotheses} are marked as such in the text (why copy-start adapters forget more; lower-casing as
+a fix).
+\item Test 12 is invalid and is not used anywhere in the conclusions.
+\item \textbf{R1 and E1a are single runs (seed 0); E1b (5 epochs) has two seeds.} E1 used 30k translation inputs
+(Option 1 and R1: 50k); E1's held-out list is one random draw. The E1a/E1b edge at 5 epochs (about 20 points on two
+groups of 100) compares two E1b seeds against one E1a seed.
+\item \textbf{The 5-epoch runs ran on a RunPod V100} (torch 2.6) instead of a Kaggle T4 (torch 2.11); all other
+settings are identical. An E1b epoch costs more compute than an E1a epoch (longer outputs: 74 vs 54 training minutes for
+3 epochs on the T4), so the faster convergence is about 1.2$\times$ in compute rather than 5/3 in epochs.
+\item \textbf{Per-epoch cells use subsets} (100 items per original split, 30 per other group: about $\pm$9 points).
+\item \textbf{A sealed set of independently written English} has not been scored yet; all English so far is generated.
+\end{itemize}
+
+\appendix\section{Where every number comes from}
+{\sloppy\raggedright
+
+\begin{itemize}
+\item Main tables: \texttt{results/curve\_summary.md} (\texttt{analysis/curve\_table.py}) and
+\texttt{results/final\_20k.md} (\texttt{analysis/final\_20k.py}), built from the per-run JSON files in
+\texttt{results/kaggle/<run>/results/}. Figures: \texttt{analysis/plots.py}.
+\item Stress tests: \texttt{analysis/stress\_tests.py} (1--6), \texttt{stress\_tests2.py} (7--12),
+\texttt{stress\_tests3.py} (13--21), \texttt{stress\_tests4.py} (22--26), \texttt{stress\_tests5.py} (27--30); each
+writes \texttt{results/stress/test<N>\_*.md}. Saved models: \texttt{results/kaggle/s1-hard-latininit-50k} (Option 1),
+\texttt{s2-hard-translit-50k} (Option 2), \texttt{s3-hard-plaintext-50k} (Option 3a),
+\texttt{s4-hard-shuffledinit-50k} (Control); the reruns reproduced the original runs' scores exactly.
+\item Split examples in Section 1 are produced by \texttt{conlang.dataset.build} at report time.
+\item Retraining: data from \texttt{train/augment.py} (R1) and \texttt{train/represent.py} (E1); runs
+\texttt{results/kaggle/r1-hard-aug-50k}, \texttt{e1a-hard-rep-50k}, \texttt{e1b-hard-rep-cot-50k} (each with
+\texttt{model/}, \texttt{model\_epoch1/}, \texttt{model\_epoch2/}). Comparisons: \texttt{analysis/compare\_r1.py},
+\texttt{analysis/compare\_e1.py}, \texttt{analysis/followups\_e1.py}, \texttt{analysis/compare\_5ep.py}
+(5-epoch runs \texttt{e1a-hard-rep-5ep}, \texttt{e1b-hard-rep-cot-5ep}, \texttt{e1b-hard-rep-cot-5ep-seed1}, trained
+on RunPod with \texttt{kaggle\_tools/runpod\_e1.sh}), \texttt{analysis/local\_fixes.py}. Literature behind the E1 design:
+\texttt{results/generalisation\_research.md}.
+\item This report: \texttt{docs/results\_report/build\_report.py} (tables) and \texttt{inferences.py} (text).
+\end{itemize}
+}
+
+\end{document}

@@ -1,0 +1,46 @@
+{
+ "Tatoeba 600": {
+  "n": 600,
+  "reading": 0.6033333333333334,
+  "writing_gold_meaning": 0.6283333333333333,
+  "pipeline": 0.4816666666666667,
+  "one_model_glyphs": 0.47833333333333333,
+  "one_model_meaning": 0.6033333333333334,
+  "pipeline_failures": 311,
+  "failures_reader_wrong": 231,
+  "failures_reader_right_writer_wrong": 80
+ },
+ "generated: in-distribution mix": {
+  "n": 300,
+  "reading": 0.8666666666666667,
+  "writing_gold_meaning": 0.8333333333333334,
+  "pipeline": 0.7233333333333334,
+  "one_model_glyphs": 0.6133333333333333,
+  "one_model_meaning": 0.8233333333333334,
+  "pipeline_failures": 83,
+  "failures_reader_wrong": 40,
+  "failures_reader_right_writer_wrong": 43
+ },
+ "generated: held-out voice = passive": {
+  "n": 300,
+  "reading": 0.0,
+  "writing_gold_meaning": 0.7166666666666667,
+  "pipeline": 0.0033333333333333335,
+  "one_model_glyphs": 0.0033333333333333335,
+  "one_model_meaning": 0.0,
+  "pipeline_failures": 299,
+  "failures_reader_wrong": 299,
+  "failures_reader_right_writer_wrong": 0
+ },
+ "sealed (totals only)": {
+  "n": 147,
+  "reading": 0.46938775510204084,
+  "writing_gold_meaning": 0.7074829931972789,
+  "pipeline": 0.42857142857142855,
+  "one_model_glyphs": 0.4489795918367347,
+  "one_model_meaning": 0.47619047619047616,
+  "pipeline_failures": 84,
+  "failures_reader_wrong": 76,
+  "failures_reader_right_writer_wrong": 8
+ }
+}

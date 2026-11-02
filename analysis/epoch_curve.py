@@ -24,7 +24,12 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "analysis"))
 
 OUT = ROOT / "results" / "epochs"
-CKPTS = [("1", "model_epoch1"), ("2", "model_epoch2"), ("3", "model_epoch3"), ("4", "model")]
+def ckpts(cfg: dict) -> list[tuple[str, str]]:
+    """(epoch, folder): model_epochK for every saved epoch, then `model` = the LAST epoch. Fixed 2026-10-25: this was a
+    fixed list ending in ("4", "model"), so the 6-epoch run's final model was scored as "epoch 4" and its
+    model_epoch4/5 were never scored."""
+    e = int(float(cfg.get("epochs", 4)))
+    return [(str(k), f"model_epoch{k}") for k in range(1, e)] + [(str(e), "model")]
 
 
 def word_acc(gold: str, pred: str) -> float:
@@ -50,11 +55,16 @@ def run_one(run: str, n: int) -> None:
     items, _ = R2.build_training(cfg.get("preset", "tamil_like"), cfg.get("script", "abugida_pua"),
                                  int(cfg.get("seed", 0)), n=150, n_refuse=0, n_replay=0, cot=cot,
                                  held_frac=float(cfg.get("rep_held_frac", 0.2)), min_count=0,
-                                 loan_rate=float(cfg.get("rep_loan_rate", 0) or 0))
+                                 loan_rate=float(cfg.get("rep_loan_rate", 0) or 0),
+                                 everyday=str(cfg.get("rep_everyday")) == "True")
     R2.LOAN.update(rate=0.0, pool="train")
-    rows = []
-    for ep, d in CKPTS:
-        if not (base / d).exists():
+    # each finished epoch is saved at once, so a stopped run resumes at the next epoch (2026-10-26, low-memory stop);
+    # named .partial, not .json, so table() never reads it
+    OUT.mkdir(parents=True, exist_ok=True)
+    part = OUT / f"{run}_n{n}.partial"
+    rows = json.loads(part.read_text(encoding="utf-8")) if part.exists() else []
+    for ep, d in ckpts(cfg):
+        if not (base / d).exists() or int(ep) in {r["epoch"] for r in rows}:
             continue
         model, tok, _ = load_trained(base / d)
         preds = []
@@ -70,19 +80,20 @@ def run_one(run: str, n: int) -> None:
                             lambda: torch.autocast("cuda", dtype=torch.float16), bsz=4)
         row.update({"train_loss": cs["loss_mean"], "zero_grad_fp32": cs["zero_grad_fp32"], "gap_median": cs["gap_median"]})
         rows.append(row)
+        part.write_text(json.dumps(rows), encoding="utf-8")
         print(run, json.dumps({k: round(v, 4) if isinstance(v, float) else v for k, v in row.items()}), flush=True)
         del model
         torch.cuda.empty_cache()
-    OUT.mkdir(parents=True, exist_ok=True)
     (OUT / f"{run}.json").write_text(json.dumps({"run": run, "n": len(tests), "cot": cot, "epochs": rows}, indent=1),
                                      encoding="utf-8")
+    part.unlink(missing_ok=True)
 
 
 def table() -> None:
     res = [json.loads(f.read_text(encoding="utf-8")) for f in sorted(OUT.glob("*.json"))]
     L = ["# Was each run still learning? (`analysis/epoch_curve.py`)", "",
          "Each epoch checkpoint on the same generated test sentences (none trained on) and on 150 of the run's own "
-         "training examples. The learning rate decays linearly to 0 over the 4 epochs.", "",
+         "training examples. The learning rate decays linearly to 0 over each run's epochs (4; 6 for e2b-v2fix-6ep).", "",
          "| run | epoch | glyphs exact | meaning exact | word acc | train loss | zero-grad (fp32) |", "|---|---|---|---|---|---|---|"]
     for r in res:
         for e in r["epochs"]:
@@ -105,7 +116,7 @@ def table() -> None:
         ax[1].plot(ep, [e["word_acc"] for e in r["epochs"]], marker="o", label=r["run"])
         ax[2].plot(ep, [e["train_loss"] for e in r["epochs"]], marker="o", label=r["run"])
     for a, t in zip(ax, ["test: glyphs exact", "test: word accuracy", "training examples: loss (log)"]):
-        a.set(xlabel="epoch", title=t, xticks=[1, 2, 3, 4])
+        a.set(xlabel="epoch", title=t, xticks=range(1, max(e["epoch"] for r in res for e in r["epochs"]) + 1))
         a.grid(alpha=0.3)
     ax[2].set_yscale("log")
     ax[0].legend(fontsize=7)

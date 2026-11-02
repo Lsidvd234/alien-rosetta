@@ -1,0 +1,7 @@
+=== start 12:02
+own letters (s1-hard-latininit-50k): 800 sentences
+wrong letters (s4-hard-shuffledinit-50k-p1): 800 sentences
+random word pieces (s4-randtok): 800 sentences
+random vectors (s4-random): 800 sentences
+=== end 16:14
+DONE

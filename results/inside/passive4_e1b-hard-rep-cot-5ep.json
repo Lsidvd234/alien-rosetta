@@ -1,0 +1,158 @@
+{
+ "run": "e1b-hard-rep-cot-5ep",
+ "n_active": 600,
+ "n_passive": 600,
+ "probe_A": {
+  "layer": "last:18",
+  "active_val": 1.0,
+  "passive_doer": 0.5083,
+  "passive_reads_patient": 1.0
+ },
+ "probe_B": {
+  "layer": "last:14",
+  "passive_val": 0.8417,
+  "passive_doer": 0.7833,
+  "per_layer_passive_test": {
+   "last:0": 0.5208,
+   "last:1": 0.7125,
+   "last:2": 0.7708,
+   "last:3": 0.7333,
+   "last:4": 0.7208,
+   "last:5": 0.7167,
+   "last:6": 0.6625,
+   "last:7": 0.6667,
+   "last:8": 0.6875,
+   "last:9": 0.725,
+   "last:10": 0.7333,
+   "last:11": 0.7458,
+   "last:12": 0.75,
+   "last:13": 0.75,
+   "last:14": 0.7833,
+   "last:15": 0.7833,
+   "last:16": 0.7542,
+   "last:17": 0.75,
+   "last:18": 0.7625,
+   "last:19": 0.7958,
+   "last:20": 0.7625,
+   "last:21": 0.7625,
+   "last:22": 0.7667,
+   "last:23": 0.7417,
+   "last:24": 0.7833,
+   "last:25": 0.7458,
+   "last:26": 0.7667,
+   "last:27": 0.7417,
+   "last:28": 0.7292,
+   "mean:0": 0.7792,
+   "mean:1": 0.7042,
+   "mean:2": 0.7042,
+   "mean:3": 0.6833,
+   "mean:4": 0.6958,
+   "mean:5": 0.7208,
+   "mean:6": 0.6792,
+   "mean:7": 0.6667,
+   "mean:8": 0.6875,
+   "mean:9": 0.6917,
+   "mean:10": 0.6708,
+   "mean:11": 0.7292,
+   "mean:12": 0.7583,
+   "mean:13": 0.7458,
+   "mean:14": 0.7417,
+   "mean:15": 0.7625,
+   "mean:16": 0.7333,
+   "mean:17": 0.7542,
+   "mean:18": 0.7458,
+   "mean:19": 0.7458,
+   "mean:20": 0.7208,
+   "mean:21": 0.7125,
+   "mean:22": 0.6958,
+   "mean:23": 0.6875,
+   "mean:24": 0.6667,
+   "mean:25": 0.6708,
+   "mean:26": 0.65,
+   "mean:27": 0.6917,
+   "mean:28": 0.675
+  }
+ },
+ "control_shuffled": 0.4417,
+ "probe_B_patient": {
+  "layer": "last:21",
+  "passive_patient": 0.8708
+ },
+ "baselines": {
+  "bag_of_words": 0.8,
+  "layer0_mean": 0.7792
+ },
+ "output": {
+  "analysis_exact": 0.0,
+  "doer_number_right (doer, patient differ)": 0.0,
+  "position_reading (S = gold patient)": 1.0,
+  "n_doer_wrong": 240,
+  "probe_B_where_output_doer_wrong": 0.7833,
+  "probe_A_where_output_doer_wrong": 0.5083,
+  "bag_of_words_where_output_doer_wrong": 0.8,
+  "layer0_where_output_doer_wrong": 0.7792
+ },
+ "R4": "representation failure",
+ "samples": [
+  {
+   "english": "the shovels are inspired by the magical dynamos",
+   "gold": "S=magical+dynamo.PL V=inspire.PRES O=shovel.PL",
+   "model": "S=shovel.PL V=inspire.PRES O=magical+dynamo.PL"
+  },
+  {
+   "english": "an orb will be jockeyed by some wolves",
+   "gold": "S=wolf.PL V=jockey.FUT O=orb",
+   "model": "S=orb V=jockey.FUT O=wolf.PL"
+  },
+  {
+   "english": "A DEAR PIG WILL BE TRIED BY THE ACUTE JUNCTIONS",
+   "gold": "S=acute+junction.PL V=try.FUT O=dear+pig",
+   "model": "S=dear+pig V=behold.FUT O=acute+junction.PL"
+  },
+  {
+   "english": "A  FASCIST  SCALP  IS  BROUGHT  BY  US",
+   "gold": "S=PRON.1pl V=bring.PRES O=fascist+scalp",
+   "model": "S=fascist+scalp V=bring.PAST"
+  },
+  {
+   "english": "the bonnet was hummed by them.",
+   "gold": "S=PRON.3pl V=hum.PAST O=bonnet",
+   "model": "S=bonnet V=hum.PAST O=PRON.3pl"
+  },
+  {
+   "english": "SOME  PROJECTILES  WILL  BE  BREATHED  BY  SOME  GRANDMOTHERS",
+   "gold": "S=grandmother.PL V=breathe.FUT O=projectile.PL",
+   "model": "S=projectile.PL V=breathe.FUT O=grandmother.PL"
+  },
+  {
+   "english": "A Minus Eye Is Not Swapped By Him Within The Driveway.",
+   "gold": "S=PRON.3sgm V=swap.PRES.NEG O=minus+eye L=driveway",
+   "model": "S=minus+eye V=swap.PRES.NEG O=NAME.Him L=driveway"
+  },
+  {
+   "english": "That Cracker Isn't Aided By That Graphic Plasma!",
+   "gold": "S=graphic+plasma V=aid.PRES.NEG O=cracker",
+   "model": "S=cracker V=aid.PRES.NEG O=graphic+plasma"
+  },
+  {
+   "english": "the crackers were bowed by us",
+   "gold": "S=PRON.1pl V=bow.PAST O=cracker.PL",
+   "model": "S=cracker.PL V=bow.PAST O=PRON.1pl"
+  },
+  {
+   "english": "some vehicles are defeated by them",
+   "gold": "S=PRON.3pl V=defeat.PRES O=vehicle.PL",
+   "model": "S=vehicle.PL V=defeat.PRES"
+  },
+  {
+   "english": "A Snowboard Will Be Boycotted By Her",
+   "gold": "S=PRON.3sgf V=boycott.FUT O=snowboard",
+   "model": "S=snowboard V=boycott.FUT O=NAME.Her"
+  },
+  {
+   "english": "some savage layers were confronted by some stable androids",
+   "gold": "S=stable+android.PL V=confront.PAST O=savage+layer.PL",
+   "model": "S=savage+layer.PL V=confront.PAST O=stable+android.PL"
+  }
+ ]
+}

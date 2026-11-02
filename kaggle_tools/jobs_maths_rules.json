@@ -1,0 +1,79 @@
+[
+ {
+  "name": "maths-meaning-trick-drop6row",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-rule",
+   "trick",
+   "--drop-pair",
+   "6,4;6,5;6,6",
+   "--grad-accum",
+   "2"
+  ]
+ },
+ {
+  "name": "maths-meaning-split-drop6row",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-rule",
+   "split",
+   "--drop-pair",
+   "6,4;6,5;6,6",
+   "--grad-accum",
+   "2"
+  ]
+ },
+ {
+  "name": "maths-meaning-double-drop6row",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-rule",
+   "double",
+   "--drop-pair",
+   "6,4;6,5;6,6",
+   "--grad-accum",
+   "2"
+  ]
+ },
+ {
+  "name": "maths-meaning-swap-drop65ordered",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch-build-rule",
+   "swap",
+   "--drop-ordered",
+   "6,5",
+   "--grad-accum",
+   "2"
+  ]
+ },
+ {
+  "name": "maths-meaning-scratch-drop65ordered",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--eval-every",
+   "500",
+   "--scratch",
+   "--drop-ordered",
+   "6,5"
+  ]
+ }
+]

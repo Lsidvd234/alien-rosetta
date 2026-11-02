@@ -27,7 +27,7 @@ import random
 from pathlib import Path
 
 from conlang.frames import NP, PRONOUNS
-from conlang.v2 import NPX, PLURALIA, ClauseV2, Coord, Name, RepV2, VocabV2
+from conlang.v2 import AFFIXES, NPX, PLURALIA, SOUND_RULE, ClauseV2, Coord, Name, RepV2, VocabV2
 
 from train.augment import IRREGULAR_PARTICIPLE, REFUSAL, SYN_TABLES, load_replay, refusal
 
@@ -78,6 +78,52 @@ FAMILIES: dict[str, list[str]] = {
     "noise": ["none", "swap", "drop", "insert", "substitute"],
     "lexical": ["plain", "synonym"],
 }
+# families the generator records in ex["used"] when a variant really applied (the eval "strict" check and
+# put-back can only verify these; the others are forced in name only)
+USED_FAMILIES = ("voice", "order", "future", "present", "past", "question form", "give form", "how position",
+                 "link order")
+FIXES = {"adj_sep": False}     # --rep-fix-adj-sep (2026-10-25): off = exact rebuilds of finished runs
+# --rep-everyday (2026-10-26): common English the generator left out although the language has the words (found on
+# Tatoeba: 'have' as a main verb was the largest never-seen word). Off = exact rebuilds of finished runs: no extra
+# random draws and the same word pools. Set only inside build_training(everyday=True); test sets stay as they were.
+EVERYDAY = {"on": False}
+X_VERBS = {"have", "do", "like"}                 # FUNCTION_LIKE kept them out (auxiliaries / 'like' the preposition)
+X_NOUNS = {"people", "time"}                     # people (always plural, PLURALIA) was excluded on purpose; time too
+X_HOW = {"focus": ["just", "even", "almost", "probably", "maybe", "perhaps", "certainly", "finally", "suddenly",
+                   "really", "indeed"],
+         "place": ["somewhere", "everywhere", "outside", "inside", "ahead"],       # not 'home': read as a noun
+         "end": ["once", "twice", "forever"]}
+X_PARTICLES = ["up", "down", "out", "off", "back", "away", "over", "around", "along"]   # sit down, look it up
+PHRASAL_BASES = ["go", "come", "sit", "stand", "get", "look", "pick", "put", "take", "turn", "run", "walk", "throw",
+                 "bring", "give", "wake", "grow", "calm", "shut", "fall", "break", "cut", "write", "clean", "hang",
+                 "hold", "lie", "move", "pull", "push", "set", "slow", "climb", "jump", "drive", "fly", "send", "carry",
+                 "call", "pay", "clear", "fill", "hand", "lock", "tear", "back", "wash", "dress", "settle", "show"]
+REFL_EN = {"1sg": "myself", "2sg": "yourself", "3sgm": "himself", "3sgf": "herself", "3sgn": "itself",
+           "1pl": "ourselves", "2pl": "yourselves", "3pl": "themselves"}
+BY_WITH = ["bus", "car", "train", "plane", "boat", "bike", "taxi", "ship", "email", "phone", "mail", "hand", "post"]
+# common English first names whose letters are all sounds of the language (the reader's spell_name), with gender;
+# names the reader also knows as words (Mark, Nick, Ray, Lily, Ivy, ...) are left out (checked 2026-10-26)
+ENGLISH_NAMES = {"m": ["Tom", "Tim", "Peter", "Kevin", "Martin", "Victor", "Oliver", "Ryan", "Ian", "Eric", "Carl",
+                       "Tony", "Patrick", "Vincent", "Roy", "Leo", "Leon", "Neil", "Paul", "Noel", "Colin", "Ron",
+                       "Kyle", "Arnie"],
+                 "f": ["Mary", "Kate", "Lucy", "Karen", "Emma", "Emily", "Olivia", "Mia", "Ella", "Amy", "Katie",
+                       "Ellen", "Tina", "Nora", "Lena", "Rita", "Nancy", "Marie", "Alice", "Monica", "Nicole", "Tracy",
+                       "Kim", "Lia", "Mila"]}
+NAME_UNITS = ["aa", "ee", "ii", "oo", "uu", "zh", "ng", "ny", "tx", "nx", "lx", "rx",          # as the reader's
+              "a", "e", "i", "o", "u", "k", "c", "t", "n", "p", "m", "y", "r", "l", "v"]   # spell_name
+UNIT_SOUND = {"tx": "T", "nx": "N", "lx": "L", "rx": "R"}
+
+
+def spell_name(name: str) -> tuple[str, ...] | None:
+    """A name's sounds exactly as sealed/app/english_parse.spell_name reads them (None: a letter is not a sound)."""
+    s, i, ph = name.lower(), 0, []
+    while i < len(s):
+        u = next((u for u in NAME_UNITS if s.startswith(u, i)), None)
+        if u is None:
+            return None
+        ph.append(UNIT_SOUND.get(u, u))
+        i += len(u)
+    return tuple(ph)
 HOLDABLE = ["voice", "order", "future", "present", "past", "negation", "question form", "owner form", "give form",
             "relation form", "how position", "vocative", "adj_sep", "join", "link order", "shared doer", "case", "end",
             "spacing", "noise", "lexical"]
@@ -158,6 +204,85 @@ def set_held_out(frac: float) -> None:
     HELD_OUT.update(draw_held_out(frac) if frac > 0 else set())
 
 
+# Sound-rule extension (2026-10-28, SOUND_RULE_LANGUAGE.md): held = content words (base English words) kept out of
+# every training example, for the new-word test; block = generators skip them (off only while making that test).
+SOUND = {"held": set(), "block": True}
+
+
+def language_of_run(cfg: dict) -> bool:
+    """Set the language switches from a finished run's settings (run_args.json) before rebuilding its data or
+    tests on the laptop; returns whether it is the sound-rule language. Every older run: v2 (switch off)."""
+    on = str(cfg.get("rep_sound_rule")) == "True"
+    set_sound_rule(on, float(cfg.get("rep_sound_held", 0) or 0) if on else 0.0, cfg.get("preset", "tamil_like"),
+                   cfg.get("script", "abugida_pua"), int(cfg.get("seed", 0)),
+                   float(cfg.get("rep_sound_frac", 1.0) or 1.0) if on else 1.0)
+    return on
+
+
+def render_targets(analyses: list[str], v2_golds: list[str], preset: str = "tamil_like",
+                   script: str = "abugida_pua", seed: int = 0) -> list[str | None]:
+    """Sound-rule glyphs for gold meanings whose v2 glyphs are v2_golds (Tatoeba, sealed): the gold's own choices (a
+    name doer's gender changes the verb ending) are found by matching its v2 rendering, then rendered with the sound
+    rule. None if no choice reproduces the v2 gold. Does not change the global switch."""
+    import itertools
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "sealed" / "app"))   # the reader's code only
+    from conlang.v2 import from_analysis
+    from english_parse import spell_name as parse_name, with_gender
+    was = SOUND_RULE["on"]
+    try:
+        SOUND_RULE["on"] = False
+        rv = RepV2(preset, script, seed)
+        SOUND_RULE["on"] = True
+        rs = RepV2(preset, script, seed)
+    finally:
+        SOUND_RULE["on"] = was
+    out = []
+    for a, gold in zip(analyses, v2_golds):
+        hit = None
+        try:
+            cls, _ = from_analysis(a, parse_name)
+            for gs in itertools.product("mf", repeat=min(len(cls), 6)):
+                cg = [with_gender(c, g) for c, g in zip(cls, gs + ("m",) * 9)]
+                if " ".join(rv.target(c) for c in cg) == gold:
+                    hit = " ".join(rs.target(c) for c in cg)
+                    break
+        except Exception:  # noqa: BLE001  (a word the language lacks, an unreadable analysis)
+            pass
+        out.append(hit)
+    return out
+
+
+def bases_of(key: str) -> list[str]:
+    """The English base words of a word key: help>ACT -> help, book_shop -> book, shop."""
+    return [p for p in __import__("re").split(r"[>_]", key) if p and p not in AFFIXES]
+
+
+def held_words_in(analysis: str) -> set[str]:
+    return {b for k in analysis_keys(analysis) for b in bases_of(k)} & SOUND["held"]
+
+
+def set_sound_rule(on: bool, held_frac: float = 0.0, preset: str = "tamil_like", script: str = "abugida_pua",
+                   seed: int = 0, rule_frac: float = 1.0) -> None:
+    """Switch the sound-rule language on (content roots = loan_sounds of the English word) and hold out a fixed
+    seeded share of the content words (drawn from the generator's word pools). Off = v2 exactly.
+    rule_frac < 1 (01 Nov, claim 3 threshold runs): only a seeded share of the pool's English words is rule-spelled,
+    the rest keep v2's random roots; the held-out (new-word test) words are drawn from the rule words only, since an
+    arbitrary root cannot be guessed. rule_frac = 1: exactly as before."""
+    SOUND_RULE["on"] = bool(on)
+    SOUND_RULE["words"] = None
+    SOUND.update(held=set(), block=True)
+    if not on or (held_frac <= 0 and rule_frac >= 1):
+        return
+    bases = sorted({b for k in pool_keys(GenV2(preset, script, seed)) for b in bases_of(k)})
+    pool = bases
+    if rule_frac < 1:
+        pool = sorted(random.Random(HELD_OUT_SEED + 91).sample(bases, round(rule_frac * len(bases))))
+        SOUND_RULE["words"] = set(pool)
+    if held_frac > 0:
+        SOUND["held"] = set(random.Random(HELD_OUT_SEED + 77).sample(pool, round(held_frac * len(pool))))
+
+
 AUX_WORDS = {"will", "shall", "would", "can", "could", "must", "should", "may", "might", "do", "does", "did", "have",
              "has", "had", "am", "is", "are", "was", "were", "won't", "can't", "couldn't", "mustn't", "shouldn't",
              "wouldn't", "don't", "doesn't", "didn't", "haven't", "hasn't", "hadn't", "isn't", "aren't", "wasn't",
@@ -198,10 +323,13 @@ class GenV2:
         z = FORMS["zipf"]
         v = self.v
         ok = (lambda w: w.isalpha() and w not in FUNCTION_LIKE)
+        self.everyday = EVERYDAY["on"]
+        xd = self.everyday
+        self.x_names = [(n, spell_name(n), g) for g, ns in ENGLISH_NAMES.items() for n in ns] if xd else []
         # nouns: (english singular, english plural or None, key, mass)
         nouns = {}
         for n, (pl, _) in v.noun_info.items():
-            if ok(n) and n != "people":
+            if (ok(n) and n != "people") or (xd and n in X_NOUNS):
                 k = v.key(n, "N")
                 nouns[n] = (n, pl if pl and pl != n else None, k, k in v.mass)
         for (w, pos), d in v.derived.items():
@@ -226,10 +354,11 @@ class GenV2:
         verbs = {}                                                   # base -> (key, third, past, participle, trans)
         trans = set(v.transitive) | {"have", "say", "tell", "get"}
         for lemma, (base, third, past) in v.verb_info.items():
-            if ok(base) and lemma not in ("do", "let", "rain", "snow", "become", "seem", "appear", "be"):
+            if (ok(base) and lemma not in ("do", "let", "rain", "snow", "become", "seem", "appear", "be")) or (
+                    xd and lemma in X_VERBS):
                 part = (FORMS["participle"].get(base) or IRREGULAR_PARTICIPLE.get(lemma) or v.participle.get(lemma)
                         or past)
-                verbs[base] = (v.key(lemma, "V"), third, past, part, lemma in trans)
+                verbs[base] = (v.key(lemma, "V"), third, past, part, lemma in trans or (xd and lemma in X_VERBS))
         for (w, pos), d in v.derived.items():
             if pos == "V" and ok(w) and d.get("third") and d.get("past"):
                 verbs[w] = (v.key(w, "V"), d["third"], d["past"], FORMS["participle"].get(w) or d["past"], True)
@@ -251,6 +380,20 @@ class GenV2:
                                | set(v.adverbs) | set(v.x_adverbs) | {w for w, _ in manner})
         self.all_syn = {k: {**SYN_TABLES["train"][k], **SYN_TABLES["heldout"][k]} for k in "NLAV"}
         self.lexicon_sounds = {"".join(r) for r in lang.roots.values()}
+        self.block_held = bool(SOUND["held"]) and SOUND["block"]
+        if self.block_held:                                      # sound rule: held-out words never drawn
+            def keep(pool, w, key):
+                kept = [(x, y) for x, y in zip(pool, w) if not set(bases_of(key(x))) & SOUND["held"]]
+                return [x for x, _ in kept], [y for _, y in kept]
+            self.nouns, self.noun_w = keep(self.nouns, self.noun_w, lambda x: x[2])
+            self.people, self.people_w = keep(self.people, self.people_w, lambda x: x[2])
+            self.places, self.places_w = keep(self.places, self.places_w, lambda x: x[2])
+            self.adjs, self.adj_w = keep(self.adjs, self.adj_w, lambda x: x[1])
+            self.verbs, self.verb_w = keep(self.verbs, self.verb_w, lambda x: x[1])
+            self.tverbs, self.tverb_w = keep(self.tverbs, self.tverb_w, lambda x: x[1])
+            self.iverbs, self.iverb_w = keep(self.iverbs, self.iverb_w, lambda x: x[1])
+            self.manner, self.manner_w = keep(self.manner, self.manner_w, lambda x: x[1])
+            self.verb_by_base = {x[0]: x for x in self.verbs}
 
     def _renders(self, key: str, pos: str) -> bool:
         try:
@@ -272,6 +415,9 @@ class GenV2:
         return rng.choices([p[0] for p in pairs], weights=[p[1] for p in pairs])[0]
 
     def name(self, rng) -> Name:
+        if self.x_names and rng.random() < 0.35:                  # everyday: a real English first name (Tom)
+            n, ph, g = rng.choice(self.x_names)
+            return Name(n, ph, g)
         cons = ["k", "c", "t", "n", "p", "m", "y", "r", "l", "v"]
         vowels = ["a", "e", "i", "o", "u", "a", "i", "u", "aa", "ii", "uu"]
         while True:
@@ -298,8 +444,10 @@ class GenV2:
         plural = (rng.random() < 0.4) if plural is None else plural
         plural = plural and pl_form is not None and not mass
         det = det or ch["det"]
-        if sg in TIME_NOUNS + ["midnight", "noon", "today", "tonight"] and det in ("this", "that", "quantifier"):
+        if sg in TIME_NOUNS + ["midnight", "noon", "today", "tonight"] + (["time"] if self.everyday else []) \
+                and det in ("this", "that", "quantifier"):
             det = "the"                                              # 'this morning' is a time phrase
+        pl_det = plural or (self.everyday and key in PLURALIA)       # people: these people, two people, not 'a'
         if det == "owner" and not allow_owner:
             det = "the"
         if det == "my" and not allow_owner:
@@ -321,20 +469,23 @@ class GenV2:
             mod = " ".join(adj_en)
         noun_en = pl_form if plural else sg
         dkeys, det_en, poss, poss_en, of_en = [], "", None, "", ""
-        if det == "a/an" and (plural or mass):
+        if det == "a/an" and (pl_det or mass):
             det = "the"
-        if det == "none" and not (plural or mass):
+        if det == "none" and not (pl_det or mass):
             det = "the"
         if det == "the":
             det_en = "the"
+            if self.everyday and rng.random() < 0.12:               # the other / first / second / third dog
+                d = rng.choice(["other", "first", "second", "third"])
+                dkeys, det_en = [d], f"the {d}"
         elif det == "a/an":
             first = (mod or noun_en)[0]
             det_en = "an" if first in "aeiou" else "a"
         elif det in ("this", "that"):
             dkeys = [det]
-            det_en = {"this": "these", "that": "those"}[det] if plural else det
+            det_en = {"this": "these", "that": "those"}[det] if pl_det else det
         elif det == "number":
-            if plural:
+            if pl_det:
                 n = rng.choice(NUMBERS)
                 dkeys, det_en = [n], n
             elif not mass:
@@ -342,7 +493,9 @@ class GenV2:
             else:
                 det_en = "the"
         elif det == "quantifier":
-            q = rng.choice(QUANT_MASS if mass else (QUANT_PL if plural else QUANT_SG))
+            q = rng.choice(QUANT_MASS if mass else (QUANT_PL if pl_det else QUANT_SG))
+            if self.everyday and (mass or pl_det) and rng.random() < 0.15:
+                q = "enough"                                         # enough water, enough chairs
             if q == "a lot of":
                 dkeys, det_en = ["much"], "a lot of"
             else:
@@ -350,6 +503,8 @@ class GenV2:
         elif det == "my":
             poss = rng.choice([k for k in POSS_EN if k != "2pl"])
             poss_en = POSS_EN[poss]
+            if self.everyday and rng.random() < 0.1:                 # my own room
+                dkeys, poss_en = ["own"], poss_en + " own"
         elif det == "owner":
             if rng.random() < 0.5:
                 o = self.name(rng)
@@ -510,13 +665,27 @@ class GenV2:
             en = x.name
         else:
             d = ch["det"] if ch["det"] != "none" else "the"
+            if self.everyday and fld == "WITH" and rng.random() < 0.15:
+                ks = [x for x in self.nouns if x[0] in BY_WITH]   # by bus = WITH=bus (as the reader reads it)
+                if ks:
+                    sg = rng.choice(ks)
+                    return fld, NP(sg[2], False), f"by {sg[0]}"
             x, en, _ = self.np(rng, dict(ch, det=d), "obj", self.adj_count(rng, {0: 0.8, 1: 0.2}))
+            if self.everyday and fld == "NEAR" and en.split()[0] in ("the", "this", "that", "these", "those", "my",
+                                                                     "your", "his", "her", "its", "our", "their") \
+                    and rng.random() < 0.3:
+                word = "by"                                          # by the window = NEAR=window
         return fld, x, f"{word} {en}"
 
     def how(self, rng, ch: dict) -> tuple[list[str], str, str]:
         """-> (keys, English, class)."""
         cls = rng.choice(FAMILIES["how"])
         if cls in HOW:
+            if self.everyday and rng.random() < 0.4:
+                c2 = {"focus": "focus", "place": "place", "frequency": "end"}.get(cls)
+                if c2:                                               # just / probably, outside / home, once / twice
+                    w = rng.choice(X_HOW[c2])
+                    return [w], w, c2
             w = rng.choice(HOW[cls])
             return [w], w, cls
         if cls == "a lot":
@@ -526,6 +695,14 @@ class GenV2:
             d = rng.choice(["very", "really", "quite"])
             return [d, k], f"{d} {w}", cls
         return [k], w, "manner"
+
+    def particle(self, rng, vb: tuple, hows: list) -> list:
+        """Everyday: a phrasal-verb particle (sit down, look it up = M=down / M=up, as the reader reads it)."""
+        if vb[0] in PHRASAL_BASES and rng.random() < 0.25:
+            p = rng.choice(X_PARTICLES)
+            if not any(h[0] == [p] for h in hows):
+                return hows + [([p], p, "particle")]
+        return hows
 
     def time_phrase(self, rng) -> tuple[object, str]:
         n = rng.choice(TIME_NOUNS)
@@ -591,8 +768,16 @@ class GenV2:
         if pred == "give-like":
             r = self.nominal(rng, ch, "obj", rng.choice(["pronoun", "name", "noun"]), {0: 0.9, 1: 0.1}, people=True)
             receiver = r
-        # passive
         voice = ch["voice"]
+        if self.everyday:
+            if vb[0] in X_VERBS:
+                voice = "active"                                     # 'a car was had': not used
+                if q:                                                # do you have / did she do (not 'have you a car')
+                    ch = dict(ch, present="do-emphatic", past="did-emphatic")
+            if trans and receiver is None and isinstance(subj, str) and subj in REFL_EN and rng.random() < 0.1:
+                obj, obj_en, voice = subj, REFL_EN[subj], "active"   # I hurt myself = O=PRON.1sg (the reader)
+            hows = self.particle(rng, vb, hows)
+        # passive
         if voice == "passive without doer" and vb[4] in self.adj_words:
             voice = "active"                                         # 'are made' also reads as be + describing
         if voice != "active" and trans and receiver is None and not q and aspect != "progressive" \
@@ -721,6 +906,8 @@ class GenV2:
         if pred == "be + describing":
             n = max(1, self.adj_count(rng, counts))
             picked = list(dict.fromkeys(rng.choices(self.adjs, weights=self.adj_w, k=n)))
+            if FIXES["adj_sep"] and ch["adj_sep"] != "and":
+                picked = picked[:1]       # a predicate list needs "and" ("X, Y and Z"): without it, one adjective
             keys, ens = [], []
             for i, (a, ak) in enumerate(picked):
                 k, e = self.degree(rng, a, ak, ch["degree"] if i == 0 else "none")
@@ -728,9 +915,14 @@ class GenV2:
                 ens.append(e)
             cl.adjs = tuple(keys)
             if len(ens) >= 2:
+                # `or True` (kept for exact rebuilds of finished runs): every predicate list says "and", so a
+                # held-out adj_sep=and still reached training. FIXES["adj_sep"] (--rep-fix-adj-sep) avoids it above.
                 tail = [", ".join(ens[:-1]) + " and " + ens[-1]] if ch["adj_sep"] == "and" or True else []
             else:
                 tail = ens
+            if self.everyday:                                       # 'is given by the door' reads as a passive
+                rels = [(f, x, "near " + e[3:]) if f == "NEAR" and e.startswith("by ") else (f, x, e)
+                        for f, x, e in rels]
             if any(k.endswith(">MORE") or k == "more" for k in keys) and rng.random() < 0.5:
                 o = self.nominal(rng, ch, "obj", rng.choice(["noun", "pronoun", "name"]), {0: 0.9, 1: 0.1})
                 rels = rels + [("THAN", o[0], "than " + o[1])]
@@ -755,6 +947,8 @@ class GenV2:
     def command(self, rng, ch, counts, used, rels, hows):
         neg = rng.random() < 0.25
         vb = rng.choices(self.verbs, weights=self.verb_w)[0]
+        if self.everyday:
+            hows = self.particle(rng, vb, hows)                     # sit down! / pick it up
         cl = ClauseV2(verb=vb[1], neg=neg)
         en = (["don't"] if ch["negation"] == "contracted" else ["do", "not"]) if neg else []
         en.append(vb[0])
@@ -935,9 +1129,12 @@ class GenV2:
         front, back = [], []
         pos = ch["how position"]
         how_front, how_mid, how_back = [], [], []
+        how_part = []                                                 # everyday particles: right after the core
         no_front = no_front or ch.get("_linked", False)
         for keys, h_en, cls in hows:
-            if cls in ("frequency", "focus") and verb_at is not None:
+            if cls == "particle":
+                how_part.append((keys, h_en))
+            elif cls in ("frequency", "focus") and verb_at is not None:
                 how_mid.append((keys, h_en))                          # she never sleeps, he will always win
             elif cls in ("frequency", "focus"):
                 continue                                              # (not after 'be' in this generator)
@@ -963,6 +1160,7 @@ class GenV2:
             if verb_at + 1 < len(words) and words[verb_at] in AUX_WORDS:
                 at = verb_at + 1 + (1 if words[verb_at + 1] == "not" else 0)
             words = words[:at] + [h for _, h in how_mid] + words[at:]
+        words += [h for _, h in how_part]
         # English order: [front time] [front how] [front relation ,] core [relations] [how] [time]
         pre = [t_en for _, t_en in t_front] + [h for _, h in how_front]
         if rel_front:
@@ -970,7 +1168,7 @@ class GenV2:
         post = [r[2] for r in rels] + [h for _, h in how_back] + [t_en for _, t_en in t_back]
         # meaning, in English order
         adv = [k for keys, _ in how_front for k in keys] + [k for keys, _ in how_mid for k in keys] + \
-              [k for keys, _ in how_back for k in keys]
+              [k for keys, _ in how_part for k in keys] + [k for keys, _ in how_back for k in keys]
         if cl.adv:
             adv = cl.adv.split("+") + adv
         cl.adv = "+".join(adv) or None
@@ -1133,8 +1331,10 @@ class GenV2:
             return None
         if any(self.rep.check(c) for c in ex["clauses"]):
             return None
-        return {"english": ex["english"], "target": target,
-                "analysis": " ; ".join(self.rep.analysis(c) for c in ex["clauses"])}
+        analysis = " ; ".join(self.rep.analysis(c) for c in ex["clauses"])
+        if self.block_held and held_words_in(analysis):         # a held-out word came in another way (time phrase)
+            return None
+        return {"english": ex["english"], "target": target, "analysis": analysis}
 
 
 SYN_HELD: set = set()
@@ -1166,7 +1366,7 @@ def pool_keys(gen: GenV2) -> set[str]:
             | {x[1] for x in gen.verbs} | {k for _, k in gen.manner})
 
 
-def cover(gen: GenV2, rng, out: list[dict], seen: set, min_count: int) -> dict:
+def cover(gen: GenV2, rng, out: list[dict], seen: set, min_count: int, protect: set[int] | None = None) -> dict:
     """Data fix: every word of the language at least `min_count` times, same number of examples.
     1) count every word key; 2) add examples whose content words are drawn only from the words still below
     min_count (all other choices as usual) until each reaches it; 3) drop as many examples as were added,
@@ -1215,6 +1415,8 @@ def cover(gen: GenV2, rng, out: list[dict], seen: set, min_count: int) -> dict:
     for i in order:
         if len(drop) >= len(added):
             break
+        if protect and i in protect:                  # e.g. put-back examples of a structure dose
+            continue
         ks = [k for k in analysis_keys(out[i]["analysis"]) if k in keys]
         if all(counts[k] - ks.count(k) >= min_count for k in set(ks)):
             drop.add(i)
@@ -1234,11 +1436,32 @@ def build_training(preset: str, script: str, seed: int, n: int = 60000, n_refuse
                    n_replay: int = 6000, cot: bool = False, held_frac: float = 0.2,
                    min_count: int = 0, paraphrase_file: str | None = None,
                    loan_rate: float = 0.0, real_file: str | None = None, held_only: str | None = None,
-                   putback: int = 0) -> tuple[list[dict], dict]:
+                   putback: int = 0, exact_n: bool = False,
+                   protect_putback: bool = False, everyday: bool = False) -> tuple[list[dict], dict]:
     """paraphrase_file: {original english: paraphrase} from scripts/build_paraphrases.py (each checked to read to
     exactly the same analysis); matched examples get the paraphrased English, labels unchanged.
     held_only "voice=passive": hold out only that variant (instead of held_frac), then put back `putback` examples
-    of it (structure dose: how many sightings close an unseen-structure gap). Total stays n."""
+    of it (structure dose: how many sightings close an unseen-structure gap). Total stays n.
+    Fixes for NEW runs (2026-10-25; all default off so finished runs rebuild exactly): exact_n keeps the total at n
+    after the word floor; protect_putback stops the floor from dropping put-back examples (50 / 300 became 47 / 288).
+    everyday (2026-10-26, default off): the generator also uses the common English it left out (EVERYDAY above); the
+    switch is on only while this function builds, so test sets made afterwards are the standard ones."""
+    EVERYDAY["on"] = bool(everyday)
+    try:
+        return _build_training(preset, script, seed, n, n_refuse, n_replay, cot, held_frac, min_count,
+                               paraphrase_file, loan_rate, real_file, held_only, putback, exact_n, protect_putback,
+                               everyday)
+    finally:
+        EVERYDAY["on"] = False
+
+
+def _build_training(preset, script, seed, n, n_refuse, n_replay, cot, held_frac, min_count, paraphrase_file,
+                    loan_rate, real_file, held_only, putback, exact_n, protect_putback, everyday):
+    if SOUND_RULE["on"] and (real_file or loan_rate):
+        raise ValueError("sound-rule language: real-text labels and loanwords are v2 glyphs; not supported")
+    if held_only and putback and held_only.split("=", 1)[0] not in USED_FAMILIES:
+        raise ValueError(f"--rep-held-only {held_only}: put-back needs a family recorded in ex['used'] "
+                         f"({', '.join(USED_FAMILIES)}); others would loop forever")
     set_held_out(held_frac)
     if held_only:
         HELD_OUT.clear()
@@ -1277,7 +1500,32 @@ def build_training(preset: str, script: str, seed: int, n: int = 60000, n_refuse
                      and ch.get("spacing", "single") == "single" and ch.get("case", "sentence") == "sentence")
             out.append({**it, "aug": "rep2", "clean": clean, "raw": ex["raw"],
                         "surf": {k: ch.get(k) for k in ("case", "end", "spacing", "noise", "lexical")}})
-    coverage_info = cover(gen, rng, out, seen, min_count) if min_count > 0 else None
+    protect = set(range(putback)) if (protect_putback and held_only and putback) else None
+    if min_count > 0 and exact_n:
+        # Same total as a floor-12 run: cover() can only drop examples that keep every word >= min_count, so with a
+        # high floor it adds more than it drops (floor 25: +17,905). Start from fewer generated examples (a prefix
+        # of the same stream) until the covered set has the target size; the floor stays intact.
+        # Tested 2026-10-25: often infeasible (every word x min_count sightings may not fit in n examples; floor 25
+        # needs ~98k at n=80k), so it stops with an error instead of shrinking forever. The clean control for floor 25
+        # is the other way round: a floor-12 run at floor 25's size (jobs_floor25_sizematched.json).
+        base, state, target = out, rng.getstate(), len(out)
+        n0, last = target, None
+        for _ in range(6):
+            trial = list(base[:n0])
+            tseen = {it["english"] for it in trial}
+            rng.setstate(state)
+            coverage_info = cover(gen, rng, trial, tseen, min_count, protect)
+            excess = len(trial) - target
+            if excess <= 0:
+                break
+            if (last is not None and excess >= last) or n0 - excess <= 0:
+                raise ValueError(f"--rep-exact-n: word floor {min_count} does not fit in {target} examples "
+                                 f"(still {excess} over with {n0} generated); use a larger --rep-n instead")
+            last, n0 = excess, n0 - excess
+        out, seen = trial, tseen
+        coverage_info = {**coverage_info, "exact_n": True, "base_examples": n0, "target": target}
+    else:
+        coverage_info = cover(gen, rng, out, seen, min_count, protect) if min_count > 0 else None
     n_para = 0
     if paraphrase_file:
         pf = Path(paraphrase_file)
@@ -1294,11 +1542,16 @@ def build_training(preset: str, script: str, seed: int, n: int = 60000, n_refuse
         out.append({"english": txt, "target": REFUSAL, "analysis": "NOT-ENGLISH", "aug": "refusal"})
     if cot:
         out = [with_cot(it) if it["aug"] != "refusal" else it for it in out]
+    if SOUND["held"]:                                   # the new-word test needs zero training sightings
+        leaked = [it["english"] for it in out if it.get("analysis") and held_words_in(it["analysis"])]
+        assert not leaked, f"held-out words in {len(leaked)} training examples, e.g. {leaked[:2]}"
     out += load_replay(n_replay, seed)
     return out, {"held_out": sorted(f"{f}={v}" for f, v in HELD_OUT), "synonym_pairs_held_out": len(SYN_HELD),
                  "n": len(out), "language": "v2", "coverage": coverage_info,
                  "paraphrased": n_para, "real": len(real),
-                 **({"held_only": held_only, "putback": putback} if held_only else {})}
+                 **({"held_only": held_only, "putback": putback} if held_only else {}),
+                 **({"everyday": True} if everyday else {}),
+                 **({"sound_rule": True, "sound_held_words": len(SOUND["held"])} if SOUND_RULE["on"] else {})}
 
 
 def eval_sets(preset: str, script: str, seed: int, train_en: set, per: int = 100,
@@ -1338,6 +1591,20 @@ def eval_sets(preset: str, script: str, seed: int, train_en: set, per: int = 100
             fill(f"loanwords [{'seen' if pool == 'train' else 'new'} loans]",
                  lambda: (lambda ex: ex if ex and "LOAN." in str(ex["clauses"]) else None)(gen.example(rng)))
         LOAN.update(rate=rate, pool="train")
+    if SOUND["held"]:                                  # sound rule: sentences with words never seen in training
+        SOUND["block"] = False
+        try:
+            gnew = GenV2(preset, script, seed)
+            items, tries = [], 0
+            while len(items) < 3 * per and tries < 300 * per:
+                tries += 1
+                ex = gnew.example(rng)
+                it = gnew.item(ex) if ex else None
+                if it and it["english"] not in train_en and held_words_in(it["analysis"]):
+                    items.append({**it, "new_words": sorted(held_words_in(it["analysis"]))})
+            sets["sound rule: new words (never in training)"] = items
+        finally:
+            SOUND["block"] = True
     fill("extrapolation: 5-6 describing words on a noun",
          lambda: gen.example(rng, force={"kind": "statement", "predicate": "transitive"}, n_events=1,
                              adj_counts={5: 0.5, 6: 0.5}))

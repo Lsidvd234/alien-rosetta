@@ -1,0 +1,47 @@
+=== start 09:02
+=== tatoeba e2b-v2fix-passive0 09:02
+e2b-v2fix-passive0 {'run': 'e2b-v2fix-passive0', 'n': 600, 'cot': True, 'glyph_exact': 0.478, 'word_acc': 0.809, 'meaning_exact': 0.603}
+=== sealed e2b-v2fix-passive0 09:08
+e2b-v2fix-passive0: scored 172 entries in 175 s
+=== tatoeba e2b-v2fix-passive50 09:11
+e2b-v2fix-passive50 {'run': 'e2b-v2fix-passive50', 'n': 600, 'cot': True, 'glyph_exact': 0.437, 'word_acc': 0.789, 'meaning_exact': 0.607}
+=== sealed e2b-v2fix-passive50 09:17
+e2b-v2fix-passive50: scored 172 entries in 192 s
+=== tatoeba e2b-v2fix-passive300 09:20
+e2b-v2fix-passive300 {'run': 'e2b-v2fix-passive300', 'n': 600, 'cot': True, 'glyph_exact': 0.475, 'word_acc': 0.812, 'meaning_exact': 0.612}
+=== sealed e2b-v2fix-passive300 09:27
+e2b-v2fix-passive300: scored 172 entries in 201 s
+=== tables 09:31
+| run | glyphs exact | meaning exact | glyph word accuracy |
+| e2b-v2-cot-80k-noheld | 0.462 | 0.620 | 0.792 |
+| e2b-v2fix-cot-80k-noheld | 0.467 | 0.617 | 0.798 |
+| e2b-v2fix-passive0 | 0.478 | 0.603 | 0.809 |
+| e2b-v2fix-passive300 | 0.475 | 0.612 | 0.812 |
+| e2b-v2fix-passive50 | 0.437 | 0.607 | 0.789 |
+| e2b-v2-cot-80k-noheld | 0.422 | 0.463 | 0.733 | 0.840 |
+| e2b-v2fix-cot-80k-noheld | 0.422 | 0.476 | 0.749 | 0.720 |
+| e2b-v2fix-passive0 | 0.449 | 0.476 | 0.740 | 0.840 |
+| e2b-v2fix-passive300 | 0.388 | 0.435 | 0.725 | 0.880 |
+| e2b-v2fix-passive50 | 0.388 | 0.435 | 0.724 | 1.000 |
+| two-stage(Qwen3-0.6B)+e2b-v2fix-cot-80k-noheld | 0.422 | 0.476 | 0.749 | 0.600 |
+=== freq_weighted e2b-v2fix-passive0 09:31
+e2b-v2fix-passive0: 300 sentences, 2306 scored words, sentence exact 0.607
+=== subgraph e2b-v2fix-passive0 09:47
+  288/300
+  300/300
+e2b-v2fix-passive0: 300 sentences, errors {'correct': 182, 'propagation': 26, 'local': 61, 'unreadable analysis': 25, 'both wrong': 6}
+=== freq_weighted e2b-v2fix-passive50 10:03
+e2b-v2fix-passive50: 300 sentences, 2306 scored words, sentence exact 0.590
+=== subgraph e2b-v2fix-passive50 10:34
+  288/300
+  300/300
+e2b-v2fix-passive50: 300 sentences, errors {'correct': 176, 'propagation': 21, 'unreadable analysis': 30, 'local': 62, 'both wrong': 10, 'restoration': 1}
+=== freq_weighted e2b-v2fix-passive300 11:16
+e2b-v2fix-passive300: 300 sentences, 2306 scored words, sentence exact 0.640
+=== subgraph e2b-v2fix-passive300 11:55
+  288/300
+  300/300
+e2b-v2fix-passive300: 300 sentences, errors {'correct': 192, 'propagation': 23, 'local': 57, 'unreadable analysis': 23, 'both wrong': 5}
+=== error split + significance 12:14
+=== end 12:15
+DONE

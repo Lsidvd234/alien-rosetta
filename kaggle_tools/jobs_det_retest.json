@@ -1,0 +1,42 @@
+[
+ {
+  "name": "det-maths-a2",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "6,6",
+   "--max-steps",
+   "300",
+   "--eval-every",
+   "100",
+   "--per-test",
+   "100",
+   "--deterministic"
+  ]
+ },
+ {
+  "name": "det-maths-b2",
+  "args": [
+   "@maths",
+   "--init",
+   "meaning",
+   "--scratch-build-mix",
+   "--grad-accum",
+   "2",
+   "--drop-pair",
+   "6,6",
+   "--max-steps",
+   "300",
+   "--eval-every",
+   "100",
+   "--per-test",
+   "100",
+   "--deterministic"
+  ]
+ }
+]

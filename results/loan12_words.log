@@ -1,0 +1,44 @@
+=== waiting for the scoring queue (12:18)
+=== loan_words loan12 21:45
+  new loans (never trained) 120/300
+  new loans (never trained) 128/300
+  new loans (never trained) 136/300
+  new loans (never trained) 144/300
+  new loans (never trained) 152/300
+  new loans (never trained) 160/300
+  new loans (never trained) 168/300
+  new loans (never trained) 176/300
+  new loans (never trained) 184/300
+  new loans (never trained) 192/300
+  new loans (never trained) 200/300
+  new loans (never trained) 208/300
+  new loans (never trained) 216/300
+  new loans (never trained) 224/300
+  new loans (never trained) 232/300
+  new loans (never trained) 240/300
+  new loans (never trained) 248/300
+  new loans (never trained) 256/300
+  new loans (never trained) 264/300
+  new loans (never trained) 272/300
+  new loans (never trained) 280/300
+  new loans (never trained) 288/300
+  new loans (never trained) 296/300
+  new loans (never trained) 300/300
+# Per-loanword accuracy (`analysis/loan_words.py`)
+
+Run e2b-v2fix-loan12. 300 generated sentences per set; every loan noun in the gold answer is scored.
+
+| set | loan nouns | meaning right (LOAN.word) | glyph word right | sentences fully right |
+|---|---|---|---|---|
+| seen loans | 451 | **0.83** | **0.82** | 0.51 |
+| new loans (never trained) | 470 | **0.46** | **0.27** | 0.12 |
+
+## Rule or list: glyph word right by kind of loan (n loans)
+
+Closeness compares whole glyph words, including the shared LOAN ending and case/plural ending, so it runs high even for a wrong stem; compare it across runs, not as an absolute.
+
+| set | letter by letter only | needs a multi-letter rule | <=4 sounds | 5-7 sounds | >=8 sounds | wrong loans | near misses (closeness >= 0.75) | median closeness |
+|---|---|---|---|---|---|---|---|---|
+| seen loans | 0.83 (271) | 0.80 (180) | 0.81 (79) | 0.81 (255) | 0.85 (117) | 81 | 14% | 0.50 |
+=== end 23:59
+DONE

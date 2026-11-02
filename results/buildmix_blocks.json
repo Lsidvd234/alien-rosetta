@@ -1,0 +1,320 @@
+{
+ "maths-meaning-buildmix-drop56": {
+  "pair": [
+   [
+    5,
+    6
+   ]
+  ],
+  "seed": 0,
+  "needs_exact": {
+   "5x6": 0.7666666666666667
+  },
+  "per_fact": {
+   "5x6": {
+    "steps": 184,
+    "right": 0.8206521739130435
+   },
+   "6x5": {
+    "steps": 169,
+    "right": 0.8402366863905325
+   }
+  },
+  "steps": 353,
+  "share_seen_block": 0.7988668555240793,
+  "right_seen_block": 0.9964539007092199,
+  "right_unseen_block": 0.16901408450704225,
+  "by_block": {
+   "6x6": {
+    "steps": 4,
+    "right": 0.0,
+    "seen_as_block": 0
+   },
+   "5x5": {
+    "steps": 33,
+    "right": 0.0,
+    "seen_as_block": 0
+   },
+   "6x4": {
+    "steps": 35,
+    "right": 0.9714285714285714,
+    "seen_as_block": 817
+   },
+   "5x4": {
+    "steps": 139,
+    "right": 1.0,
+    "seen_as_block": 596
+   },
+   "6x3": {
+    "steps": 108,
+    "right": 1.0,
+    "seen_as_block": 330
+   },
+   "4x6": {
+    "steps": 34,
+    "right": 0.35294117647058826,
+    "seen_as_block": 0
+   }
+  }
+ },
+ "maths-meaning-buildmix-drop56-s1": {
+  "pair": [
+   [
+    5,
+    6
+   ]
+  ],
+  "seed": 1,
+  "needs_exact": {
+   "5x6": 0.72
+  },
+  "per_fact": {
+   "5x6": {
+    "steps": 178,
+    "right": 0.8764044943820225
+   },
+   "6x5": {
+    "steps": 177,
+    "right": 0.6836158192090396
+   }
+  },
+  "steps": 355,
+  "share_seen_block": 0.7774647887323943,
+  "right_seen_block": 0.8442028985507246,
+  "right_unseen_block": 0.5569620253164557,
+  "by_block": {
+   "5x4": {
+    "steps": 112,
+    "right": 1.0,
+    "seen_as_block": 632
+   },
+   "6x4": {
+    "steps": 94,
+    "right": 0.9893617021276596,
+    "seen_as_block": 930
+   },
+   "6x3": {
+    "steps": 70,
+    "right": 0.4,
+    "seen_as_block": 417
+   },
+   "4x6": {
+    "steps": 52,
+    "right": 0.8461538461538461,
+    "seen_as_block": 0
+   },
+   "5x5": {
+    "steps": 27,
+    "right": 0.0,
+    "seen_as_block": 0
+   }
+  }
+ },
+ "maths-meaning-buildmix-drop34": {
+  "pair": [
+   [
+    3,
+    4
+   ]
+  ],
+  "seed": 0,
+  "needs_exact": {
+   "3x4": 0.9766666666666667
+  },
+  "per_fact": {
+   "3x4": {
+    "steps": 174,
+    "right": 0.9885057471264368
+   },
+   "4x3": {
+    "steps": 182,
+    "right": 1.0
+   }
+  },
+  "steps": 356,
+  "share_seen_block": 1.0,
+  "right_seen_block": 0.9943820224719101,
+  "right_unseen_block": null,
+  "by_block": {
+   "3x2": {
+    "steps": 68,
+    "right": 0.9852941176470589,
+    "seen_as_block": 736
+   },
+   "3x3": {
+    "steps": 59,
+    "right": 1.0,
+    "seen_as_block": 552
+   },
+   "2x4": {
+    "steps": 66,
+    "right": 1.0,
+    "seen_as_block": 634
+   },
+   "4x2": {
+    "steps": 133,
+    "right": 1.0,
+    "seen_as_block": 1708
+   },
+   "4x1": {
+    "steps": 29,
+    "right": 1.0,
+    "seen_as_block": 1704
+   },
+   "2x3": {
+    "steps": 1,
+    "right": 0.0,
+    "seen_as_block": 1037
+   }
+  }
+ },
+ "maths-meaning-buildmix-drop66": {
+  "pair": [
+   [
+    6,
+    6
+   ]
+  ],
+  "seed": 0,
+  "needs_exact": {
+   "6x6": 0.6351351351351351
+  },
+  "per_fact": {
+   "6x6": {
+    "steps": 174,
+    "right": 0.7068965517241379
+   }
+  },
+  "steps": 174,
+  "share_seen_block": 0.13218390804597702,
+  "right_seen_block": 0.9565217391304348,
+  "right_unseen_block": 0.6688741721854304,
+  "by_block": {
+   "6x5": {
+    "steps": 122,
+    "right": 0.7131147540983607,
+    "seen_as_block": 0
+   },
+   "5x6": {
+    "steps": 29,
+    "right": 0.4827586206896552,
+    "seen_as_block": 0
+   },
+   "6x4": {
+    "steps": 23,
+    "right": 0.9565217391304348,
+    "seen_as_block": 316
+   }
+  }
+ },
+ "maths-meaning-buildmix-drop6row": {
+  "pair": [
+   [
+    6,
+    4
+   ],
+   [
+    6,
+    5
+   ],
+   [
+    6,
+    6
+   ]
+  ],
+  "seed": 0,
+  "needs_exact": {
+   "6x4": 0.43,
+   "6x5": 0.2868525896414343,
+   "6x6": 0.4857142857142857
+  },
+  "per_fact": {
+   "5x6": {
+    "steps": 186,
+    "right": 0.6612903225806451
+   },
+   "4x6": {
+    "steps": 178,
+    "right": 0.5898876404494382
+   },
+   "6x4": {
+    "steps": 178,
+    "right": 0.5674157303370787
+   },
+   "6x5": {
+    "steps": 176,
+    "right": 0.0
+   },
+   "6x6": {
+    "steps": 172,
+    "right": 0.7151162790697675
+   }
+  },
+  "steps": 890,
+  "share_seen_block": 0.3865168539325843,
+  "right_seen_block": 0.9563953488372093,
+  "right_unseen_block": 0.22527472527472528,
+  "by_block": {
+   "5x4": {
+    "steps": 147,
+    "right": 0.9659863945578231,
+    "seen_as_block": 345
+   },
+   "3x6": {
+    "steps": 72,
+    "right": 0.0,
+    "seen_as_block": 0
+   },
+   "4x5": {
+    "steps": 60,
+    "right": 1.0,
+    "seen_as_block": 286
+   },
+   "6x2": {
+    "steps": 90,
+    "right": 0.9111111111111111,
+    "seen_as_block": 269
+   },
+   "6x3": {
+    "steps": 145,
+    "right": 0.0,
+    "seen_as_block": 0
+   },
+   "6x4": {
+    "steps": 141,
+    "right": 0.0,
+    "seen_as_block": 0
+   },
+   "4x4": {
+    "steps": 47,
+    "right": 0.9574468085106383,
+    "seen_as_block": 620
+   },
+   "6x5": {
+    "steps": 110,
+    "right": 0.9818181818181818,
+    "seen_as_block": 0
+   },
+   "5x6": {
+    "steps": 15,
+    "right": 1.0,
+    "seen_as_block": 0
+   },
+   "5x5": {
+    "steps": 32,
+    "right": 0.0,
+    "seen_as_block": 0
+   },
+   "6x6": {
+    "steps": 1,
+    "right": 0.0,
+    "seen_as_block": 0
+   },
+   "4x6": {
+    "steps": 30,
+    "right": 0.0,
+    "seen_as_block": 0
+   }
+  }
+ }
+}

@@ -44,6 +44,11 @@ def prompt(english: str) -> str:
     return f"English: {english}\nTarget:\n"
 
 
+def writer_prompt(meaning: str) -> str:
+    """--rep-writer: the writer model gets the meaning line, not English."""
+    return f"Meaning: {meaning}\nTarget:\n"
+
+
 def pick_precision(req: str) -> str:
     if req != "auto":
         return req
@@ -166,6 +171,10 @@ def add_glyph_tokens(model, n_old: int, k: int, seed: int, init: str = "mean",
             else:                                     # no sound (virama): neutral start
                 rows.append(w.mean(0) + torch.randn(w.shape[1], generator=g).to(w.device) * w.std(0) * 0.1)
         delta = torch.nn.Parameter(torch.stack(rows))
+    elif init == "random":                            # 31 Oct: no sound at all; each glyph a random vector with the
+        g = torch.Generator(device="cpu").manual_seed(seed)   # real tokens' per-dimension mean and spread (full std)
+        noise = torch.randn(k, w.shape[1], generator=g).to(w.device) * w.std(0)
+        delta = torch.nn.Parameter(w.mean(0) + noise)
     else:
         g = torch.Generator(device="cpu").manual_seed(seed)
         noise = torch.randn(k, w.shape[1], generator=g).to(w.device) * w.std(0) * 0.1
@@ -292,15 +301,17 @@ def generate(model, tok, items: list[dict], bsz: int, device, amp) -> dict:
 
 
 @torch.no_grad()
-def gen_eval(model, tok, items: list[dict], bsz: int, device, amp, cot: bool) -> dict:
-    """Free generation; only the glyph part is compared (for CoT: the text after '=>')."""
+def gen_eval(model, tok, items: list[dict], bsz: int, device, amp, cot: bool, keep_all: bool = False,
+             meaning_only: bool = False) -> dict:
+    """Free generation; only the glyph part is compared (for CoT: the text after '=>'). keep_all: also save every
+    item and prediction (for per-word scoring on the laptop)."""
     model.eval()
     tok.padding_side = "left"
     preds = []
     for s in range(0, len(items), bsz):
         batch = items[s:s + bsz]
-        enc = tok([prompt(it["english"]) for it in batch], return_tensors="pt", padding=True,
-                  add_special_tokens=False).to(device)
+        enc = tok([it["prompt_text"] if "prompt_text" in it else prompt(it["english"]) for it in batch],
+                  return_tensors="pt", padding=True, add_special_tokens=False).to(device)
         longest = max(len(tok(it["target"], add_special_tokens=False)["input_ids"]) for it in batch)
         max_new = (2 * longest + 64) if cot else (longest + 16)
         with amp():
@@ -314,9 +325,12 @@ def gen_eval(model, tok, items: list[dict], bsz: int, device, amp, cot: bool) ->
            "samples": [{"english": it["english"], "gold": it["target"], "pred": p} for it, p in list(zip(items, preds))[:5]],
            "per_item_ok": "".join("1" if g == it["target"] else "0" for g, it in zip(glyph, items))}
     if cot:
-        ana = [p.split("=>", 1)[0].strip() if "=>" in p else "" for p in preds]
+        ana = [p.split("=>", 1)[0].strip() if ("=>" in p or meaning_only) else "" for p in preds]
         res["analysis_exact"] = sum(x == it.get("analysis") for x, it in zip(ana, items)) / len(items)
         res["per_item_analysis_ok"] = "".join("1" if x == it.get("analysis") else "0" for x, it in zip(ana, items))
+    if keep_all:
+        res["items"] = items
+        res["preds"] = preds
     return res
 
 
@@ -331,6 +345,42 @@ def focal_loss(model, b: dict, gamma: float) -> torch.Tensor:
     logp = torch.log_softmax(logits[mask], dim=-1).gather(-1, tgt[mask].unsqueeze(-1)).squeeze(-1)
     return (-(1 - logp.exp()).pow(gamma) * logp).mean()
 
+
+def extra_translate(a, model, tok, device, amp, result: dict) -> None:
+    """Greedy translations of an extra English file (e.g. Tatoeba), saved into result["extra_translate"]."""
+    xf = Path(a.extra_translate)
+    if not xf.exists():
+        xf = Path(__file__).resolve().parents[1] / a.extra_translate
+    english = [it["english"] for it in json.loads(xf.read_text(encoding="utf-8"))]
+    model.eval()
+    tok.padding_side = "left"
+    xpreds = []
+    with torch.no_grad():
+        for s in range(0, len(english), a.eval_batch):
+            enc = tok([prompt(e) for e in english[s:s + a.eval_batch]], return_tensors="pt", padding=True,
+                      add_special_tokens=False).to(device)
+            with amp():
+                out = model.generate(**enc, max_new_tokens=500, do_sample=False,
+                                     pad_token_id=tok.pad_token_id, eos_token_id=tok.eos_token_id)
+            xpreds += [tok.decode(r, skip_special_tokens=True).split("\n")[0].strip()
+                       for r in out[:, enc["input_ids"].shape[1]:]]
+    tok.padding_side = "right"
+    result["extra_translate"] = {"file": xf.name, "english": english, "preds": xpreds}
+    log(f"extra translate: {len(xpreds)} inputs from {xf.name}")
+
+
+
+def set_deterministic() -> None:
+    """--deterministic (01 Nov): same seed + same GPU type + same library versions -> the same model. GPU kernels that
+    add in a varying order are replaced by fixed-order ones (slower, ~10-30%); ops with no deterministic version only
+    warn (warn_only) and are listed in the log, so a re-run can still differ if one of them is used."""
+    os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")   # before the first cuBLAS call
+    torch.use_deterministic_algorithms(True, warn_only=True)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    # DT1 (01 Nov) found the one op that stayed random: memory-efficient attention's backward pass. Turn it off so
+    # scaled_dot_product_attention uses the plain (math) kernel, which adds in a fixed order (flash needs sm80+).
+    torch.backends.cuda.enable_mem_efficient_sdp(False)
 
 def main(argv=None) -> dict:
     ap = argparse.ArgumentParser()
@@ -352,7 +402,7 @@ def main(argv=None) -> dict:
                     help="char = one character per token for the target (cause test M2)")
     ap.add_argument("--add-tokens", action="store_true",
                     help="each character the tokenizer splits into bytes becomes one new trainable token (M3)")
-    ap.add_argument("--new-tok-init", choices=["mean", "copy", "latin", "latin_shuffled"], default="mean",
+    ap.add_argument("--new-tok-init", choices=["mean", "copy", "latin", "latin_shuffled", "random"], default="mean",
                     help="with --add-tokens: start new tokens at the mean embedding, as a copy of a "
                          "different random ASCII word-piece token, or (latin) as the embedding of the "
                          "Latin letters for the sound the glyph writes")
@@ -390,10 +440,41 @@ def main(argv=None) -> dict:
                     help="with --rep-held-only: put back this many training examples of it (structure dose)")
     ap.add_argument("--rep-min-count", type=int, default=0,
                     help="with --rep-v2: data fix, every word at least this many times (same number of examples)")
+    ap.add_argument("--rep-exact-n", action="store_true",
+                    help="with --rep-min-count: keep the total at --rep-n (the floor otherwise adds more than it "
+                         "drops: floor 25 had +17,905 examples)")
+    ap.add_argument("--rep-protect-putback", action="store_true",
+                    help="with --rep-held-putback: the word floor may not drop put-back examples")
+    ap.add_argument("--rep-fix-adj-sep", action="store_true",
+                    help="predicate adjective lists only with adj_sep=and (else it is never really held out)")
     ap.add_argument("--rep-paraphrases", type=Path, default=None,
                     help="with --rep-v2: {english: paraphrase} file (scripts/build_paraphrases.py)")
     ap.add_argument("--rep-real", type=Path, default=None,
                     help="with --rep-v2: real-English examples (english/analysis/target) replacing generated ones")
+    ap.add_argument("--extra-translate", default=None,
+                    help="after evaluation, also translate the 'english' of every item in this JSON file (path, or "
+                         "relative to the code folder on Kaggle) with the scoring settings of analysis/score_tatoeba.py "
+                         "(greedy, 500 new tokens) and save the raw outputs in the result (extra_translate); for "
+                         "models too big to score on the laptop. Inputs only: nothing from the file is trained on")
+    ap.add_argument("--rep-everyday", action="store_true",
+                    help="with --rep-v2: the generator also uses the common English it left out (have/do/like as "
+                         "main verbs, people, time, just/probably/..., sit down, myself, by, the other/first, English "
+                         "names); off = exact rebuilds of finished runs")
+    ap.add_argument("--rep-writer", action="store_true",
+                    help="with --rep-v2 --cot: the WRITER of a two-model pipeline: input = the meaning line, output = "
+                         "the glyphs (the reader is a --rep-meaning-only run): which step is the bottleneck?")
+    ap.add_argument("--rep-meaning-only", action="store_true",
+                    help="with --rep-v2 --cot: train and generate only the meaning line (the analysis), never the "
+                         "glyphs: does learning the new language hurt reading English? (test B, claim 5)")
+    ap.add_argument("--rep-sound-rule", action="store_true",
+                    help="with --rep-v2: the sound-rule language (SOUND_RULE_LANGUAGE.md): every content word is its "
+                         "English word respelled by the loanword rules; grammar unchanged. Off = v2 exactly")
+    ap.add_argument("--rep-sound-frac", type=float, default=1.0,
+                    help="with --rep-sound-rule: share of the content words that are rule-spelled (01 Nov, claim 3: "
+                         "0.25 / 0.5); the rest keep v2's arbitrary roots; held-out words come from the rule words. "
+                         "1.0 = every word (as before)")
+    ap.add_argument("--rep-sound-held", type=float, default=0.0,
+                    help="with --rep-sound-rule: share of content words kept out of training (new-word test)")
     ap.add_argument("--rep-loan-rate", type=float, default=0.0,
                     help="with --rep-v2: share of noun phrases that use a borrowed English noun (LOAN.pizza)")
     ap.add_argument("--loss", choices=["ce", "focal"], default="ce",
@@ -405,6 +486,14 @@ def main(argv=None) -> dict:
     ap.add_argument("--precision", choices=["auto", "bf16", "fp16", "fp32"], default="auto")
     ap.add_argument("--grad-ckpt", choices=["auto", "on", "off"], default="auto")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--deterministic", action="store_true",
+                    help="fixed-order GPU kernels: a same-seed re-run gives the same model (01 Nov; default off)")
+    ap.add_argument("--shuffle-seed", type=int, default=None,
+                    help="with --new-tok-init latin_shuffled: draw the wrong-sound assignment from this seed instead of "
+                         "--seed (same language and data, another wrong start; review 30 Oct)")
+    ap.add_argument("--start-override", default=None,
+                    help='with --new-tok-init latin/latin_shuffled: "v=r,r=v" = the glyph whose own sound is v starts at '
+                         'the sound r (applied after any shuffle; review of the wrong-sound draws, 31 Oct)')
     ap.add_argument("--train-seed", type=int, default=None,
                     help="seed for LoRA init + batch order only (default = --seed). A true replicate: same "
                          "--seed (same language and data), different --train-seed")
@@ -418,6 +507,8 @@ def main(argv=None) -> dict:
     import transformers
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
+    if a.deterministic:
+        set_deterministic()
     random.seed(a.seed); torch.manual_seed(a.seed)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     prec = pick_precision(a.precision)
@@ -451,16 +542,33 @@ def main(argv=None) -> dict:
     if a.rep:
         if a.rep_v2:
             from train.represent_v2 import build_training as rep2_training
+            from train.represent_v2 import FIXES, set_sound_rule
+            FIXES["adj_sep"] = bool(a.rep_fix_adj_sep)
+            if a.rep_sound_rule:                                     # stays on for the evaluation too
+                set_sound_rule(True, a.rep_sound_held, a.preset, a.script, a.seed, a.rep_sound_frac)
             train_items, rep_info = rep2_training(a.preset, a.script, a.seed, a.rep_n, a.rep_refuse, a.rep_replay,
                                                   a.cot, a.rep_held_frac, a.rep_min_count,
                                                   str(a.rep_paraphrases) if a.rep_paraphrases else None,
                                                   a.rep_loan_rate, str(a.rep_real) if a.rep_real else None,
-                                                  a.rep_held_only, a.rep_held_putback)
+                                                  a.rep_held_only, a.rep_held_putback, a.rep_exact_n,
+                                                  a.rep_protect_putback, a.rep_everyday)
         else:
             from train.represent import build_training as rep_training
             train_items, rep_info = rep_training(a.preset, a.script, a.seed, a.rep_n, a.rep_refuse, a.rep_replay,
                                                  a.cot)
         aug_info = {"counts": {"examples": rep_info["n"]}, "train_names": []}
+        if a.rep_writer:                                             # meaning line -> glyphs
+            assert a.rep_v2 and a.cot and not a.rep_meaning_only, "--rep-writer needs --rep-v2 --cot"
+            train_items = [{**it, "prompt_text": writer_prompt(it["analysis"]),
+                            "target": it["target"].split(" => ", 1)[1]} if "analysis" in it and " => " in str(it.get("target", "")) else
+                           ({**it, "prompt_text": writer_prompt(it["analysis"])} if it.get("aug") == "refusal" else it)
+                           for it in train_items]
+            rep_info["writer"] = True
+        if a.rep_meaning_only:                                       # test B: the meaning line only
+            assert a.rep_v2 and a.cot, "--rep-meaning-only needs --rep-v2 --cot"
+            train_items = [{**it, "target": it["analysis"]} if "analysis" in it and " => " in str(it.get("target", "")) else it
+                           for it in train_items]
+            rep_info["meaning_only"] = True
         result["rep"] = rep_info
         log(f"representative data: {rep_info['n']} examples; held out: {rep_info['held_out']}")
     elif a.aug:
@@ -520,7 +628,13 @@ def main(argv=None) -> dict:
         sound = Script(a.script, PRESETS[a.preset].phonology).latin_of_glyphs()
         start = [sound.get(ch, "") for ch in added]
         if a.new_tok_init == "latin_shuffled":       # control: every glyph starts at a WRONG sound
-            start = shuffled_sounds(start, a.seed)
+            start = shuffled_sounds(start, a.seed if a.shuffle_seed is None else a.shuffle_seed)
+        if a.start_override:                          # "v=r,r=v": the glyph whose own sound is v starts at r (31 Oct)
+            own = [sound.get(ch, "") for ch in added]
+            for pair in a.start_override.split(","):
+                g_, s_ = pair.split("=")
+                assert g_ in own, f"--start-override: no glyph with sound {g_!r}"
+                start[own.index(g_)] = s_
         donors = [tok(s, add_special_tokens=False)["input_ids"] if s else [] for s in start]
         result["data"]["donor_tokens"] = start
     delta = add_glyph_tokens(model, n_old, len(added), a.seed, a.new_tok_init, donors) if added else None
@@ -656,11 +770,16 @@ def main(argv=None) -> dict:
         train_en = {it["english"] for it in train_items if "english" in it}
         result["eval_gen"] = {}
         for name, items in rep2_sets(a.preset, a.script, a.seed, train_en, a.rep_eval_per).items():
+            if items and a.rep_writer:                               # the writer gets the GOLD meaning line
+                items = [{**it, "prompt_text": writer_prompt(it["analysis"])} for it in items]
             if items:
-                result["eval_gen"][name] = gen_eval(model, tok, items, a.eval_batch, device, amp, a.cot)
+                result["eval_gen"][name] = gen_eval(model, tok, items, a.eval_batch, device, amp,
+                                                    a.cot and not a.rep_writer,
+                                                    keep_all=name.startswith("sound rule"),
+                                                    meaning_only=a.rep_meaning_only)
                 g = result["eval_gen"][name]
                 log(f"gen eval {name}: n={g['n']} glyph_exact={g['exact']:.3f}"
-                    + (f" analysis_exact={g['analysis_exact']:.3f}" if a.cot else ""))
+                    + (f" analysis_exact={g['analysis_exact']:.3f}" if "analysis_exact" in g else ""))
     elif a.rep:
         from train.augment import eval_sets as r1_sets
         from train.augment import frame_of
@@ -693,9 +812,17 @@ def main(argv=None) -> dict:
                                         "token_accuracy": tf["token_accuracy"],
                                         "examples": [it["english"] for it in items[:3]]}
             log(f"aug eval {name}: n={tf['n']} exact={tf['exact_match']:.3f}")
+    a.out.parent.mkdir(parents=True, exist_ok=True)
+    if a.extra_translate:   # save the evaluation first: a crash or timeout in the translation must not lose it
+        a.out.write_text(json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
+        log(f"wrote {a.out} (before extra translate)")
+        try:
+            extra_translate(a, model, tok, device, amp, result)
+        except Exception as e:  # noqa: BLE001
+            result["extra_translate_error"] = repr(e)
+            log(f"extra translate FAILED: {e!r}")
     result["eval_seconds"] = time.time() - t_eval
 
-    a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
     log(f"wrote {a.out}")
     return result

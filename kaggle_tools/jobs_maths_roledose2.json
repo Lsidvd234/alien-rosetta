@@ -1,0 +1,4 @@
+[
+ {"name": "maths-meaning-build-drop56-role593", "args": ["@maths","--init","meaning","--eval-every","500","--scratch-build","--drop-pair","5,6","--grad-accum","2","--role-dose","593"]},
+ {"name": "maths-meaning-build-drop56-role400-s1", "args": ["@maths","--init","meaning","--eval-every","500","--scratch-build","--drop-pair","5,6","--grad-accum","2","--role-dose","400","--seed","1"]}
+]
