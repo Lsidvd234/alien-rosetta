@@ -171,9 +171,35 @@ label_bars(ax, b2, size=7.5)
 ax.set_xticks(list(x))
 ax.set_xticklabels(sp, fontsize=8)
 ax.set_ylim(0, 1.35)
-ax.set_title("F: building the fact (1 seed)")
+ax.set_title("E: building the missing fact")
 ax.legend(fontsize=7.5, loc="upper left", ncol=2)
 save(fig, "fig_maths")
+
+# 6b. Claim E (maths role rule): role dose and replicates (report claim F sections, 31 Oct runs; 1 run each)
+fig, axes = plt.subplots(1, 2, figsize=(8.2, 3.2), gridspec_kw={"width_ratios": [1.15, 1], "wspace": 0.3})
+ax = axes[0]
+doses = ["0", "5", "25", "100", "400"]
+vals = [0.00, 0.91, 1.00, 0.96, 0.93]
+ax.plot(range(5), vals, "-o", color=AQUA, lw=2, ms=7)
+for i, v in enumerate(vals):
+    ax.text(i, v + 0.05, f"{v:.2f}", ha="center", fontsize=8, color=INK2)
+ax.set_xticks(range(5))
+ax.set_xticklabels(doses)
+ax.set_ylim(-0.03, 1.2)
+ax.set_xlabel("training workings showing 5x4 as a building block")
+ax.set_ylabel("written 5x6 steps right")
+ax.set_title("Five examples in the role are enough")
+ax = axes[1]
+labels = ["5x6\nseed 0", "5x6\nseed 1", "3x4", "6x6"]
+vals = [0.77, 0.72, 0.98, 0.64]
+bars = ax.bar(range(4), vals, 0.6, color=AQUA)
+label_bars(ax, bars, size=7.5)
+ax.set_xticks(range(4))
+ax.set_xticklabels(labels, fontsize=8)
+ax.set_ylim(0, 1.2)
+ax.set_ylabel("problems needing the removed fact")
+ax.set_title("Mixed rules rebuild other facts too")
+save(fig, "fig_maths_role")
 
 # 7. Error split, baseline vs real text (results/error_split.md, % of items)
 fig, ax = plt.subplots(figsize=(6.8, 2.7))

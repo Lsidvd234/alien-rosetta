@@ -539,33 +539,50 @@ def build():
     s.notes_slide.notes_text_frame.text = "Claim D."
 
     s = content_slide(prs, src, R)
-    text_box(s, 0.93, 1.25, 11.6, 0.5, ["## E. English meaning directions steer the invented-language output  (moderate)"])
+    text_box(s, 0.93, 1.25, 11.6, 0.5, ["## D (continued). Inside the model: the errors are in the English representation"])
     picture(s, WEB / "actadd_turner2023_fig1.png", 0.93, 1.85, w=5.6, h=1.75, name="ActAdd concept")
     caption(s, "Activation addition, the method we apply (Turner et al., 2023, Fig. 1).", 0.93, 3.62, 5.6, 0.32)
-    text_box(s, 6.85, 1.8, 5.9, 2.2, [
-        "Tense flips 0.97\u20131.00 and negation 0.91\u20130.99 vs \u2264 0.02 for random directions, on 4 models.",
-        "Subject pushes repair 11/12 and 10/10 real Tatoeba subject errors (2 seeds).",
-        "Tense steering is known (Klerings et al., 2025): new is the setting.",
-    ], size=13)
-    picture(s, FIG / "fig_steering.png", 1.9, 4.0, w=9.5, h=2.75, name="Steering results")
-    s.notes_slide.notes_text_frame.text = "Claim E."
+    text_box(s, 6.85, 1.8, 5.9, 2.3, [
+        "Probes read tense, negation, subject \u2026 from every model's hidden states (0.90\u20131.00).",
+        "Where the output is wrong, the probe is wrong too (0.41 vs 0.79 majority), and 59% of the time it reads "
+        "the same wrong value.",
+        "Steering the English-side direction flips the output (tense 0.97\u20131.00 vs \u2264 0.02 random) and repairs "
+        "11/12 and 10/10 real subject errors.",
+    ], size=12)
+    picture(s, FIG / "fig_steering.png", 1.9, 4.05, w=9.5, h=2.7, name="Steering results")
+    s.notes_slide.notes_text_frame.text = (
+        "Why reading fails: the translation is written from the English meaning representation, and most "
+        "real-English errors are already wrong there.")
 
     s = content_slide(prs, src, R)
-    text_box(s, 0.93, 1.25, 11.6, 0.5, ["## F (preliminary) and what did not hold"])
-    picture(s, FIG / "fig_maths.png", 0.93, 1.8, w=7.4, h=3.0, name="Maths")
-    text_box(s, 8.5, 1.8, 4.25, 3.1, [
-        "**F, maths:** a missing fact is rebuilt only from blocks already seen in the same role (mixed rules 0.77 "
-        "vs one rule 0.08; 15 of 18 forced routes fit). Not rated: 1 seed, and same-seed maths runs vary "
-        "\u00b10.1\u20130.2 (GPU non-determinism).",
+    text_box(s, 0.93, 1.25, 11.6, 0.5, ["## E. In maths, a missing fact is rebuilt only from facts seen in the same role"])
+    picture(s, FIG / "fig_maths.png", 0.93, 1.85, w=7.6, h=4.6, name="Maths")
+    text_box(s, 8.75, 1.85, 4.0, 4.9, [
+        "Base-7 arithmetic in glyph digits; 5\u00d76 and 6\u00d75 removed from training.",
+        "**1. Recall scratchpad:** every other step right, but 5\u00d76 steps only 0.49 (guessing; voting does "
+        "not help).",
+        "**2. Build from a smaller fact, one rule:** 0.08. It writes the block 5\u00d74 wrong, though it computes "
+        "5\u00d74 right as a step.",
+        "**3. Mix three building rules:** 0.77. Steps from blocks seen in that role: 99.6% right; never seen "
+        "in that role: 17%.",
     ], size=13)
-    text_box(s, 0.93, 4.95, 11.8, 1.8, [
-        "## Tested and dropped",
-        "**Glyph start:** letter starts learn on 6/6 seeds, others on 3/6 (p = 0.18, not significant); kept as a "
-        "finding: a wrong letter works as well as the right one, and embeddings stay near their start.",
-        "**Word floor 25:** half of its +0.11 was extra data; no real-English gain.",
-        "**Meaning first:** learned faster only in the first language version.",
-    ], size=12)
-    s.notes_slide.notes_text_frame.text = "Claim F and the negative results."
+    s.notes_slide.notes_text_frame.text = "Claim E, part 1: how we got the model to build the missing fact."
+
+    s = content_slide(prs, src, R)
+    text_box(s, 0.93, 1.25, 11.6, 0.5, ["## E (continued). Five examples of the role are enough"])
+    picture(s, FIG / "fig_maths_role.png", 0.93, 1.85, w=7.6, h=3.6, name="Maths role dose")
+    text_box(s, 8.75, 1.85, 4.0, 4.6, [
+        "**4. Role dose:** showing 5\u00d74 as a block in just 5 training workings makes 5\u00d76 right 0.91 "
+        "(0.00 with none): a step, not a slope.",
+        "The same recipe rebuilds 3\u00d74 (0.98) and 6\u00d76 (0.64); 15 of 18 forced routes follow the role rule.",
+        "The dose never reaches the reverse order 6\u00d75 (\u2264 0.06), but with 5\u00d76 present, the "
+        "never-seen 6\u00d75 is right 172/174.",
+    ], size=13)
+    text_box(s, 0.93, 5.7, 11.6, 0.9, [
+        ("Caveat: one training run per condition, and same-seed maths runs vary by about \u00b10.1\u20130.2 (GPU "
+         "non-determinism).", {"size": 12, "italic": True}),
+    ])
+    s.notes_slide.notes_text_frame.text = "Claim E, part 2: the role dose and the replicates."
 
     s = content_slide(prs, src, R)
     text_box(s, 0.93, 1.25, 5.75, 5.5, [
@@ -582,7 +599,7 @@ def build():
         "## Future work",
         "Second training seed of the sound-rule language (claim B).",
         "Languages with 25% and 50% rule-spelled words: is the change from list to rule gradual or sharp?",
-        "Three deterministic seeds of the role-rule maths runs and the 0 / 5 role doses (claim F), judged against "
+        "Three deterministic seeds of the role-rule maths runs and the 0 / 5 role doses (claim E), judged against "
         "the written thresholds.",
         "Confirm bit-identical maths runs with the attention fix, then re-judge the single-run maths thresholds.",
     ], size=13)
@@ -595,9 +612,8 @@ def build():
         ["A. Learning stops at training coverage", "held-out 0.00\u20130.09; 50 passives \u2192 0.53\u20130.66", "strong"],
         ["B. Rule only when it covers the vocabulary", "new words 0.67 vs new loans 0.19\u20130.27", "moderate"],
         ["C. Only English variety helps real English", "Tatoeba 0.62 \u2192 0.92; 8 alternatives null", "strong / moderate"],
-        ["D. Reading fails; with new words, both", "reader 74\u201390% of failures; writer 0.84 vs 0.20", "moderate"],
-        ["E. English directions steer the output", "flips 0.91\u20131.00 vs \u2264 0.02 random", "moderate"],
-        ["F. Maths role rule", "mixed rules 0.77 vs 0.08 (1 seed)", "preliminary"],
+        ["D. Reading fails; with new words, both", "reader 74\u201390% of failures; probes: errors already inside", "moderate"],
+        ["E. Missing fact rebuilt only from its role", "mixed rules 0.77 vs one rule 0.08; 5 examples suffice", "moderate (1 run each)"],
     ], 0.93, 1.85, 11.6, [4.3, 5.1, 2.2], size=12, row_h=0.42)
     text_box(s, 0.93, 4.95, 11.6, 1.8, [
         "A small model learns the invented language itself well, but generalises only as far as its training "

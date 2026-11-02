@@ -27,12 +27,8 @@ Course project for *Foundations of Large Language Models* (AI60213), IIT Kharagp
 | A | Generalisation stops at what training covers | held-out English structures 0.00-0.09; putting back only 50 passives lifts passive reading 0.00 -> 0.53 (0.66 on a second seed); a removed multiplication fact is not inferred (0.05 vs 0.92) | strong |
 | B | A spelling rule transfers only when it covers the vocabulary | never-trained words 0.67 when every word follows the rule, vs new loanwords 0.19-0.27 when only a 4-12% minority does | moderate |
 | C | Only English variety helps real English | 15% real text: Tatoeba meaning 0.62 -> 0.92 (2 seeds); focal loss, paraphrases, more epochs, word floor, rewriter, beam search, voting and a 3x larger model: null or worse | strong (Tatoeba), moderate (sealed) |
-| D | On real English reading fails; with untrained words, both fail | reading errors 0.21 / 0.38 / 0.52 vs writing 0.24 / 0.31 / 0.26 (generated / Tatoeba / sealed); writer from the gold meaning 0.84 vs 0.20 when a word was never trained | moderate |
-| E | Directions from the English hidden states steer the output | tense flips 0.97-1.00, negation 0.91-0.99 vs <= 0.02 for random directions, 4 models | moderate |
-| F | (preliminary) In maths a missing fact is rebuilt only from facts seen in the same role | mixed building rules 0.77 vs one rule 0.08; one seed | not rated |
-
-Tested and dropped (reported as negative results): the glyph starting point (6/6 vs 3/6 seeds, p = 0.18), a word
-floor of 25 (half of its gain was extra data), and "meaning first speeds learning" (first language version only).
+| D | On real English reading fails; with untrained words, both fail | reading errors 0.21 / 0.38 / 0.52 vs writing 0.24 / 0.31 / 0.26 (generated / Tatoeba / sealed); writer from the gold meaning 0.84 vs 0.20 when a word was never trained; probes and steering show most errors are already in the English representation | moderate |
+| E | In maths a missing fact is rebuilt only from facts seen in the same role | building scratchpad with three mixed rules 0.77 vs one rule 0.08; showing the block in 5 training workings lifts it 0.00 -> 0.91; 3x4 and 6x6 rebuilt too (one run per condition) | moderate |
 
 ## Layout
 
