@@ -17,7 +17,7 @@
 \newcommand{\an}[1]{\texttt{#1}}
 \newcommand{\run}[1]{\texttt{#1}}
 
-\title{Alien Rosetta: How Far Does a Small LLM\\ Learn a Language It Has Never Seen?}
+\title{Orvessa: How Far Does a Small LLM\\ Learn a Language It Has Never Seen?}
 
 \author{Kavinraj \\
 Group 14, roll number 24IM10055 \\
@@ -252,6 +252,8 @@ the template of its longest working, not the loop, the subgraph-matching pattern
 
 \textbf{Strength: strong} as a description (many runs, two seeds where tested); causal for one structure and one
 fact. New relative to prior work: the 50-example dose and the fixed scratchpad shape with dropped-digit answers.
+Training much longer does not remove the limit either: with weight decay 1.0 and up to 60k steps we saw no grokking
+(no late jump in test accuracy) in translation or maths (Appendix~\ref{app:grok}).
 
 \subsection{B. A spelling rule transfers only when it covers the vocabulary}\label{sec:claimB}
 
@@ -557,8 +559,40 @@ finds that on single-clause sentences the baseline scores the same on the sealed
 the gap comes from multi-clause sentences (sealed 0.17), which are a third of free writing but 1\% of Tatoeba.
 Real text adds +0.15 on single clauses and nothing on multi-clause ones.
 
-\paragraph{Grokking side study:} Long training with weight decay 1.0 (translation, 12k steps; maths, 60k steps) shows
-no late jump in test accuracy \citep{power2022grokking}; the logit norm rises instead of falling.
+\section{Side study: no grokking}\label{app:grok}
+
+Grokking is a late jump in test accuracy long after training accuracy saturates, usually seen with strong weight
+decay on small algorithmic datasets \citep{power2022grokking}. If it happened here, held-out combinations might be
+learned with enough training instead of more data. We trained three small settings far past saturation with weight
+decay 1.0 (on the LoRA adapter and the new embeddings; the base model is frozen):
+
+\begin{center}\small
+\resizebox{\linewidth}{!}{\begin{tabular}{lccccc}
+\toprule
+Run & Steps & Train & Test (end) & Extra test (end) & Logit norm \\
+\midrule
+translation, 4,000 sentences & 12,000 & 0.93 & 0.80 (new combinations) & 0.49 (new clause structure) & 1,570 $\rightarrow$ 3,130 \\
+maths, 40\% of the table & 60,000 & 1.00 & 0.73 (new pairs) & 0.11 (3-digit) & 1,160 $\rightarrow$ 5,720 \\
+maths, 60\% of the table & 60,000 & 0.99 & 0.84 (new pairs) & 0.09 (3-digit) & 4,599 $\rightarrow$ 5,603 \\
+\bottomrule
+\end{tabular}}
+\end{center}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_grokking.pdf}
+\caption{Training curves of the three grokking runs (log step axis). Top: train, test and harder ``extra'' test
+accuracy. Bottom: the norm of the output logits.}
+\label{fig:grok}
+\end{figure}
+
+There is no grokking transition in any of the three (Figure~\ref{fig:grok}). Training accuracy saturates around
+step 6,000; the translation test is flat from about 4k steps and the 40\% maths test stays at 0.71--0.76 from about
+6k. With 60\% of the table the test score keeps rising slowly (0.74 at 20k steps to 0.84 at 60k), so a later gradual
+improvement cannot be ruled out, but there is no jump, and the longer 3-digit problems never improve. The logit norm
+first falls and then rises steadily: the model makes its memorised answers more confident instead of simplifying,
+the opposite of the grokking signature. Caveat: the 40\% run used weight decay 0.1 for its first 16k steps (resumed
+from a checkpoint), so 40\% vs 60\% is not a clean comparison.
 
 \section{Code}\label{app:code}
 
@@ -570,7 +604,7 @@ split, reader/writer bottleneck, loanword and sound-rule analysis, probes and st
 (job queues for free Kaggle GPUs), and \texttt{sealed/} (the frozen test set is not included).
 
 \section{Image credits (presentation)}\label{app:credits}
-Rosetta Stone photograph: Hans Hillewaert, CC BY-SA 4.0, Wikimedia Commons. Tamil alphabet chart: public domain,
+Tamil alphabet chart: public domain,
 Wikimedia Commons. Decoder-only transformer diagram: Marxav, CC BY-SA 4.0, Wikimedia Commons. LoRA diagram: Figure 1
 of \citet{hu2022lora}. Activation-addition diagram: Figure 1 of \citet{turner2023actadd}.
 

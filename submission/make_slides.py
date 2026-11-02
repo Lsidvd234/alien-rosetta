@@ -21,7 +21,7 @@ from PIL import Image
 
 HERE = Path(__file__).parent
 TEMPLATE = Path("D:/Downloads/Project_Presentation_Template.pptx")
-OUT = HERE / "Alien_Rosetta_presentation.pptx"
+OUT = HERE / "Orvessa_presentation.pptx"
 FIG = HERE / "figures"
 WEB = HERE / "web_images"
 EQ = HERE / "equations"
@@ -318,7 +318,7 @@ def build():
     # ---------------- 1. title slide (filled in place)
     tp = [x for x in title_slide.shapes if x.is_placeholder and x.placeholder_format.idx == 0][0]
     p0 = tp.text_frame.paragraphs[0]
-    p0.runs[0].text = "Alien Rosetta"
+    p0.runs[0].text = "Orvessa"
     tp.top = tp.top + Inches(0.3)
     p1 = copy.deepcopy(p0._p)
     tp.text_frame._txBody.append(p1)
@@ -339,12 +339,12 @@ def build():
     lr.font.color.rgb = NAVY
     lr.hyperlink.address = REPO
     title_slide.notes_slide.notes_text_frame.text = (
-        "Alien Rosetta: we invent a language, teach it to a small LLM with LoRA, and measure exactly where the "
+        "Orvessa: we invent a language, teach it to a small LLM with LoRA, and measure exactly where the "
         "learning stops.")
 
     # ---------------- 2. Problem statement: motivation and I/O
     s = content_slide(prs, src, "Problem Statement")
-    text_box(s, 0.93, 1.3, 7.6, 5.2, [
+    text_box(s, 0.93, 1.3, 11.6, 5.2, [
         "## Why an invented language?",
         "Small LLMs are often adapted to new languages, scripts and notations with LoRA. Real languages make this "
         "hard to study: the model may have seen them, gold translations are noisy, and no single property can be "
@@ -359,9 +359,6 @@ def build():
         "**Process:** Qwen3-0.6B + LoRA reads x, writes its meaning analysis m, then the translation y.",
         "**Output:** S=NAME.Tom V=beat.FUT O=PRON.2sg  =>  [glyphs: Tom you-ACC beat-FUT-3sg]",
     ], size=14)
-    picture(s, WEB / "rosetta_stone.jpg", 9.0, 1.35, w=3.4, h=4.6, name="Rosetta Stone")
-    caption(s, "The Rosetta Stone: one text in three scripts, the idea behind the name. "
-               "Photo: Hans Hillewaert, CC BY-SA 4.0 (Wikimedia Commons).", 8.75, 6.0, 3.95, 0.55)
     s.notes_slide.notes_text_frame.text = "Motivation, research question, and the input/process/output of the task."
 
     # ---------------- 3. Problem statement: mathematical formulation
@@ -583,6 +580,17 @@ def build():
          "non-determinism).", {"size": 12, "italic": True}),
     ])
     s.notes_slide.notes_text_frame.text = "Claim E, part 2: the role dose and the replicates."
+
+    s = content_slide(prs, src, R)
+    text_box(s, 0.93, 1.25, 11.6, 0.5, ["## Side study: does longer training help? No grokking"])
+    picture(s, FIG / "fig_grokking.png", 0.93, 1.8, w=8.0, h=4.9, name="Grokking curves")
+    text_box(s, 9.15, 1.85, 3.6, 4.9, [
+        "Grokking = a late jump in test accuracy long after training saturates (Power et al., 2022).",
+        "We trained 3 settings far past saturation with weight decay 1.0 (12k steps translation, 60k maths).",
+        "No jump: test accuracy plateaus (0.73–0.84), longer problems stay at 0.09–0.11.",
+        "The logit norm keeps rising: the model grows more confident in what it memorised instead of simplifying.",
+    ], size=12)
+    s.notes_slide.notes_text_frame.text = "Grokking side study: none observed."
 
     s = content_slide(prs, src, R)
     text_box(s, 0.93, 1.25, 5.75, 5.5, [

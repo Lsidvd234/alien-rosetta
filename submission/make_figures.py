@@ -201,6 +201,39 @@ ax.set_ylabel("problems needing the removed fact")
 ax.set_title("Mixed rules rebuild other facts too")
 save(fig, "fig_maths_role")
 
+# 6c. Grokking side study (results/grok/*.json curves)
+import json
+GROK = Path("D:/Downloads/fllm-project/new-language/results/grok")
+runs = [("grok-translate-wd1", "Translation, 4,000 sentences", "test: known words, new combinations",
+         "extra: new clause structure", "new combinations", "new clause structure"),
+        ("grok-maths-wd1-60k", "Maths, 40% of the table", "test: new pairs, same sizes", "extra: 3-digit (longer)",
+         "new pairs", "3-digit (longer)"),
+        ("grok-maths-frac06", "Maths, 60% of the table", "test: new pairs, same sizes", "extra: 3-digit (longer)",
+         "new pairs", "3-digit (longer)")]
+fig, axes = plt.subplots(2, 3, figsize=(9.6, 4.8), sharex="col", gridspec_kw={"height_ratios": [1.6, 1], "hspace": 0.12})
+for j, (name, title, tkey, ekey, tlab, elab) in enumerate(runs):
+    c = [r for r in json.loads((GROK / f"{name}.json").read_text())["curve"] if r["step"] > 0]
+    st = [r["step"] for r in c]
+    ax = axes[0, j]
+    ax.plot(st, [r["train (sample)"] for r in c], color=BLUE, lw=1.8, label="train")
+    ax.plot(st, [r[tkey] for r in c], color=ORANGE, lw=1.8, label=f"test: {tlab}")
+    ax.plot(st, [r[ekey] for r in c], color=AQUA, lw=1.8, label=f"extra: {elab}")
+    ax.set_xscale("log")
+    ax.set_ylim(-0.03, 1.05)
+    ax.set_title(title)
+    ax.legend(fontsize=6.8, loc="lower right" if j == 0 else "center right")
+    if j == 0:
+        ax.set_ylabel("exact")
+    ax = axes[1, j]
+    ax.plot(st, [r["logit_norm"] for r in c], color=GRAY, lw=1.8)
+    ax.set_xscale("log")
+    ax.set_xlabel("training step (log scale)")
+    if j == 0:
+        ax.set_ylabel("logit norm")
+fig.suptitle("No grokking: test accuracy plateaus while the logit norm keeps rising (weight decay 1.0)", fontsize=10.5,
+             y=0.99)
+save(fig, "fig_grokking")
+
 # 7. Error split, baseline vs real text (results/error_split.md, % of items)
 fig, ax = plt.subplots(figsize=(6.8, 2.7))
 rows = [("baseline, generated", 60, 19, 10, 10), ("real text, generated", 58, 21, 9, 11),

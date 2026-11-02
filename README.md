@@ -1,11 +1,11 @@
-# Alien Rosetta: how far does a small LLM learn a language it has never seen?
+# Orvessa: how far does a small LLM learn a language it has never seen?
 
 Course project for *Foundations of Large Language Models* (AI60213), IIT Kharagpur. Group 14: R S Kavin Raj
 (24IM10055).
 
 - **Report (ICLR 2025 format):** [`submission/report/alien_rosetta.pdf`](submission/report/alien_rosetta.pdf)
   (LaTeX source in `submission/report/`)
-- **Presentation:** [`submission/Alien_Rosetta_presentation.pptx`](submission/Alien_Rosetta_presentation.pptx)
+- **Presentation:** [`submission/Orvessa_presentation.pptx`](submission/Orvessa_presentation.pptx)
 - **Lab notebook with the predictions written before each run:** `results/findings_2026-10-24.md`
 - **Every run and its scores:** `results/ALL_RUNS.md`
 
@@ -65,6 +65,6 @@ python train/run.py --preset tamil_like --script abugida_pua --add-tokens --mode
 
 - Real English sentences: [Tatoeba](https://tatoeba.org), CC-BY 2.0 FR. WikiText-2: CC-BY-SA 3.0.
 - Word lists built with WordNet, wordfreq and lemminflect.
-- Presentation images: Rosetta Stone photo by Hans Hillewaert (CC BY-SA 4.0), Tamil alphabet chart (public domain)
+- Presentation images: Tamil alphabet chart (public domain)
   and decoder-only transformer diagram by Marxav (CC BY-SA 4.0), all from Wikimedia Commons; Figure 1 of Hu et al.
   2021 (LoRA) and of Turner et al. 2023 (activation addition).
